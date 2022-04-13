@@ -35,7 +35,6 @@ packer.startup({
 				require("configs.treesitter")
 			end,
 			run = ":TSUpdate",
-			event = "BufRead",
 		})
 
 		use({
@@ -169,12 +168,7 @@ packer.startup({
 			end,
 		})
 		use({ "junegunn/vim-easy-align" })
-		use({
-			"stevearc/aerial.nvim",
-			config = function()
-				require("configs.aerial")
-			end,
-		})
+		use({ "folke/lua-dev.nvim" })
 	end,
 	config = {
 		compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",

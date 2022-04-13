@@ -12,7 +12,7 @@ end
 local M = {}
 
 M.diagnostics_config = {
-	virtual_text = false,
+	virtual_text = true,
 	update_in_insert = true,
 	underline = true,
 	severity_sort = true,
@@ -39,15 +39,16 @@ M.handlers = {
 
 function M.lsp_keymaps(bufnr)
 	local opts = {}
-	bmap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	bmap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	bmap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	bmap(bufnr, "n", "ge", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	bmap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	bmap(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-	bmap(bufnr, "n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-	bmap(bufnr, "n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-	bmap(bufnr, "n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
 function M.lsp_highlight_document(client)
@@ -76,8 +77,7 @@ function M.lsp_signature(bufnr)
 	}, bufnr)
 end
 
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 M.flags = {
 	debounce_text_changes = 150,
 }

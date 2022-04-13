@@ -87,10 +87,6 @@ map("n", "<leader>gl", ":Git log --stat<CR>")
 map("n", "<SPACE>", "<Nop>")
 map("n", "<F1>", "<Nop>")
 
--- Clear highlight search
--- Use <C-L> to clear the highlighting of :set hlsearch.
-map("n", "<C-l>", ':let @/ = ""<CR>')
-
 -- Profiling
 map("n", "<Leader>zp", ":profile start nvim-profile.log | profile func * | profile file *")
 
@@ -143,10 +139,6 @@ map("n", "<S-Up>", ":m .-2<CR>==")
 map("v", "<S-Down>", ":m '>+1<CR>gv=gv")
 map("v", "<S-Up>", ":m '<-2<CR>gv=gv")
 
--- Gitsigns
-map("n", "<Leader>gb", ":Gitsigns toggle_current_line_blame<CR>")
-map("n", "<Leader>gp", ":Gitsigns preview_hunk<CR>")
-
 -- Beginning and end of line
 map("i", "<C-a>", "<home>", { noremap = false })
 map("i", "<C-e>", "<end>", { noremap = false })
@@ -174,14 +166,7 @@ vim.cmd([[
         call setqflist([])
     endfunction
     command! ClearQuickfixList call ClearQuickfixList()
-
-    """""""" Echo syntax group
-    function! SynGroup()
-        let l:s = synID(line('.'), col('.'), 1)
-        echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-    endfun
 ]])
-map("n", "gm", ":call SynGroup()<CR>")
 map("n", "<leader>cc", ":ClearQuickfixList<CR>")
 map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
@@ -218,7 +203,6 @@ map(
 )
 
 map("n", "<C-t>", ":NvimTreeToggle<CR>")
-map("n", "<C-e>", "<cmd>AerialToggle<CR>")
 map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>")
 map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>")
 

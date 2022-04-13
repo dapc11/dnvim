@@ -32,50 +32,57 @@ treesitter.setup({
 	},
 	highlight = {
 		enable = true,
-		disable = disable_large_files,
 		-- additional_vim_regex_highlighting = { "python" }
 	},
 	incremental_selection = {
 		enable = true,
+		keymaps = {
+			init_selection = "gnn",
+			node_incremental = "<C-w>",
+			scope_incremental = "grc",
+			node_decremental = "<A-w>",
+		},
+	},
+	indent = {
+		enable = true,
 	},
 	textobjects = {
-		swap = {
+		select = {
 			enable = true,
-			swap_next = {
-				["<leader>a"] = "@parameter.inner",
+			lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+			keymaps = {
+				-- You can use the capture groups defined in textobjects.scm
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+				["ac"] = "@class.outer",
+				["ic"] = "@class.inner",
 			},
-			swap_previous = {
-				["<leader>A"] = "@parameter.inner",
+		},
+		move = {
+			enable = true,
+			set_jumps = true, -- whether to set jumps in the jumplist
+			goto_next_start = {
+				["]m"] = "@function.outer",
+				["]]"] = "@class.outer",
+			},
+			goto_next_end = {
+				["]M"] = "@function.outer",
+				["]["] = "@class.outer",
+			},
+			goto_previous_start = {
+				["[m"] = "@function.outer",
+				["[["] = "@class.outer",
+			},
+			goto_previous_end = {
+				["[M"] = "@function.outer",
+				["[]"] = "@class.outer",
 			},
 		},
 		disable = disable_large_files,
 	},
-	autotag = {
-		enable = true,
-		filetypes = { "html", "xml" },
-	},
-	refactor = {
-		highlight_definitions = {
-			enable = true,
-			disable = disable_large_files,
-		},
-		highlight_current_scope = {
-			enable = false,
-			disable = disable_large_files,
-		},
-		smart_rename = {
-			enable = true,
-			disable = disable_large_files,
-			keymaps = {
-				smart_rename = "<Space>rr",
-			},
-		},
-	},
 	pairs = {
 		enable = true,
 		disable = {},
-		highlight_pair_events = {}, -- e.g. {"CursorMoved"}, -- when to highlight the pairs, use {} to deactivate highlighting
-		highlight_self = false, -- whether to highlight also the part of the pair under cursor (or only the partner)
 		goto_right_end = false, -- whether to go to the end of the right partner or the beginning
 		fallback_cmd_normal = "call matchit#Match_wrapper('',1,'n')", -- What command to issue when we can't find a pair (e.g. "normal! %")
 		keymaps = { goto_partner = "<leader>%" }, -- do not work
