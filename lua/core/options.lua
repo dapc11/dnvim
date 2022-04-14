@@ -171,4 +171,5 @@ function! TabMessage(cmd)
   endif
 endfunction
 command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
+autocmd BufNewFile,BufRead * if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif
 ]])

@@ -36,7 +36,6 @@ telescope.setup({
 		},
 		mappings = {
 			n = {
-				["<C-d>"] = actions.drop_all + actions.move_to_top,
 				["<C-p>"] = action_layout.toggle_preview,
 				["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 				["<s-tab>"] = actions.toggle_selection + actions.move_selection_next,
@@ -44,7 +43,6 @@ telescope.setup({
 				["<C-c>"] = actions.close,
 			},
 			i = {
-				["<C-d>"] = actions.drop_all + actions.move_to_top,
 				["<C-p>"] = action_layout.toggle_preview,
 				["<C-c>"] = actions.close,
 				["<esc>"] = actions.close,

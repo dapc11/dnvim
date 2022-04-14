@@ -82,6 +82,9 @@ map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>")
 -- Fugitive
 map("n", "<leader>gs", ":Git<CR>")
 map("n", "<leader>gl", ":Git log --stat<CR>")
+map("n", "<leader>gas", ":Telescope git_stash<CR>")
+map("n", "<leader>gcc", ":Telescope git_commits<CR>")
+map("n", "<leader>gcb", ":Telescope git_branches<CR>")
 
 -- Misc
 map("n", "<SPACE>", "<Nop>")
@@ -216,3 +219,34 @@ map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 map("n", "<space>cq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>re",
+	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+	{ noremap = true, silent = true, expr = false }
+)
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>rf",
+	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+	{ noremap = true, silent = true, expr = false }
+)
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>rv",
+	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+	{ noremap = true, silent = true, expr = false }
+)
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>ri",
+	[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+	{ noremap = true, silent = true, expr = false }
+)
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>ru",
+	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+	{ noremap = true, silent = true, expr = false }
+)

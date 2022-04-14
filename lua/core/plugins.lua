@@ -202,6 +202,26 @@ packer.startup({
 		use({ "junegunn/vim-easy-align" })
 		use({ "folke/lua-dev.nvim" })
 		use({ "ygm2/rooter.nvim" })
+		use({
+			"folke/which-key.nvim",
+			config = function()
+				require("which-key").setup({
+					-- your configuration comes here
+					-- or leave it empty to use the default settings
+					-- refer to the configuration section below
+				})
+			end,
+		})
+		use({
+			"ThePrimeagen/refactoring.nvim",
+			requires = {
+				{ "nvim-lua/plenary.nvim" },
+				{ "nvim-treesitter/nvim-treesitter" },
+			},
+			config = function()
+				require("refactoring").setup({})
+			end,
+		})
 	end,
 	config = {
 		compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
