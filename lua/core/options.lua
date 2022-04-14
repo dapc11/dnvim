@@ -166,7 +166,7 @@ function! TabMessage(cmd)
   else
     " use "new" instead of "tabnew" below if you prefer split windows instead of tabs
     tabnew
-    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+    setlocal filetype=text bufhidden=wipe noswapfile nobuflisted nomodified
     silent put=message
   endif
 endfunction

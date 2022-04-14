@@ -5,6 +5,7 @@ end
 
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
+local putils = require("telescope.previewers.utils")
 
 telescope.setup({
 	pickers = {
@@ -22,7 +23,7 @@ telescope.setup({
 	defaults = {
 		prompt_prefix = " ",
 		selection_caret = "❯ ",
-		file_ignore_patterns = { "node_modules", ".git" },
+		file_ignore_patterns = { "node_modules", ".git", ".jar", ".tar.gz", ".zip", ".png", ".jpeg", ".cache" },
 		vimgrep_arguments = {
 			"rg",
 			"--no-heading",
@@ -57,6 +58,24 @@ telescope.setup({
 			},
 		},
 		preview = {
+			filetype_hook = function(filepath, bufnr, opts)
+				-- you could analogously check opts.ft for filetypes
+				local excluded = vim.tbl_filter(function(ending)
+					return filepath:match(ending)
+				end, {
+					".*%.jar",
+					".*%.tar.gz",
+				})
+				if not vim.tbl_isempty(excluded) then
+					putils.set_preview_message(
+						bufnr,
+						opts.winid,
+						string.format("I don't like %s files!", excluded[1]:sub(5, -1))
+					)
+					return false
+				end
+				return true
+			end,
 			filesize_hook = function(filepath, bufnr, opts)
 				local max_bytes = 10000
 				local cmd = { "head", "-c", max_bytes, filepath }

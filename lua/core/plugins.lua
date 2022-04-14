@@ -116,7 +116,7 @@ packer.startup({
 
 		use({
 			"norcalli/nvim-colorizer.lua",
-			ft = { "json", "yaml", "css", "html", "lua", "vim" },
+			ft = { "text", "json", "yaml", "css", "html", "lua", "vim" },
 			config = function()
 				require("configs.colorizer")
 			end,
@@ -185,7 +185,7 @@ packer.startup({
 
 					-- When set to false, you will get a message when project.nvim changes your
 					-- directory.
-					silent_chdir = false,
+					silent_chdir = true,
 				})
 			end,
 		})
