@@ -12,7 +12,7 @@ end
 local M = {}
 
 M.diagnostics_config = {
-	virtual_text = true,
+	virtual_text = false,
 	update_in_insert = true,
 	underline = true,
 	severity_sort = true,
