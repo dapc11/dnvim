@@ -1,47 +1,51 @@
-for key, val in pairs({
-	tabstop = 4,
-	softtabstop = 4,
-	shiftwidth = 4, -- 4 spaces
-	shiftround = true, -- Round tabs to multiplier of shiftwicth
-	smartindent = true,
-	ignorecase = true,
-	expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
-	relativenumber = true, -- relative line numbers to current line
-	cursorline = true, -- Highlgiht cursor line
-	hlsearch = true, -- Highlight search
-	hidden = true,
-	errorbells = false, -- No sound on error
-	nu = true, -- Line numbers
-	wrap = false,
-	swapfile = false,
-	backup = false,
-	undodir = os.getenv("HOME") .. "/.vim/undodir",
-	undofile = true,
-	incsearch = true, -- Evolve search as I write
-	termguicolors = true, -- Make colorscheme work
-	scrolloff = 8, -- Start scroll when n lines from screen edge
-	showmode = false,
-	colorcolumn = "100", -- Dont go further
-	updatetime = 50, -- Short time to combo key strokes
-	mouse = "a", -- Enable mouse
-	autoread = true,
-	completeopt = "menu,menuone,noselect",
-	shortmess = vim.o.shortmess .. "c",
-	clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
-	pumheight = 15, -- height of popup menu
-	splitbelow = true,
-	splitright = true,
-}) do
+for key, val in
+	pairs({
+		tabstop = 4,
+		softtabstop = 4,
+		shiftwidth = 4, -- 4 spaces
+		shiftround = true, -- Round tabs to multiplier of shiftwicth
+		smartindent = true,
+		ignorecase = true,
+		expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
+		relativenumber = true, -- relative line numbers to current line
+		cursorline = true, -- Highlgiht cursor line
+		hlsearch = true, -- Highlight search
+		hidden = true,
+		errorbells = false, -- No sound on error
+		nu = true, -- Line numbers
+		wrap = false,
+		swapfile = false,
+		backup = false,
+		undodir = os.getenv("HOME") .. "/.vim/undodir",
+		undofile = true,
+		incsearch = true, -- Evolve search as I write
+		termguicolors = true, -- Make colorscheme work
+		scrolloff = 8, -- Start scroll when n lines from screen edge
+		showmode = false,
+		colorcolumn = "100", -- Dont go further
+		updatetime = 50, -- Short time to combo key strokes
+		mouse = "a", -- Enable mouse
+		autoread = true,
+		completeopt = "menu,menuone,noselect",
+		shortmess = vim.o.shortmess .. "c",
+		clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
+		pumheight = 15, -- height of popup menu
+		splitbelow = true,
+		splitright = true,
+	})
+do
 	vim.o[key] = val
 end
 
-for key, val in pairs({
-	mapleader = " ",
-	indent_blankline_use_treesitter = true,
-	indent_blankline_show_first_indent_level = true,
-	indent_blankline_filetype_exclude = { "help" },
-	indentLine_setConceal = 0,
-}) do
+for key, val in
+	pairs({
+		mapleader = " ",
+		indent_blankline_use_treesitter = true,
+		indent_blankline_show_first_indent_level = true,
+		indent_blankline_filetype_exclude = { "help" },
+		indentLine_setConceal = 0,
+	})
+do
 	vim.g[key] = val
 end
 
@@ -63,7 +67,6 @@ autocmd!
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 autocmd BufNewFile,BufRead *.tpl set filetype=gotmpl
-autocmd BufNewFile,BufRead *.yaml if search('\{\{.*}}', 'nw') | setlocal filetype=gotmpl | endif
 " Yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd BufReadPost,BufNewFile * :call HighlightTodo()
@@ -73,11 +76,6 @@ autocmd FileType yaml,gitcommit lua vim.diagnostic.hide()
 augroup END
 
 au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
-
-sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=DiagnosticLineNrError
-sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=DiagnosticLineNrWarn
-sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
-sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
 ]])
 
 local signs = {
@@ -111,6 +109,19 @@ for _, sign in ipairs(signs) do
 		numhl = hl,
 	})
 end
+
+vim.g.rooter_pattern = {
+	"ruleset2.0.yaml",
+	"pom.xml",
+	".git",
+	"Makefile",
+	"_darcs",
+	".hg",
+	".bzr",
+	".svn",
+	"node_modules",
+	"CMakeLists.txt",
+}
 
 -- Bracketed paste
 vim.cmd([[
@@ -146,4 +157,18 @@ imap <expr> <f28> XTermPasteBegin("")
 vmap <expr> <f28> XTermPasteBegin("c")
 cmap <f28> <nop>
 cmap <f29> <nop>
+function! TabMessage(cmd)
+  redir => message
+  silent execute a:cmd
+  redir END
+  if empty(message)
+    echoerr "no output"
+  else
+    " use "new" instead of "tabnew" below if you prefer split windows instead of tabs
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+    silent put=message
+  endif
+endfunction
+command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
 ]])

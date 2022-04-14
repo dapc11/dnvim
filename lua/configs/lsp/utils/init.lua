@@ -12,28 +12,30 @@ end
 local M = {}
 
 M.diagnostics_config = {
-	virtual_text = false,
+	virtual_text = {
+		source = true,
+		severity = vim.diagnostic.severity.ERROR,
+		spacing = 1,
+	},
 	update_in_insert = true,
-	underline = true,
+	underline = {
+		severity = vim.diagnostic.severity.ERROR,
+	},
 	severity_sort = true,
 	float = {
-		focusable = false,
-		style = "minimal",
-		border = "single",
-		source = "always",
+		source = true,
 		header = "",
 		prefix = "",
+		border = "single",
 	},
 }
 
 M.handlers = {
 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 		border = "single",
-		scope = "line",
 	}),
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
 		border = "single",
-		scope = "line",
 	}),
 }
 
@@ -76,8 +78,8 @@ function M.lsp_signature(bufnr)
 		max_height = 8,
 	}, bufnr)
 end
-
-M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
 M.flags = {
 	debounce_text_changes = 150,
 }

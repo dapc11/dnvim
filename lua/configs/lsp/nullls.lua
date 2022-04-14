@@ -4,7 +4,7 @@ if not status_ok then
 	return
 end
 
-local lsputils = require('utils')
+local lsputils = require("utils")
 
 local write_good = null_ls.builtins.diagnostics.write_good.with({
 	filetypes = { "markdown", "gitcommit", "text" },

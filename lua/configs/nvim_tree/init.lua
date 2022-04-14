@@ -1,5 +1,4 @@
 vim.g.nvim_tree_highlight_opened_files = 1
-vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_root_folder_modifier = table.concat({ ":t:gs?$?/..", string.rep(" ", 1000), "?:gs?^??" })
 
 vim.g.nvim_tree_respect_buf_cwd = 1
@@ -45,6 +44,11 @@ require("nvim-tree").setup({
 		enable = true,
 		update_cwd = true,
 		ignore_list = { "**/.git" },
+	},
+	renderer = {
+		indent_markers = {
+			enable = true,
+		},
 	},
 	git = {
 		enable = false,

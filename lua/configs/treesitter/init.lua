@@ -58,27 +58,15 @@ treesitter.setup({
 				["ic"] = "@class.inner",
 			},
 		},
-		move = {
+		swap = {
 			enable = true,
-			set_jumps = true, -- whether to set jumps in the jumplist
-			goto_next_start = {
-				["]m"] = "@function.outer",
-				["]]"] = "@class.outer",
+			swap_next = {
+				["<leader>a"] = "@parameter.inner",
 			},
-			goto_next_end = {
-				["]M"] = "@function.outer",
-				["]["] = "@class.outer",
-			},
-			goto_previous_start = {
-				["[m"] = "@function.outer",
-				["[["] = "@class.outer",
-			},
-			goto_previous_end = {
-				["[M"] = "@function.outer",
-				["[]"] = "@class.outer",
+			swap_previous = {
+				["<leader>A"] = "@parameter.inner",
 			},
 		},
-		disable = disable_large_files,
 	},
 	pairs = {
 		enable = true,

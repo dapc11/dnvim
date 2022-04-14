@@ -210,3 +210,9 @@ map("i", "<C-E>", "<Plug>luasnip-next-choice")
 map("s", "<C-E>", "<Plug>luasnip-next-choice")
 map("n", "<Tab>", ":tabnext<CR>")
 map("n", "<S-Tab>", ":tabprevious<CR>")
+
+local opts = { noremap = true, silent = true }
+map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+map("n", "<space>cq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
