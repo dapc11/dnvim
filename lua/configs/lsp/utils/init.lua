@@ -13,7 +13,7 @@ local M = {}
 
 M.diagnostics_config = {
 	virtual_text = {
-		source = true,
+		source = "always",
 		severity = vim.diagnostic.severity.ERROR,
 		spacing = 1,
 	},
@@ -23,7 +23,7 @@ M.diagnostics_config = {
 	},
 	severity_sort = true,
 	float = {
-		source = true,
+		source = "always",
 		header = "",
 		prefix = "",
 		border = "single",

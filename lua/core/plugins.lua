@@ -201,7 +201,6 @@ packer.startup({
 		})
 		use({ "junegunn/vim-easy-align" })
 		use({ "folke/lua-dev.nvim" })
-		use({ "ygm2/rooter.nvim" })
 		use({
 			"folke/which-key.nvim",
 			config = function()
@@ -220,6 +219,12 @@ packer.startup({
 			},
 			config = function()
 				require("refactoring").setup({})
+			end,
+		})
+		use({
+			"ur4ltz/surround.nvim",
+			config = function()
+				require("surround").setup({ mappings_style = "sandwich" })
 			end,
 		})
 	end,
