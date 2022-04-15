@@ -167,5 +167,6 @@ function! TabMessage(cmd)
   endif
 endfunction
 command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
-autocmd BufNewFile,BufRead * if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif
+autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{-.*_}}', 'nw') | setlocal filetype=gotmpl | endif
+autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{.*include.*}}', 'nw') | setlocal filetype=gotmpl | endif
 ]])
