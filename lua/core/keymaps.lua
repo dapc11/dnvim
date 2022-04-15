@@ -70,8 +70,8 @@ vim.cmd([[
 ]])
 wk.register({
 	["<leader>"] = {
-		c = {
-			name = "+code",
+		l = {
+			name = "+lsp",
 			q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Diagnostics to loclist" },
 			d = { "<cmd>lua vim.diagnostic.disable()<CR>", "Disable diagnostics" },
 			e = { "<cmd>lua vim.diagnostic.enable()<CR>", "Enable diagnostics" },
@@ -147,9 +147,9 @@ wk.register({
 				mode = "v",
 			},
 		},
-		l = { ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>", "Clear highlight" },
 		z = {
 			name = "+misc",
+			l = { ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>", "Clear highlight" },
 			p = { ":profile start nvim-profile.log | profile func * | profile file *", "Start profiling" },
 		},
 		h = { ":lua require('telescope.builtin').oldfiles()<CR>", "Find old files" },
@@ -205,11 +205,12 @@ map("n", "<Leader>Q", ":qa<CR>")
 -- 	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
 -- 	{ noremap = true, silent = true, expr = false }
 -- )
--- map(
--- 	"n",
--- 	"<Leader>O",
--- 	':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
--- )
+map(
+	"n",
+	"<Leader>o",
+	':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
+)
+map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>')
 -- map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>')
 -- map(
 -- 	"n",

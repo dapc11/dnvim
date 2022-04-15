@@ -37,6 +37,7 @@ end
 
 for key, val in pairs({
 	mapleader = " ",
+	do_filetype_lua = 1,
 	indent_blankline_use_treesitter = true,
 	indent_blankline_show_first_indent_level = true,
 	indent_blankline_filetype_exclude = { "help" },
@@ -45,6 +46,7 @@ for key, val in pairs({
 	vim.g[key] = val
 end
 
+vim.opt.laststatus = 3
 vim.bo.matchpairs = "(:),{:},[:],<:>"
 vim.cmd([[
 set path+=**
@@ -60,20 +62,43 @@ colorscheme onedark
 
 augroup dapc
 autocmd!
-autocmd InsertLeave,WinEnter * set cursorline
-autocmd InsertEnter,WinLeave * set nocursorline
-autocmd BufNewFile,BufRead *.tpl set filetype=gotmpl
-" Yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd BufReadPost,BufNewFile * :call HighlightTodo()
-
-autocmd FileType yaml,gitcommit lua vim.diagnostic.disable()
-autocmd FileType yaml,gitcommit lua vim.diagnostic.hide()
 augroup END
-
-au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
 ]])
+local update_cursorline_group = vim.api.nvim_create_augroup("Update cursorline", { clear = true })
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+	callback = function()
+		vim.o["cursorline"] = true
+	end,
+	group = update_cursorline_group,
+	pattern = "*",
+})
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+	callback = function()
+		vim.o["cursorline"] = false
+	end,
+	group = update_cursorline_group,
+	pattern = "*",
+})
 
+local diagnostic_group = vim.api.nvim_create_augroup("DiagnosticHide", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function()
+		vim.diagnostic.disable()
+		vim.diagnostic.hide()
+	end,
+	group = diagnostic_group,
+	pattern = "*",
+})
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	pattern = "*",
+})
 local signs = {
 	{
 		name = "DiagnosticSignError",
@@ -167,6 +192,6 @@ function! TabMessage(cmd)
   endif
 endfunction
 command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
-autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{-.*_}}', 'nw') | setlocal filetype=gotmpl | endif
-autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{.*include.*}}', 'nw') | setlocal filetype=gotmpl | endif
+"autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{-.*_}}', 'nw') | setlocal filetype=gotmpl | endif
+"autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{.*include.*}}', 'nw') | setlocal filetype=gotmpl | endif
 ]])
