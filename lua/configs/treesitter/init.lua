@@ -12,7 +12,7 @@ parser_config.gotmpl = {
 		files = { "src/parser.c" },
 	},
 	filetype = "gotmpl",
-	used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml", "tpl" },
+	used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml", "tpl", "yml" },
 }
 treesitter.setup({
 	ensure_installed = {
