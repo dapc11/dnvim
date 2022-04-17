@@ -46,8 +46,8 @@ for key, val in pairs({
 	vim.g[key] = val
 end
 
-vim.opt.laststatus = 3
 vim.bo.matchpairs = "(:),{:},[:],<:>"
+vim.opt.laststatus = 3
 vim.cmd([[
 set path+=**
 nnoremap <SPACE> <Nop>

@@ -152,6 +152,28 @@ wk.register({
 			l = { ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>", "Clear highlight" },
 			p = { ":profile start nvim-profile.log | profile func * | profile file *", "Start profiling" },
 		},
+		d = {
+			name = "+debug",
+			C = { ":lua require('dap-python').test_class()<CR>", "Test class" },
+			M = { ":lua require('dap-python').test_method()<CR>", "Test method" },
+			O = { ":lua require('dap').step_out()<CR>", "Step out" },
+			S = { "<ESC>:lua require('dap-python').debug_selection()<CR>", "Debug selection", mode = "v" },
+			b = { ":lua require('dap').toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+			c = { ":lua require('dap').continue()<CR>", "Continue" },
+			i = { ":lua require('dap').step_into()<CR>", "Step into" },
+			o = { ":lua require('dap').step_over()<CR>", "Step over" },
+			d = { ':lua require("dapui").toggle()<CR>', "UI Toggle" },
+			e = { ":lua require('dapui').eval()<CR>", "Evaluate", mode = "v" },
+			B = {
+				":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+				"Conditional Breakpoint",
+			},
+			l = {
+				":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+				"Breakpoint with log",
+			},
+			r = { ":lua require'dap'.run_last()<CR>", "Run last" },
+		},
 		h = { ":lua require('telescope.builtin').oldfiles()<CR>", "Find old files" },
 		Y = "which_key_ignore",
 		P = "which_key_ignore",
@@ -336,7 +358,8 @@ map("i", "<C-E>", "<Plug>luasnip-next-choice")
 map("s", "<C-E>", "<Plug>luasnip-next-choice")
 map("n", "<Tab>", ":tabnext<CR>")
 map("n", "<S-Tab>", ":tabprevious<CR>")
-
+map("v", ">", ">gv")
+map("v", "<", "<gv")
 local opts = { noremap = true, silent = true }
 map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
