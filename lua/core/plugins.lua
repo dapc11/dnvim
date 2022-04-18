@@ -122,7 +122,7 @@ packer.startup({
 		})
 
 		use({ "ellisonleao/gruvbox.nvim" })
-		use({ "navarasu/onedark.nvim" })
+		use({ "dapc11/onedark.nvim" })
 
 		use({
 			"kyazdani42/nvim-tree.lua",
