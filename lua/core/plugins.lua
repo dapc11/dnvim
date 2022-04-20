@@ -222,6 +222,18 @@ packer.startup({
 				require("surround").setup({ mappings_style = "sandwich" })
 			end,
 		})
+		use({
+			"sunjon/shade.nvim",
+			config = function()
+				require("shade").setup({
+					overlay_opacity = 80,
+					opacity_step = 1,
+					keys = {
+						toggle = "<Leader>zs",
+					},
+				})
+			end,
+		})
 	end,
 	config = {
 		compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
