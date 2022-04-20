@@ -32,9 +32,10 @@ lspconfig.yamlls.setup({
 	handlers = lsputils.handlers,
 	capabilities = lsputils.capabilities,
 	flags = lsputils.flags,
+	filetypes = { "yaml", "tpl", "gotmpl" },
 	settings = {
 		yaml = {
-			schemas = { kubernetes = "globPattern" },
+			schemas = { kubernetes = "/*/helm/*/templates/*.yaml" },
 		},
 	},
 })

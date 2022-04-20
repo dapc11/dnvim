@@ -248,6 +248,8 @@ map("n", "<F1>", "<Nop>")
 -- Profiling
 -- map("n", "<Leader>zp", ":profile start nvim-profile.log | profile func * | profile file *")
 
+map("v", "ä", "<C-d>")
+map("v", "ö", "<C-u>")
 map("n", "ä", "<C-d>")
 map("n", "ö", "<C-u>")
 map("t", "<Esc>", "<C-\\><C-n>")
@@ -334,13 +336,19 @@ map("n", "<C-t>", ":NvimTreeToggle<CR>")
 
 map("i", "<C-E>", "<Plug>luasnip-next-choice")
 map("s", "<C-E>", "<Plug>luasnip-next-choice")
-map("n", "<Tab>", ":tabnext<CR>")
-map("n", "<S-Tab>", ":tabprevious<CR>")
 
 local opts = { noremap = true, silent = true }
 map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
-map("v", ">", ">gv")
-map("v", "<", "<gv")
+map("v", "<Tab>", ">gv")
+map("v", "<S-Tab>", "<gv")
+vim.cmd([[
+nmap > [
+nmap < ]
+omap > [
+omap < ]
+xmap > [
+xmap < ]
+]])
