@@ -223,7 +223,7 @@ packer.startup({
 			end,
 		})
 		use({
-			"sunjon/shade.nvim",
+			"dapc11/shade.nvim",
 			config = function()
 				require("shade").setup({
 					overlay_opacity = 80,

@@ -16,5 +16,7 @@ for _, source in ipairs(sources) do
 		error("Failed to load " .. source .. "\n\n" .. fault)
 	end
 end
+vim.cmd([[
+]])
 
 utils.compiled()
