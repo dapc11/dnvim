@@ -50,7 +50,6 @@ do
 	vim.g[key] = val
 end
 
-vim.opt.laststatus = 3
 vim.bo.matchpairs = "(:),{:},[:],<:>"
 vim.cmd([[
 set path+=**
