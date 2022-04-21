@@ -342,6 +342,8 @@ map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
+map("n", "<Tab>", ">>")
+map("n", "<S-Tab>", "<<")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
 vim.cmd([[
