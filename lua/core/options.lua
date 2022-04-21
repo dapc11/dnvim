@@ -1,52 +1,48 @@
-for key, val in
-	pairs({
-		tabstop = 4,
-		softtabstop = 4,
-		shiftwidth = 4, -- 4 spaces
-		shiftround = true, -- Round tabs to multiplier of shiftwicth
-		smartindent = true,
-		ignorecase = true,
-		expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
-		relativenumber = true, -- relative line numbers to current line
-		cursorline = true, -- Highlgiht cursor line
-		hlsearch = true, -- Highlight search
-		hidden = true,
-		errorbells = false, -- No sound on error
-		nu = true, -- Line numbers
-		wrap = false,
-		swapfile = false,
-		backup = false,
-		undodir = os.getenv("HOME") .. "/.vim/undodir",
-		undofile = true,
-		incsearch = true, -- Evolve search as I write
-		termguicolors = true, -- Make colorscheme work
-		scrolloff = 8, -- Start scroll when n lines from screen edge
-		showmode = false,
-		colorcolumn = "100", -- Dont go further
-		updatetime = 50, -- Short time to combo key strokes
-		mouse = "a", -- Enable mouse
-		autoread = true,
-		completeopt = "menu,menuone,noselect",
-		shortmess = vim.o.shortmess .. "c",
-		clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
-		pumheight = 15, -- height of popup menu
-		splitbelow = true,
-		splitright = true,
-	})
-do
+for key, val in pairs({
+	tabstop = 4,
+	softtabstop = 4,
+	shiftwidth = 4, -- 4 spaces
+	shiftround = true, -- Round tabs to multiplier of shiftwicth
+	smartindent = true,
+	ignorecase = true,
+	expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
+	relativenumber = true, -- relative line numbers to current line
+	cursorline = true, -- Highlgiht cursor line
+	hlsearch = true, -- Highlight search
+	hidden = true,
+	errorbells = false, -- No sound on error
+	nu = true, -- Line numbers
+	wrap = false,
+	swapfile = false,
+	backup = false,
+	undodir = os.getenv("HOME") .. "/.vim/undodir",
+	undofile = true,
+	incsearch = true, -- Evolve search as I write
+	termguicolors = true, -- Make colorscheme work
+	scrolloff = 8, -- Start scroll when n lines from screen edge
+	showmode = false,
+	colorcolumn = "100", -- Dont go further
+	updatetime = 50, -- Short time to combo key strokes
+	mouse = "a", -- Enable mouse
+	autoread = true,
+	completeopt = "menu,menuone,noselect",
+	shortmess = vim.o.shortmess .. "c",
+	clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
+	pumheight = 15, -- height of popup menu
+	splitbelow = true,
+	splitright = true,
+}) do
 	vim.o[key] = val
 end
 
-for key, val in
-	pairs({
-		mapleader = " ",
-		do_filetype_lua = 1,
-		indent_blankline_use_treesitter = true,
-		indent_blankline_show_first_indent_level = true,
-		indent_blankline_filetype_exclude = { "help" },
-		indentLine_setConceal = 0,
-	})
-do
+for key, val in pairs({
+	mapleader = " ",
+	do_filetype_lua = 1,
+	indent_blankline_use_treesitter = true,
+	indent_blankline_show_first_indent_level = true,
+	indent_blankline_filetype_exclude = { "help" },
+	indentLine_setConceal = 0,
+}) do
 	vim.g[key] = val
 end
 
@@ -86,16 +82,6 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 		vim.o["cursorline"] = false
 	end,
 	group = update_cursorline_group,
-	pattern = "*",
-})
-
-local diagnostic_group = vim.api.nvim_create_augroup("DiagnosticHide", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-	callback = function()
-		vim.diagnostic.disable()
-		vim.diagnostic.hide()
-	end,
-	group = diagnostic_group,
 	pattern = "*",
 })
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -199,6 +185,4 @@ function! TabMessage(cmd)
   endif
 endfunction
 command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
-"autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{-.*_}}', 'nw') | setlocal filetype=gotmpl | endif
-"autocmd BufNewFile,BufRead *.yaml,*.yml,*.tpl if search('{{.*include.*}}', 'nw') | setlocal filetype=gotmpl | endif
 ]])
