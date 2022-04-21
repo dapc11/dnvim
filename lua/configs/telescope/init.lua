@@ -43,6 +43,7 @@ telescope.setup({
 				["<C-c>"] = actions.close,
 			},
 			i = {
+				["<C-u>"] = false,
 				["<C-p>"] = action_layout.toggle_preview,
 				["<C-c>"] = actions.close,
 				["<esc>"] = actions.close,
