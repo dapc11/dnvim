@@ -24,6 +24,31 @@ for _, lsp in ipairs(servers) do
 		handlers = lsputils.handlers,
 		capabilities = lsputils.capabilities,
 		flags = lsputils.flags,
+		settings = {
+			gopls = {
+				analyses = {
+					unusedparams = true,
+				},
+				completeUnimported = true,
+				staticcheck = true,
+				buildFlags = { "-tags=integration,e2e" },
+				hoverKind = "FullDocumentation",
+				linkTarget = "pkg.go.dev",
+				linksInHover = true,
+				experimentalWorkspaceModule = true,
+				experimentalPostfixCompletions = true,
+				codelenses = {
+					generate = true,
+					gc_details = true,
+					test = true,
+					tidy = true,
+				},
+				usePlaceholders = true,
+
+				completionDocumentation = true,
+				deepCompletion = true,
+			},
+		},
 	})
 end
 
@@ -35,7 +60,25 @@ lspconfig.yamlls.setup({
 	filetypes = { "yaml", "tpl", "gotmpl" },
 	settings = {
 		yaml = {
-			schemas = { kubernetes = "/*/helm/*/templates/*.yaml" },
+			schemas = {
+				kubernetes = {
+					"templates/*.yaml",
+					"helm/*.yaml",
+					"kube/*.yaml",
+				},
+				["http://json.schemastore.org/golangci-lint.json"] = ".golangci.{yml,yaml}",
+				["http://json.schemastore.org/github-workflow.json"] = ".github/workflows/*.{yml,yaml}",
+				["http://json.schemastore.org/github-action.json"] = ".github/action.{yml,yaml}",
+				["http://json.schemastore.org/ansible-stable-2.9.json"] = "roles/tasks/*.{yml,yaml}",
+				["http://json.schemastore.org/ansible-playbook.json"] = "playbook.{yml,yaml}",
+				["http://json.schemastore.org/prettierrc.json"] = ".prettierrc.{yml,yaml}",
+				["http://json.schemastore.org/stylelintrc.json"] = ".stylelintrc.{yml,yaml}",
+				["http://json.schemastore.org/circleciconfig.json"] = ".circleci/**/*.{yml,yaml}",
+				["http://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
+				["http://json.schemastore.org/helmfile.json"] = "templates/**/*.{yml,yaml}",
+				["http://json.schemastore.org/chart.json"] = "Chart.yml,yaml}",
+				["http://json.schemastore.org/gitlab-ci.json"] = "/*lab-ci.{yml,yaml}",
+			},
 		},
 	},
 })

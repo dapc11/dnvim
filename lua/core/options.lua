@@ -65,10 +65,14 @@ augroup QFClose
 augroup END
 augroup dapc
 autocmd!
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd BufReadPost,BufNewFile * :call HighlightTodo()
+ autocmd InsertLeave,WinEnter * set cursorline
+ autocmd InsertEnter,WinLeave * set nocursorline
+ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+ autocmd TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
+ autocmd BufReadPost,BufNewFile * :call HighlightTodo()
 augroup END
 ]])
+<<<<<<< HEAD
 local update_cursorline_group = vim.api.nvim_create_augroup("Update cursorline", { clear = true })
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
 	callback = function()
@@ -92,6 +96,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = highlight_group,
 	pattern = "*",
 })
+=======
+
+>>>>>>> Bug fixes
 local signs = {
 	{
 		name = "DiagnosticSignError",
@@ -186,3 +193,43 @@ function! TabMessage(cmd)
 endfunction
 command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
 ]])
+
+local special_settings_group = vim.api.nvim_create_augroup("SPECIAL_SETTINGS", { clear = true })
+
+-- Large File Enhancements {{{
+vim.api.nvim_create_autocmd("BufRead", {
+	group = special_settings_group,
+	pattern = "*",
+	desc = "large file enhancements. Invokes a User LargeBufRead event",
+	callback = function()
+		if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
+			return
+		end
+
+		local size = vim.fn.getfsize(vim.fn.expand("%"))
+		if size > 1024 * 1024 * 5 then
+			local hlsearch = vim.opt.hlsearch
+			local lazyredraw = vim.opt.lazyredraw
+			local showmatch = vim.opt.showmatch
+
+			vim.bo.undofile = false
+			vim.wo.colorcolumn = ""
+			vim.wo.relativenumber = false
+			vim.wo.foldmethod = "manual"
+			vim.wo.spell = false
+			vim.opt.hlsearch = false
+			vim.opt.lazyredraw = true
+			vim.opt.showmatch = false
+
+			vim.api.nvim_create_autocmd("BufDelete", {
+				buffer = 0,
+				callback = function()
+					vim.opt.hlsearch = hlsearch
+					vim.opt.lazyredraw = lazyredraw
+					vim.opt.showmatch = showmatch
+				end,
+				desc = "set the global settings back to what they were before",
+			})
+		end
+	end,
+}) --}}}
