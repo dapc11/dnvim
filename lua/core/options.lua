@@ -72,33 +72,6 @@ autocmd!
  autocmd BufReadPost,BufNewFile * :call HighlightTodo()
 augroup END
 ]])
-<<<<<<< HEAD
-local update_cursorline_group = vim.api.nvim_create_augroup("Update cursorline", { clear = true })
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
-	callback = function()
-		vim.o["cursorline"] = true
-	end,
-	group = update_cursorline_group,
-	pattern = "*",
-})
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
-	callback = function()
-		vim.o["cursorline"] = false
-	end,
-	group = update_cursorline_group,
-	pattern = "*",
-})
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
-})
-=======
-
->>>>>>> Bug fixes
 local signs = {
 	{
 		name = "DiagnosticSignError",
@@ -232,4 +205,6 @@ vim.api.nvim_create_autocmd("BufRead", {
 			})
 		end
 	end,
-}) --}}}
+}) 
+--}}}
+
