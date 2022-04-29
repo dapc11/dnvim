@@ -354,3 +354,16 @@ omap < ]
 xmap > [
 xmap < ]
 ]])
+
+vim.cmd([[
+function! JiraSearch()
+     let searchterm = getreg("g")
+     silent! exec "silent! !google-chrome \"https://eteamproject.internal.ericsson.com/browse/" . searchterm . "\" &"
+endfunction
+vnoremap <leader>fj "gy<Esc>:call JiraSearch()<CR>
+function! GoogleSearch()
+     let searchterm = getreg("g")
+     silent! exec "silent! !google-chrome \"http://google.com/search?q=" . searchterm . "\" &"
+endfunction
+vnoremap <leader>fg "gy<Esc>:call GoogleSearch()<CR>
+]])
