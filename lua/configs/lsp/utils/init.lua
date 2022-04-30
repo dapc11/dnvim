@@ -39,41 +39,19 @@ M.handlers = {
 	}),
 }
 
-local wk = require("which-key")
 function M.lsp_keymaps(bufnr)
 	local opts = {}
-	wk.register({
-		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Documentation", buffer = bufnr },
-		["<leader>"] = {
-			r = {
-				name = "+refactor",
-				r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename", buffer = bufnr },
-			},
-			c = {
-				name = "+code",
-				a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Show code actions", buffer = bufnr },
-				f = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format buffer", buffer = bufnr },
-				d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Go to definition", buffer = bufnr },
-				t = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Go to type definition", buffer = bufnr },
-				i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Go to implementation", buffer = bufnr },
-				r = { "<cmd>lua vim.lsp.buf.references()<CR>", "Show usages", buffer = bufnr },
-				s = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Show signature help", buffer = bufnr },
-				h = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Documentation", buffer = bufnr },
-				D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Go to declaration", buffer = bufnr },
-			},
-		},
-	})
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
 function M.lsp_highlight_document(client)
@@ -81,6 +59,7 @@ function M.lsp_highlight_document(client)
 		vim.api.nvim_exec(
 			[[
       augroup lsp_document_highlight
+        au!
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
