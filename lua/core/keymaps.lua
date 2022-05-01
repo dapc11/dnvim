@@ -168,6 +168,7 @@ vim.cmd([[
     """""""" Clear quickfix list
     function ClearQuickfixList()
         call setqflist([])
+        cclose
     endfunction
     command! ClearQuickfixList call ClearQuickfixList()
 ]])
