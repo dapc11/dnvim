@@ -1,6 +1,11 @@
-require("gitsigns").setup({
-	keymaps = {
-		-- Default keymap options
-		noremap = false,
-	},
-})
+local M = {}
+
+function M.config()
+	require("gitsigns").setup({
+		keymaps = {
+			noremap = false,
+		},
+	})
+end
+
+return M

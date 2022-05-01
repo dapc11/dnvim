@@ -1,7 +1,5 @@
 local M = {}
-
 function M.config()
-	require("nvim_comment").setup({})
+	require("which-key").setup({})
 end
-
 return M

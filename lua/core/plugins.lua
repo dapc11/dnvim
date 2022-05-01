@@ -18,7 +18,7 @@ packer.startup({
 		use({
 			"lewis6991/gitsigns.nvim",
 			config = function()
-				require("configs.gitsigns")
+				require("configs.gitsigns").config()
 			end,
 		})
 		use({
@@ -28,7 +28,7 @@ packer.startup({
 				"nvim-treesitter/nvim-treesitter-textobjects",
 			},
 			config = function()
-				require("configs.treesitter")
+				require("configs.treesitter").config()
 			end,
 			run = ":TSUpdate",
 		})
@@ -45,14 +45,14 @@ packer.startup({
 				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 			},
 			config = function()
-				require("configs.telescope")
+				require("configs.telescope").config()
 			end,
 		})
 		use({
 			"phaazon/hop.nvim",
 			branch = "v1",
 			config = function()
-				require("hop").setup({ keys = "asdfgqwertzxcvb" })
+				require("configs.hop").config()
 			end,
 		})
 
@@ -61,14 +61,14 @@ packer.startup({
 			"L3MON4D3/LuaSnip",
 			after = "friendly-snippets",
 			config = function()
-				require("configs.luasnip")
+				require("configs.luasnip").config()
 			end,
 		})
 		use({
 			"hrsh7th/nvim-cmp",
 			after = "LuaSnip",
 			config = function()
-				require("configs.nvim_cmp")
+				require("configs.nvim_cmp").config()
 			end,
 		})
 		use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
@@ -81,7 +81,7 @@ packer.startup({
 			"neovim/nvim-lspconfig",
 			after = "lsp_signature.nvim",
 			config = function()
-				require("configs.lsp.lsp")
+				require("configs.lsp.lsp").config()
 			end,
 		})
 
@@ -89,7 +89,7 @@ packer.startup({
 			"jose-elias-alvarez/null-ls.nvim",
 			after = "lsp_signature.nvim",
 			config = function()
-				require("configs.lsp.nullls")
+				require("configs.lsp.nullls").config()
 			end,
 		})
 
@@ -97,7 +97,7 @@ packer.startup({
 			"lukas-reineke/indent-blankline.nvim",
 			event = "BufRead",
 			config = function()
-				require("configs.indent_blankline")
+				require("configs.indent_blankline").config()
 			end,
 		})
 
@@ -105,7 +105,7 @@ packer.startup({
 			"nvim-lualine/lualine.nvim",
 			after = "nvim-web-devicons",
 			config = function()
-				require("configs.lualine")
+				require("configs.lualine").config()
 			end,
 		})
 
@@ -113,7 +113,7 @@ packer.startup({
 			"norcalli/nvim-colorizer.lua",
 			ft = { "text", "json", "yaml", "css", "html", "lua", "vim" },
 			config = function()
-				require("configs.colorizer")
+				require("configs.colorizer").config()
 			end,
 		})
 
@@ -128,60 +128,28 @@ packer.startup({
 		use({
 			"kyazdani42/nvim-tree.lua",
 			config = function()
-				require("configs.nvim_tree")
+				require("configs.nvim_tree").config()
 			end,
 		})
 
 		use({
 			"akinsho/toggleterm.nvim",
 			config = function()
-				require("configs.toggleterm")
+				require("configs.toggleterm").config()
 			end,
 		})
 
 		use({
 			"terrortylor/nvim-comment",
 			config = function()
-				require("configs.nvim_comment")
+				require("configs.nvim_comment").config()
 			end,
 		})
 
 		use({
 			"dapc11/project.nvim",
 			config = function()
-				require("project_nvim").setup({
-					-- Manual mode doesn't automatically change your root directory, so you have
-					-- the option to manually do so using `:ProjectRoot` command.
-					manual_mode = false,
-
-					-- Methods of detecting the root directory. **"lsp"** uses the native neovim
-					-- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
-					-- order matters: if one is not detected, the other is used as fallback. You
-					-- can also delete or rearangne the detection methods.
-					detection_methods = { "pattern" },
-
-					-- All the patterns used to detect root dir, when **"pattern"** is in
-					-- detection_methods
-					patterns = {
-						"ruleset2.0.yaml",
-						"pom.xml",
-						".git",
-						"_darcs",
-						".hg",
-						".bzr",
-						".svn",
-						"Makefile",
-						"package.json",
-					},
-
-					-- Table of lsp clients to ignore by name
-					-- eg: { "efm", ... }
-					ignore_lsp = { "pyright", "sumneko_lua", "null-ls", "gopls", "yamlls" },
-
-					-- When set to false, you will get a message when project.nvim changes your
-					-- directory.
-					silent_chdir = true,
-				})
+				require("configs.project_nvim").config()
 			end,
 		})
 
@@ -199,11 +167,7 @@ packer.startup({
 		use({
 			"folke/which-key.nvim",
 			config = function()
-				require("which-key").setup({
-					-- your configuration comes here
-					-- or leave it empty to use the default settings
-					-- refer to the configuration section below
-				})
+				require("configs.which-key").config()
 			end,
 		})
 		use({
@@ -213,25 +177,26 @@ packer.startup({
 				{ "nvim-treesitter/nvim-treesitter" },
 			},
 			config = function()
-				require("refactoring").setup({})
+				require("configs.refactoring").config()
 			end,
 		})
 		use({
 			"ur4ltz/surround.nvim",
 			config = function()
-				require("surround").setup({ mappings_style = "sandwich" })
+				require("configs.surround").config()
 			end,
 		})
 		use({
 			"dapc11/shade.nvim",
 			config = function()
-				require("shade").setup({
-					overlay_opacity = 80,
-					opacity_step = 1,
-					keys = {
-						toggle = "<Leader>zs",
-					},
-				})
+				require("configs.shade").config()
+			end,
+		})
+		use({
+			"echasnovski/mini.nvim",
+			branch = "stable",
+			config = function()
+				require("configs.mini").config()
 			end,
 		})
 	end,

@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-	require("nvim_comment").setup({})
+	require("refactoring").setup({})
 end
 
 return M
