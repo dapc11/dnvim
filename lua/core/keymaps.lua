@@ -81,6 +81,8 @@ map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>")
 
 -- Fugitive
 map("n", "<leader>gg", ":Git<CR>")
+map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>")
+map("n", "<leader>gP", ":Git push<CR>")
 map("n", "<leader>gt", ":!alacritty<CR>")
 map("n", "<leader>gl", ":Git log --stat<CR>")
 map("n", "<leader>gs", ":Telescope git_stash<CR>")
