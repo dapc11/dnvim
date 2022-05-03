@@ -5,42 +5,19 @@ function M.config()
 
 	vim.g.nvim_tree_respect_buf_cwd = 1
 	vim.g.nvim_tree_show_icons = {
-		git = 0,
+		git = 1,
 		folder_arrows = 0,
 		folders = 1,
 		files = 0,
 	}
-	vim.g.nvim_tree_icons = {
-		default = "",
-		symlink = "",
-		git = {
-			unstaged = "",
-			staged = "S",
-			unmerged = "",
-			renamed = "➜",
-			deleted = "",
-			untracked = "U",
-			ignored = "◌",
-		},
-		folder = {
-			arrow_open = "",
-			arrow_closed = "",
-			default = "",
-			open = "",
-			empty = "", -- 
-			empty_open = "",
-			symlink = "",
-			symlink_open = "",
-		},
-	}
 
 	require("nvim-tree").setup({
+		auto_reload_on_write = true,
 		disable_netrw = false,
 		hijack_netrw = false,
 		ignore_ft_on_setup = { "dashboard" },
-		auto_close = false,
 		open_on_tab = false,
-		hijack_cursor = true,
+		hijack_cursor = false,
 		update_cwd = true,
 		update_focused_file = {
 			enable = true,
@@ -49,11 +26,11 @@ function M.config()
 		},
 		renderer = {
 			indent_markers = {
-				enable = true,
+				enable = false,
 			},
 		},
 		git = {
-			enable = false,
+			enable = true,
 			ignore = false,
 			timeout = 500,
 		},
@@ -73,11 +50,15 @@ function M.config()
 		view = {
 			width = 30,
 			side = "left",
-			auto_resize = true,
 			mappings = {
 				custom_only = false,
 				list = {
 					{ key = "<C-t>", action = "" },
+					{ key = "P", action = "parent_node" },
+					{ key = "y", action = "copy_name" },
+					{ key = "Y", action = "copy_path" },
+					{ key = "gy", action = "copy_absolute_path" },
+					{ key = "W", action = "collapse_all" },
 				},
 			},
 		},

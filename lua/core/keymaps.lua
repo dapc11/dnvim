@@ -96,6 +96,8 @@ map("n", "<F1>", "<Nop>")
 -- Profiling
 map("n", "<Leader>zp", ":profile start nvim-profile.log | profile func * | profile file *")
 
+map("v", "ä", "<C-d>")
+map("v", "ö", "<C-u>")
 map("n", "ä", "<C-d>")
 map("n", "ö", "<C-u>")
 map("t", "<Esc>", "<C-\\><C-n>")

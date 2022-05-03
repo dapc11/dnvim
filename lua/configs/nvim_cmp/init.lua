@@ -90,6 +90,7 @@ function M.config()
 				require("luasnip").lsp_expand(args.body)
 			end,
 		},
+
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "luasnip" },
@@ -101,8 +102,8 @@ function M.config()
 		formatting = {
 			format = function(entry, vim_item)
 				-- Kind icons
-				-- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
-				vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+				vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+				-- vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 				-- Source
 				vim_item.menu = ({
 					buffer = "[Buf]",
