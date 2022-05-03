@@ -1,6 +1,13 @@
 local M = {}
 
 function M.config()
+	local luasnip = require("luasnip")
+	local s = luasnip.snippet
+	local i = luasnip.insert_node
+	local t = luasnip.text_node
+	local c = luasnip.choice_node
+	local sn = luasnip.snippet_node
+
 	local current_nsid = vim.api.nvim_create_namespace("LuaSnipChoiceListSelections")
 	local current_win = nil
 
@@ -87,17 +94,56 @@ function M.config()
 			current_win.buf = create_win.buf
 		end
 	end
-	local ls = require("luasnip")
-	local s = ls.snippet
-	local sn = ls.snippet_node
-	local t = ls.text_node
-	local i = ls.insert_node
-	local f = ls.function_node
-	local c = ls.choice_node
-	local d = ls.dynamic_node
-	local r = ls.restore_node
-	local fmt = require("luasnip.extras.fmt").fmt
-	ls.snippets = {
+
+	local function node_with_virtual_text(pos, node, text)
+		local nodes
+		if node.type == types.textNode then
+			node.pos = 2
+			nodes = { i(1), node }
+		else
+			node.pos = 1
+			nodes = { node }
+		end
+		return sn(pos, nodes, {
+			callbacks = {
+				-- node has pos 1 inside the snippetNode.
+				[1] = {
+					[events.enter] = function(nd)
+						-- node_pos: {line, column}
+						local node_pos = nd.mark:pos_begin()
+						-- reuse luasnips namespace, column doesn't matter, just 0 it.
+						nd.virt_text_id = vim.api.nvim_buf_set_extmark(0, ls.session.ns_id, node_pos[1], 0, {
+							virt_text = { { text, "DiagnosticInfo" } },
+						})
+					end,
+					[events.leave] = function(nd)
+						vim.api.nvim_buf_del_extmark(0, ls.session.ns_id, nd.virt_text_id)
+					end,
+				},
+			},
+		})
+	end
+
+	local function nodes_with_virtual_text(nodes, opts)
+		if opts == nil then
+			opts = {}
+		end
+		local new_nodes = {}
+		for pos, node in ipairs(nodes) do
+			if opts.texts[pos] ~= nil then
+				node = node_with_virtual_text(pos, node, opts.texts[pos])
+			end
+			table.insert(new_nodes, node)
+		end
+		return new_nodes
+	end
+
+	local function choice_text_node(pos, choices, opts)
+		choices = nodes_with_virtual_text(choices, opts)
+		return c(pos, choices, opts)
+	end
+
+	luasnip.add_snippets(nil, {
 		-- When trying to expand a snippet, luasnip first searches the tables for
 		-- each filetype specified in 'filetype' followed by 'all'.
 		-- If ie. the filetype is 'lua.c'
@@ -129,8 +175,8 @@ function M.config()
 				i(0),
 			}),
 		},
-	}
-
+	})
+	require("luasnip.loaders.from_vscode").lazy_load()
 	vim.cmd([[
     augroup choice_popup
     au!

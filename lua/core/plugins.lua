@@ -56,14 +56,13 @@ packer.startup({
 			end,
 		})
 
-		use({ "rafamadriz/friendly-snippets" })
 		use({
 			"L3MON4D3/LuaSnip",
-			after = "friendly-snippets",
 			config = function()
 				require("configs.luasnip").config()
 			end,
 		})
+		use({ "rafamadriz/friendly-snippets" })
 		use({
 			"hrsh7th/nvim-cmp",
 			after = "LuaSnip",

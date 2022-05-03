@@ -7,7 +7,6 @@ function M.config()
 	end
 
 	local luasnip = require("luasnip")
-	require("luasnip.loaders.from_vscode").load()
 	local cmp = require("cmp")
 	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
@@ -85,29 +84,32 @@ function M.config()
 
 	cmp.setup({
 		completion = { completeopt = "menu,menuone,noinsert" },
+		mapping = mapping,
 		snippet = {
 			expand = function(args)
-				luasnip.lsp_expand(args.body)
+				require("luasnip").lsp_expand(args.body)
 			end,
 		},
-		mapping = mapping,
-		sources = {
+		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "luasnip" },
+		}, {
 			{ name = "buffer", keyword_length = 3 },
 			{ name = "path", max_item_count = 10 },
-		},
+		}),
+
 		formatting = {
 			format = function(entry, vim_item)
 				-- Kind icons
-				vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+				-- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+				vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 				-- Source
-				-- vim_item.menu = ({
-				-- 	buffer = "[Buf]",
-				-- 	nvim_lsp = "[LSP]",
-				-- 	luasnip = "[Snip]",
-				-- 	path = "[Path]",
-				-- })[entry.source.name]
+				vim_item.menu = ({
+					buffer = "[Buf]",
+					nvim_lsp = "[LSP]",
+					luasnip = "[Snip]",
+					path = "[Path]",
+				})[entry.source.name]
 				return vim_item
 			end,
 		},
