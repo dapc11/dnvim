@@ -42,20 +42,27 @@ function M.config()
 		write_good,
 		pylint,
 		flake8,
+		isort,
 		null_ls.builtins.diagnostics.golangci_lint,
 	}
 
 	vim.diagnostic.config(lsputils.diagnostics_config)
 
+	local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 	null_ls.setup({
 		sources = sources,
 		diagnostics_format = "[#{c}] #{m}",
 		handlers = lsputils.handlers,
 		on_attach = function(client, bufnr)
-			if client.resolved_capabilities.document_formatting then
-				vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+			if client.supports_method("textDocument/formatting") then
+				vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					group = augroup,
+					buffer = bufnr,
+					-- on 0.8, you should use vim.lsp.buf.format instead
+					callback = vim.lsp.buf.formatting_sync,
+				})
 			end
-			lsputils.lsp_signature(bufnr)
 		end,
 	})
 end
