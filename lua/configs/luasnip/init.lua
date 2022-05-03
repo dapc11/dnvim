@@ -1,12 +1,22 @@
 local M = {}
 
 function M.config()
-	local luasnip = require("luasnip")
-	local s = luasnip.snippet
-	local i = luasnip.insert_node
-	local t = luasnip.text_node
-	local c = luasnip.choice_node
-	local sn = luasnip.snippet_node
+	local ls = require("luasnip")
+	local s = ls.snippet
+	local sn = ls.snippet_node
+	local isn = ls.indent_snippet_node
+	local t = ls.text_node
+	local i = ls.insert_node
+	local f = ls.function_node
+	local c = ls.choice_node
+	local d = ls.dynamic_node
+	local r = ls.restore_node
+	local events = require("luasnip.util.events")
+	local ai = require("luasnip.nodes.absolute_indexer")
+	local fmt = require("luasnip.extras.fmt").fmt
+	local m = require("luasnip.extras").m
+	local lambda = require("luasnip.extras").l
+	local types = require("luasnip.util.types")
 
 	local current_nsid = vim.api.nvim_create_namespace("LuaSnipChoiceListSelections")
 	local current_win = nil
@@ -124,26 +134,7 @@ function M.config()
 		})
 	end
 
-	local function nodes_with_virtual_text(nodes, opts)
-		if opts == nil then
-			opts = {}
-		end
-		local new_nodes = {}
-		for pos, node in ipairs(nodes) do
-			if opts.texts[pos] ~= nil then
-				node = node_with_virtual_text(pos, node, opts.texts[pos])
-			end
-			table.insert(new_nodes, node)
-		end
-		return new_nodes
-	end
-
-	local function choice_text_node(pos, choices, opts)
-		choices = nodes_with_virtual_text(choices, opts)
-		return c(pos, choices, opts)
-	end
-
-	luasnip.add_snippets(nil, {
+	ls.add_snippets(nil, {
 		-- When trying to expand a snippet, luasnip first searches the tables for
 		-- each filetype specified in 'filetype' followed by 'all'.
 		-- If ie. the filetype is 'lua.c'
