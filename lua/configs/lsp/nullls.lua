@@ -55,7 +55,6 @@ function M.config()
 			if client.resolved_capabilities.document_formatting then
 				vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
 			end
-			lsputils.lsp_keymaps(bufnr)
 			lsputils.lsp_signature(bufnr)
 		end,
 	})

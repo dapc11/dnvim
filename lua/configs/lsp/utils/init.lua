@@ -52,7 +52,6 @@ function M.lsp_keymaps(bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "i", "<C-space>", "<cmd>lua vim.lsp.buf.completion()<CR>", opts)
 end
 
 function M.lsp_highlight_document(client)

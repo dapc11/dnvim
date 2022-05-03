@@ -71,7 +71,7 @@ augroup dapc
 autocmd!
  autocmd InsertLeave,WinEnter * set cursorline
  autocmd InsertEnter,WinLeave * set nocursorline
- autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
  autocmd TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
  autocmd BufReadPost,BufNewFile * :call HighlightTodo()
 augroup END

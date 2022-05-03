@@ -93,8 +93,8 @@ function M.config()
 		mapping = mapping,
 		sources = {
 			{ name = "nvim_lsp" },
-			{ name = "buffer", keyword_length = 2 },
 			{ name = "luasnip" },
+			{ name = "buffer", keyword_length = 3 },
 			{ name = "path", max_item_count = 10 },
 		},
 		formatting = {
