@@ -101,6 +101,12 @@ packer.startup({
 		})
 
 		use({
+			"j-hui/fidget.nvim",
+			config = function()
+				require("fidget").setup()
+			end,
+		})
+		use({
 			"nvim-lualine/lualine.nvim",
 			after = "nvim-web-devicons",
 			config = function()
