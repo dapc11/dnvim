@@ -1,42 +1,42 @@
 -- Fuzzy find
 local function table_to_string(tbl)
-	local result = "{"
-	for k, v in pairs(tbl) do
-		if type(k) == "string" then
-			result = result .. '["' .. k .. '"]' .. "="
-		end
+  local result = "{"
+  for k, v in pairs(tbl) do
+    if type(k) == "string" then
+      result = result .. '["' .. k .. '"]' .. "="
+    end
 
-		-- Check the value type
-		if type(v) == "table" then
-			result = result .. table_to_string(v)
-		elseif type(v) == "boolean" then
-			result = result .. tostring(v)
-		else
-			result = result .. '"' .. v .. '"'
-		end
-		result = result .. ","
-	end
-	-- Remove leading commas from the result
-	if result ~= "" then
-		result = result:sub(1, result:len() - 1)
-	end
-	return result .. "}"
+    -- Check the value type
+    if type(v) == "table" then
+      result = result .. table_to_string(v)
+    elseif type(v) == "boolean" then
+      result = result .. tostring(v)
+    else
+      result = result .. '"' .. v .. '"'
+    end
+    result = result .. ","
+  end
+  -- Remove leading commas from the result
+  if result ~= "" then
+    result = result:sub(1, result:len() - 1)
+  end
+  return result .. "}"
 end
 
 local function get_find_files_source(path)
-	local file = io.open(path, "r")
-	local tbl = {}
-	local i = 0
-	if file then
-		for line in file:lines() do
-			i = i + 1
-			tbl[i] = line
-		end
-		file:close()
-	else
-		tbl[0] = "~"
-	end
-	return table_to_string(tbl)
+  local file = io.open(path, "r")
+  local tbl = {}
+  local i = 0
+  if file then
+    for line in file:lines() do
+      i = i + 1
+      tbl[i] = line
+    end
+    file:close()
+  else
+    tbl[0] = "~"
+  end
+  return table_to_string(tbl)
 end
 
 local telescope_open_hidden = get_find_files_source(os.getenv("HOME") .. "/telescope_open_hidden.txt")
@@ -45,27 +45,27 @@ map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>')
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>')
 map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>')
 map(
-	"n",
-	"<Leader>N",
-	':lua require("telescope.builtin").git_files({git_command={"git","ls-files","--modified","--exclude-standard"}})<CR>'
+  "n",
+  "<Leader>N",
+  ':lua require("telescope.builtin").git_files({git_command={"git","ls-files","--modified","--exclude-standard"}})<CR>'
 )
 map(
-	"n",
-	"<Leader>O",
-	':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
+  "n",
+  "<Leader>O",
+  ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
 )
 map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>')
 map(
-	"n",
-	"<Leader>f",
-	':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false, search_dirs = '
-		.. telescope_open_hidden
-		.. "})<CR>"
+  "n",
+  "<Leader>f",
+  ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false, search_dirs = '
+    .. telescope_open_hidden
+    .. "})<CR>"
 )
 map(
-	"n",
-	"<leader><leader>",
-	':lua require("telescope.builtin").live_grep({path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>'
+  "n",
+  "<leader><leader>",
+  ':lua require("telescope.builtin").live_grep({path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>'
 )
 map("n", "<C-p>", ":Telescope projects<CR>")
 map("n", "<C-f>", ':lua require("telescope.builtin").current_buffer_fuzzy_find()<CR>')
@@ -181,34 +181,34 @@ map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
 map("n", "<leader>l", ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>")
 map(
-	"n",
-	"f",
-	"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>"
+  "n",
+  "f",
+  "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>"
 )
 map(
-	"n",
-	"F",
-	"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
+  "n",
+  "F",
+  "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
 )
 map(
-	"o",
-	"f",
-	"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<CR>"
+  "o",
+  "f",
+  "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<CR>"
 )
 map(
-	"o",
-	"F",
-	"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<CR>"
+  "o",
+  "F",
+  "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<CR>"
 )
 map(
-	"",
-	"t",
-	"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>"
+  "",
+  "t",
+  "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>"
 )
 map(
-	"",
-	"T",
-	"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
+  "",
+  "T",
+  "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
 )
 
 map("n", "<C-t>", ":NvimTreeToggle<CR>")
@@ -308,32 +308,32 @@ endif
 ]])
 
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>re",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+  "v",
+  "<leader>re",
+  [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+  { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rf",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+  "v",
+  "<leader>rf",
+  [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+  { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rv",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+  "v",
+  "<leader>rv",
+  [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+  { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"v",
-	"<leader>ri",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+  "v",
+  "<leader>ri",
+  [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+  { noremap = true, silent = true, expr = false }
 )
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>ru",
-	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
+  "n",
+  "<leader>ru",
+  [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+  { noremap = true, silent = true, expr = false }
 )

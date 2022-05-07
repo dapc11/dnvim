@@ -11,10 +11,10 @@ package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/nvim/lua/co
 local sources = { "core.globals", "core.plugins", "core.options", "core.keymaps", "core.custom-theme" }
 
 for _, source in ipairs(sources) do
-	local status_ok, fault = pcall(require, source)
-	if not status_ok then
-		error("Failed to load " .. source .. "\n\n" .. fault)
-	end
+  local status_ok, fault = pcall(require, source)
+  if not status_ok then
+    error("Failed to load " .. source .. "\n\n" .. fault)
+  end
 end
 vim.cmd([[
 ]])

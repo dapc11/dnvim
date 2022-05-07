@@ -1,53 +1,49 @@
-for key, val in
-	pairs({
-		tabstop = 4,
-		softtabstop = 4,
-		shiftwidth = 4, -- 4 spaces
-		shiftround = true, -- Round tabs to multiplier of shiftwicth
-		smartindent = true,
-		ignorecase = true,
-		expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
-		relativenumber = true, -- relative line numbers to current line
-		cursorline = true, -- Highlgiht cursor line
-		hlsearch = true, -- Highlight search
-		hidden = true,
-		errorbells = false, -- No sound on error
-		nu = true, -- Line numbers
-		wrap = false,
-		swapfile = false,
-		backup = false,
-		undodir = os.getenv("HOME") .. "/.vim/undodir",
-		undofile = true,
-		incsearch = true, -- Evolve search as I write
-		termguicolors = true, -- Make colorscheme work
-		scrolloff = 8, -- Start scroll when n lines from screen edge
-		showmode = false,
-		colorcolumn = "100", -- Dont go further
-		updatetime = 50, -- Short time to combo key strokes
-		mouse = "a", -- Enable mouse
-		autoread = true,
-		completeopt = "menu,menuone,noselect",
-		shortmess = vim.o.shortmess .. "c",
-		clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
-		pumheight = 15, -- height of popup menu
-		splitbelow = true,
-		splitright = true,
-	})
-do
-	vim.o[key] = val
+for key, val in pairs({
+  tabstop = 4,
+  softtabstop = 4,
+  shiftwidth = 4, -- 4 spaces
+  shiftround = true, -- Round tabs to multiplier of shiftwicth
+  smartindent = true,
+  ignorecase = true,
+  expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
+  relativenumber = true, -- relative line numbers to current line
+  cursorline = true, -- Highlgiht cursor line
+  hlsearch = true, -- Highlight search
+  hidden = true,
+  errorbells = false, -- No sound on error
+  nu = true, -- Line numbers
+  wrap = false,
+  swapfile = false,
+  backup = false,
+  undodir = os.getenv("HOME") .. "/.vim/undodir",
+  undofile = true,
+  incsearch = true, -- Evolve search as I write
+  termguicolors = true, -- Make colorscheme work
+  scrolloff = 8, -- Start scroll when n lines from screen edge
+  showmode = false,
+  colorcolumn = "100", -- Dont go further
+  updatetime = 50, -- Short time to combo key strokes
+  mouse = "a", -- Enable mouse
+  autoread = true,
+  completeopt = "menu,menuone,noselect",
+  shortmess = vim.o.shortmess .. "c",
+  clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
+  pumheight = 15, -- height of popup menu
+  splitbelow = true,
+  splitright = true,
+}) do
+  vim.o[key] = val
 end
 
-for key, val in
-	pairs({
-		mapleader = " ",
-		do_filetype_lua = 1,
-		indent_blankline_use_treesitter = true,
-		indent_blankline_show_first_indent_level = true,
-		indent_blankline_filetype_exclude = { "help" },
-		indentLine_setConceal = 0,
-	})
-do
-	vim.g[key] = val
+for key, val in pairs({
+  mapleader = " ",
+  do_filetype_lua = 1,
+  indent_blankline_use_treesitter = true,
+  indent_blankline_show_first_indent_level = true,
+  indent_blankline_filetype_exclude = { "help" },
+  indentLine_setConceal = 0,
+}) do
+  vim.g[key] = val
 end
 
 vim.bo.matchpairs = "(:),{:},[:],<:>"
@@ -77,48 +73,48 @@ autocmd!
 augroup END
 ]])
 local signs = {
-	{
-		name = "DiagnosticSignError",
-		text = "",
-		type = "Error",
-	},
-	{
-		name = "DiagnosticSignWarn",
-		text = "",
-		type = "Warn",
-	},
-	{
-		name = "DiagnosticSignHint",
-		text = "",
-		type = "Hint",
-	},
-	{
-		name = "DiagnosticSignInfo",
-		text = "",
-		type = "Info",
-	},
+  {
+    name = "DiagnosticSignError",
+    text = "",
+    type = "Error",
+  },
+  {
+    name = "DiagnosticSignWarn",
+    text = "",
+    type = "Warn",
+  },
+  {
+    name = "DiagnosticSignHint",
+    text = "",
+    type = "Hint",
+  },
+  {
+    name = "DiagnosticSignInfo",
+    text = "",
+    type = "Info",
+  },
 }
 
 for _, sign in ipairs(signs) do
-	local hl = "DiagnosticLineNr" .. sign.type
-	vim.fn.sign_define(sign.name, {
-		texthl = sign.name,
-		text = sign.text,
-		numhl = hl,
-	})
+  local hl = "DiagnosticLineNr" .. sign.type
+  vim.fn.sign_define(sign.name, {
+    texthl = sign.name,
+    text = sign.text,
+    numhl = hl,
+  })
 end
 
 vim.g.rooter_pattern = {
-	"ruleset2.0.yaml",
-	"pom.xml",
-	".git",
-	"Makefile",
-	"_darcs",
-	".hg",
-	".bzr",
-	".svn",
-	"node_modules",
-	"CMakeLists.txt",
+  "ruleset2.0.yaml",
+  "pom.xml",
+  ".git",
+  "Makefile",
+  "_darcs",
+  ".hg",
+  ".bzr",
+  ".svn",
+  "node_modules",
+  "CMakeLists.txt",
 }
 
 -- Bracketed paste
@@ -175,39 +171,39 @@ local special_settings_group = vim.api.nvim_create_augroup("SPECIAL_SETTINGS", {
 
 -- Large File Enhancements {{{
 vim.api.nvim_create_autocmd("BufRead", {
-	group = special_settings_group,
-	pattern = "*",
-	desc = "large file enhancements. Invokes a User LargeBufRead event",
-	callback = function()
-		if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
-			return
-		end
+  group = special_settings_group,
+  pattern = "*",
+  desc = "large file enhancements. Invokes a User LargeBufRead event",
+  callback = function()
+    if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
+      return
+    end
 
-		local size = vim.fn.getfsize(vim.fn.expand("%"))
-		if size > 1024 * 1024 * 5 then
-			local hlsearch = vim.opt.hlsearch
-			local lazyredraw = vim.opt.lazyredraw
-			local showmatch = vim.opt.showmatch
+    local size = vim.fn.getfsize(vim.fn.expand("%"))
+    if size > 1024 * 1024 * 5 then
+      local hlsearch = vim.opt.hlsearch
+      local lazyredraw = vim.opt.lazyredraw
+      local showmatch = vim.opt.showmatch
 
-			vim.bo.undofile = false
-			vim.wo.colorcolumn = ""
-			vim.wo.relativenumber = false
-			vim.wo.foldmethod = "manual"
-			vim.wo.spell = false
-			vim.opt.hlsearch = false
-			vim.opt.lazyredraw = true
-			vim.opt.showmatch = false
+      vim.bo.undofile = false
+      vim.wo.colorcolumn = ""
+      vim.wo.relativenumber = false
+      vim.wo.foldmethod = "manual"
+      vim.wo.spell = false
+      vim.opt.hlsearch = false
+      vim.opt.lazyredraw = true
+      vim.opt.showmatch = false
 
-			vim.api.nvim_create_autocmd("BufDelete", {
-				buffer = 0,
-				callback = function()
-					vim.opt.hlsearch = hlsearch
-					vim.opt.lazyredraw = lazyredraw
-					vim.opt.showmatch = showmatch
-				end,
-				desc = "set the global settings back to what they were before",
-			})
-		end
-	end,
+      vim.api.nvim_create_autocmd("BufDelete", {
+        buffer = 0,
+        callback = function()
+          vim.opt.hlsearch = hlsearch
+          vim.opt.lazyredraw = lazyredraw
+          vim.opt.showmatch = showmatch
+        end,
+        desc = "set the global settings back to what they were before",
+      })
+    end
+  end,
 })
 --}}}
