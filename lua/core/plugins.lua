@@ -13,7 +13,6 @@ packer.startup({
 		use({ "nvim-lua/plenary.nvim" })
 		use({ "nvim-lua/popup.nvim" })
 
-		use({ "tpope/vim-unimpaired" })
 		use({ "tpope/vim-fugitive" })
 		use({
 			"lewis6991/gitsigns.nvim",

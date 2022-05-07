@@ -53,6 +53,9 @@ function M.config()
 		sources = sources,
 		diagnostics_format = "[#{c}] #{m}",
 		handlers = lsputils.handlers,
+		should_attach = function(bufnr)
+			return not vim.api.nvim_buf_get_name(bufnr):match("^NvimTree://")
+		end,
 		on_attach = function(client, bufnr)
 			if client.supports_method("textDocument/formatting") then
 				vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })

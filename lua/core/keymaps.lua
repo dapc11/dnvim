@@ -217,26 +217,25 @@ map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>")
 
 map("i", "<C-E>", "<Plug>luasnip-next-choice")
 map("s", "<C-E>", "<Plug>luasnip-next-choice")
-map("n", "<Tab>", ":tabnext<CR>")
-map("n", "<S-Tab>", ":tabprevious<CR>")
 
 local opts = { noremap = true, silent = true }
 map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
-map("n", "<Tab>", ">>")
-map("n", "<S-Tab>", "<<")
-map("v", "<Tab>", ">gv")
-map("v", "<S-Tab>", "<gv")
-vim.cmd([[
-nmap > [
-nmap < ]
-omap > [
-omap < ]
-xmap > [
-xmap < ]
-]])
+map("n", "<Tab>", ":BufferLineCycleNext<CR>")
+map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
+map("v", ">", ">gv")
+map("v", "<", "<gv")
+
+-- vim.cmd([[
+-- nmap > [
+-- nmap < ]
+-- omap > [
+-- omap < ]
+-- xmap > [
+-- xmap < ]
+-- ]])
 
 vim.cmd([[
 function! JiraSearch()
