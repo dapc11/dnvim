@@ -204,6 +204,29 @@ packer.startup({
 				require("configs.mini").config()
 			end,
 		})
+
+		use({
+			"akinsho/bufferline.nvim",
+			config = function()
+				require("configs.bufferline").setup()
+			end,
+			branch = "main",
+			event = "BufWinEnter",
+		})
+
+		-- use({
+		-- 	"mfussenegger/nvim-dap",
+		-- 	-- event = "BufWinEnter",
+		-- 	config = function()
+		-- 		require("configs.dap").setup()
+		-- 	end,
+		-- })
+		--
+		-- -- Debugger management
+		-- use({
+		-- 	"Pocco81/dap-buddy.nvim",
+		-- 	branch = "dev",
+		-- })
 	end,
 	config = {
 		compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",

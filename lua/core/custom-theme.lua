@@ -41,3 +41,4 @@
 -- hi("diffnewfile", { guifg = "#98c379" })
 -- hi("difffile", { guifg = "#e06c75" })
 -- hi("gitcommitsummary", { guifg = "#56b6c2" })
+hi("BufferlineFill", { guibg = "#282c34" })
