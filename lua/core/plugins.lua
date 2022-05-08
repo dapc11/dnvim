@@ -213,19 +213,39 @@ packer.startup({
       event = "BufWinEnter",
     })
 
-    -- use({
-    -- 	"mfussenegger/nvim-dap",
-    -- 	-- event = "BufWinEnter",
-    -- 	config = function()
-    -- 		require("configs.dap").setup()
-    -- 	end,
-    -- })
-    --
-    -- -- Debugger management
-    -- use({
-    -- 	"Pocco81/dap-buddy.nvim",
-    -- 	branch = "dev",
-    -- })
+    use({
+      "mfussenegger/nvim-dap",
+      -- event = "BufWinEnter",
+      after = "nvim-dap-ui",
+      config = function()
+        require("configs.dap").setup()
+        local dap, dapui = require("dap"), require("dapui")
+        dapui.setup()
+        dap.listeners.after.event_initialized["dapui_config"] = function()
+          dapui.open()
+        end
+        dap.listeners.before.event_terminated["dapui_config"] = function()
+          dapui.close()
+        end
+        dap.listeners.before.event_exited["dapui_config"] = function()
+          dapui.close()
+        end
+      end,
+    })
+
+    use({
+      "rcarriga/nvim-dap-ui",
+      requires = { "mfussenegger/nvim-dap" },
+    })
+
+    use({
+      "theHamsta/nvim-dap-virtual-text",
+      requires = { "mfussenegger/nvim-dap" },
+      config = function()
+        require("nvim-dap-virtual-text").setup()
+      end,
+    })
+    use({ "rhysd/vim-grammarous" })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
