@@ -117,6 +117,9 @@ map("n", "<Leader>p", '"+p<CR>')
 -- Close buffer
 map("n", "<Leader>q", "<c-w>q<CR>")
 map("n", "<Leader>Q", ":qa<CR>")
+map("n", "Qa", ":qa<CR>")
+map("n", "W", ":noautocmd w<CR>")
+map("n", "<Leader>w", ":noautocmd w<CR>")
 
 -- Commandline
 map("c", "<C-a>", "<Home>")
