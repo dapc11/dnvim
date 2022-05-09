@@ -115,7 +115,7 @@ map("n", "<Leader>y", '"+y<CR>')
 map("n", "<Leader>p", '"+p<CR>')
 
 -- Close buffer
-map("n", "<Leader>q", ":bd<CR>")
+map("n", "<Leader>q", "<c-w>q<CR>")
 map("n", "<Leader>Q", ":qa<CR>")
 
 -- Commandline
