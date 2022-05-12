@@ -231,14 +231,14 @@ map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
 map("v", ">", ">gv")
 map("v", "<", "<gv")
 
--- vim.cmd([[
--- nmap > [
--- nmap < ]
--- omap > [
--- omap < ]
--- xmap > [
--- xmap < ]
--- ]])
+vim.cmd([[
+nmap > [
+nmap < ]
+omap > [
+omap < ]
+xmap > [
+xmap < ]
+]])
 
 vim.cmd([[
 function! JiraSearch()
