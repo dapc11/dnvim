@@ -54,7 +54,7 @@ function M.config()
     diagnostics_format = "[#{c}] #{m}",
     handlers = lsputils.handlers,
     should_attach = function(bufnr)
-      return not vim.api.nvim_buf_get_name(bufnr):match("^NvimTree://")
+      return not vim.api.nvim_buf_get_name(bufnr):match("^NvimTree")
     end,
     on_attach = function(client, bufnr)
       vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {})
