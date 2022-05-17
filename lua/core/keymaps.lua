@@ -229,11 +229,10 @@ map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
 map("n", "<Tab>", ":BufferLineCycleNext<CR>")
 map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
-map("v", ">", ">gv")
-map("v", "<", "<gv")
+map("v", "<Tab>", ">gv")
+map("v", "<S-Tab>", "<gv")
 
 vim.cmd([[
-nmap > [
 nmap < ]
 omap > [
 omap < ]
