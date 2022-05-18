@@ -54,6 +54,7 @@ map(
   "<Leader>O",
   ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
 )
+map("n", "<Leader>w", ':lua require("telescope.builtin").grep_string()<CR>')
 map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>')
 map(
   "n",
@@ -120,7 +121,7 @@ map("n", "<Leader>q", "<c-w>q<CR>")
 map("n", "<Leader>Q", ":qa<CR>")
 map("n", "Qa", ":qa<CR>")
 map("n", "W", ":noautocmd w<CR>")
-map("n", "<Leader>w", ":noautocmd w<CR>")
+-- map("n", "<Leader>w", ":noautocmd w<CR>")
 
 -- Commandline
 map("c", "<C-a>", "<Home>")
@@ -232,6 +233,8 @@ map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
 map("i", "<S-Tab>", "<C-d>")
+map("n", "<C-w>", ":cnext<CR>")
+map("n", "<C-q>", ":cprevious<CR>")
 
 vim.cmd([[
 nmap < ]
