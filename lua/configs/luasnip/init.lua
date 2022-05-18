@@ -166,6 +166,22 @@ function M.config()
         i(0),
       }),
     },
+    python = {
+      s(
+        "#",
+        {
+          c(1, {
+            t({ "#!/usr/bin/env python3" }),
+            t({ "#!/usr/bin/python3" }),
+          }),
+          c(2, {
+            t(""),
+            t({ " -B" }),
+          }),
+          i(0),
+        }
+      ),
+    },
   })
   require("luasnip.loaders.from_vscode").lazy_load()
   vim.cmd([[

@@ -231,6 +231,7 @@ map("n", "<Tab>", ":BufferLineCycleNext<CR>")
 map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
+map("i", "<S-Tab>", "<C-d>")
 
 vim.cmd([[
 nmap < ]
