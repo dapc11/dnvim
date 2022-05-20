@@ -217,7 +217,7 @@ map(
   "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
 )
 
-map("n", "<C-e>", ":NvimTreeToggle<CR>")
+map("n", "<C-e>", ":NeoTreeShowToggle<CR>")
 map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>")
 map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>")
 

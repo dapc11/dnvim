@@ -2,7 +2,7 @@ local M = {}
 
 function M.config()
   vim.opt.list = true
-  vim.g.indent_blankline_filetype_exclude = { "NvimTree", "packer" }
+  vim.g.indent_blankline_filetype_exclude = { "neo-tree", "packer" }
   vim.cmd([[highlight IndentBlanklineChar guifg=#3e4451 gui=nocombine]])
 
   require("indent_blankline").setup({

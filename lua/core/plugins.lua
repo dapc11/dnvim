@@ -131,9 +131,15 @@ packer.startup({
     use({ "dapc11/onedark.nvim" })
 
     use({
-      "kyazdani42/nvim-tree.lua",
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v2.x",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
+      },
       config = function()
-        require("configs.nvim_tree").config()
+        require("configs.neo_tree").config()
       end,
     })
 
@@ -212,14 +218,6 @@ packer.startup({
         require("configs.barbar").config()
       end,
     })
-    -- use({
-    --   "akinsho/bufferline.nvim",
-    --   config = function()
-    --     require("configs.bufferline").setup()
-    --   end,
-    --   branch = "main",
-    --   event = "BufWinEnter",
-    -- })
 
     use({
       "mfussenegger/nvim-dap",
