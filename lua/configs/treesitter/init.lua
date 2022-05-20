@@ -35,6 +35,7 @@ function M.config()
     },
     highlight = {
       enable = true,
+      disable = disable_large_files,
       -- additional_vim_regex_highlighting = { "python" }
     },
     incremental_selection = {

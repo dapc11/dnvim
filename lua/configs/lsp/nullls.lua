@@ -7,10 +7,17 @@ function M.config()
     return
   end
 
+  local enable_ls = function(bufnr)
+    return vim.api.nvim_buf_line_count(bufnr) < 4000
+  end
+
   local lsputils = require("utils")
 
   local write_good = null_ls.builtins.diagnostics.write_good.with({
     filetypes = { "markdown", "gitcommit", "text" },
+    runtime_condition = function(params)
+      return enable_ls(params.bufnr)
+    end,
   })
   local black = null_ls.builtins.formatting.black
   local pylint = null_ls.builtins.diagnostics.pylint.with({

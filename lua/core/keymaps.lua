@@ -41,6 +41,7 @@ end
 
 local telescope_open_hidden = get_find_files_source(os.getenv("HOME") .. "/telescope_open_hidden.txt")
 
+local silent = {silent = true}
 map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>')
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>')
 map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>')
@@ -138,19 +139,19 @@ map("x", "p", "pgvy")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
-map("n", "m", ':<C-U>lua require("tsht").nodes()<CR>')
-map("v", "m", ':lua require("tsht").nodes()<CR>')
+map("n", "m", ':<C-U>lua require("tsht").nodes()<CR>', silent)
+map("v", "m", ':lua require("tsht").nodes()<CR>', silent)
 
-map("n", "<C-Left>", "<C-W>h")
-map("n", "<C-Down>", "<C-W>j")
-map("n", "<C-Up>", "<C-W>k")
-map("n", "<C-Right>", "<C-W>l")
+map("n", "<C-Left>", "<C-W>h", silent)
+map("n", "<C-Down>", "<C-W>j", silent)
+map("n", "<C-Up>", "<C-W>k", silent)
+map("n", "<C-Right>", "<C-W>l", silent)
 
 -- Shift lines up and down
-map("n", "<S-Down>", ":m .+1<CR>==")
-map("n", "<S-Up>", ":m .-2<CR>==")
-map("v", "<S-Down>", ":m '>+1<CR>gv=gv")
-map("v", "<S-Up>", ":m '<-2<CR>gv=gv")
+map("n", "<S-Down>", ":m .+1<CR>==", silent)
+map("n", "<S-Up>", ":m .-2<CR>==", silent)
+map("v", "<S-Down>", ":m '>+1<CR>gv=gv", silent)
+map("v", "<S-Up>", ":m '<-2<CR>gv=gv", silent)
 
 -- Beginning and end of line
 map("i", "<C-a>", "<home>", { noremap = false })
