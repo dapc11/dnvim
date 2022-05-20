@@ -9,12 +9,12 @@ function M.config()
 
   require("neo-tree").setup({
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
-    popup_border_style = "rounded",
+    popup_border_style = "NC",
     enable_git_status = true,
     enable_diagnostics = true,
     default_component_configs = {
       container = {
-        enable_character_fade = true,
+        enable_character_fade = false,
       },
       indent = {
         indent_size = 2,
