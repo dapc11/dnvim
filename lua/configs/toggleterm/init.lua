@@ -7,10 +7,10 @@ function M.config()
     shade_filetypes = {},
     shade_terminals = true,
     shading_factor = 2,
-    start_in_insert = true,
+    start_in_insert = false,
     insert_mappings = true, -- whether or not the open mapping applies in insert mode
     persist_size = true,
-    direction = "float",
+    direction = "horizontal",
     close_on_exit = true, -- close the terminal window when the process exits
     shell = vim.o.shell, -- change the default shell
     -- This field is only relevant if direction is set to 'float'
@@ -22,10 +22,13 @@ function M.config()
         background = "Normal",
       },
     },
-    highlights = {
-      border = "Normal",
-      background = "Normal",
-    },
+    size = function(term)
+      if term.direction == "horizontal" then
+        return 15
+      elseif term.direction == "vertical" then
+        return vim.o.columns * 0.4
+      end
+    end,
   })
 
   function _G.set_terminal_keymaps()
@@ -34,7 +37,7 @@ function M.config()
   end
 
   -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-  vim.cmd("autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()")
+  vim.cmd("autocmd TermOpen term://*toggleterm#* silent! lua set_terminal_keymaps()")
 end
 
 return M
