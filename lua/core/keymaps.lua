@@ -41,7 +41,7 @@ end
 
 local telescope_open_hidden = get_find_files_source(os.getenv("HOME") .. "/telescope_open_hidden.txt")
 
-local silent = {silent = true}
+local silent = { silent = true }
 map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>')
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>')
 map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>')
@@ -217,33 +217,29 @@ map(
   "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
 )
 
-map("n", "<C-t>", ":NvimTreeToggle<CR>")
+map("n", "<C-e>", ":NvimTreeToggle<CR>")
 map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>")
 map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>")
 
 map("i", "<C-E>", "<Plug>luasnip-next-choice")
 map("s", "<C-E>", "<Plug>luasnip-next-choice")
 
-local opts = { noremap = true, silent = true }
-map("n", "<C-b>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-map("n", "<C-n>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+map("n", "[g", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+map("n", "]g", "<cmd>lua vim.diagnostic.goto_next()<CR>")
 map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
-map("n", "<Tab>", ":BufferLineCycleNext<CR>")
-map("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
 map("i", "<S-Tab>", "<C-d>")
 map("n", "<C-w>", ":cnext<CR>")
 map("n", "<C-q>", ":cprevious<CR>")
 
-vim.cmd([[
-nmap < ]
-omap > [
-omap < ]
-xmap > [
-xmap < ]
-]])
+map("n", "<", "]", { noremap = false })
+map("o", "<", "]", { noremap = false })
+map("x", "<", "]", { noremap = false })
+map("n", ">", "[", { noremap = false })
+map("o", ">", "[", { noremap = false })
+map("x", ">", "[", { noremap = false })
 
 vim.cmd([[
 function! JiraSearch()

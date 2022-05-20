@@ -206,13 +206,20 @@ packer.startup({
     })
 
     use({
-      "akinsho/bufferline.nvim",
+      "romgrk/barbar.nvim",
+      requires = { "kyazdani42/nvim-web-devicons" },
       config = function()
-        require("configs.bufferline").setup()
+        require("configs.barbar").config()
       end,
-      branch = "main",
-      event = "BufWinEnter",
     })
+    -- use({
+    --   "akinsho/bufferline.nvim",
+    --   config = function()
+    --     require("configs.bufferline").setup()
+    --   end,
+    --   branch = "main",
+    --   event = "BufWinEnter",
+    -- })
 
     use({
       "mfussenegger/nvim-dap",
