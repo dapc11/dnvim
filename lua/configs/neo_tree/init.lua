@@ -9,7 +9,7 @@ function M.config()
 
   require("neo-tree").setup({
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
-    popup_border_style = "NC",
+    popup_border_style = "single",
     enable_git_status = true,
     enable_diagnostics = true,
     default_component_configs = {
@@ -80,8 +80,6 @@ function M.config()
         ["<cr>"] = "open",
         ["S"] = "open_split",
         ["s"] = "open_vsplit",
-        -- ["S"] = "split_with_window_picker",
-        -- ["s"] = "vsplit_with_window_picker",
         ["t"] = "open_tabnew",
         ["w"] = "open_with_window_picker",
         ["C"] = "close_node",
@@ -111,17 +109,6 @@ function M.config()
         visible = true, -- when true, they will just be displayed differently than normal items
         hide_dotfiles = true,
         hide_gitignored = true,
-        hide_hidden = true, -- only works on Windows for hidden files/directories
-        hide_by_name = {
-          --"node_modules"
-        },
-        hide_by_pattern = { -- uses glob style patterns
-          --"*.meta"
-        },
-        never_show = { -- remains hidden even if visible is toggled to true
-          --".DS_Store",
-          --"thumbs.db"
-        },
       },
       follow_current_file = true, -- This will find and focus the file in the active buffer every
       -- time the current file is changed while the tree is open.
@@ -131,7 +118,7 @@ function M.config()
       -- "open_current",  -- netrw disabled, opening a directory opens within the
       -- window like netrw would, regardless of window.position
       -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-      use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+      use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
       -- instead of relying on nvim autocmd events.
       window = {
         mappings = {

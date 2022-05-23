@@ -41,3 +41,11 @@
 -- hi("diffnewfile", { guifg = "#98c379" })
 -- hi("difffile", { guifg = "#e06c75" })
 -- hi("gitcommitsummary", { guifg = "#56b6c2" })
+vim.cmd([[
+highlight! link NeoTreeDirectoryIcon NvimTreeFolderIcon
+highlight! link NeoTreeDirectoryName NvimTreeFolderName
+highlight! link NeoTreeSymbolicLinkTarget NvimTreeSymlink
+highlight! link NeoTreeRootName NvimTreeRootFolder
+highlight! link NeoTreeDirectoryName NvimTreeOpenedFolderName
+highlight! link NeoTreeFileNameOpened NvimTreeOpenedFile
+]])

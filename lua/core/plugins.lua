@@ -197,12 +197,12 @@ packer.startup({
         require("configs.surround").config()
       end,
     })
-    use({
-      "dapc11/shade.nvim",
-      config = function()
-        require("configs.shade").config()
-      end,
-    })
+    -- use({
+    --   "dapc11/shade.nvim",
+    --   config = function()
+    --     require("configs.shade").config()
+    --   end,
+    -- })
     use({
       "echasnovski/mini.nvim",
       branch = "stable",
