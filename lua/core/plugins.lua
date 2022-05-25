@@ -205,14 +205,6 @@ packer.startup({
     -- })
 
     use({
-      "romgrk/barbar.nvim",
-      requires = { "kyazdani42/nvim-web-devicons" },
-      config = function()
-        require("configs.barbar").config()
-      end,
-    })
-
-    use({
       "mfussenegger/nvim-dap",
       -- event = "BufWinEnter",
       after = "nvim-dap-ui",
