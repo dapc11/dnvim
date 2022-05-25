@@ -55,6 +55,10 @@ vim.cmd([[
 set path+=**
 nnoremap <SPACE> <Nop>
 
+if executable("rg")
+  set grepprg=rg\ --vimgrep
+endif
+
 function! HighlightTodo()
 match none
 match Todo /TODO/
