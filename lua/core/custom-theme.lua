@@ -41,6 +41,9 @@
 -- hi("diffnewfile", { guifg = "#98c379" })
 -- hi("difffile", { guifg = "#e06c75" })
 -- hi("gitcommitsummary", { guifg = "#56b6c2" })
+hi("BufferCurrentTarget", { guifg = "#e06c75" })
+hi("BufferVisibleTarget", { guifg = "#e06c75" })
+hi("BufferInactiveTarget", { guifg = "#e06c75", guibg = "#282c34" })
 vim.cmd([[
 highlight! link NeoTreeDirectoryIcon NvimTreeFolderIcon
 highlight! link NeoTreeDirectoryName NvimTreeFolderName
