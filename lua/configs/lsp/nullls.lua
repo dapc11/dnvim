@@ -8,7 +8,7 @@ function M.config()
   end
 
   local enable_ls = function(bufnr)
-    return vim.api.nvim_buf_line_count(bufnr) < 4000
+    return vim.api.nvim_buf_line_count(bufnr) < 2000
   end
 
   local lsputils = require("utils")
