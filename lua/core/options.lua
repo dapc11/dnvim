@@ -1,48 +1,52 @@
-for key, val in pairs({
-  tabstop = 4,
-  softtabstop = 4,
-  shiftwidth = 4, -- 4 spaces
-  shiftround = true, -- Round tabs to multiplier of shiftwicth
-  smartindent = true,
-  ignorecase = true,
-  expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
-  relativenumber = true, -- relative line numbers to current line
-  cursorline = true, -- Highlgiht cursor line
-  hlsearch = true, -- Highlight search
-  hidden = true,
-  errorbells = false, -- No sound on error
-  nu = true, -- Line numbers
-  wrap = false,
-  swapfile = false,
-  backup = false,
-  undodir = os.getenv("HOME") .. "/.vim/undodir",
-  undofile = true,
-  incsearch = true, -- Evolve search as I write
-  termguicolors = true, -- Make colorscheme work
-  scrolloff = 8, -- Start scroll when n lines from screen edge
-  showmode = false,
-  colorcolumn = "100", -- Dont go further
-  updatetime = 50, -- Short time to combo key strokes
-  mouse = "a", -- Enable mouse
-  autoread = true,
-  completeopt = "menu,menuone,noselect",
-  shortmess = vim.o.shortmess .. "c",
-  clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
-  pumheight = 15, -- height of popup menu
-  splitbelow = true,
-  splitright = true,
-}) do
+for key, val in
+  pairs({
+    tabstop = 4,
+    softtabstop = 4,
+    shiftwidth = 4, -- 4 spaces
+    shiftround = true, -- Round tabs to multiplier of shiftwicth
+    smartindent = true,
+    ignorecase = true,
+    expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
+    relativenumber = true, -- relative line numbers to current line
+    cursorline = true, -- Highlgiht cursor line
+    hlsearch = true, -- Highlight search
+    hidden = true,
+    errorbells = false, -- No sound on error
+    nu = true, -- Line numbers
+    wrap = false,
+    swapfile = false,
+    backup = false,
+    undodir = os.getenv("HOME") .. "/.vim/undodir",
+    undofile = true,
+    incsearch = true, -- Evolve search as I write
+    termguicolors = true, -- Make colorscheme work
+    scrolloff = 8, -- Start scroll when n lines from screen edge
+    showmode = false,
+    colorcolumn = "100", -- Dont go further
+    updatetime = 50, -- Short time to combo key strokes
+    mouse = "a", -- Enable mouse
+    autoread = true,
+    completeopt = "menu,menuone,noselect",
+    shortmess = vim.o.shortmess .. "c",
+    clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
+    pumheight = 15, -- height of popup menu
+    splitbelow = true,
+    splitright = true,
+  })
+do
   vim.o[key] = val
 end
 
-for key, val in pairs({
-  mapleader = " ",
-  do_filetype_lua = 1,
-  indent_blankline_use_treesitter = true,
-  indent_blankline_show_first_indent_level = true,
-  indent_blankline_filetype_exclude = { "help" },
-  indentLine_setConceal = 0,
-}) do
+for key, val in
+  pairs({
+    mapleader = " ",
+    do_filetype_lua = 1,
+    indent_blankline_use_treesitter = true,
+    indent_blankline_show_first_indent_level = true,
+    indent_blankline_filetype_exclude = { "help" },
+    indentLine_setConceal = 0,
+  })
+do
   vim.g[key] = val
 end
 
@@ -60,16 +64,31 @@ set background=dark
 colorscheme onedark
 
 augroup QFClose
-  autocmd!
-  autocmd WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
+    autocmd WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
+    autocmd!
 augroup END
 augroup dapc
 autocmd!
- autocmd InsertLeave,WinEnter * set cursorline
- autocmd InsertEnter,WinLeave * set nocursorline
- autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
- autocmd TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
- autocmd BufReadPost,BufNewFile * :call HighlightTodo()
+    autocmd InsertLeave,WinEnter * set cursorline
+    autocmd InsertEnter,WinLeave * set nocursorline
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
+    autocmd TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
+    autocmd BufReadPost,BufNewFile * :call HighlightTodo()
+
+    function TelescopeIfEmpty()
+        if @% == ""
+            " No filename for current buffer
+            Telescope find_files
+        elseif filereadable(@%) == 0
+            " File doesn't exist yet
+            Telescope find_files
+        elseif line('$') == 1 && col('$') == 1
+            " File is empty
+            Telescope find_files
+        endif
+    endfunction
+
+    au VimEnter * call TelescopeIfEmpty()
 augroup END
 ]])
 local signs = {

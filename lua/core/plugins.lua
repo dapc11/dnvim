@@ -203,13 +203,6 @@ packer.startup({
     --     require("configs.shade").config()
     --   end,
     -- })
-    use({
-      "echasnovski/mini.nvim",
-      branch = "stable",
-      config = function()
-        require("configs.mini").config()
-      end,
-    })
 
     use({
       "romgrk/barbar.nvim",
