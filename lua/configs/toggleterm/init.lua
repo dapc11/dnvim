@@ -5,8 +5,8 @@ function M.config()
     open_mapping = [[<c-x>]],
     hide_numbers = true, -- hide the number column in toggleterm buffers
     shade_filetypes = {},
-    shade_terminals = true,
-    shading_factor = 2,
+    shade_terminals = false,
+    shading_factor = 1,
     start_in_insert = false,
     insert_mappings = true, -- whether or not the open mapping applies in insert mode
     persist_size = true,
