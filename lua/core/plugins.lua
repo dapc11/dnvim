@@ -66,14 +66,18 @@ packer.startup({
     use({
       "hrsh7th/nvim-cmp",
       after = "LuaSnip",
+      requires = {
+        "hrsh7th/cmp-nvim-lsp-signature-help",
+        "hrsh7th/cmp-nvim-lsp-document-symbol",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+      },
       config = function()
         require("configs.nvim_cmp").config()
       end,
     })
-    use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
-    use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" })
-    use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
-    use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" })
     use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
     use({ "ray-x/lsp_signature.nvim", after = "cmp-nvim-lsp" })
     use({

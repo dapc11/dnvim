@@ -92,6 +92,7 @@ function M.config()
     },
 
     sources = cmp.config.sources({
+      { name = "nvim_lsp_signature_help" },
       { name = "nvim_lsp" },
       { name = "luasnip" },
     }, {
@@ -106,6 +107,8 @@ function M.config()
         -- vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
         -- Source
         vim_item.menu = ({
+          nvim_lsp_signature_help = "[Sig]",
+          nvim_lsp_document_symbol = "[Doc]",
           buffer = "[Buf]",
           nvim_lsp = "[LSP]",
           luasnip = "[Snip]",
@@ -128,6 +131,7 @@ function M.config()
   cmp.setup.cmdline("/", {
     mapping = mapping,
     sources = {
+      { name = "nvim_lsp_document_symbol" },
       { name = "buffer", keyword_length = 2 },
     },
   })
