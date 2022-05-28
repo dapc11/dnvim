@@ -62,6 +62,15 @@ packer.startup({
         require("configs.luasnip").config()
       end,
     })
+
+    use({
+      "liuchengxu/vista.vim",
+      cmd = "Vista",
+      keys = "<leader>vv",
+      config = function()
+        require("configs.vista")
+      end,
+    })
     use({ "rafamadriz/friendly-snippets" })
     use({
       "hrsh7th/nvim-cmp",
