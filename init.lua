@@ -16,7 +16,11 @@ for _, source in ipairs(sources) do
     error("Failed to load " .. source .. "\n\n" .. fault)
   end
 end
-vim.cmd([[
-]])
+map("n", "<", "]", { noremap = false })
+map("o", "<", "]", { noremap = false })
+map("x", "<", "]", { noremap = false })
+map("n", ">", "[", { noremap = false })
+map("o", ">", "[", { noremap = false })
+map("x", ">", "[", { noremap = false })
 
 utils.compiled()

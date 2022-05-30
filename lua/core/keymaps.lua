@@ -234,13 +234,6 @@ map("i", "<S-Tab>", "<C-d>")
 map("n", "<C-w>", ":cnext<CR>")
 map("n", "<C-q>", ":cprevious<CR>")
 
-map("n", "<", "]", { noremap = false })
-map("o", "<", "]", { noremap = false })
-map("x", "<", "]", { noremap = false })
-map("n", ">", "[", { noremap = false })
-map("o", ">", "[", { noremap = false })
-map("x", ">", "[", { noremap = false })
-
 vim.cmd([[
 function! JiraSearch()
      silent! exec "silent! !google-chrome \"https://eteamproject.internal.ericsson.com/browse/" . @j . "\" &"
