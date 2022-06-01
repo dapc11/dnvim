@@ -7,8 +7,7 @@ function M.config()
   end
 
   local lsputils = require("utils")
-
-  vim.diagnostic.config(lsputils.diagnostics_config)
+  require("utils").lsp_handlers()
 
   local on_attach = function(client, bufnr)
     lsputils.lsp_signature(bufnr)
@@ -24,7 +23,6 @@ function M.config()
   for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup({
       on_attach = on_attach,
-      handlers = lsputils.handlers,
       capabilities = lsputils.capabilities,
       flags = lsputils.flags,
       settings = {
@@ -57,7 +55,6 @@ function M.config()
 
   lspconfig.yamlls.setup({
     on_attach = on_attach,
-    handlers = lsputils.handlers,
     capabilities = lsputils.capabilities,
     flags = lsputils.flags,
     filetypes = { "yaml", "tpl", "gotmpl" },
@@ -76,7 +73,6 @@ function M.config()
   lspconfig.sumneko_lua.setup({
     cmd = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
     on_attach = on_attach,
-    handlers = lsputils.handlers,
     capabilities = lsputils.capabilities,
     flags = lsputils.flags,
     settings = {
@@ -106,7 +102,6 @@ function M.config()
   local util = require("lspconfig/util")
   lspconfig.pyright.setup({
     on_attach = on_attach,
-    handlers = lsputils.handlers,
     capabilities = lsputils.capabilities,
     flags = lsputils.flags,
     settings = {

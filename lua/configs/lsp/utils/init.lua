@@ -11,34 +11,55 @@ end
 
 local M = {}
 
-M.diagnostics_config = {
-  virtual_text = {
-    source = "always",
-    severity = vim.diagnostic.severity.ERROR,
-    spacing = 1,
-  },
-  update_in_insert = true,
-  underline = {
-    severity = vim.diagnostic.severity.ERROR,
-  },
-  severity_sort = true,
-  float = {
-    source = "always",
-    header = "",
-    prefix = "",
-    border = "single",
-  },
-}
+M.lsp_handlers = function()
+  local function lspSymbol(name, icon)
+    local hl = "DiagnosticSign" .. name
+    vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+  end
 
-M.handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "single",
-  }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    border = "single",
-  }),
-}
+  lspSymbol("Error", "")
+  lspSymbol("Info", "")
+  lspSymbol("Hint", "")
+  lspSymbol("Warn", "")
 
+  vim.diagnostic.config({
+    virtual_text = {
+      source = "always",
+      severity = vim.diagnostic.severity.ERROR,
+      spacing = 1,
+    },
+    update_in_insert = true,
+    underline = {
+      severity = vim.diagnostic.severity.ERROR,
+    },
+    severity_sort = true,
+    float = {
+      source = "always",
+      header = "",
+      prefix = "",
+      border = "single",
+    },
+  })
+
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = "single",
+  })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = "single",
+  })
+
+  -- suppress error messages from lang servers
+  vim.notify = function(msg, log_level)
+    if msg:match("exit code") then
+      return
+    end
+    if log_level == vim.log.levels.ERROR then
+      vim.api.nvim_err_writeln(msg)
+    else
+      vim.api.nvim_echo({ { msg } }, true, {})
+    end
+  end
+end
 function M.lsp_keymaps(bufnr)
   local opts = {}
   vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)

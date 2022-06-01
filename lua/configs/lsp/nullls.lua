@@ -53,13 +53,11 @@ function M.config()
     null_ls.builtins.diagnostics.golangci_lint,
   }
 
-  vim.diagnostic.config(lsputils.diagnostics_config)
-
   local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+  require("utils").lsp_handlers()
   null_ls.setup({
     sources = sources,
     diagnostics_format = "[#{c}] #{m}",
-    handlers = lsputils.handlers,
     should_attach = function(bufnr)
       return not vim.api.nvim_buf_get_name(bufnr):match("^neo-tree")
     end,

@@ -1,54 +1,46 @@
-for key, val in
-  pairs({
-    tabstop = 4,
-    softtabstop = 4,
-    shiftwidth = 4, -- 4 spaces
-    shiftround = true, -- Round tabs to multiplier of shiftwicth
-    smartindent = true,
-    ignorecase = true,
-    expandtab = true, -- In Insert mode: Use the appropriate number of spaces to insert a tab
-    relativenumber = true, -- relative line numbers to current line
-    cursorline = true, -- Highlgiht cursor line
-    hlsearch = true, -- Highlight search
-    hidden = true,
-    errorbells = false, -- No sound on error
-    nu = true, -- Line numbers
-    wrap = false,
-    swapfile = false,
-    backup = false,
-    undodir = os.getenv("HOME") .. "/.vim/undodir",
-    undofile = true,
-    incsearch = true, -- Evolve search as I write
-    termguicolors = true, -- Make colorscheme work
-    scrolloff = 8, -- Start scroll when n lines from screen edge
-    showmode = false,
-    colorcolumn = "100", -- Dont go further
-    updatetime = 50, -- Short time to combo key strokes
-    mouse = "a", -- Enable mouse
-    autoread = true,
-    completeopt = "menu,menuone,noselect",
-    shortmess = vim.o.shortmess .. "c",
-    clipboard = vim.o.clipboard .. "unnamedplus", -- System clipboard
-    pumheight = 15, -- height of popup menu
-    splitbelow = true,
-    splitright = true,
-  })
-do
-  vim.o[key] = val
-end
+local opt = vim.opt
+local g = vim.g
 
-for key, val in
-  pairs({
-    mapleader = " ",
-    do_filetype_lua = 1,
-    indent_blankline_use_treesitter = true,
-    indent_blankline_show_first_indent_level = true,
-    indent_blankline_filetype_exclude = { "help" },
-    indentLine_setConceal = 0,
-  })
-do
-  vim.g[key] = val
-end
+opt.autoread = true
+opt.backup = false
+opt.clipboard = vim.o.clipboard .. "unnamedplus" -- System clipboard
+opt.colorcolumn = "100" -- Dont go further
+opt.completeopt = "menu,menuone,noselect"
+opt.cursorline = true -- Highlgiht cursor line
+opt.errorbells = false -- No sound on error
+opt.expandtab = true -- In Insert mode: Use the appropriate number of spaces to insert a tab
+opt.hidden = true
+opt.hlsearch = true -- Highlight search
+opt.ignorecase = true
+opt.incsearch = true -- Evolve search as I write
+opt.mouse = "a" -- Enable mouse
+opt.nu = true -- Line numbers
+opt.pumheight = 15 -- height of popup menu
+opt.relativenumber = true -- relative line numbers to current line
+opt.scrolloff = 8 -- Start scroll when n lines from screen edge
+opt.shiftround = true -- Round tabs to multiplier of shiftwicth
+opt.shiftwidth = 4 -- 4 spaces
+opt.shortmess = vim.o.shortmess .. "c"
+opt.showmode = false
+opt.smartindent = true
+opt.softtabstop = 4
+opt.splitbelow = true
+opt.splitright = true
+opt.swapfile = false
+opt.tabstop = 4
+opt.termguicolors = true -- Make colorscheme work
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+opt.undofile = true
+opt.updatetime = 50 -- Short time to combo key strokes
+opt.wrap = false
+opt.whichwrap:append("<>[]hl")
+
+g.mapleader = " "
+g.do_filetype_lua = 1
+g.indent_blankline_use_treesitter = true
+g.indent_blankline_show_first_indent_level = true
+g.indent_blankline_filetype_exclude = { "help" }
+g.indentLine_setConceal = 0
 
 vim.bo.matchpairs = "(:),{:},[:],<:>"
 vim.cmd([[
@@ -95,64 +87,19 @@ autocmd!
     au VimEnter * call TelescopeIfEmpty()
 augroup END
 ]])
-local signs = {
-  {
-    name = "DiagnosticSignError",
-    text = "",
-    type = "Error",
-  },
-  {
-    name = "DiagnosticSignWarn",
-    text = "",
-    type = "Warn",
-  },
-  {
-    name = "DiagnosticSignHint",
-    text = "",
-    type = "Hint",
-  },
-  {
-    name = "DiagnosticSignInfo",
-    text = "",
-    type = "Info",
-  },
-}
-
-for _, sign in ipairs(signs) do
-  local hl = "DiagnosticLineNr" .. sign.type
-  vim.fn.sign_define(sign.name, {
-    texthl = sign.name,
-    text = sign.text,
-    numhl = hl,
-  })
-end
-
-vim.g.rooter_pattern = {
-  "ruleset2.0.yaml",
-  "pom.xml",
-  ".git",
-  "Makefile",
-  "_darcs",
-  ".hg",
-  ".bzr",
-  ".svn",
-  "node_modules",
-  "CMakeLists.txt",
-}
 
 -- Bracketed paste
+-- Code from:
+-- http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
+-- then https://coderwall.com/p/if9mda
+-- and then https://github.com/aaronjensen/vimfiles/blob/59a7019b1f2d08c70c28a41ef4e2612470ea0549/plugin/terminaltweaks.vim
+-- to fix the escape time problem with insert mode.
+--
+-- Docs on bracketed paste mode:
+-- http://www.xfree86.org/current/ctlseqs.html
+-- Docs on mapping fast escape codes in vim
+-- http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 vim.cmd([[
-" Code from:
-" http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
-" then https://coderwall.com/p/if9mda
-" and then https://github.com/aaronjensen/vimfiles/blob/59a7019b1f2d08c70c28a41ef4e2612470ea0549/plugin/terminaltweaks.vim
-" to fix the escape time problem with insert mode.
-"
-" Docs on bracketed paste mode:
-" http://www.xfree86.org/current/ctlseqs.html
-" Docs on mapping fast escape codes in vim
-" http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
-
 if exists("g:loaded_bracketed_paste")
     finish
 endif
