@@ -29,9 +29,7 @@ M.lsp_handlers = function()
       spacing = 1,
     },
     update_in_insert = true,
-    underline = {
-      severity = vim.diagnostic.severity.ERROR,
-    },
+    underline = false,
     severity_sort = true,
     float = {
       source = "always",
@@ -65,6 +63,8 @@ function M.lsp_keymaps(bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-j>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "i", "<C-j>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
