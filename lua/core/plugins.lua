@@ -221,6 +221,7 @@ packer.startup({
       requires = {
         { "nvim-lua/plenary.nvim" },
         { "nvim-treesitter/nvim-treesitter" },
+        { "nvim-telescope/telescope.nvim" },
       },
       config = function()
         require("configs.refactoring").config()
