@@ -55,7 +55,7 @@ map(
   "<Leader>O",
   ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
 )
-map("n", "<Leader>w", ':lua require("telescope.builtin").grep_string()<CR>')
+map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>')
 map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>')
 map(
   "n",
@@ -224,15 +224,13 @@ map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>")
 map("i", "<C-E>", "<Plug>luasnip-next-choice")
 map("s", "<C-E>", "<Plug>luasnip-next-choice")
 
-map("n", "[g", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-map("n", "]g", "<cmd>lua vim.diagnostic.goto_next()<CR>")
 map("x", "ga", ":EasyAlign<CR>")
 map("n", "ga", ":EasyAlign<CR>")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
 map("i", "<S-Tab>", "<C-d>")
-map("n", "<C-w>", ":cnext<CR>")
-map("n", "<C-q>", ":cprevious<CR>")
+map("n", "[g", ":cnext<CR>")
+map("n", "]g", ":cprevious<CR>")
 
 vim.cmd([[
 function! JiraSearch()
