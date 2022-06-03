@@ -5,8 +5,8 @@ function M.config()
     options = {
       icons_enabled = true,
       theme = "onedark",
-      section_separators = "",
-      component_separators = "",
+      section_separators = { left = "", right = "" },
+      component_separators = { left = "", right = "" },
       disabled_filetypes = { "neo-tree" },
       always_divide_middle = true,
       globalstatus = true,
