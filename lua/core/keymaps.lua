@@ -229,8 +229,8 @@ map("n", "ga", ":EasyAlign<CR>")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
 map("i", "<S-Tab>", "<C-d>")
-map("n", "[g", ":cnext<CR>")
-map("n", "]g", ":cprevious<CR>")
+map("n", "]g", ":cnext<CR>")
+map("n", "[g", ":cprevious<CR>")
 
 vim.cmd([[
 function! JiraSearch()
