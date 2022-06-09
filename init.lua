@@ -8,7 +8,14 @@ utils.impatient()
 
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/nvim/lua/configs/lsp/?/init.lua"
 
-local sources = { "core.globals", "core.plugins", "core.options", "core.keymaps", "core.custom-theme" }
+local sources = {
+  "core.globals",
+  "core.plugins",
+  "core.options",
+  "core.autocommands",
+  "core.keymaps",
+  "core.custom-theme",
+}
 
 for _, source in ipairs(sources) do
   local ok, err_msg = pcall(require, source)

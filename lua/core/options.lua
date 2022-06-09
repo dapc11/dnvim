@@ -51,41 +51,8 @@ if executable("rg")
   set grepprg=rg\ --vimgrep
 endif
 
-function! HighlightTodo()
-match none
-match Todo /TODO/
-endfunc
-
 set background=dark
 colorscheme onedark
-
-augroup QFClose
-    autocmd WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
-    autocmd!
-augroup END
-augroup dapc
-autocmd!
-    autocmd InsertLeave,WinEnter * set cursorline
-    autocmd InsertEnter,WinLeave * set nocursorline
-    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
-    autocmd TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=250, on_visual=true}
-    autocmd BufReadPost,BufNewFile * :call HighlightTodo()
-
-    function TelescopeIfEmpty()
-        if @% == ""
-            " No filename for current buffer
-            Telescope find_files
-        elseif filereadable(@%) == 0
-            " File doesn't exist yet
-            Telescope find_files
-        elseif line('$') == 1 && col('$') == 1
-            " File is empty
-            Telescope find_files
-        endif
-    endfunction
-
-    au VimEnter * call TelescopeIfEmpty()
-augroup END
 ]])
 
 -- Bracketed paste
