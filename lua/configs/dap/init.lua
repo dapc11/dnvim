@@ -1,35 +1,24 @@
 local M = {}
 
-M.config = {
-  active = false,
-  on_config_done = nil,
-  breakpoint = {
-    text = "",
-    texthl = "LspDiagnosticsSignError",
-    linehl = "",
-    numhl = "",
-  },
-  breakpoint_rejected = {
-    text = "",
-    texthl = "LspDiagnosticsSignHint",
-    linehl = "",
-    numhl = "",
-  },
-  stopped = {
+M.setup = function()
+  local dap = require("dap")
+  vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "LspDiagnosticsSignError", linehl = "", numhl = "" })
+  vim.fn.sign_define(
+    "DapBreakpointRejected",
+    { text = "", texthl = "LspDiagnosticsSignHint", linehl = "", numhl = "" }
+  )
+  vim.fn.sign_define("DapStopped", {
     text = "",
     texthl = "LspDiagnosticsSignInformation",
     linehl = "DiagnosticUnderlineInfo",
     numhl = "LspDiagnosticsSignInformation",
-  },
-}
-
-M.setup = function()
-  local dap = require("dap")
-  dap.adapters.go = function(callback, config)
+  })
+  vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "", linehl = "", numhl = "" })
+  dap.adapters.go = function(callback, _)
     local stdout = vim.loop.new_pipe(false)
     local handle
     local pid_or_err
-    local port = 38697
+    local port = 12345
     local opts = {
       stdio = { nil, stdout },
       args = { "dap", "-l", "127.0.0.1:" .. port },
@@ -56,6 +45,7 @@ M.setup = function()
       callback({ type = "server", host = "127.0.0.1", port = port })
     end, 100)
   end
+
   -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
   dap.configurations.go = {
     {
@@ -63,6 +53,13 @@ M.setup = function()
       name = "Debug",
       request = "launch",
       program = "${file}",
+    },
+    {
+      type = "server",
+      name = "Attach",
+      mode = "local",
+      request = "attach",
+      processId = require("dap.utils").pick_process,
     },
     {
       type = "go",
@@ -110,7 +107,6 @@ M.setup = function()
       end,
     },
   }
-
   dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
 
   local wk = require("which-key")
@@ -118,29 +114,17 @@ M.setup = function()
     ["<leader>x"] = {
       name = "Debug",
       t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
-      b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
       c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
       C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
       d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-      g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
       i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
       o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
       u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
       p = { "<cmd>lua require'dap'.pause()<cr>", "Pause" },
       r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
-      s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
       q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
     },
   })
 end
-
--- TODO put this up there ^^^ call in ftplugin
-
--- M.dap = function()
---   if lvim.plugin.dap.active then
---     local dap_install = require "dap-install"
---     dap_install.config("python_dbg", {})
---   end
--- end
 
 return M
