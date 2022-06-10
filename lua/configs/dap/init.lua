@@ -21,7 +21,7 @@ M.setup = function()
     local port = 12345
     local opts = {
       stdio = { nil, stdout },
-      args = { "dap", "-l", "127.0.0.1:" .. port },
+      args = { "dap", "--log", "--log-output", "dap", "--log-dest", "dap.log", "-l", "127.0.0.1:" .. port },
       detached = true,
     }
     handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
