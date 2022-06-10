@@ -5,8 +5,8 @@ function M.config()
     options = {
       icons_enabled = true,
       theme = "onedark",
-      section_separators = { left = "", right = "" },
-      component_separators = { left = "", right = "" },
+      section_separators = {},
+      component_separators = {},
       disabled_filetypes = { "neo-tree" },
       always_divide_middle = true,
       globalstatus = true,
@@ -28,7 +28,7 @@ function M.config()
       lualine_z = {},
     },
     tabline = {
-      lualine_a = { "buffers" },
+      lualine_a = {},
       lualine_b = {},
       lualine_c = {},
       lualine_x = {},
