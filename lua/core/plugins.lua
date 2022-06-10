@@ -315,9 +315,6 @@ packer.startup({
       end,
     })
     use({ "rhysd/vim-grammarous" })
-    -- use({ "godlygeek/tabular" })
-    -- use({ "preservim/vim-markdown", after = "tabular" })
-    use({ "kevinhwang91/nvim-bqf", ft = "qf" })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
