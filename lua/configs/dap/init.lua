@@ -57,7 +57,7 @@ M.setup = function()
     {
       type = "server",
       name = "Attach",
-      mode = "local",
+      mode = "remote",
       request = "attach",
       processId = require("dap.utils").pick_process,
     },

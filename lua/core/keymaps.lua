@@ -82,6 +82,16 @@ map("n", "<A-3>", ":lua require('harpoon.ui').nav_file(3)<CR>")
 map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>")
 
 -- Fugitive
+vim.cmd([[
+function! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        G
+    endif
+endfunction
+]])
+map("n", "<C-g>", ":call ToggleGStatus()<CR>")
 map("n", "<leader>gg", ":Git<CR>")
 map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>")
 map("n", "<leader>gP", ":Git push<CR>")
