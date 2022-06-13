@@ -26,9 +26,9 @@ function M.config()
     key_labels = {
       -- override the label used to display some keys. It doesn't effect WK in any other way.
       -- For example:
-      -- ["<space>"] = "SPC",
-      -- ["<cr>"] = "RET",
-      -- ["<tab>"] = "TAB",
+      ["<space>"] = "SPC",
+      ["<cr>"] = "RET",
+      ["<tab>"] = "TAB",
     },
     icons = {
       breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
