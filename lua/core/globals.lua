@@ -1,4 +1,5 @@
 local function map_utils(rhs, opts)
+  opts = opts or {}
   local callback = nil
   if type(rhs) ~= "string" then
     callback = rhs
@@ -14,15 +15,14 @@ local function map_utils(rhs, opts)
 end
 
 function _G.map(mode, lhs, rhs, opts)
-  opts = opts or {}
   local r, o = map_utils(rhs, opts)
-  vim.api.nvim_set_keymap(mode, lhs, r, o)
+  vim.keymap.set(mode, lhs, r, o)
 end
 
 function _G.bmap(bufnr, mode, lhs, rhs, opts)
-  opts = opts or {}
   local r, o = map_utils(rhs, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, r, o)
+  local wk_opts = vim.tbl_extend("keep", o, { buffer = bufnr })
+  vim.keymap.set(mode, lhs, r, wk_opts)
 end
 
 function _G.au(event, filetype, action)

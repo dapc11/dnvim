@@ -25,7 +25,7 @@ function M.config()
     "v",
     "<leader>rr",
     "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-    { noremap = true }
+    { desc = "Refactor alternatives" }
   )
 end
 

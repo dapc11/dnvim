@@ -66,7 +66,6 @@ packer.startup({
     use({
       "liuchengxu/vista.vim",
       cmd = "Vista",
-      keys = "<leader>vv",
       config = function()
         require("configs.vista")
       end,

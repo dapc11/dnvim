@@ -1,6 +1,7 @@
 local M = {}
 function M.config()
-  require("which-key").setup({
+  local wk = require("which-key")
+  wk.setup({
     plugins = {
       marks = true, -- shows a list of your marks on ' and `
       registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -65,5 +66,33 @@ function M.config()
       v = { "j", "k" },
     },
   })
+
+  local mappings = {
+    n = {
+      ["<leader>"] = {
+        f = { name = "File" },
+        c = { name = "Code" },
+        z = { name = "Misc" },
+        x = { name = "Debug" },
+        g = { name = "Git" },
+        r = { name = "Refactor" },
+        w = { name = "Workspace" },
+        t = { name = "Theme" },
+      },
+    },
+  }
+
+  for mode, prefixes in pairs(mappings) do
+    for prefix, mapping_table in pairs(prefixes) do
+      wk.register(mapping_table, {
+        mode = mode,
+        prefix = prefix,
+        buffer = nil,
+        silent = true,
+        noremap = true,
+        nowait = true,
+      })
+    end
+  end
 end
 return M

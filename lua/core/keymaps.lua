@@ -23,63 +23,40 @@ local function table_to_string(tbl)
   return result .. "}"
 end
 
-local function get_find_files_source(path)
-  local file = io.open(path, "r")
-  local tbl = {}
-  local i = 0
-  if file then
-    for line in file:lines() do
-      i = i + 1
-      tbl[i] = line
-    end
-    file:close()
-  else
-    tbl[0] = "~"
-  end
-  return table_to_string(tbl)
-end
-
-local telescope_open_hidden = get_find_files_source(os.getenv("HOME") .. "/telescope_open_hidden.txt")
-
-local silent = { silent = true }
-map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>')
-map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>')
-map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>')
+map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>', { desc = "Find keymap" })
+map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>', { desc = "Find file in history" })
+map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>', { desc = "Find Git file" })
 map(
   "n",
   "<Leader>N",
-  ':lua require("telescope.builtin").git_files({git_command={"git","ls-files","--modified","--exclude-standard"}})<CR>'
+  ':lua require("telescope.builtin").git_files({git_command={"git","ls-files","--modified","--exclude-standard"}})<CR>',
+  { desc = "Find modified Git file" }
 )
 map(
   "n",
   "<Leader>O",
-  ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>'
+  ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false})<CR>',
+  { desc = "Find file (hidden and ignored included)" }
 )
-map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>')
-map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>')
--- map(
---   "n",
---   "<Leader>f",
---   ':lua require("telescope.builtin").find_files({hidden = true, no_ignore = true, previewer = false, search_dirs = '
---     .. telescope_open_hidden
---     .. "})<CR>"
--- )
+map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>', { desc = "Find word under cursor" })
+map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>', { desc = "Find file" })
 map(
   "n",
   "<leader><leader>",
-  ':lua require("telescope.builtin").live_grep({path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>'
+  ':lua require("telescope.builtin").live_grep({path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>',
+  { desc = "Grep in cwd" }
 )
-map("n", "<C-p>", ":Telescope projects<CR>")
-map("n", "<C-f>", ':lua require("telescope.builtin").current_buffer_fuzzy_find()<CR>')
-map("n", "<C-j>", ':lua require("telescope.builtin").jumplist()<CR>')
+map("n", "<C-p>", ":Telescope projects<CR>", { desc = "Find project" })
+map("n", "<C-f>", ':lua require("telescope.builtin").current_buffer_fuzzy_find()<CR>', { desc = "Find in buffer" })
+map("n", "<C-j>", ':lua require("telescope.builtin").jumplist()<CR>', { desc = "Find jump list" })
 
 -- Harpoon
-map("n", "<A-m>", ":lua require('harpoon.mark').add_file()<CR>")
-map("n", "<A-l>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>")
-map("n", "<A-1>", ":lua require('harpoon.ui').nav_file(1)<CR>")
-map("n", "<A-2>", ":lua require('harpoon.ui').nav_file(2)<CR>")
-map("n", "<A-3>", ":lua require('harpoon.ui').nav_file(3)<CR>")
-map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>")
+map("n", "<A-m>", ":lua require('harpoon.mark').add_file()<CR>", { desc = "Add current buffer to Harpoon" })
+map("n", "<A-l>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { desc = "Harpoon list" })
+map("n", "<A-1>", ":lua require('harpoon.ui').nav_file(1)<CR>", { desc = "First entry" })
+map("n", "<A-2>", ":lua require('harpoon.ui').nav_file(2)<CR>", { desc = "Second entry" })
+map("n", "<A-3>", ":lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Third entry" })
+map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth entry" })
 
 -- Fugitive
 vim.cmd([[
@@ -91,91 +68,92 @@ function! ToggleGStatus()
     endif
 endfunction
 ]])
-map("n", "<C-g>", ":call ToggleGStatus()<CR>")
-map("n", "<leader>gg", ":Git<CR>")
-map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>")
-map("n", "<leader>gP", ":Git push<CR>")
-map("n", "<leader>gt", ":!alacritty &<CR>")
-map("n", "<leader>gl", ":Git log --stat<CR>")
-map("n", "<leader>gG", ":Git grep -q ")
-map("n", "<leader>gs", ":Telescope git_stash<CR>")
-map("n", "<leader>gc", ":Telescope git_commits<CR>")
-map("n", "<leader>gb", ":Telescope git_branches<CR>")
+map("n", "<C-g>", ":call ToggleGStatus()<CR>", { desc = "Toggle Git status" })
+map("n", "<leader>gg", ":Git<CR>", { desc = "Status" })
+map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>", { desc = "Push Gerrit" })
+map("n", "<leader>gP", ":Git push<CR>", { desc = "Push" })
+map("n", "<leader>gt", ":!alacritty &<CR>", { desc = "Terminal" })
+map("n", "<leader>gl", ":Git log --stat<CR>", { desc = "Log" })
+map("n", "<leader>gG", ":Git grep -q ", { desc = "Grep" })
+map("n", "<leader>gs", ":Telescope git_stash<CR>", { desc = "Stash" })
+map("n", "<leader>gc", ":Telescope git_commits<CR>", { desc = "Commits" })
+map("n", "<leader>gb", ":Telescope git_branches<CR>", { desc = "Branch" })
 
 -- Misc
 map("n", "<SPACE>", "<Nop>")
 map("n", "<F1>", "<Nop>")
 
 -- Profiling
-map("n", "<Leader>zp", ":profile start nvim-profile.log | profile func * | profile file *")
+map(
+  "n",
+  "<Leader>zp",
+  ":profile start nvim-profile.log | profile func * | profile file *",
+  { desc = "Start profiling" }
+)
 
-map("v", "ä", "}")
-map("v", "ö", "{")
-map("n", "ä", "}")
-map("n", "ö", "{")
-map("t", "<Esc>", "<C-\\><C-n>")
+map("v", "ä", "}", { desc = "Next section" })
+map("v", "ö", "{", { desc = "Previous section" })
+map("n", "ä", "}", { desc = "Next section" })
+map("n", "ö", "{", { desc = "Previous section" })
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit insert mode terminal" })
 -- Don't copy the replaced text after pasting in visual mode
-map("v", "p", '"_dP')
+map("v", "p", '"_dP', { desc = "Paste" })
 map("v", "c", '"_c')
 map("v", "c", '"_c')
 
 -- Requires gvim
 -- Paste with shift+insert
-map("n", "<Leader>Y", '"*y<CR>')
-map("n", "<Leader>P", '"*p<CR>')
+map("n", "<Leader>Y", '"*y<CR>', { desc = "Yank (insert)" })
+map("n", "<Leader>P", '"*p<CR>', { desc = "Paste (insert" })
 -- Paste with ctrl+v
-map("n", "<Leader>y", '"+y<CR>')
-map("n", "<Leader>p", '"+p<CR>')
+map("n", "<Leader>y", '"+y<CR>', { desc = "Yank (ctrl-v)" })
+map("n", "<Leader>p", '"+p<CR>', { desc = "Paste (ctrl-v)" })
 
 -- Close buffer
-map("n", "<Leader>q", "<c-w>q<CR>")
-map("n", "<Leader>Q", ":qa<CR>")
-map("n", "Qa", ":qa<CR>")
-map("n", "W", ":noautocmd w<CR>")
--- map("n", "<Leader>w", ":noautocmd w<CR>")
+map("n", "<Leader>q", "<c-w>q<CR>", { desc = "Save and quit buffer" })
+map("n", "<Leader>Q", ":qa<CR>", { desc = "Quit" })
+map("n", "Qa", ":qa<CR>", { desc = "Quit" })
+map("n", "W", ":noautocmd w<CR>", { desc = "Save without format" })
+-- map("n", "<Leader>w", ":noautocmd w<CR>", { desc = ""})
 
 -- Commandline
-map("c", "<C-a>", "<Home>")
-map("c", "<C-e>", "<End>")
-map("c", "<M-Left>", "<S-Left>")
-map("c", "<M-Right>", "<S-Right>")
-map("c", "<M-BS>", "<C-W>")
-map("c", "<C-BS>", "<C-W>")
+map("c", "<C-a>", "<Home>", { desc = "Beginning of line" })
+map("c", "<C-e>", "<End>", { desc = "End of line" })
+map("c", "<M-Left>", "<S-Left>", { desc = "Navigate to previous word" })
+map("c", "<M-Right>", "<S-Right>", { desc = "Navigate to next word" })
+map("c", "<M-BS>", "<C-W>", { desc = "Remove whole word" })
+map("c", "<C-BS>", "<C-W>", { desc = "Remove whole word" })
 
 -- Paste without overwrite default register
-map("x", "p", "pgvy")
+map("x", "p", "pgvy", { desc = "Paste without overwriting default reg" })
 
 -- Center search results
-map("n", "n", "nzzzv")
-map("n", "N", "Nzzzv")
+map("n", "n", "nzzzv", { desc = "Next search result" })
+map("n", "N", "Nzzzv", { desc = "Previous search result" })
 
-map("n", "m", ':<C-U>lua require("tsht").nodes()<CR>', silent)
-map("v", "m", ':lua require("tsht").nodes()<CR>', silent)
+map("n", "m", ':<C-U>lua require("tsht").nodes()<CR>', { desc = "Normal mode select nodes" })
+map("v", "m", ':lua require("tsht").nodes()<CR>', { desc = "Visual mode select nodes" })
 
-map("n", "<C-Left>", "<C-W>h", silent)
-map("n", "<C-Down>", "<C-W>j", silent)
-map("n", "<C-Up>", "<C-W>k", silent)
-map("n", "<C-Right>", "<C-W>l", silent)
+map("n", "<C-Left>", "<C-W>h", { desc = "Navigate to left pane" })
+map("n", "<C-Down>", "<C-W>j", { desc = "Navigate to bottom pane" })
+map("n", "<C-Up>", "<C-W>k", { desc = "Navigate to top pane" })
+map("n", "<C-Right>", "<C-W>l", { desc = "Navigate to right pane" })
 
--- Shift lines up and down
-map("n", "<S-Down>", ":m .+1<CR>==", silent)
-map("n", "<S-Up>", ":m .-2<CR>==", silent)
-map("v", "<S-Down>", ":m '>+1<CR>gv=gv", silent)
-map("v", "<S-Up>", ":m '<-2<CR>gv=gv", silent)
+map("n", "<S-Down>", ":m .+1<CR>==", { desc = "Shift line down" })
+map("n", "<S-Up>", ":m .-2<CR>==", { desc = "Shift line up" })
+map("v", "<S-Down>", ":m '>+1<CR>gv=gv", { desc = "Shift selected lines down" })
+map("v", "<S-Up>", ":m '<-2<CR>gv=gv", { desc = "Shift selected lines up" })
 
--- Beginning and end of line
-map("i", "<C-a>", "<home>", { noremap = false })
-map("i", "<C-e>", "<end>", { noremap = false })
+map("i", "<C-a>", "<home>", { desc = "Beginning of line", noremap = false })
+map("i", "<C-e>", "<end>", { desc = "End of line", noremap = false })
 
--- Control-V Paste in insert and command mode
-map("i", "<C-v>", "<esc>pa", { noremap = false })
-map("c", "<C-v>", "<C-r>0", { noremap = false })
+map("i", "<C-v>", "<esc>pa", { desc = "Paste", noremap = false })
+map("c", "<C-v>", "<C-r>0", { desc = "Paste", noremap = false })
 
--- Remap number increment to alt
-map("n", "<A-a>", "<C-a>")
-map("v", "<A-a>", "<C-a>")
-map("n", "<A-x>", "<C-x>")
-map("v", "<A-x>", "<C-x>")
+map("n", "<A-a>", "<C-a>", { desc = "Increment number" })
+map("v", "<A-a>", "<C-a>", { desc = "Increment number" })
+map("n", "<A-x>", "<C-x>", { desc = "Decrement number" })
+map("v", "<A-x>", "<C-x>", { desc = "Decrement number" })
 
 vim.cmd([[
     " Sane navigation in command mode
@@ -192,10 +170,8 @@ vim.cmd([[
     endfunction
     command! ClearQuickfixList call ClearQuickfixList()
 ]])
-map("n", "<leader>cc", ":ClearQuickfixList<CR>")
-map("x", "ga", ":EasyAlign<CR>")
-map("n", "ga", ":EasyAlign<CR>")
-map("n", "<leader>l", ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>")
+map("n", "<leader>cc", ":ClearQuickfixList<CR>", { desc = "Clear qf" })
+map("n", "<leader>l", ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>", { desc = "Clear highlights" })
 map(
   "n",
   "f",
@@ -227,32 +203,29 @@ map(
   "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>"
 )
 
-map("n", "<C-e>", ":NeoTreeShowToggle<CR>")
-map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>")
-map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>")
+map("n", "<C-e>", ":NeoTreeShowToggle<CR>", { desc = "Toggle neo-tree" })
+map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>", { desc = "Disable diagnostics" })
+map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>", { desc = "Enable diagnostics" })
 
-map("i", "<C-E>", "<Plug>luasnip-next-choice")
-map("s", "<C-E>", "<Plug>luasnip-next-choice")
+map("i", "<C-E>", "<Plug>luasnip-next-choice", { desc = "Next choice" })
+map("s", "<C-E>", "<Plug>luasnip-next-choice", { desc = "Next choice" })
 
-map("x", "ga", ":EasyAlign<CR>")
-map("n", "ga", ":EasyAlign<CR>")
-map("v", "<Tab>", ">gv")
-map("v", "<S-Tab>", "<gv")
-map("i", "<S-Tab>", "<C-d>")
-map("n", "]g", ":cnext<CR>")
-map("n", "[g", ":cprevious<CR>")
-map("n", "<C-b>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
-map("v", "<M-k>", "<Cmd>lua require('dapui').eval()<CR>")
+map("x", "ga", ":EasyAlign<CR>", { desc = "Align" })
+map("n", "ga", ":EasyAlign<CR>", { desc = "Align" })
+map("v", "<Tab>", ">gv", { desc = "Increase indentation" })
+map("v", "<S-Tab>", "<gv", { desc = "Decrease indentation" })
+map("i", "<S-Tab>", "<C-d>", { desc = "Decrease indentation" })
+map("n", "]g", ":cnext<CR>", { desc = "Next in qf" })
+map("n", "[g", ":cprevious<CR>", { desc = "Prev in qf" })
+map("n", "<C-b>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "Toggle breakpoint" })
+map("v", "<M-k>", "<Cmd>lua require('dapui').eval()<CR>", { desc = "Evaluate expression" })
 
 vim.cmd([[
 function! JiraSearch()
      silent! exec "silent! !google-chrome \"https://eteamproject.internal.ericsson.com/browse/" . @j . "\" &"
 endfunction
-vnoremap <leader>fj "jy<Esc>:call JiraSearch()<CR>
 function! UrlEncode(string)
-
     let result = ""
-
     let characters = split(a:string, '.\zs')
     for character in characters
         if character == " "
@@ -269,9 +242,7 @@ function! UrlEncode(string)
             let result = result . character
         endif
     endfor
-
     return result
-
 endfunction
 
 " Returns 1 if the given character should be percent-encoded in a URL encoded
@@ -298,13 +269,13 @@ function! GoogleSearch()
    let searchterm = substitute(searchterm, "\n", " ", "g")
    let searchterm = UrlEncode(searchterm)
    let searchterm = shellescape(searchterm, 1)
-   silent! exec "!google-chrome 'https://google.com/search?q=" . searchterm . "'"
+   silent! exec "!google-chrome 'https://google.com/search?q=" . searchterm . "' &"
    redraw!
 endfunction
-vnoremap <leader>fg "gy<Esc>:call GoogleSearch()<CR>
-" Added this to google the word under the cursor
-nnoremap <leader>fgw b"gye:call GoogleSearch()<CR>
 ]])
+map("n", "<leader>fg", 'b"gye:call GoogleSearch()<CR>', { desc = "Google word under cursor" })
+map("v", "<leader>fj", "jy<Esc>:call JiraSearch()<CR>", { desc = "Open Jira ticket" })
+map("n", "<leader>zv", "<cmd>Vista!!<CR>", { desc = "Vista: toggle" })
 
 vim.cmd([[
 if has("unix")
