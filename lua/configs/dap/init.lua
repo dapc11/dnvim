@@ -114,7 +114,7 @@ M.setup = function()
   wk.register({
     ["<leader>x"] = {
       name = "+Debug",
-      t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+      b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
       c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
       C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
       d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
@@ -124,7 +124,7 @@ M.setup = function()
       p = { "<cmd>lua require'dap'.pause()<cr>", "Pause" },
       r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
       q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
-      a = { "<cmd>lua require'dap-go'.debug_test()<cr>", "Debug test under cursor" },
+      t = { "<cmd>lua require'dap-go'.debug_test()<cr>", "Debug test under cursor" },
     },
   })
 end
