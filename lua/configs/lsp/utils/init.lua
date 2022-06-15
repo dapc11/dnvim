@@ -29,7 +29,7 @@ M.lsp_handlers = function()
       spacing = 1,
     },
     update_in_insert = true,
-    underline = false,
+    underline = true,
     severity_sort = true,
     float = {
       source = "always",
