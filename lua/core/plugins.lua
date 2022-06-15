@@ -232,7 +232,7 @@ packer.startup({
         require("configs.surround").config()
       end,
     })
-
+    use("leoluz/nvim-dap-go")
     use({
       "mfussenegger/nvim-dap",
       -- event = "BufWinEnter",

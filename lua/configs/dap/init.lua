@@ -65,6 +65,7 @@ M.setup = function()
       type = "go",
       name = "Debug test", -- configuration for debugging test files
       request = "launch",
+      showLog = true,
       mode = "test",
       program = "${file}",
     },
@@ -112,7 +113,7 @@ M.setup = function()
   local wk = require("which-key")
   wk.register({
     ["<leader>x"] = {
-      name = "Debug",
+      name = "+Debug",
       t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
       c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
       C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
@@ -123,6 +124,7 @@ M.setup = function()
       p = { "<cmd>lua require'dap'.pause()<cr>", "Pause" },
       r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
       q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+      a = { "<cmd>lua require'dap-go'.debug_test()<cr>", "Debug test under cursor" },
     },
   })
 end
