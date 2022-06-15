@@ -326,6 +326,19 @@ packer.startup({
       end,
     })
     use({ "rhysd/vim-grammarous" })
+    use({
+      "plasticboy/vim-markdown",
+      requires = "godlygeek/tabular",
+      ft = "markdown",
+    })
+    use({
+      "iamcco/markdown-preview.nvim",
+      run = function()
+        vim.fn["mkdp#util#install"]()
+      end,
+      ft = "markdown",
+      cmd = { "MarkdownPreview" },
+    })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
