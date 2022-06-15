@@ -59,24 +59,29 @@ M.lsp_handlers = function()
   end
 end
 function M.lsp_keymaps(bufnr)
-  map("n", "<space>e", vim.diagnostic.open_float, { desc = "View diagnostic" })
-  map("n", "[d", vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
-  map("n", "]d", vim.diagnostic.goto_next, { desc = "Previous diagnostic" })
-  map("n", "<space>cq", vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
-  bmap(bufnr, "n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
-  bmap(bufnr, "n", "gd", vim.lsp.buf.definition, { desc = "Goto definition" })
-  bmap(bufnr, "n", "K", vim.lsp.buf.hover, { desc = "Show hover information" })
-  bmap(bufnr, "n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation" })
-  bmap(bufnr, "n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
-  bmap(bufnr, "i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
-  bmap(bufnr, "n", "<space>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace" })
-  bmap(bufnr, "n", "<space>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove worksapce" })
-  bmap(bufnr, "n", "<space>wl", vim.lsp.buf.list_workspace_folders, { desc = "List workspace folders" })
-  bmap(bufnr, "n", "<space>D", vim.lsp.buf.type_definition, { desc = "View type definition" })
-  bmap(bufnr, "n", "<space>rn", vim.lsp.buf.rename, { desc = "Rename" })
-  bmap(bufnr, "n", "<space>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
-  bmap(bufnr, "n", "<space>cf", vim.lsp.buf.formatting, { desc = "Format current buffer" })
-  bmap(bufnr, "n", "gr", vim.lsp.buf.references, { desc = "Show references" })
+  vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "View diagnostic" })
+  vim.keymap.set("n", "<d", vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
+  vim.keymap.set("n", ">d", vim.diagnostic.goto_next, { desc = "Previous diagnostic" })
+  vim.keymap.set("n", "<space>cl", vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition", buffer = bufnr })
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show hover information", buffer = bufnr })
+  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation", buffer = bufnr })
+  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help", buffer = bufnr })
+  vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help", buffer = bufnr })
+  vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace", buffer = bufnr })
+  vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove worksapce", buffer = bufnr })
+  vim.keymap.set(
+    "n",
+    "<space>wl",
+    vim.lsp.buf.list_workspace_folders,
+    { desc = "List workspace folders", buffer = bufnr }
+  )
+  vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, { desc = "View type definition", buffer = bufnr })
+  vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { desc = "Rename", buffer = bufnr })
+  vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { desc = "Code actions", buffer = bufnr })
+  vim.keymap.set("n", "<space>cf", vim.lsp.buf.formatting, { desc = "Format current buffer", buffer = bufnr })
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Show references", buffer = bufnr })
 end
 
 function M.lsp_highlight_document(client)

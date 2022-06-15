@@ -30,5 +30,11 @@ map("x", "<", "]", { noremap = false })
 map("n", ">", "[", { noremap = false })
 map("o", ">", "[", { noremap = false })
 map("x", ">", "[", { noremap = false })
-
+-- vim.api.nvim_command([[autocmd CursorHold   * lua require'core.utils'.blameVirtText()]])
+-- vim.api.nvim_command([[autocmd CursorMoved  * lua require'core.utils'.clearBlameVirtText()]])
+-- vim.api.nvim_command([[autocmd CursorMovedI * lua require'core.utils'.clearBlameVirtText()]])
+--
+-- vim.cmd([[
+--     hi! link GitLens Comment
+-- ]])
 utils.compiled()
