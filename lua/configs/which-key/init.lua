@@ -70,14 +70,15 @@ function M.config()
   local mappings = {
     n = {
       ["<leader>"] = {
-        f = { name = "File" },
-        c = { name = "Code" },
-        z = { name = "Misc" },
-        x = { name = "Debug" },
-        g = { name = "Git" },
-        r = { name = "Refactor" },
-        w = { name = "Workspace" },
-        t = { name = "Theme" },
+        f = { name = "+File" },
+        c = { name = "+Code" },
+        z = { name = "+Misc" },
+        x = { name = "+Debug" },
+        g = { name = "+Git" },
+        r = { name = "+Refactor" },
+        w = { name = "+Workspace" },
+        t = { name = "+Theme" },
+        p = { name = "+Packer" },
       },
     },
   }

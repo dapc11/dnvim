@@ -1,28 +1,4 @@
 -- Fuzzy find
-local function table_to_string(tbl)
-  local result = "{"
-  for k, v in pairs(tbl) do
-    if type(k) == "string" then
-      result = result .. '["' .. k .. '"]' .. "="
-    end
-
-    -- Check the value type
-    if type(v) == "table" then
-      result = result .. table_to_string(v)
-    elseif type(v) == "boolean" then
-      result = result .. tostring(v)
-    else
-      result = result .. '"' .. v .. '"'
-    end
-    result = result .. ","
-  end
-  -- Remove leading commas from the result
-  if result ~= "" then
-    result = result:sub(1, result:len() - 1)
-  end
-  return result .. "}"
-end
-
 map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>', { desc = "Find keymap" })
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>', { desc = "Find file in history" })
 map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>', { desc = "Find Git file" })
@@ -58,7 +34,7 @@ map("n", "<A-2>", ":lua require('harpoon.ui').nav_file(2)<CR>", { desc = "Second
 map("n", "<A-3>", ":lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Third entry" })
 map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth entry" })
 
--- Fugitive
+-- Git
 vim.cmd([[
 function! ToggleGStatus()
     if buflisted(bufname('.git/index'))
@@ -98,23 +74,14 @@ map("n", "ö", "{", { desc = "Previous section" })
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit insert mode terminal" })
 -- Don't copy the replaced text after pasting in visual mode
 map("v", "p", '"_dP', { desc = "Paste" })
+-- Don't copy the replaced text after changing in visual mode
 map("v", "c", '"_c')
 map("v", "c", '"_c')
 
--- Requires gvim
--- Paste with shift+insert
-map("n", "<Leader>Y", '"*y<CR>', { desc = "Yank (insert)" })
-map("n", "<Leader>P", '"*p<CR>', { desc = "Paste (insert" })
--- Paste with ctrl+v
-map("n", "<Leader>y", '"+y<CR>', { desc = "Yank (ctrl-v)" })
-map("n", "<Leader>p", '"+p<CR>', { desc = "Paste (ctrl-v)" })
-
--- Close buffer
 map("n", "<Leader>q", "<c-w>q<CR>", { desc = "Save and quit buffer" })
 map("n", "<Leader>Q", ":qa<CR>", { desc = "Quit" })
 map("n", "Qa", ":qa<CR>", { desc = "Quit" })
 map("n", "W", ":noautocmd w<CR>", { desc = "Save without format" })
--- map("n", "<Leader>w", ":noautocmd w<CR>", { desc = ""})
 
 -- Commandline
 map("c", "<C-a>", "<Home>", { desc = "Beginning of line" })
@@ -219,6 +186,11 @@ map("n", "]g", ":cnext<CR>", { desc = "Next in qf" })
 map("n", "[g", ":cprevious<CR>", { desc = "Prev in qf" })
 map("n", "<C-b>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "Toggle breakpoint" })
 map("v", "<M-k>", "<Cmd>lua require('dapui').eval()<CR>", { desc = "Evaluate expression" })
+
+-- Packer
+map("n", "<leader>ps", ":PackerSync<CR>", { desc = "Sync" })
+map("n", "<leader>pc", ":PackerCompile<CR>", { desc = "Compile" })
+map("n", "<leader>pl", ":PackerClean<CR>", { desc = "Clean" })
 
 vim.cmd([[
 function! JiraSearch()
