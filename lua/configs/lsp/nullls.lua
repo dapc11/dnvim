@@ -62,10 +62,22 @@ function M.config()
       return not vim.api.nvim_buf_get_name(bufnr):match("^neo-tree")
     end,
     on_attach = function(client, bufnr)
-      vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {})
-      vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", {})
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Show tooltip" })
+      vim.api.nvim_buf_set_keymap(
+        bufnr,
+        "n",
+        "<space>ca",
+        "<cmd>lua vim.lsp.buf.code_action()<CR>",
+        { desc = "Code actions" }
+      )
       if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
+        vim.api.nvim_buf_set_keymap(
+          bufnr,
+          "n",
+          "<space>cf",
+          "<cmd>lua vim.lsp.buf.formatting()<CR>",
+          { desc = "Format file" }
+        )
         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
         vim.api.nvim_create_autocmd("BufWritePre", {
           group = augroup,
