@@ -61,18 +61,10 @@ M.setup = function()
       request = "attach",
       processId = require("dap.utils").pick_process,
     },
-    {
-      type = "go",
-      name = "Debug test", -- configuration for debugging test files
-      request = "launch",
-      showLog = true,
-      mode = "test",
-      program = "${file}",
-    },
     -- works with go.mod packages and sub packages
     {
       type = "go",
-      name = "Debug test (go.mod)",
+      name = "Debug test",
       request = "launch",
       mode = "test",
       program = "./${relativeFileDirname}",
