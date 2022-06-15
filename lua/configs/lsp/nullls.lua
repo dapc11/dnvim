@@ -14,7 +14,7 @@ function M.config()
   local lsputils = require("utils")
 
   local write_good = null_ls.builtins.diagnostics.write_good.with({
-    filetypes = { "markdown", "gitcommit", "text" },
+    filetypes = { "markdown", "text" },
     runtime_condition = function(params)
       return enable_ls(params.bufnr)
     end,
