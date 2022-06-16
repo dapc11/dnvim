@@ -12,6 +12,7 @@ function M.config()
     popup_border_style = "single",
     enable_git_status = true,
     enable_diagnostics = false,
+    open_files_in_last_window = false,
     default_component_configs = {
       container = {
         enable_character_fade = false,
