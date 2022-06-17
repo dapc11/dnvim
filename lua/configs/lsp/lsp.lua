@@ -10,7 +10,6 @@ function M.config()
   require("utils").lsp_handlers()
 
   local on_attach = function(client, bufnr)
-    lsputils.lsp_signature(bufnr)
     lsputils.lsp_keymaps(bufnr)
     lsputils.lsp_highlight_document(client)
     client.resolved_capabilities.document_formatting = false

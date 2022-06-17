@@ -1,8 +1,3 @@
-local status_ok, lspsignature = pcall(require, "lsp_signature")
-if not status_ok then
-  error("Failed loading lsp_signature")
-  return
-end
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then
   error("Failed loading cmp_nvim_lsp")
@@ -100,16 +95,6 @@ function M.lsp_highlight_document(client)
   end
 end
 
-function M.lsp_signature(bufnr)
-  lspsignature.on_attach({
-    bind = true, -- This is mandatory, otherwise border config won"t get registered.
-    handler_opts = {
-      border = "single",
-    },
-    hint_prefix = " ",
-    max_height = 8,
-  }, bufnr)
-end
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
 M.flags = {
