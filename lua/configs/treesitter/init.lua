@@ -32,6 +32,7 @@ function M.config()
       "vim",
       "toml",
       "markdown",
+      "comment",
     },
     highlight = {
       enable = true,
