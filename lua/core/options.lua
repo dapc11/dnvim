@@ -20,7 +20,7 @@ opt.relativenumber = true -- relative line numbers to current line
 opt.scrolloff = 8 -- Start scroll when n lines from screen edge
 opt.shiftround = true -- Round tabs to multiplier of shiftwicth
 opt.shiftwidth = 4 -- 4 spaces
-opt.shortmess = vim.o.shortmess .. "c"
+opt.shortmess:append("c")
 opt.showmode = false
 opt.smartindent = true
 opt.softtabstop = 4
@@ -78,9 +78,6 @@ g.vim_markdown_folding_style_pythonic = 1
 g.vim_markdown_conceal_code_blocks = 0
 g.vim_markdown_frontmatter = 1
 g.vim_markdown_strikethrough = 1
-
-vim.cmd([[autocmd FileType markdown nnoremap gO <cmd>Toc<cr>]])
-vim.cmd([[autocmd FileType markdown setlocal spell]])
 
 -- Bracketed paste
 -- Code from:

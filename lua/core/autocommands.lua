@@ -1,34 +1,3 @@
-vim.cmd([[
-    function! HighlightTodo()
-        match none
-        match Todo /TODO/
-    endfunc
-    augroup QFClose
-        autocmd WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
-        autocmd!
-    augroup END
-    augroup dapc
-    autocmd!
-        autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
-        autocmd BufReadPost,BufNewFile * :call HighlightTodo()
-
-        function TelescopeIfEmpty()
-            if @% == ""
-                " No filename for current buffer
-                Telescope find_files
-            elseif filereadable(@%) == 0
-                " File doesn't exist yet
-                Telescope find_files
-            elseif line('$') == 1 && col('$') == 1
-                " File is empty
-                Telescope find_files
-            endif
-        endfunction
-
-        au VimEnter * call TelescopeIfEmpty()
-    augroup END
-]])
-
 local augroups = {}
 
 augroups.buf_write_pre = {
@@ -61,6 +30,31 @@ augroups.filetype_behaviour = {
 }
 
 augroups.misc = {
+  telescope_on_startup = {
+    event = "VimEnter",
+    pattern = "*",
+    command = [[
+        function TelescopeIfEmpty()
+            if @% == ""
+                " No filename for current buffer
+                Telescope find_files
+            elseif filereadable(@%) == 0
+                " File doesn't exist yet
+                Telescope find_files
+            elseif line('$') == 1 && col('$') == 1
+                " File is empty
+                Telescope find_files
+            endif
+        endfunction
+
+        call TelescopeIfEmpty()
+    ]],
+  },
+  quickfix_close = {
+    event = "WinEnter",
+    pattern = "*",
+    command = [[ if winnr('$') == 1 && &buftype == "quickfix"|q|endif ]],
+  },
   highlight_yank = {
     event = "TextYankPost",
     pattern = "*",
@@ -91,12 +85,29 @@ augroups.misc = {
   },
 }
 
+augroups.lang = {
+  yaml = {
+    event = "FileType",
+    pattern = { "yml", "yaml" },
+    callback = function()
+      vim.opt_local.shiftwidth = 2
+      vim.opt_local.tabstop = 2
+      vim.opt_local.softtabstop = 2
+      vim.opt_local.expandtab = true
+      vim.opt_local.indentkeys:append("0#")
+      vim.opt_local.indentkeys:append("<:>")
+    end,
+  },
+}
+
 augroups.prose = {
   wrap = {
     event = "FileType",
     pattern = { "markdown", "tex" },
     callback = function()
       vim.opt_local.wrap = true
+      vim.opt_local.spell = true
+      bmap(0, "n", "gO", "<cmd>Toc<cr>", { desc = "View ToC" })
     end,
   },
 }
@@ -106,8 +117,7 @@ augroups.quit = {
     event = "FileType",
     pattern = { "checkhealth", "fugitive", "git*", "help", "lspinfo" },
     callback = function()
-      -- vim.api.nvim_win_close(0, true) -- TODO: Replace vim command with this
-      vim.api.nvim_buf_set_keymap(0, "n", "q", "<cmd>close!<cr>", { noremap = true, silent = true })
+      bmap(0, "n", "q", "<cmd>close!<cr>")
     end,
   },
 }
