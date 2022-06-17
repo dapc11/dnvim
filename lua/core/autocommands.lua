@@ -30,6 +30,41 @@ augroups.filetype_behaviour = {
 }
 
 augroups.misc = {
+  large_files_enhancements = {
+    event = "BufRead",
+    pattern = "*",
+    callback = function()
+      if vim.fn.expand("%:t") == "lsp.log" or vim.bo.filetype == "help" then
+        return
+      end
+
+      local size = vim.fn.getfsize(vim.fn.expand("%"))
+      if size > 1024 * 1024 * 5 then
+        local hlsearch = vim.opt.hlsearch
+        local lazyredraw = vim.opt.lazyredraw
+        local showmatch = vim.opt.showmatch
+
+        vim.bo.undofile = false
+        vim.wo.colorcolumn = ""
+        vim.wo.relativenumber = false
+        vim.wo.foldmethod = "manual"
+        vim.wo.spell = false
+        vim.opt.hlsearch = false
+        vim.opt.lazyredraw = true
+        vim.opt.showmatch = false
+
+        vim.api.nvim_create_autocmd("BufDelete", {
+          buffer = 0,
+          callback = function()
+            vim.opt.hlsearch = hlsearch
+            vim.opt.lazyredraw = lazyredraw
+            vim.opt.showmatch = showmatch
+          end,
+          desc = "set the global settings back to what they were before",
+        })
+      end
+    end,
+  },
   telescope_on_startup = {
     event = "VimEnter",
     pattern = "*",
@@ -46,7 +81,6 @@ augroups.misc = {
                 Telescope find_files
             endif
         endfunction
-
         call TelescopeIfEmpty()
     ]],
   },
@@ -86,6 +120,26 @@ augroups.misc = {
 }
 
 augroups.lang = {
+  python = {
+    event = "FileType",
+    pattern = { "py" },
+    callback = function()
+      vim.opt_local.shiftwidth = 4
+      vim.opt_local.tabstop = 4
+      vim.opt_local.softtabstop = 4
+      vim.opt_local.expandtab = true
+    end,
+  },
+  lua = {
+    event = "FileType",
+    pattern = { "lua" },
+    callback = function()
+      vim.opt_local.shiftwidth = 2
+      vim.opt_local.tabstop = 2
+      vim.opt_local.softtabstop = 2
+      vim.opt_local.expandtab = true
+    end,
+  },
   yaml = {
     event = "FileType",
     pattern = { "yml", "yaml" },
