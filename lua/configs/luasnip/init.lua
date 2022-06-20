@@ -4,18 +4,10 @@ function M.config()
   local ls = require("luasnip")
   local s = ls.snippet
   local sn = ls.snippet_node
-  local isn = ls.indent_snippet_node
   local t = ls.text_node
   local i = ls.insert_node
-  local f = ls.function_node
   local c = ls.choice_node
-  local d = ls.dynamic_node
-  local r = ls.restore_node
   local events = require("luasnip.util.events")
-  local ai = require("luasnip.nodes.absolute_indexer")
-  local fmt = require("luasnip.extras.fmt").fmt
-  local m = require("luasnip.extras").m
-  local lambda = require("luasnip.extras").l
   local types = require("luasnip.util.types")
 
   local current_nsid = vim.api.nvim_create_namespace("LuaSnipChoiceListSelections")
@@ -66,74 +58,6 @@ function M.config()
     }
   end
 
-  function choice_popup(choiceNode)
-    -- build stack for nested choiceNodes.
-    if current_win then
-      vim.api.nvim_win_close(current_win.win_id, true)
-      vim.api.nvim_buf_del_extmark(current_win.buf, current_nsid, current_win.extmark)
-    end
-    local create_win = window_for_choiceNode(choiceNode)
-    current_win = {
-      win_id = create_win.win_id,
-      prev = current_win,
-      node = choiceNode,
-      extmark = create_win.extmark,
-      buf = create_win.buf,
-    }
-  end
-
-  function update_choice_popup(choiceNode)
-    vim.api.nvim_win_close(current_win.win_id, true)
-    vim.api.nvim_buf_del_extmark(current_win.buf, current_nsid, current_win.extmark)
-    local create_win = window_for_choiceNode(choiceNode)
-    current_win.win_id = create_win.win_id
-    current_win.extmark = create_win.extmark
-    current_win.buf = create_win.buf
-  end
-
-  function choice_popup_close()
-    vim.api.nvim_win_close(current_win.win_id, true)
-    vim.api.nvim_buf_del_extmark(current_win.buf, current_nsid, current_win.extmark)
-    -- now we are checking if we still have previous choice we were in after exit nested choice
-    current_win = current_win.prev
-    if current_win then
-      -- reopen window further down in the stack.
-      local create_win = window_for_choiceNode(current_win.node)
-      current_win.win_id = create_win.win_id
-      current_win.extmark = create_win.extmark
-      current_win.buf = create_win.buf
-    end
-  end
-
-  local function node_with_virtual_text(pos, node, text)
-    local nodes
-    if node.type == types.textNode then
-      node.pos = 2
-      nodes = { i(1), node }
-    else
-      node.pos = 1
-      nodes = { node }
-    end
-    return sn(pos, nodes, {
-      callbacks = {
-        -- node has pos 1 inside the snippetNode.
-        [1] = {
-          [events.enter] = function(nd)
-            -- node_pos: {line, column}
-            local node_pos = nd.mark:pos_begin()
-            -- reuse luasnips namespace, column doesn't matter, just 0 it.
-            nd.virt_text_id = vim.api.nvim_buf_set_extmark(0, ls.session.ns_id, node_pos[1], 0, {
-              virt_text = { { text, "DiagnosticInfo" } },
-            })
-          end,
-          [events.leave] = function(nd)
-            vim.api.nvim_buf_del_extmark(0, ls.session.ns_id, nd.virt_text_id)
-          end,
-        },
-      },
-    })
-  end
-
   ls.add_snippets(nil, {
     -- When trying to expand a snippet, luasnip first searches the tables for
     -- each filetype specified in 'filetype' followed by 'all'.
@@ -167,20 +91,17 @@ function M.config()
       }),
     },
     python = {
-      s(
-        "#",
-        {
-          c(1, {
-            t({ "#!/usr/bin/env python3" }),
-            t({ "#!/usr/bin/python3" }),
-          }),
-          c(2, {
-            t(""),
-            t({ " -B" }),
-          }),
-          i(0),
-        }
-      ),
+      s("#", {
+        c(1, {
+          t({ "#!/usr/bin/env python3" }),
+          t({ "#!/usr/bin/python3" }),
+        }),
+        c(2, {
+          t(""),
+          t({ " -B" }),
+        }),
+        i(0),
+      }),
     },
   })
   require("luasnip.loaders.from_vscode").lazy_load()

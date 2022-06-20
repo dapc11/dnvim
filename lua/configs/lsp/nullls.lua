@@ -11,8 +11,6 @@ function M.config()
     return vim.api.nvim_buf_line_count(bufnr) < 2000
   end
 
-  local lsputils = require("utils")
-
   local write_good = null_ls.builtins.diagnostics.write_good.with({
     filetypes = { "markdown", "text" },
     runtime_condition = function(params)

@@ -251,7 +251,6 @@ endfunction
 ]])
 map("n", "<leader>fg", 'b"gye:call GoogleSearch()<CR>', { desc = "Google word under cursor" })
 map("v", "<leader>fj", "jy<Esc>:call JiraSearch()<CR>", { desc = "Open Jira ticket" })
-map("n", "<leader>zv", "<cmd>Vista!!<CR>", { desc = "Vista: toggle" })
 map("v", "<C-r>", '"hy:%s/<C-r>h//gc<left><left><left>', { desc = "Search and replace selection" })
 
 vim.cmd([[
