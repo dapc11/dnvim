@@ -179,8 +179,6 @@ map("s", "<C-E>", "<Plug>luasnip-next-choice", { desc = "Next choice" })
 
 map("x", "ga", ":EasyAlign<CR>", { desc = "Align" })
 map("n", "ga", ":EasyAlign<CR>", { desc = "Align" })
-map("i", "<Tab>", "<C-t>", { desc = "Increase indentation" })
-map("i", "<S-Tab>", "<C-d>", { desc = "Decrease indentation" })
 map("n", "<Tab>", "<C-t>", { desc = "Increase indentation" })
 map("n", "<S-Tab>", "<C-d>", { desc = "Decrease indentation" })
 map("v", "<Tab>", ">gv", { desc = "Increase indentation" })
