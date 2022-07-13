@@ -51,7 +51,7 @@ map("n", "<leader>gP", ":Git push<CR>", { desc = "Push" })
 map("n", "<leader>gt", ":!alacritty &<CR>", { desc = "Terminal" })
 map("n", "<leader>gl", ":Git log --stat<CR>", { desc = "Log" })
 map("n", "<leader>gG", ":Git grep -q ", { desc = "Grep" })
-map("n", "<leader>gs", ":Telescope git_stash<CR>", { desc = "Stash" })
+map("n", "<leader>gs", ":Telescope git_status<CR>", { desc = "Status" })
 map("n", "<leader>gc", ":Telescope git_commits<CR>", { desc = "Commits" })
 map("n", "<leader>gb", ":Telescope git_branches<CR>", { desc = "Branch" })
 
