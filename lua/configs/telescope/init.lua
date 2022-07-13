@@ -12,7 +12,41 @@ function M.config()
 
   telescope.setup({
     pickers = {
+      jumplist = {
+        theme = "ivy",
+      },
+      projects = {
+        theme = "ivy",
+      },
+      current_buffer_fuzzy_find = {
+        theme = "ivy",
+      },
+      live_grep = {
+        theme = "ivy",
+      },
+      grep_string = {
+        theme = "ivy",
+      },
+      oldfiles = {
+        theme = "ivy",
+      },
+      git_branches = {
+        theme = "ivy",
+      },
+      git_commits = {
+        theme = "ivy",
+      },
+      git_status = {
+        theme = "ivy",
+      },
+      git_files = {
+        theme = "ivy",
+      },
+      find_files = {
+        theme = "ivy",
+      },
       buffers = {
+        theme = "ivy",
         mappings = {
           n = {
             ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
@@ -46,7 +80,6 @@ function M.config()
           ["<C-c>"] = actions.close,
         },
         i = {
-          ["<C-u>"] = false,
           ["<C-p>"] = action_layout.toggle_preview,
           ["<C-c>"] = actions.close,
           ["<esc>"] = actions.close,
