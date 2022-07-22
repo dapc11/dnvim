@@ -10,6 +10,11 @@ function M.config()
     disable_in_visualblock = true,
     check_ts = true,
     disable_filetype = { "TelescopePrompt", "spectre_panel" },
+    ts_config = {
+      lua = { "string" },
+      python = { "string" },
+      go = { "string" },
+    },
     fast_wrap = {
       map = "<M-e>",
       chars = { "{", "[", "(", '"', "'", " " },
@@ -22,6 +27,7 @@ function M.config()
       highlight_grey = "LineNr",
     },
   })
+  require("nvim-treesitter.configs").setup({ autopairs = { enable = true } })
 end
 
 return M
