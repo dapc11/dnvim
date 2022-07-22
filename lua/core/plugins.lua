@@ -294,6 +294,13 @@ packer.startup({
       ft = "markdown",
       cmd = { "MarkdownPreview" },
     })
+    use({
+      "ggandor/leap.nvim",
+      requires = "tpope/vim-repeat",
+      config = function()
+        require("leap").set_default_keymaps()
+      end,
+    })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
