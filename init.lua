@@ -8,6 +8,10 @@ utils.impatient()
 
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/nvim/lua/configs/lsp/?/init.lua"
 
+-- Disable plugins
+_G.plugins = {}
+_G.plugins.hop = false
+
 local sources = {
   "core.globals",
   "core.plugins",
