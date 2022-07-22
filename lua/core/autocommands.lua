@@ -30,6 +30,11 @@ augroups.filetype_behaviour = {
 }
 
 augroups.misc = {
+  format = {
+    event = { "BufRead", "BufNewFile" },
+    pattern = "*",
+    command = [[setlocal formatoptions-=c formatoptions-=r formatoptions-=o]],
+  },
   large_files_enhancements = {
     event = "BufRead",
     pattern = "*",
