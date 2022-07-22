@@ -12,41 +12,7 @@ function M.config()
 
   telescope.setup({
     pickers = {
-      jumplist = {
-        theme = "ivy",
-      },
-      projects = {
-        theme = "ivy",
-      },
-      current_buffer_fuzzy_find = {
-        theme = "ivy",
-      },
-      live_grep = {
-        theme = "ivy",
-      },
-      grep_string = {
-        theme = "ivy",
-      },
-      oldfiles = {
-        theme = "ivy",
-      },
-      git_branches = {
-        theme = "ivy",
-      },
-      git_commits = {
-        theme = "ivy",
-      },
-      git_status = {
-        theme = "ivy",
-      },
-      git_files = {
-        theme = "ivy",
-      },
-      find_files = {
-        theme = "ivy",
-      },
       buffers = {
-        theme = "ivy",
         mappings = {
           n = {
             ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
@@ -58,9 +24,26 @@ function M.config()
       },
     },
     defaults = {
-      prompt_prefix = " ",
-      selection_caret = "❯ ",
+      prompt_prefix = " ",
+      selection_caret = " ",
+      entry_prefix = "  ",
+      file_sorter = require("telescope.sorters").get_fzy_sorter,
+      generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+      initial_mode = "insert",
       file_ignore_patterns = { "node_modules", ".git", ".jar", ".tar.gz", ".zip", ".png", ".jpeg", ".cache" },
+      winblend = 0,
+      border = {},
+      borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      color_devicons = true,
+      use_less = true,
+      set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+      layout_config = {
+        width = 0.75,
+        prompt_position = "bottom",
+        preview_cutoff = 120,
+        horizontal = { mirror = false },
+        vertical = { mirror = false },
+      },
       vimgrep_arguments = {
         "rg",
         "--no-heading",
