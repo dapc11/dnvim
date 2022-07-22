@@ -48,9 +48,7 @@ function M.config()
         node_decremental = "<A-w>",
       },
     },
-    indent = {
-      enable = true,
-    },
+    indent = { enable = true, disable = { "yaml" } },
     textobjects = {
       select = {
         enable = true,
