@@ -1,6 +1,7 @@
 local M = {}
 
 function M.config()
+  local components = require("configs.lualine.components")
   require("lualine").setup({
     options = {
       icons_enabled = true,
@@ -12,29 +13,39 @@ function M.config()
       globalstatus = true,
     },
     sections = {
-      lualine_a = { "mode" },
-      lualine_b = { "branch", "diff", { "diagnostics", sources = { "nvim_diagnostic" } } },
-      lualine_c = { { "filename", file_status = true, path = 3, shorting_target = 40 } },
-      lualine_x = { "encoding", "fileformat", "filetype" },
-      lualine_y = { "progress" },
-      lualine_z = { "location" },
+      lualine_a = {
+        components.mode,
+      },
+      lualine_b = {
+        components.branch,
+        components.filename,
+      },
+      lualine_c = {
+        components.diff,
+        components.python_env,
+      },
+      lualine_x = {
+        components.diagnostics,
+        components.treesitter,
+        components.lsp,
+        components.filetype,
+      },
+      lualine_y = {},
+      lualine_z = {
+        components.scrollbar,
+      },
     },
     inactive_sections = {
-      lualine_a = {},
-      lualine_b = {},
-      lualine_c = { "filename" },
-      lualine_x = { "location" },
-      lualine_y = {},
-      lualine_z = {},
-    },
-    tabline = {
-      lualine_a = {},
+      lualine_a = {
+        "filename",
+      },
       lualine_b = {},
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},
       lualine_z = {},
     },
+    tabline = {},
     extensions = { "toggleterm", "fzf", "fugitive", "neo-tree" },
   })
 end
