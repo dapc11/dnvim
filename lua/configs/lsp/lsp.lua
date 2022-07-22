@@ -78,7 +78,7 @@ function M.config()
       Lua = {
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = { "vim" },
+          globals = { "vim", "plugins" },
         },
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
