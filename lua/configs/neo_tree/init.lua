@@ -126,7 +126,8 @@ function M.config()
           ["<bs>"] = "navigate_up",
           ["."] = "set_root",
           ["H"] = "toggle_hidden",
-          ["/"] = "fuzzy_finder",
+          ["/"] = "noop", -- "noop" removes a default mapping
+          ["g/"] = "fuzzy_finder",
           ["f"] = "filter_on_submit",
           ["<c-x>"] = "clear_filter",
           ["[g"] = "prev_git_modified",
