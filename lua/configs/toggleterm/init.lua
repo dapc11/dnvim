@@ -2,7 +2,7 @@ local M = {}
 
 function M.config()
   require("toggleterm").setup({
-    open_mapping = [[<c-x>]],
+    open_mapping = [[<c-t>]],
     hide_numbers = true, -- hide the number column in toggleterm buffers
     shade_filetypes = {},
     shade_terminals = false,
