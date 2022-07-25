@@ -57,7 +57,7 @@ function M.config()
     sources = sources,
     diagnostics_format = "[#{c}] #{m}",
     should_attach = function(bufnr)
-      return not vim.api.nvim_buf_get_name(bufnr):match("^neo-tree")
+      return not vim.api.nvim_buf_get_name(bufnr):match("^NvimTree")
     end,
     on_attach = function(client, bufnr)
       vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Show tooltip" })

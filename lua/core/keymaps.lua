@@ -172,7 +172,7 @@ if _G.plugins.hop then
   )
 end
 
-map("n", "<C-e>", ":NeoTreeShowToggle<CR>", { desc = "Toggle neo-tree" })
+map("n", "<C-e>", ":NvimTreeToggle<CR>", { desc = "Toggle explorer" })
 map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>", { desc = "Disable diagnostics" })
 map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>", { desc = "Enable diagnostics" })
 

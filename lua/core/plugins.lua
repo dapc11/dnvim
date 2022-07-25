@@ -140,15 +140,12 @@ packer.startup({
     use({ "dapc11/onedark.nvim" })
 
     use({
-      "nvim-neo-tree/neo-tree.nvim",
-      branch = "v2.x",
+      "kyazdani42/nvim-tree.lua",
       requires = {
-        "nvim-lua/plenary.nvim",
-        "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-        "MunifTanjim/nui.nvim",
+        "kyazdani42/nvim-web-devicons", -- optional, for file icons
       },
       config = function()
-        require("configs.neo_tree").config()
+        require("configs.nvim_tree").config()
       end,
     })
 

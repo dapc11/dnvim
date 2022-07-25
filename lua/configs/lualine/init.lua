@@ -8,7 +8,7 @@ function M.config()
       theme = "onedark",
       section_separators = {},
       component_separators = {},
-      disabled_filetypes = { "neo-tree" },
+      disabled_filetypes = { "NvimTree" },
       always_divide_middle = true,
       globalstatus = true,
     },
@@ -46,7 +46,7 @@ function M.config()
       lualine_z = {},
     },
     tabline = {},
-    extensions = { "toggleterm", "fzf", "fugitive", "neo-tree" },
+    extensions = { "toggleterm", "fzf", "fugitive", "NvimTree" },
   })
 end
 
