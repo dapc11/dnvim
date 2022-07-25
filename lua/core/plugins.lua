@@ -301,6 +301,7 @@ packer.startup({
         require("leap").set_default_keymaps()
       end,
     })
+    use({ "mbbill/undotree" })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
