@@ -70,6 +70,15 @@ augroups.misc = {
       end
     end,
   },
+  restore_cursor_position = {
+    event = "BufReadPost",
+    pattern = "*",
+    command = [[
+        if line("'\"") > 1 && line("'\"") <= line("$") |
+          execute "normal! g`\"" |
+        endif
+      ]],
+  },
   telescope_on_startup = {
     event = "VimEnter",
     pattern = "*",
