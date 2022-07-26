@@ -1,5 +1,8 @@
 local M = {}
 function M.config()
+  local function custom_callback(callback_name)
+    return string.format(":lua require('configs.nvim_tree.utils').%s()<CR>", callback_name)
+  end
   require("nvim-tree").setup({
     auto_reload_on_write = true,
     create_in_closed_folder = false,
@@ -32,7 +35,8 @@ function M.config()
       mappings = {
         custom_only = false,
         list = {
-          -- user mappings go here
+          { key = "<c-f>", cb = custom_callback("launch_find_files") },
+          { key = "<c-g>", cb = custom_callback("launch_live_grep") },
         },
       },
     },
