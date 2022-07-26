@@ -1,4 +1,5 @@
 local openfile = require("nvim-tree.actions.node.open-file")
+local nt_api = require("nvim-tree.api")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local M = {}
@@ -12,6 +13,7 @@ local view_selection = function(prompt_bufnr, _)
       filename = selection[1]
     end
     openfile.fn("preview", filename)
+    nt_api.tree.close()
   end)
   return true
 end
