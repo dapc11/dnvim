@@ -46,7 +46,7 @@ function M.config()
       lualine_z = {},
     },
     tabline = {},
-    extensions = { "toggleterm", "fzf", "fugitive", "NvimTree" },
+    extensions = { "toggleterm", "fzf", "fugitive", "nvim-tree" },
   })
 end
 
