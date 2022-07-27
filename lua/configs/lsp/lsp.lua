@@ -124,7 +124,7 @@ function M.config()
 
   win.default_opts = function(options)
     local opts = _default_opts(options)
-    opts.border = "single"
+    -- opts.border = "single"
     return opts
   end
 end

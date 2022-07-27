@@ -15,10 +15,10 @@ function M.config()
     shell = vim.o.shell, -- change the default shell
     -- This field is only relevant if direction is set to 'float'
     float_opts = {
-      border = "single",
+      -- border = "single",
       winblend = 3,
       highlights = {
-        border = "Normal",
+        -- border = "Normal",
         background = "Normal",
       },
     },

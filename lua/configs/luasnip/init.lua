@@ -47,7 +47,7 @@ function M.config()
       height = h,
       bufpos = choiceNode.mark:pos_begin_end(),
       style = "minimal",
-      border = "single",
+      -- border = "single",
     })
 
     -- return with 3 main important so we can use them again
