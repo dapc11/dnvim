@@ -16,12 +16,10 @@
 -- hi("DiagnosticSignWarn", { guifg = "#d19a66" })
 -- hi("DiagnosticSignInfo", { guifg = "#56b6c2" })
 -- hi("DiagnosticSignHint", { guifg = "#61afef" })
--- hi("FloatBorder", { guifg = "#6a707e", guibg = "#21252b" })
--- hi("NormalFloat", { guifg = "#b6bdca", guibg = "#21252b" })
 -- hi("Normal", { guifg = "#b6bdca", guibg = "#21252b" })
 -- hi("NonText", { guifg = "#b6bdca", guibg = "#21252b" })
 -- hi("EndOfBuffer", { guifg = "#b6bdca", guibg = "#21252b" })
--- -- hi("SignColumn", { guibg = "#21252b" })
+-- hi("SignColumn", { guibg = "#21252b" })
 -- hi("Search", { guibg = "#e5c07b", guifg = "#282c34" })
 -- hi("PMenu", { guibg = "#282c34", guifg = "#b6bdca" })
 -- hi("TelescopeResultsBorder", { guifg = "#abb2bf" })
@@ -44,9 +42,6 @@
 hi("BufferCurrentTarget", { guifg = "#e06c75" })
 hi("BufferVisibleTarget", { guifg = "#e06c75" })
 hi("BufferInactiveTarget", { guifg = "#e06c75", guibg = "#282c34" })
-vim.cmd([[
-highlight! link NeoTreeDirectoryIcon NvimTreeFolderIcon
-highlight! link NeoTreeDirectoryName NvimTreeFolderName
-highlight! link NeoTreeSymbolicLinkTarget NvimTreeSymlink
-highlight! link NeoTreeRootName NvimTreeRootFolder
-]])
+hi("FloatBorder", { guifg = "#6a707e", guibg = "#282c34" })
+hi("NormalFloat", { guifg = "#b6bdca", guibg = "#282c34" })
+hi("NvimTreeCursorLine", { gui = "bold" })
