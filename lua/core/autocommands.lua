@@ -121,6 +121,9 @@ augroups.misc = {
     event = { "InsertLeave", "WinEnter" },
     pattern = "*",
     callback = function()
+      if vim.bo.filetype == "NvimTree" then
+        return
+      end
       vim.opt.cursorline = true
     end,
   },
@@ -128,6 +131,9 @@ augroups.misc = {
     event = { "InsertEnter", "WinLeave" },
     pattern = "*",
     callback = function()
+      if vim.bo.filetype == "NvimTree" then
+        return
+      end
       vim.opt.cursorline = false
     end,
   },
