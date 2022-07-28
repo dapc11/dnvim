@@ -50,11 +50,15 @@ nnoremap <SPACE> <Nop>
 if executable("rg")
   set grepprg=rg\ --vimgrep
 endif
-
-set background=dark
-colorscheme onedark
 ]])
+vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 
+require("catppuccin").setup()
+
+vim.cmd([[
+  set background=dark
+  colorscheme catppuccin
+]])
 -- Use proper syntax highlighting in code blocks
 local fences = {
   "lua",
