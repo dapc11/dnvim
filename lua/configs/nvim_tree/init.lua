@@ -35,6 +35,7 @@ function M.config()
       mappings = {
         custom_only = false,
         list = {
+          { key = "<c-e>", action = nil },
           { key = "<c-f>", cb = custom_callback("launch_find_files") },
           { key = "<c-g>", cb = custom_callback("launch_live_grep") },
         },
