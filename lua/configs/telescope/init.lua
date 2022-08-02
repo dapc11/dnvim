@@ -30,7 +30,7 @@ function M.config()
       file_sorter = require("telescope.sorters").get_fzy_sorter,
       generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
       initial_mode = "insert",
-      file_ignore_patterns = { "node_modules", ".git", ".jar", ".tar.gz", ".zip", ".png", ".jpeg", ".cache" },
+      file_ignore_patterns = { "node_modules", "\\.git", ".jar", ".tar.gz", ".zip", ".png", ".jpeg", ".cache" },
       winblend = 0,
       -- border = {},
       -- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
