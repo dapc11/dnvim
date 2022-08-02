@@ -35,22 +35,9 @@ map("n", "<A-3>", ":lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Third 
 map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth entry" })
 
 -- Git
-vim.cmd([[
-function! ToggleGStatus()
-    if buflisted(bufname('.git/index'))
-        bd .git/index
-    else
-        G
-    endif
-endfunction
-]])
-map("n", "<C-g>", ":call ToggleGStatus()<CR>", { desc = "Toggle Git status" })
-map("n", "<leader>gg", ":Git<CR>", { desc = "Status" })
-map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>", { desc = "Push Gerrit" })
-map("n", "<leader>gP", ":Git push<CR>", { desc = "Push" })
+map("n", "<C-g>", ":Neogit<CR>", { desc = "Toggle Git status" })
+map("n", "<leader>gg", ":Neogit<CR>", { desc = "Status" })
 map("n", "<leader>gt", ":!alacritty &<CR>", { desc = "Terminal" })
-map("n", "<leader>gl", ":Git log --stat<CR>", { desc = "Log" })
-map("n", "<leader>gG", ":Git grep -q ", { desc = "Grep" })
 map("n", "<leader>gs", ":Telescope git_status<CR>", { desc = "Status" })
 map("n", "<leader>gc", ":Telescope git_commits<CR>", { desc = "Commits" })
 map("n", "<leader>gb", ":Telescope git_branches<CR>", { desc = "Branch" })
