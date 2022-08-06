@@ -9,15 +9,33 @@ function M.config()
   local luasnip = require("luasnip")
   local cmp = require("cmp")
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-  cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
+  local handlers = require("nvim-autopairs.completion.handlers")
+
+  cmp.event:on(
+    "confirm_done",
+    cmp_autopairs.on_confirm_done({
+      filetypes = {
+        -- "*" is a alias to all filetypes
+        ["*"] = {
+          ["("] = {
+            kind = {
+              cmp.lsp.CompletionItemKind.Function,
+              cmp.lsp.CompletionItemKind.Method,
+            },
+            handler = handlers["*"],
+          },
+        },
+      },
+    })
+  )
 
   local kind_icons = {
     Text = "",
-    Method = "",
+    Method = "m",
     Function = "",
     Constructor = "",
     Field = "ﰠ",
-    Variable = "",
+    Variable = "",
     Class = "",
     Interface = "",
     Module = "",
@@ -89,7 +107,32 @@ function M.config()
         require("luasnip").lsp_expand(args.body)
       end,
     },
-
+    formatting = {
+      fields = { "kind", "abbr", "menu" },
+      format = function(entry, vim_item)
+        -- Kind icons
+        vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+        -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+        vim_item.menu = ({
+          nvim_lsp_signature_help = "[Sig]",
+          nvim_lsp_document_symbol = "[Doc]",
+          nvim_lsp = "[Lsp]",
+          luasnip = "[Snip]",
+          buffer = "[Buf]",
+          path = "[Path]",
+        })[entry.source.name]
+        return vim_item
+      end,
+    },
+    confirm_opts = {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+    },
+    window = {
+      documentation = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      },
+    },
     sources = cmp.config.sources({
       { name = "nvim_lsp_signature_help" },
       { name = "nvim_lsp" },
@@ -98,24 +141,6 @@ function M.config()
       { name = "buffer", keyword_length = 3 },
       { name = "path", max_item_count = 10 },
     }),
-
-    formatting = {
-      format = function(entry, vim_item)
-        -- Kind icons
-        vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
-        -- vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-        -- Source
-        vim_item.menu = ({
-          nvim_lsp_signature_help = "[Sig]",
-          nvim_lsp_document_symbol = "[Doc]",
-          buffer = "[Buf]",
-          nvim_lsp = "[LSP]",
-          luasnip = "[Snip]",
-          path = "[Path]",
-        })[entry.source.name]
-        return vim_item
-      end,
-    },
   })
 
   -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
