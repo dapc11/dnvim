@@ -179,6 +179,12 @@ packer.startup({
         require("configs.autopairs").config()
       end,
     })
+    use({
+      "kylechui/nvim-surround",
+      config = function()
+        require("configs.nvim-surround").config()
+      end,
+    })
     use({ "junegunn/vim-easy-align" })
     use({ "folke/lua-dev.nvim" })
     use({
