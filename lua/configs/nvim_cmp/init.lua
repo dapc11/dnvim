@@ -10,6 +10,14 @@ function M.config()
   local cmp = require("cmp")
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
   local handlers = require("nvim-autopairs.completion.handlers")
+  local cmp_window = require("cmp.utils.window")
+
+  cmp_window.info_ = cmp_window.info
+  cmp_window.info = function(self)
+    local info = self:info_()
+    info.scrollable = false
+    return info
+  end
 
   cmp.event:on(
     "confirm_done",
