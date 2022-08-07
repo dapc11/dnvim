@@ -1,6 +1,10 @@
 local M = {}
 function M.config()
-  local wk = require("which-key")
+  local present, wk = pcall(require, "which-key")
+
+  if not present then
+    return
+  end
   wk.setup({
     plugins = {
       marks = true, -- shows a list of your marks on ' and `
@@ -41,17 +45,11 @@ function M.config()
       scroll_up = "<c-u>", -- binding to scroll up inside the popup
     },
     window = {
-      -- border = "single", -- none, single, double, shadow
-      position = "bottom", -- bottom, top
-      margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-      padding = { 1, 0, 1, 0 }, -- extra window padding [top, right, bottom, left]
-      winblend = 0,
+      border = "none", -- none/single/double/shadow
     },
+
     layout = {
-      height = { min = 4, max = 25 }, -- min and max height of the columns
-      width = { min = 20, max = 50 }, -- min and max width of the columns
-      spacing = 3, -- spacing between columns
-      align = "left", -- align columns left, center or right
+      spacing = 6, -- spacing between columns
     },
     ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
     hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
