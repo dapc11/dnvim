@@ -24,10 +24,11 @@ function M.config()
       },
     },
     defaults = {
-      prompt_prefix = " ",
-      selection_caret = " ",
+      prompt_prefix = "   ",
+      selection_caret = "  ",
       entry_prefix = "  ",
-      file_sorter = require("telescope.sorters").get_fzy_sorter,
+      path_display = { "truncate" },
+      file_sorter = require("telescope.sorters").get_fuzzy_file,
       generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
       initial_mode = "insert",
       file_ignore_patterns = { "node_modules", "\\.git", ".jar", ".tar.gz", ".zip", ".png", ".jpeg", ".cache" },
@@ -38,11 +39,17 @@ function M.config()
       use_less = true,
       set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
       layout_config = {
-        width = 0.75,
-        prompt_position = "bottom",
+        horizontal = {
+          prompt_position = "top",
+          preview_width = 0.55,
+          results_width = 0.8,
+        },
+        vertical = {
+          mirror = false,
+        },
+        width = 0.87,
+        height = 0.80,
         preview_cutoff = 120,
-        horizontal = { mirror = false },
-        vertical = { mirror = false },
       },
       vimgrep_arguments = {
         "rg",
