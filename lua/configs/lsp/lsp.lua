@@ -82,13 +82,26 @@ function M.config()
         },
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = "LuaJIT",
+          version = "Lua 5.3",
           -- Setup your lua path
-          path = runtime_path,
+          path = {
+            "?.lua",
+            "?/init.lua",
+            vim.fn.expand("~/.luarocks/share/lua/5.3/?.lua"),
+            vim.fn.expand("~/.luarocks/share/lua/5.3/?/init.lua"),
+            "/usr/share/5.3/?.lua",
+            "/usr/share/lua/5.3/?/init.lua",
+          },
         },
         workspace = {
           -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true),
+          library = {
+            vim.fn.expand("~/.luarocks/share/lua/5.3"),
+            "/usr/share/lua/5.3",
+          },
+          ignoreDir = { ".git" },
+          maxPreload = 100000,
+          preloadFileSize = 10000,
         },
         -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = {
