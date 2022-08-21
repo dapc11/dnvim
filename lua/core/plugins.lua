@@ -283,7 +283,6 @@ packer.startup({
         require("nvim-dap-virtual-text").setup()
       end,
     })
-    use({ "rhysd/vim-grammarous" })
     use({
       "plasticboy/vim-markdown",
       requires = "godlygeek/tabular",
@@ -304,7 +303,7 @@ packer.startup({
         require("leap").set_default_keymaps()
       end,
     })
-    use({ "mbbill/undotree" })
+    use({ "RRethy/vim-illuminate" })
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
     use({
       "glepnir/lspsaga.nvim",
