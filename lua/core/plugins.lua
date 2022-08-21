@@ -305,14 +305,6 @@ packer.startup({
     })
     use({ "RRethy/vim-illuminate" })
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
-    use({
-      "glepnir/lspsaga.nvim",
-      branch = "main",
-      config = function()
-        local saga = require("lspsaga")
-        saga.init_lsp_saga({})
-      end,
-    })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
