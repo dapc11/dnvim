@@ -12,7 +12,6 @@ packer.startup({
 
     use({ "nvim-lua/plenary.nvim" })
     use({ "nvim-lua/popup.nvim" })
-
     use({ "tpope/vim-unimpaired" })
     use({
       "lewis6991/gitsigns.nvim",
@@ -68,8 +67,6 @@ packer.startup({
       "hrsh7th/nvim-cmp",
       after = "LuaSnip",
       requires = {
-        "hrsh7th/cmp-nvim-lsp-signature-help",
-        "hrsh7th/cmp-nvim-lsp-document-symbol",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "hrsh7th/cmp-nvim-lsp",
@@ -80,12 +77,6 @@ packer.startup({
       end,
     })
     use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
-    use({
-      "seblj/nvim-echo-diagnostics",
-      config = function()
-        require("configs.echo-diagnostics").config()
-      end,
-    })
     use({
       "neovim/nvim-lspconfig",
       config = function()
@@ -149,12 +140,12 @@ packer.startup({
       end,
     })
 
-    use({
-      "akinsho/toggleterm.nvim",
-      config = function()
-        require("configs.toggleterm").config()
-      end,
-    })
+    -- use({
+    --   "akinsho/toggleterm.nvim",
+    --   config = function()
+    --     require("configs.toggleterm").config()
+    --   end,
+    -- })
 
     use({
       "terrortylor/nvim-comment",
@@ -171,7 +162,6 @@ packer.startup({
     })
 
     use({ "ThePrimeagen/harpoon" })
-
     use({
       "windwp/nvim-autopairs",
       event = "InsertEnter",
@@ -202,12 +192,6 @@ packer.startup({
       },
       config = function()
         require("configs.refactoring").config()
-      end,
-    })
-    use({
-      "ur4ltz/surround.nvim",
-      config = function()
-        require("configs.surround").config()
       end,
     })
     use("leoluz/nvim-dap-go")
@@ -296,14 +280,6 @@ packer.startup({
       ft = "markdown",
       cmd = { "MarkdownPreview" },
     })
-    use({
-      "ggandor/leap.nvim",
-      requires = "tpope/vim-repeat",
-      config = function()
-        require("leap").set_default_keymaps()
-      end,
-    })
-    use({ "RRethy/vim-illuminate" })
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
   end,
   config = {
