@@ -38,9 +38,7 @@ map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth
 map("n", "<C-g>", ":Neogit<CR>", { desc = "Toggle Git status" })
 map("n", "<leader>gg", ":Neogit<CR>", { desc = "Status" })
 map("n", "<leader>gt", ":!alacritty &<CR>", { desc = "Terminal" })
-map("n", "<leader>gs", ":Telescope git_status<CR>", { desc = "Status" })
 map("n", "<leader>gc", ":Telescope git_commits<CR>", { desc = "Commits" })
-map("n", "<leader>gb", ":Telescope git_branches<CR>", { desc = "Branch" })
 
 -- Misc
 map("n", "<SPACE>", "<Nop>")
