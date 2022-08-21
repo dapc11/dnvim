@@ -64,6 +64,7 @@ function M.config()
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
+    ["<C-Space>"] = cmp.mapping.complete(),
     ["<CR>"] = cmp.mapping({
       i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
       c = function(fallback)
@@ -94,14 +95,16 @@ function M.config()
         fallback()
       end
     end, { "i", "s" }),
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
     ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }), { "i", "c" }),
     ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }), { "i", "c" }),
   }
 
   cmp.setup({
-    completion = { completeopt = "menu,menuone,noinsert" },
     mapping = mapping,
+    completion = {
+      ---@usage The minimum length of a word to complete on.
+      keyword_length = 1,
+    },
     snippet = {
       expand = function(args)
         require("luasnip").lsp_expand(args.body)
@@ -114,8 +117,6 @@ function M.config()
         vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
         -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
         vim_item.menu = ({
-          nvim_lsp_signature_help = "[Sig]",
-          nvim_lsp_document_symbol = "[Doc]",
           nvim_lsp = "[Lsp]",
           luasnip = "[Snip]",
           buffer = "[Buf]",
@@ -123,6 +124,13 @@ function M.config()
         })[entry.source.name]
         return vim_item
       end,
+      duplicates = {
+        buffer = 1,
+        path = 1,
+        nvim_lsp = 0,
+        luasnip = 1,
+      },
+      duplicates_default = 0,
     },
     confirm_opts = {
       behavior = cmp.ConfirmBehavior.Replace,
@@ -132,7 +140,6 @@ function M.config()
       documentation = cmp.config.window.bordered(),
     },
     sources = cmp.config.sources({
-      { name = "nvim_lsp_signature_help" },
       { name = "nvim_lsp" },
       { name = "luasnip" },
     }, {
@@ -145,7 +152,6 @@ function M.config()
   cmp.setup.cmdline("/", {
     mapping = mapping,
     sources = {
-      { name = "nvim_lsp_document_symbol" },
       { name = "buffer", keyword_length = 2 },
     },
   })
