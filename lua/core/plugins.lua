@@ -142,13 +142,6 @@ packer.startup({
       end,
     })
 
-    -- use({
-    --   "akinsho/toggleterm.nvim",
-    --   config = function()
-    --     require("configs.toggleterm").config()
-    --   end,
-    -- })
-
     use({
       "terrortylor/nvim-comment",
       config = function()

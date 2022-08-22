@@ -18,15 +18,15 @@ function M.config()
       lualine_b = {
         components.branch,
         components.filename,
+        components.diagnostics,
       },
       lualine_c = {
+        components.lsp,
         components.diff,
-        components.python_env,
       },
       lualine_x = {
-        components.diagnostics,
+        components.python_env,
         components.treesitter,
-        components.lsp,
         components.filetype,
       },
       lualine_y = {},

@@ -30,15 +30,15 @@ M.lsp_handlers = function()
       source = "always",
       header = "",
       prefix = "",
-      -- border = "single",
+      border = "single",
     },
   })
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    -- border = "single",
+    border = "single",
   })
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    -- border = "single",
+    border = "single",
   })
 
   -- suppress error messages from lang servers

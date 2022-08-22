@@ -146,7 +146,7 @@ return {
     end,
     left_padding = 0,
     right_padding = 0,
-    color = { fg = colors.yellow, bg = colors.bg },
+    color = { fg = colors.blue, bg = colors.bg },
     condition = nil,
   },
 }
