@@ -276,6 +276,12 @@ packer.startup({
       cmd = { "MarkdownPreview" },
     })
     use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
+    use({
+      "akinsho/toggleterm.nvim",
+      config = function()
+        require("configs.toggleterm").config()
+      end,
+    })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
