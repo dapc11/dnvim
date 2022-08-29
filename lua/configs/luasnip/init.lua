@@ -3,60 +3,9 @@ local M = {}
 function M.config()
   local ls = require("luasnip")
   local s = ls.snippet
-  local sn = ls.snippet_node
   local t = ls.text_node
   local i = ls.insert_node
   local c = ls.choice_node
-  local events = require("luasnip.util.events")
-  local types = require("luasnip.util.types")
-
-  local current_nsid = vim.api.nvim_create_namespace("LuaSnipChoiceListSelections")
-  local current_win = nil
-
-  local function window_for_choiceNode(choiceNode)
-    local buf = vim.api.nvim_create_buf(false, true)
-    local buf_text = {}
-    local row_selection = 0
-    local row_offset = 0
-    local text
-    for _, node in ipairs(choiceNode.choices) do
-      text = node:get_docstring()
-      -- find one that is currently showing
-      if node == choiceNode.active_choice then
-        -- current line is starter from buffer list which is length usually
-        row_selection = #buf_text
-        -- finding how many lines total within a choice selection
-        row_offset = #text
-      end
-      vim.list_extend(buf_text, text)
-    end
-
-    vim.api.nvim_buf_set_text(buf, 0, 0, 0, 0, buf_text)
-    local w, h = vim.lsp.util._make_floating_popup_size(buf_text)
-
-    -- adding highlight so we can see which one is been selected.
-    local extmark = vim.api.nvim_buf_set_extmark(buf, current_nsid, row_selection, 0, {
-      hl_group = "incsearch",
-      end_line = row_selection + row_offset,
-    })
-
-    -- shows window at a beginning of choiceNode.
-    local win = vim.api.nvim_open_win(buf, false, {
-      relative = "win",
-      width = w,
-      height = h,
-      bufpos = choiceNode.mark:pos_begin_end(),
-      style = "minimal",
-      -- border = "single",
-    })
-
-    -- return with 3 main important so we can use them again
-    return {
-      win_id = win,
-      extmark = extmark,
-      buf = buf,
-    }
-  end
 
   ls.add_snippets(nil, {
     -- When trying to expand a snippet, luasnip first searches the tables for
@@ -76,18 +25,30 @@ function M.config()
         t(":"),
         t({ "", "\tmitigation: " }),
         i(3, "mitigation"),
-        c(4, {
-          t(""),
-          sn(nil, {
-            t({ "", "\tsce:" }),
-            t({ "", "\t\tsce-id: " }),
-            i(1, "sce-id"),
-            t({ "", "\t\tstatus: Approved" }),
-            t({ "", "\t\texpires: " }),
-            i(2, "expires"),
-          }),
-        }),
+        t({ "", "\tcategory: " }),
+        i(4, "category"),
+        t({ "", "\trationale_for_category: " }),
+        i(5, "rationale"),
+        t(""),
+        t({ "", "\tsce:" }),
+        t({ "", "\t\tsce-id: todo_sce_id" }),
+        t({ "", "\t\tstatus: Approved" }),
+        t({ "", "\t\texpires: " }),
+        i(6, "expires"),
+        t({ "", "\t\tplanned_fix: " }),
+        i(7, "planned fix"),
+        t({ "", "\t\toriginal-sce-id: todo_sce_id" }),
         i(0),
+      }),
+      s("cvelow", {
+        c(1, {
+          t("CVE-"),
+          t(""),
+        }),
+        i(2, "cve-id"),
+        t(":"),
+        t({ "", "\tmitigation: " }),
+        i(3, "mitigation"),
       }),
     },
     python = {
@@ -105,14 +66,6 @@ function M.config()
     },
   })
   require("luasnip.loaders.from_vscode").lazy_load()
-  vim.cmd([[
-    augroup choice_popup
-    au!
-    au User LuasnipChoiceNodeEnter lua choice_popup(require("luasnip").session.event_node)
-    au User LuasnipChoiceNodeLeave lua choice_popup_close()
-    au User LuasnipChangeChoice lua update_choice_popup(require("luasnip").session.event_node)
-    augroup END
-    ]])
 end
 
 return M
