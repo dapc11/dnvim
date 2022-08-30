@@ -10,7 +10,7 @@ package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/nvim/lua/co
 
 -- Disable plugins
 _G.plugins = {}
-_G.plugins.hop = false
+_G.plugins.hop = true
 
 local sources = {
   "core.globals",
