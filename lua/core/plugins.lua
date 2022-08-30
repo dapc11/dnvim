@@ -282,6 +282,9 @@ packer.startup({
         require("configs.toggleterm").config()
       end,
     })
+    use({
+      "tversteeg/registers.nvim",
+    })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",

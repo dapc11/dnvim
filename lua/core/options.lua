@@ -41,6 +41,7 @@ g.indent_blankline_use_treesitter = true
 g.indent_blankline_show_first_indent_level = true
 g.indent_blankline_filetype_exclude = { "help" }
 g.indentLine_setConceal = 0
+g.registers_window_border = "single"
 
 vim.bo.matchpairs = "(:),{:},[:],<:>"
 vim.cmd([[
