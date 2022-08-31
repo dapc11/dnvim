@@ -75,7 +75,7 @@ function M.config()
         g = { name = "+Git" },
         r = { name = "+Refactor" },
         w = { name = "+Workspace" },
-        t = { name = "+Theme" },
+        t = { name = "+Test" },
         p = { name = "+Packer" },
       },
     },

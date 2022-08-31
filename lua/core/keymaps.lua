@@ -252,3 +252,22 @@ else
     map ,e :e <C-R>=expand("%:p:h") . "\" <CR>
 endif
 ]])
+
+map("n", "<leader>tc", '<cmd>lua require("neotest").run.run()<CR>', { desc = "Run nearest test" })
+map("n", "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Run current file" })
+map("n", "<leader>td", '<cmd>lua require("neotest").run.run({ strategy = "dap" })<CR>', { desc = "Debug nearest test" })
+map("n", "<leader>tl", '<cmd>lua require("neotest").run.run_last()<CR>', { desc = "Re-run last" })
+map(
+  "n",
+  ">t",
+  '<cmd>lua require("neotest").jump.prev({ status = "failed" })<CR>',
+  { silent = true, desc = "Jump to previous failed test" }
+)
+map(
+  "n",
+  "<t",
+  '<cmd>lua require("neotest").jump.next({ status = "failed" })<CR>',
+  { silent = true, desc = "Jump to next failed test" }
+)
+map("n", "<leader>ts", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle test summary" })
+map("n", "<leader>to", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', { desc = "Open test output" })

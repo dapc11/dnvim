@@ -72,7 +72,7 @@ M.setup = function()
   }
   dap.adapters.python = {
     type = "executable",
-    command = os.getenv("HOME") .. "/venv/debugpy/bin/python3",
+    command = "/usr/bin/python3",
     args = { "-m", "debugpy.adapter" },
   }
   dap.configurations.python = {
@@ -95,7 +95,7 @@ M.setup = function()
         elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
           return cwd .. "/.venv/bin/python"
         else
-          return os.getenv("HOME") .. "/venv/debugpy/bin/python3"
+          return "/usr/bin/python3"
         end
       end,
     },

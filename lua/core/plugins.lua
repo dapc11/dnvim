@@ -191,6 +191,28 @@ packer.startup({
     })
     use("leoluz/nvim-dap-go")
     use({
+      "nvim-neotest/neotest",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "antoinemadec/FixCursorHold.nvim",
+        "nvim-neotest/neotest-python",
+        "nvim-neotest/neotest-go",
+      },
+      config = function()
+        require("neotest").setup({
+          adapters = {
+            require("neotest-python")({
+              dap = { justMyCode = false },
+              runner = "pytest",
+              python = "/usr/bin/python3",
+            }),
+            require("neotest-go"),
+          },
+        })
+      end,
+    })
+    use({
       "mfussenegger/nvim-dap",
       -- event = "BufWinEnter",
       after = "nvim-dap-ui",
