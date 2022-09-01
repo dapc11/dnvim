@@ -15,6 +15,12 @@ map(
   { desc = "Find file (hidden and ignored included)" }
 )
 map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>', { desc = "Find word under cursor" })
+map(
+  "n",
+  "<Leader>fr",
+  ':lua require("telescope.builtin").live_grep({cwd ="~/repos/", path_display={"truncate", shorten = {len = 1, exclude = {1,-1}}}})<CR>',
+  { desc = "Find in repos" }
+)
 map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>', { desc = "Find file" })
 map(
   "n",
