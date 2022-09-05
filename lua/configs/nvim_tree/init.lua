@@ -22,9 +22,9 @@ function M.config()
     reload_on_bufenter = false,
     respect_buf_cwd = false,
     view = {
-      adaptive_size = false,
+      adaptive_size = true,
       centralize_selection = false,
-      width = 30,
+      width = 40,
       height = 30,
       hide_root_folder = false,
       side = "left",
@@ -148,7 +148,7 @@ function M.config()
         exclude = {},
       },
       open_file = {
-        quit_on_open = true,
+        quit_on_open = false,
         resize_window = true,
         window_picker = {
           enable = true,
