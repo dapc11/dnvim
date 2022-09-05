@@ -133,6 +133,70 @@ packer.startup({
               },
             })
           end,
+          ["jdtls"] = function()
+            local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+            local home = os.getenv("home")
+            local workspace_dir = home .. "/repos/" .. project_name
+
+            lspconfig.jdtls.setup({
+              cmd = {
+                home .. "/.local/jdk-18-0-2-1/bin/java",
+                "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+                "-Dosgi.bundles.defaultStartLevel=4",
+                "-Declipse.product=org.eclipse.jdt.ls.core.product",
+                "-Dlog.protocol=true",
+                "-Dlog.level=ALL",
+                "-Xmx4G",
+                vim.fn.glob(home .. "/.local/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
+                "-configuration",
+                home .. "/.local/jdtls/config_linux",
+                "--add-modules=ALL-SYSTEM",
+                "--add-opens",
+                "java.base/java.util=ALL-UNNAMED",
+                "--add-opens",
+                "java.base/java.lang=ALL-UNNAMED",
+                "-data",
+                workspace_dir,
+              },
+              root_dir = function(fname)
+                return util.root_pattern(".git", "pom.xml")(fname) or util.path.dirname(fname)
+              end,
+              settings = {
+                java = {
+                  jdt = {
+                    ls = {
+                      java = {
+                        home = home .. "/.local/jdk-18.0.2.1/bin/java",
+                      },
+                    },
+                  },
+                  signatureHelp = { enabled = true },
+                  completion = {
+                    favoriteStaticMembers = {
+                      "org.hamcrest.MatcherAssert.assertThat",
+                      "org.hamcrest.Matchers.*",
+                      "org.hamcrest.CoreMatchers.*",
+                      "org.junit.jupiter.api.Assertions.*",
+                      "java.util.Objects.requireNonNull",
+                      "java.util.Objects.requireNonNullElse",
+                      "org.mockito.Mockito.*",
+                    },
+                  },
+                  sources = {
+                    organizeImports = {
+                      starThreshold = 9999,
+                      staticStarThreshold = 9999,
+                    },
+                  },
+                  codeGeneration = {
+                    toString = {
+                      template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                    },
+                  },
+                },
+              },
+            })
+          end,
           ["pyright"] = function()
             lspconfig.pyright.setup({
               on_attach = on_attach,
