@@ -278,3 +278,5 @@ map(
 )
 map("n", "<leader>ts", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle test summary" })
 map("n", "<leader>to", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', { desc = "Open test output" })
+
+map("n", "<leader>zn", ":%s/\\\\n/\\r/g", { desc = "Fix new lines", silent = false })
