@@ -146,7 +146,7 @@ packer.startup({
 
             lspconfig.jdtls.setup({
               cmd = {
-                'JAR="/usr/bin/java"',
+                'JAR="$HOME/.local/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"',
                 "java ",
                 "-Declipse.application=org.eclipse.jdt.ls.core.id1",
                 "-Dosgi.bundles.defaultStartLevel=4",
@@ -155,14 +155,14 @@ packer.startup({
                 "-Dlog.level=ALL",
                 "-Xms1g",
                 "-Xmx2G",
-                -- "-javaagent:$HOME/.config/nvim/dependencies/lombok.jar",
-                -- "-Xbootclasspath/a:$HOME/.config/nvim/dependencies/lombok.jar",
                 '-jar $(echo "$JAR")',
-                -- '-configuration "$HOME/dev/jdtls-1.7.0/config_linux"',
-                '-data "$1"',
+                '-configuration "$HOME/.local/jdtls/config_linux"',
                 "--add-modules=ALL-SYSTEM",
                 "--add-opens java.base/java.util=ALL-UNNAMED",
                 "--add-opens java.base/java.lang=ALL-UNNAMED",
+                -- "-Xbootclasspath/a:$HOME/.config/nvim/dependencies/lombok.jar",
+                -- "-javaagent:$HOME/.config/nvim/dependencies/lombok.jar",
+                -- '-data "$1"',
               },
               root_dir = function(fname)
                 return util.root_pattern(".git", "pom.xml")(fname) or util.path.dirname(fname)
