@@ -80,9 +80,231 @@ packer.startup({
     })
     use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
     use({
-      "neovim/nvim-lspconfig",
+      "williamboman/mason-lspconfig.nvim",
+      requires = {
+        "williamboman/mason.nvim",
+        "neovim/nvim-lspconfig",
+      },
       config = function()
-        require("configs.lsp.lsp").config()
+        require("mason").setup()
+        require("mason-lspconfig").setup()
+        local status_ok, lspconfig = pcall(require, "lspconfig")
+        if not status_ok then
+          return
+        end
+        local win = require("lspconfig.ui.windows")
+        local lsputils = require("configs.lsp.utils")
+        local util = require("lspconfig/util")
+        local _default_opts = win.default_opts
+
+        win.default_opts = function(options)
+          local opts = _default_opts(options)
+          opts.border = "single"
+          return opts
+        end
+        lsputils.lsp_handlers()
+
+        local on_attach = function(client, bufnr)
+          lsputils.lsp_keymaps(bufnr)
+          lsputils.lsp_highlight_document(client)
+          client.resolved_capabilities.document_formatting = false
+          client.resolved_capabilities.document_range_formatting = false
+        end
+        require("mason-lspconfig").setup_handlers({
+          -- The first entry (without a key) will be the default handler
+          -- and will be called for each installed server that doesn't have
+          -- a dedicated handler.
+          function(server_name) -- default handler (optional)
+            lspconfig[server_name].setup({
+              on_attach = on_attach,
+              capabilities = lsputils.capabilities,
+              flags = lsputils.flags,
+            })
+          end,
+          ["yamlls"] = function()
+            lspconfig.yamlls.setup({
+              on_attach = on_attach,
+              capabilities = lsputils.capabilities,
+              flags = lsputils.flags,
+              filetypes = { "yaml", "tpl", "gotmpl" },
+              settings = {
+                yaml = {},
+              },
+            })
+          end,
+          ["jdtls"] = function()
+            local bundles = {
+              vim.fn.glob(
+                os.getenv("HOME")
+                  .. "/dev/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+              ),
+            }
+            vim.list_extend(
+              bundles,
+              vim.split(vim.fn.glob(os.getenv("HOME") .. "/dev/vscode-java-test/server/*.jar"), "\n")
+            )
+
+            lspconfig.jdtls.setup({
+              cmd = {
+                'JAR="/usr/bin/java"',
+                "java ",
+                "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+                "-Dosgi.bundles.defaultStartLevel=4",
+                "-Declipse.product=org.eclipse.jdt.ls.core.product",
+                "-Dlog.protocol=true",
+                "-Dlog.level=ALL",
+                "-Xms1g",
+                "-Xmx2G",
+                -- "-javaagent:$HOME/.config/nvim/dependencies/lombok.jar",
+                -- "-Xbootclasspath/a:$HOME/.config/nvim/dependencies/lombok.jar",
+                '-jar $(echo "$JAR")',
+                -- '-configuration "$HOME/dev/jdtls-1.7.0/config_linux"',
+                '-data "$1"',
+                "--add-modules=ALL-SYSTEM",
+                "--add-opens java.base/java.util=ALL-UNNAMED",
+                "--add-opens java.base/java.lang=ALL-UNNAMED",
+              },
+              root_dir = function(fname)
+                return util.root_pattern(".git", "pom.xml")(fname) or util.path.dirname(fname)
+              end,
+              on_attach = on_attach,
+              capabilities = lsputils.capabilities,
+              flags = lsputils.flags,
+              settings = {
+                java = {
+                  signatureHelp = { enabled = true },
+                  completion = {
+                    favoriteStaticMembers = {
+                      "org.hamcrest.MatcherAssert.assertThat",
+                      "org.hamcrest.Matchers.*",
+                      "org.hamcrest.CoreMatchers.*",
+                      "org.junit.jupiter.api.Assertions.*",
+                      "java.util.Objects.requireNonNull",
+                      "java.util.Objects.requireNonNullElse",
+                      "org.mockito.Mockito.*",
+                    },
+                  },
+                  sources = {
+                    organizeImports = {
+                      starThreshold = 9999,
+                      staticStarThreshold = 9999,
+                    },
+                  },
+                  codeGeneration = {
+                    toString = {
+                      template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                    },
+                  },
+                },
+              },
+            })
+          end,
+          ["pyright"] = function()
+            lspconfig.pyright.setup({
+              on_attach = on_attach,
+              capabilities = lsputils.capabilities,
+              flags = lsputils.flags,
+              settings = {
+                python = {
+                  analysis = {
+                    typeCheckingMode = "off",
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = false,
+                    diagnosticMode = "openFilesOnly",
+                  },
+                },
+              },
+              root_dir = function(fname)
+                return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
+                  or util.path.dirname(fname)
+              end,
+            })
+          end,
+          ["gopls"] = function()
+            lspconfig.gopls.setup({
+              on_attach = on_attach,
+              capabilities = lsputils.capabilities,
+              flags = lsputils.flags,
+              settings = {
+                gopls = {
+                  analyses = {
+                    unusedparams = true,
+                  },
+                  completeUnimported = true,
+                  staticcheck = true,
+                  buildFlags = { "-tags=integration,e2e" },
+                  hoverKind = "FullDocumentation",
+                  linkTarget = "pkg.go.dev",
+                  linksInHover = true,
+                  experimentalWorkspaceModule = true,
+                  experimentalPostfixCompletions = true,
+                  codelenses = {
+                    generate = true,
+                    gc_details = true,
+                    test = true,
+                    tidy = true,
+                  },
+                  usePlaceholders = true,
+
+                  completionDocumentation = true,
+                  deepCompletion = true,
+                },
+              },
+            })
+          end,
+          ["golangci_lint_ls"] = function() end,
+          ["sumneko_lua"] = function()
+            local sumneko_binary_path = vim.fn.expand("$HOME")
+              .. "/software/lua-language-server/bin/lua-language-server"
+            local sumneko_root_path = vim.fn.expand("$HOME") .. "/software/lua-language-server/"
+
+            local runtime_path = vim.split(package.path, ";")
+            table.insert(runtime_path, "lua/?.lua")
+            table.insert(runtime_path, "lua/?/init.lua")
+
+            lspconfig.sumneko_lua.setup({
+              cmd = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
+              on_attach = on_attach,
+              capabilities = lsputils.capabilities,
+              flags = lsputils.flags,
+              settings = {
+                Lua = {
+                  diagnostics = {
+                    -- Get the language server to recognize the `vim` global
+                    globals = { "vim", "plugins" },
+                  },
+                  runtime = {
+                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                    version = "Lua 5.3",
+                    -- Setup your lua path
+                    path = {
+                      "?.lua",
+                      "?/init.lua",
+                      vim.fn.expand("~/.luarocks/share/lua/5.3/?.lua"),
+                      vim.fn.expand("~/.luarocks/share/lua/5.3/?/init.lua"),
+                      "/usr/share/5.3/?.lua",
+                      "/usr/share/lua/5.3/?/init.lua",
+                    },
+                  },
+                  workspace = {
+                    -- Make the server aware of Neovim runtime files
+                    library = {
+                      vim.fn.expand("~/.luarocks/share/lua/5.3"),
+                      "/usr/share/lua/5.3",
+                    },
+                    ignoreDir = { ".git" },
+                    maxPreload = 100000,
+                    preloadFileSize = 10000,
+                  },
+                  -- Do not send telemetry data containing a randomized but unique identifier
+                  telemetry = {
+                    enable = false,
+                  },
+                },
+              },
+            })
+          end,
+        })
       end,
     })
 
