@@ -22,7 +22,18 @@ map(
   ':lua require("telescope.builtin").live_grep({cwd ="~/repos/", path_display={"truncate", shorten = {len = 1, exclude = {1,-1}}}})<CR>',
   { desc = "Find in repos" }
 )
-map("n", "<Leader>o", ':lua require("telescope.builtin").find_files({previewer = false})<CR>', { desc = "Find file" })
+map(
+  "n",
+  "<Leader>o",
+  ':lua require("telescope.builtin").find_files({path_display={"absolute"}, previewer = false})<CR>',
+  { desc = "Find file" }
+)
+map(
+  "n",
+  "<Leader>ff",
+  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>',
+  { desc = "Find repos file" }
+)
 map(
   "n",
   "<leader><leader>",
