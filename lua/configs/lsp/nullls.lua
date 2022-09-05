@@ -49,6 +49,8 @@ function M.config()
     flake8,
     isort,
     null_ls.builtins.diagnostics.golangci_lint,
+    null_ls.builtins.code_actions.refactoring,
+    null_ls.builtins.diagnostics.hadolint,
   }
 
   local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
