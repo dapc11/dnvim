@@ -253,7 +253,6 @@ packer.startup({
               },
             })
           end,
-          ["golangci_lint_ls"] = function() end,
           ["lua-language-server"] = function()
             local sumneko_binary_path = vim.fn.expand("$HOME")
               .. "/software/lua-language-server/bin/lua-language-server"
