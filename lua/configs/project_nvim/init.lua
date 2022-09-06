@@ -23,6 +23,7 @@ function M.config()
       ".svn",
       "Makefile",
       "package.json",
+      "script_version.txt",
     },
 
     -- Table of lsp clients to ignore by name
