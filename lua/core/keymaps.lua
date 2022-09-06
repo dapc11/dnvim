@@ -132,11 +132,11 @@ map("v", "<A-x>", "<C-x>", { desc = "Decrement number" })
 
 vim.cmd([[
     " Sane navigation in command mode
-    set wildcharm=<C-Z>
-    cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"
-    cnoremap <expr> <down> wildmenumode() ? "\<right>" : "\<down>"
-    cnoremap <expr> <left> wildmenumode() ? "\<up>" : "\<left>"
-    cnoremap <expr> <right> wildmenumode() ? " \<bs>\<C-Z>" : "\<right>"
+    "set wildcharm=<C-Z>
+    "cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"
+    "cnoremap <expr> <down> wildmenumode() ? "\<right>" : "\<down>"
+    "cnoremap <expr> <left> wildmenumode() ? "\<up>" : "\<left>"
+    "cnoremap <expr> <right> wildmenumode() ? " \<bs>\<C-Z>" : "\<right>"
 
     """""""" Clear quickfix list
     function ClearQuickfixList()

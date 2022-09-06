@@ -208,6 +208,7 @@ packer.startup({
                 python = {
                   analysis = {
                     typeCheckingMode = "off",
+                    autoImportCompletions = true,
                     autoSearchPaths = true,
                     useLibraryCodeForTypes = false,
                     diagnosticMode = "openFilesOnly",
@@ -253,7 +254,7 @@ packer.startup({
             })
           end,
           ["golangci_lint_ls"] = function() end,
-          ["sumneko_lua"] = function()
+          ["lua-language-server"] = function()
             local sumneko_binary_path = vim.fn.expand("$HOME")
               .. "/software/lua-language-server/bin/lua-language-server"
             local sumneko_root_path = vim.fn.expand("$HOME") .. "/software/lua-language-server/"

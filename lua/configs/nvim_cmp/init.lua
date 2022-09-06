@@ -85,7 +85,7 @@ function M.config()
       else
         fallback()
       end
-    end, { "i", "s" }),
+    end, { "i", "s", "c" }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
@@ -94,7 +94,7 @@ function M.config()
       else
         fallback()
       end
-    end, { "i", "s" }),
+    end, { "i", "s", "c" }),
     ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }), { "i", "c" }),
     ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }), { "i", "c" }),
   }

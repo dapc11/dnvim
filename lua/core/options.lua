@@ -25,6 +25,7 @@ opt.showmode = false
 opt.smartindent = true
 opt.softtabstop = 4
 opt.splitbelow = true
+opt.wildmenu = false
 opt.splitright = true
 opt.swapfile = false
 opt.tabstop = 4
