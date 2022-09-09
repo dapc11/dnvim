@@ -95,7 +95,7 @@ packer.startup({
         end
         local win = require("lspconfig.ui.windows")
         local lsputils = require("configs.lsp.utils")
-        local util = require("lspconfig/util")
+        local util = require("lspconfig.util")
         local _default_opts = win.default_opts
 
         win.default_opts = function(options)
@@ -133,72 +133,8 @@ packer.startup({
               },
             })
           end,
-          ["jdtls"] = function()
-            local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-            local home = os.getenv("home")
-            local workspace_dir = home .. "/repos/" .. project_name
-
-            lspconfig.jdtls.setup({
-              cmd = {
-                home .. "/.local/jdk-18-0-2-1/bin/java",
-                "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-                "-Dosgi.bundles.defaultStartLevel=4",
-                "-Declipse.product=org.eclipse.jdt.ls.core.product",
-                "-Dlog.protocol=true",
-                "-Dlog.level=ALL",
-                "-Xmx4G",
-                vim.fn.glob(home .. "/.local/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
-                "-configuration",
-                home .. "/.local/jdtls/config_linux",
-                "--add-modules=ALL-SYSTEM",
-                "--add-opens",
-                "java.base/java.util=ALL-UNNAMED",
-                "--add-opens",
-                "java.base/java.lang=ALL-UNNAMED",
-                "-data",
-                workspace_dir,
-              },
-              root_dir = function(fname)
-                return util.root_pattern(".git", "pom.xml")(fname) or util.path.dirname(fname)
-              end,
-              settings = {
-                java = {
-                  jdt = {
-                    ls = {
-                      java = {
-                        home = home .. "/.local/jdk-18.0.2.1/bin/java",
-                      },
-                    },
-                  },
-                  signatureHelp = { enabled = true },
-                  completion = {
-                    favoriteStaticMembers = {
-                      "org.hamcrest.MatcherAssert.assertThat",
-                      "org.hamcrest.Matchers.*",
-                      "org.hamcrest.CoreMatchers.*",
-                      "org.junit.jupiter.api.Assertions.*",
-                      "java.util.Objects.requireNonNull",
-                      "java.util.Objects.requireNonNullElse",
-                      "org.mockito.Mockito.*",
-                    },
-                  },
-                  sources = {
-                    organizeImports = {
-                      starThreshold = 9999,
-                      staticStarThreshold = 9999,
-                    },
-                  },
-                  codeGeneration = {
-                    toString = {
-                      template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-                    },
-                  },
-                },
-              },
-            })
-          end,
           ["pyright"] = function()
-            lspconfig.pyright.setup({
+            lspconfig.pyright.setup{
               on_attach = on_attach,
               capabilities = lsputils.capabilities,
               flags = lsputils.flags,
@@ -217,10 +153,10 @@ packer.startup({
                 return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
                   or util.path.dirname(fname)
               end,
-            })
+            }
           end,
           ["gopls"] = function()
-            lspconfig.gopls.setup({
+            lspconfig.gopls.setup{
               on_attach = on_attach,
               capabilities = lsputils.capabilities,
               flags = lsputils.flags,
@@ -249,19 +185,10 @@ packer.startup({
                   deepCompletion = true,
                 },
               },
-            })
+            }
           end,
-          ["lua-language-server"] = function()
-            local sumneko_binary_path = vim.fn.expand("$HOME")
-              .. "/software/lua-language-server/bin/lua-language-server"
-            local sumneko_root_path = vim.fn.expand("$HOME") .. "/software/lua-language-server/"
-
-            local runtime_path = vim.split(package.path, ";")
-            table.insert(runtime_path, "lua/?.lua")
-            table.insert(runtime_path, "lua/?/init.lua")
-
-            lspconfig.sumneko_lua.setup({
-              cmd = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
+          ["sumneko_lua"] = function()
+            lspconfig.sumneko_lua.setup{
               on_attach = on_attach,
               capabilities = lsputils.capabilities,
               flags = lsputils.flags,
@@ -271,25 +198,7 @@ packer.startup({
                     -- Get the language server to recognize the `vim` global
                     globals = { "vim", "plugins" },
                   },
-                  runtime = {
-                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                    version = "Lua 5.3",
-                    -- Setup your lua path
-                    path = {
-                      "?.lua",
-                      "?/init.lua",
-                      vim.fn.expand("~/.luarocks/share/lua/5.3/?.lua"),
-                      vim.fn.expand("~/.luarocks/share/lua/5.3/?/init.lua"),
-                      "/usr/share/5.3/?.lua",
-                      "/usr/share/lua/5.3/?/init.lua",
-                    },
-                  },
                   workspace = {
-                    -- Make the server aware of Neovim runtime files
-                    library = {
-                      vim.fn.expand("~/.luarocks/share/lua/5.3"),
-                      "/usr/share/lua/5.3",
-                    },
                     ignoreDir = { ".git" },
                     maxPreload = 100000,
                     preloadFileSize = 10000,
@@ -300,7 +209,7 @@ packer.startup({
                   },
                 },
               },
-            })
+            }
           end,
         })
       end,
