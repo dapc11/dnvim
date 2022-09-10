@@ -16,7 +16,7 @@ function M.config()
     -- This field is only relevant if direction is set to 'float'
     float_opts = {
       -- border = "single",
-      winblend = 3,
+      winblend = 30,
       highlights = {
         -- border = "Normal",
         background = "Normal",
