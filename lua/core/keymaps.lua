@@ -15,7 +15,7 @@ map(
   { desc = "Find file (hidden and ignored included)" }
 )
 map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>', { desc = "Find word under cursor" })
-map("v", "<Leader>fs", '"zy:Telescope grep_string default_text=<C-r>z<cr>', { desc = "Find selection" })
+map("v", "s", '"zy:Telescope grep_string default_text=<C-r>z<cr>', { desc = "Find selection" })
 map(
   "n",
   "<Leader>fr",
