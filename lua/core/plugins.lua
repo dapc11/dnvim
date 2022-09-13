@@ -79,6 +79,7 @@ packer.startup({
       end,
     })
     use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
+    use("mfussenegger/nvim-jdtls")
     use({
       "williamboman/mason-lspconfig.nvim",
       requires = {
@@ -129,73 +130,6 @@ packer.startup({
               filetypes = { "yaml", "tpl", "gotmpl" },
               settings = {
                 yaml = {},
-              },
-            })
-          end,
-          ["jdtls"] = function()
-            local bundles = {
-              vim.fn.glob(
-                os.getenv("HOME")
-                  .. "/dev/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-              ),
-            }
-            vim.list_extend(
-              bundles,
-              vim.split(vim.fn.glob(os.getenv("HOME") .. "/dev/vscode-java-test/server/*.jar"), "\n")
-            )
-
-            lspconfig.jdtls.setup({
-              cmd = {
-                'JAR="$HOME/.local/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"',
-                "java ",
-                "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-                "-Dosgi.bundles.defaultStartLevel=4",
-                "-Declipse.product=org.eclipse.jdt.ls.core.product",
-                "-Dlog.protocol=true",
-                "-Dlog.level=ALL",
-                "-Xms1g",
-                "-Xmx2G",
-                '-jar $(echo "$JAR")',
-                '-configuration "$HOME/.local/jdtls/config_linux"',
-                "--add-modules=ALL-SYSTEM",
-                "--add-opens java.base/java.util=ALL-UNNAMED",
-                "--add-opens java.base/java.lang=ALL-UNNAMED",
-                -- "-Xbootclasspath/a:$HOME/.config/nvim/dependencies/lombok.jar",
-                -- "-javaagent:$HOME/.config/nvim/dependencies/lombok.jar",
-                -- '-data "$1"',
-              },
-              root_dir = function(fname)
-                return util.root_pattern(".git", "pom.xml")(fname) or util.path.dirname(fname)
-              end,
-              on_attach = on_attach,
-              capabilities = lsputils.capabilities,
-              flags = lsputils.flags,
-              settings = {
-                java = {
-                  signatureHelp = { enabled = true },
-                  completion = {
-                    favoriteStaticMembers = {
-                      "org.hamcrest.MatcherAssert.assertThat",
-                      "org.hamcrest.Matchers.*",
-                      "org.hamcrest.CoreMatchers.*",
-                      "org.junit.jupiter.api.Assertions.*",
-                      "java.util.Objects.requireNonNull",
-                      "java.util.Objects.requireNonNullElse",
-                      "org.mockito.Mockito.*",
-                    },
-                  },
-                  sources = {
-                    organizeImports = {
-                      starThreshold = 9999,
-                      staticStarThreshold = 9999,
-                    },
-                  },
-                  codeGeneration = {
-                    toString = {
-                      template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-                    },
-                  },
-                },
               },
             })
           end,
