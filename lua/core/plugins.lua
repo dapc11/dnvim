@@ -50,7 +50,7 @@ packer.startup({
     })
     use({
       "phaazon/hop.nvim",
-      branch = "v1",
+      branch = "v2",
       disable = not _G.plugins.hop,
       config = function()
         require("configs.hop").config()
