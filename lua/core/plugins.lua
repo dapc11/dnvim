@@ -136,7 +136,7 @@ packer.startup({
             })
           end,
           ["pyright"] = function()
-            lspconfig.pyright.setup{
+            lspconfig.pyright.setup({
               on_attach = on_attach,
               capabilities = lsputils.capabilities,
               flags = lsputils.flags,
@@ -155,10 +155,10 @@ packer.startup({
                 return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
                   or util.path.dirname(fname)
               end,
-            }
+            })
           end,
           ["gopls"] = function()
-            lspconfig.gopls.setup{
+            lspconfig.gopls.setup({
               on_attach = on_attach,
               capabilities = lsputils.capabilities,
               flags = lsputils.flags,
@@ -187,10 +187,10 @@ packer.startup({
                   deepCompletion = true,
                 },
               },
-            }
+            })
           end,
           ["sumneko_lua"] = function()
-            lspconfig.sumneko_lua.setup{
+            lspconfig.sumneko_lua.setup({
               on_attach = on_attach,
               capabilities = lsputils.capabilities,
               flags = lsputils.flags,
@@ -211,7 +211,7 @@ packer.startup({
                   },
                 },
               },
-            }
+            })
           end,
         })
       end,
