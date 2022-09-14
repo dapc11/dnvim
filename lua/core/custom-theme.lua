@@ -27,7 +27,7 @@
 -- hi("TelescopePromptBorder", { guifg = "#abb2bf" })
 -- hi("TelescopeTitle", { guifg = "#abb2bf", gui = "bold" })
 -- hi("TelescopeMatching", { guifg = "#61afef" })
--- hi("TreesitterContext", { guibg = "#353b45" })
+hi("TreesitterContext", { guibg = "#363a4f" })
 -- hi("TSVariable", { guifg = "#b6bdca" })
 -- hi("TSField", { guifg = "#56b6c2" })
 -- hi("TSParameter", { guifg = "#61afef" })

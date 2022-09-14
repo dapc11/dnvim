@@ -24,6 +24,8 @@ packer.startup({
     use({
       "nvim-treesitter/nvim-treesitter",
       requires = {
+
+        "nvim-treesitter/nvim-treesitter-context",
         "mfussenegger/nvim-ts-hint-textobject",
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
