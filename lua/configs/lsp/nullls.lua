@@ -53,7 +53,7 @@ function M.config()
   }
 
   local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-  require("utils").lsp_handlers()
+  require("lsp.utils").lsp_handlers()
   null_ls.setup({
     sources = sources,
     diagnostics_format = "[#{c}] #{m}",

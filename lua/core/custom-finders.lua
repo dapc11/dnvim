@@ -11,8 +11,8 @@ function M.repo_grep()
     layout_strategy = "vertical",
     layout_config = {
       height = 0.85,
-      width = 0.75
-    }
+      width = 0.75,
+    },
   })
 end
 function M.repo_fd()
@@ -20,8 +20,8 @@ function M.repo_fd()
     cwd = "~/repos/",
     prompt_title = "Repos",
     layout_config = {
-      height = 0.85
-    }
+      height = 0.85,
+    },
   })
 end
 

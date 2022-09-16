@@ -6,7 +6,7 @@ utils.bootstrap()
 
 utils.impatient()
 
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.config/nvim/lua/configs/lsp/?/init.lua"
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.config/nvim/lua/configs/?/init.lua"
 
 -- Disable plugins
 _G.plugins = {}

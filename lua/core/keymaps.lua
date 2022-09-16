@@ -18,6 +18,7 @@ map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>', { 
 map("v", "s", '"zy:Telescope grep_string default_text=<C-r>z<cr>', { desc = "Find selection" })
 map("n", "<Leader>rg", ':lua require("core.custom-finders").repo_grep()<CR>', { desc = "Grep in repos" })
 map("n", "<Leader>rf", ':lua require("core.custom-finders").repo_fd()<CR>', { desc = "Find file in repos" })
+map("n", "<Leader>ss", ':lua require("core.custom-finders").spell_check()<CR>', { desc = "Spell check" })
 map(
   "n",
   "<Leader>o",
