@@ -4,6 +4,7 @@ function M.config()
   require("refactoring").setup({
     -- prompt for return type
     prompt_func_return_type = {
+      lua = true,
       go = true,
       cpp = true,
       c = true,
@@ -11,6 +12,7 @@ function M.config()
     },
     -- prompt for function parameters
     prompt_func_param_type = {
+      lua = true,
       go = true,
       cpp = true,
       c = true,

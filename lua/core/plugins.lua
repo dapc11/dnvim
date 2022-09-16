@@ -247,8 +247,7 @@ packer.startup({
     })
 
     use({
-      "norcalli/nvim-colorizer.lua",
-      ft = { "text", "json", "yaml", "css", "html", "lua", "vim" },
+      "NvChad/nvim-colorizer.lua",
       config = function()
         require("configs.colorizer").config()
       end,

@@ -7,7 +7,7 @@ function M.config()
   end
 
   local lsputils = require("utils")
-  require("utils").lsp_handlers()
+  lsputils.lsp_handlers()
 
   local on_attach = function(client, bufnr)
     lsputils.lsp_keymaps(bufnr)
