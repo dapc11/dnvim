@@ -16,12 +16,8 @@ map(
 )
 map("n", "<Leader>fw", ':lua require("telescope.builtin").grep_string()<CR>', { desc = "Find word under cursor" })
 map("v", "s", '"zy:Telescope grep_string default_text=<C-r>z<cr>', { desc = "Find selection" })
-map(
-  "n",
-  "<Leader>fr",
-  ':lua require("telescope.builtin").live_grep({cwd ="~/repos/", path_display={"truncate", shorten = {len = 1, exclude = {1,-1}}}})<CR>',
-  { desc = "Find in repos" }
-)
+map("n", "<Leader>rg", ':lua require("core.custom-finders").repo_grep()<CR>', { desc = "Grep in repos" })
+map("n", "<Leader>rf", ':lua require("core.custom-finders").repo_fd()<CR>', { desc = "Find file in repos" })
 map(
   "n",
   "<Leader>o",

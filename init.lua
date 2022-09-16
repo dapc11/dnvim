@@ -19,6 +19,7 @@ local sources = {
   "core.autocommands",
   "core.keymaps",
   "core.custom-theme",
+  "core.custom-finders",
 }
 
 for _, source in ipairs(sources) do
