@@ -32,7 +32,7 @@ function M.config()
       generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
       initial_mode = "insert",
       file_ignore_patterns = { "node_modules", "\\.git", ".jar", ".tar.gz", ".zip", ".png", ".jpeg", ".cache" },
-      winblend = 30,
+      winblend = 0,
       -- border = {},
       -- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       color_devicons = true,
