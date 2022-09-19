@@ -2,6 +2,7 @@ local openfile = require("nvim-tree.actions.node.open-file")
 local nt_api = require("nvim-tree.api")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
+local themes = require("telescope.themes")
 local M = {}
 
 local view_selection = function(prompt_bufnr, _)
@@ -46,7 +47,11 @@ function M.launch_telescope(func_name, opts)
   opts.cwd = basedir
   opts.search_dirs = { basedir }
   opts.attach_mappings = view_selection
-  return require("telescope.builtin")[func_name](opts)
+  opts.layout_config = {
+    height = 0.25,
+    width = 0.40,
+  }
+  return require("telescope.builtin")[func_name](themes.get_cursor(opts))
 end
 
 return M
