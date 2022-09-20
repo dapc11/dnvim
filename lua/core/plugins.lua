@@ -434,12 +434,10 @@ packer.startup({
     use({
       "mfussenegger/nvim-treehopper",
       config = function()
-        require("tsht").move({ side = "start" })
         vim.cmd([[
-        omap <silent> m :<C-U>lua require('tsht').nodes()<CR>
-        xnoremap <silent> m :lua require('tsht').nodes()<CR>
-
-      ]])
+          omap <silent> m :<C-U>lua require('tsht').nodes()<CR>
+          xnoremap <silent> m :lua require('tsht').nodes()<CR>
+        ]])
       end,
     })
   end,
