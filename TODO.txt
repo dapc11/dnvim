@@ -1,0 +1,1 @@
+- Remove cursor in nvimtree
