@@ -20,6 +20,7 @@ local sources = {
   "core.keymaps",
   "core.custom-theme",
   "core.custom-finders",
+  "user.winbar",
 }
 
 for _, source in ipairs(sources) do
