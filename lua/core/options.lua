@@ -17,7 +17,7 @@ opt.mouse = "a" -- Enable mouse
 opt.nu = true -- Line numbers
 opt.pumheight = 10 -- height of popup menu
 opt.relativenumber = true -- relative line numbers to current line
--- opt.scrolloff = 8 -- Start scroll when n lines from screen edge
+-- opt.scrolloff = 4 -- Start scroll when n lines from screen edge
 opt.shiftround = true -- Round tabs to multiplier of shiftwicth
 opt.shiftwidth = 4 -- 4 spaces
 opt.shortmess:append("c")
