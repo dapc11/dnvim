@@ -259,6 +259,7 @@ packer.startup({
     use({ "ellisonleao/gruvbox.nvim" })
     use({ "dapc11/onedark.nvim" })
     use({ "catppuccin/nvim", as = "catppuccin" })
+    use({ "folke/tokyonight.nvim" })
 
     use({
       "kyazdani42/nvim-tree.lua",
