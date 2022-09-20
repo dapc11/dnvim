@@ -1,3 +1,9 @@
+map("n", "<", "]", { noremap = false })
+map("o", "<", "]", { noremap = false })
+map("x", "<", "]", { noremap = false })
+map("n", ">", "[", { noremap = false })
+map("o", ">", "[", { noremap = false })
+map("x", ">", "[", { noremap = false })
 -- Fuzzy find
 map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>', { desc = "Find keymap" })
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>', { desc = "Find file in history" })

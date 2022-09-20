@@ -30,13 +30,6 @@ for _, source in ipairs(sources) do
   end
 end
 
-map("n", "<", "]", { noremap = false })
-map("o", "<", "]", { noremap = false })
-map("x", "<", "]", { noremap = false })
-map("n", ">", "[", { noremap = false })
-map("o", ">", "[", { noremap = false })
-map("x", ">", "[", { noremap = false })
-
 vim.cmd([[
 " using range-aware function
 function! QFdelete(bufnr) range
