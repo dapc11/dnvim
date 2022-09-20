@@ -108,8 +108,8 @@ packer.startup({
           lsputils.lsp_keymaps(bufnr)
           lsputils.attach_navic(client, bufnr)
           lsputils.lsp_highlight_document(client)
-          client.resolved_capabilities.document_formatting = false
-          client.resolved_capabilities.document_range_formatting = false
+          client.server_capabilities.formatting = false
+          client.server_capabilities.range_formatting = false
         end
         require("mason-lspconfig").setup_handlers({
           -- The first entry (without a key) will be the default handler

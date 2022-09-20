@@ -12,8 +12,8 @@ function M.config()
   local on_attach = function(client, bufnr)
     lsputils.lsp_keymaps(bufnr)
     lsputils.lsp_highlight_document(client)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.document_formatting = false
+    client.server_capabilities.document_range_formatting = false
   end
 
   -- Use a loop to conveniently call "setup" on multiple servers and

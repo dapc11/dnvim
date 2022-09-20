@@ -82,7 +82,7 @@ function M.config()
           group = augroup,
           buffer = bufnr,
           -- on 0.8, you should use vim.lsp.buf.format instead
-          callback = vim.lsp.buf.formatting_sync,
+          callback = vim.lsp.buf.format,
         })
       end
     end,
