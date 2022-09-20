@@ -24,8 +24,6 @@ packer.startup({
     use({
       "nvim-treesitter/nvim-treesitter",
       requires = {
-
-        "nvim-treesitter/nvim-treesitter-context",
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
       config = function()
@@ -108,6 +106,7 @@ packer.startup({
 
         local on_attach = function(client, bufnr)
           lsputils.lsp_keymaps(bufnr)
+          lsputils.attach_navic(client, bufnr)
           lsputils.lsp_highlight_document(client)
           client.resolved_capabilities.document_formatting = false
           client.resolved_capabilities.document_range_formatting = false
@@ -439,6 +438,10 @@ packer.startup({
           xnoremap <silent> m :lua require('tsht').nodes()<CR>
         ]])
       end,
+    })
+    use({
+      "SmiteshP/nvim-navic",
+      requires = "neovim/nvim-lspconfig",
     })
   end,
   config = {

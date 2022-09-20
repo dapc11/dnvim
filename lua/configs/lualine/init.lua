@@ -1,5 +1,23 @@
 local M = {}
 
+local navic = require('nvim-navic')
+local function navic_location()
+  local none_display = "🙈🙊🙉"
+  if navic.is_available() then
+    local l = navic.get_location()
+    return (l ~= "") and l or none_display
+  else
+    return none_display
+  end
+end
+
+local winbar = {
+  lualine_a = {
+    { navic_location }
+  },
+}
+
+
 function M.config()
   local components = require("configs.lualine.components")
   require("lualine").setup({
@@ -9,6 +27,7 @@ function M.config()
       always_divide_middle = true,
       globalstatus = true,
     },
+    winbar = winbar,
     sections = {
       lualine_a = {
         components.mode,

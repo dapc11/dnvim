@@ -1,9 +1,3 @@
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_ok then
-  error("Failed loading cmp_nvim_lsp")
-  return
-end
-
 local M = {}
 
 M.lsp_handlers = function()
@@ -53,6 +47,7 @@ M.lsp_handlers = function()
     end
   end
 end
+
 function M.lsp_keymaps(bufnr)
   vim.api.nvim_buf_set_keymap(
     bufnr,
@@ -108,6 +103,16 @@ function M.lsp_keymaps(bufnr)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 end
 
+function M.attach_navic(client, bufnr)
+  vim.g.navic_silence = false
+  local ok, navic = pcall(require, "nvim-navic")
+  if not ok then
+    print("Failed loading navic")
+    return
+  end
+  navic.attach(client, bufnr)
+end
+
 function M.lsp_highlight_document(client)
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec(
@@ -122,6 +127,12 @@ function M.lsp_highlight_document(client)
       false
     )
   end
+end
+
+local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not ok then
+  error("Failed loading cmp_nvim_lsp")
+  return
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
