@@ -2,7 +2,6 @@ local M = {}
 
 function M.config()
   require("colorizer").setup(
-    { "*" }, -- Highlight all files, but customize some others
     {
       RGB = true, -- #RGB hex codes
       RRGGBB = true, -- #RRGGBB hex codes
