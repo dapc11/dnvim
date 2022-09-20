@@ -11,7 +11,7 @@ function M.config()
 
   local on_attach = function(client, bufnr)
     lsputils.lsp_keymaps(bufnr)
-    lsputils.lsp_highlight_document(client)
+    lsputils.lsp_highlight_document(client, bufnr)
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
   end

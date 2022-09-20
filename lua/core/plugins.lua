@@ -107,7 +107,7 @@ packer.startup({
         local on_attach = function(client, bufnr)
           lsputils.lsp_keymaps(bufnr)
           lsputils.attach_navic(client, bufnr)
-          lsputils.lsp_highlight_document(client)
+          lsputils.lsp_highlight_document(client, bufnr)
           client.server_capabilities.formatting = false
           client.server_capabilities.range_formatting = false
         end

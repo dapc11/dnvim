@@ -28,7 +28,7 @@ local on_attach = function(client, bufnr)
   end
   lsputils.attach_navic(client, bufnr)
   lsputils.lsp_keymaps(bufnr)
-  lsputils.lsp_highlight_document(client)
+  lsputils.lsp_highlight_document(client, bufnr)
 
   buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true })
 end
