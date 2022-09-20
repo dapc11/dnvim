@@ -12,10 +12,27 @@ function M.config()
 
   telescope.setup({
     pickers = {
+      lsp_references = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
+      lsp_definitions = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
+      lsp_declarations = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
+      lsp_implementations = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
       buffers = {
         mappings = {
           n = {
             ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+            ["dd"] = actions.delete_buffer,
           },
           i = {
             ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
