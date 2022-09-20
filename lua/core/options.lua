@@ -5,7 +5,7 @@ opt.autoread = true
 opt.backup = false
 opt.clipboard = vim.o.clipboard .. "unnamedplus" -- System clipboard
 opt.colorcolumn = "100" -- Dont go further
-opt.completeopt = "menu,menuone,noselect"
+opt.completeopt = {"menuone","noselect"} -- mostly just for cmp
 opt.cursorline = true -- Highlgiht cursor line
 opt.errorbells = false -- No sound on error
 opt.expandtab = true -- In Insert mode: Use the appropriate number of spaces to insert a tab
@@ -15,9 +15,9 @@ opt.ignorecase = true
 opt.incsearch = true -- Evolve search as I write
 opt.mouse = "a" -- Enable mouse
 opt.nu = true -- Line numbers
-opt.pumheight = 15 -- height of popup menu
+opt.pumheight = 10 -- height of popup menu
 opt.relativenumber = true -- relative line numbers to current line
-opt.scrolloff = 8 -- Start scroll when n lines from screen edge
+-- opt.scrolloff = 8 -- Start scroll when n lines from screen edge
 opt.shiftround = true -- Round tabs to multiplier of shiftwicth
 opt.shiftwidth = 4 -- 4 spaces
 opt.shortmess:append("c")
@@ -53,7 +53,7 @@ if executable("rg")
   set grepprg=rg\ --vimgrep
 endif
 ]])
-vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
 
 require("catppuccin").setup()
 
@@ -61,29 +61,6 @@ vim.cmd([[
   set background=dark
   colorscheme catppuccin
 ]])
--- Use proper syntax highlighting in code blocks
-local fences = {
-  "lua",
-  -- "vim",
-  "json",
-  "typescript",
-  "javascript",
-  "js=javascript",
-  "ts=typescript",
-  "shell=sh",
-  "python",
-  "sh",
-  "console=sh",
-}
-g.markdown_fenced_languages = fences
-
--- plasticboy/vim-markdown
-g.vim_markdown_folding_level = 10
-g.vim_markdown_fenced_languages = fences
-g.vim_markdown_folding_style_pythonic = 1
-g.vim_markdown_conceal_code_blocks = 0
-g.vim_markdown_frontmatter = 1
-g.vim_markdown_strikethrough = 1
 
 -- Bracketed paste
 -- Code from:

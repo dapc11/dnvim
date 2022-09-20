@@ -74,14 +74,13 @@ function M.config()
           bufnr,
           "n",
           "<space>cf",
-          "<cmd>lua vim.lsp.buf.formatting()<CR>",
+          "<cmd>lua vim.lsp.buf.format({async = true})<CR>",
           { desc = "Format file" }
         )
         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
         vim.api.nvim_create_autocmd("BufWritePre", {
           group = augroup,
           buffer = bufnr,
-          -- on 0.8, you should use vim.lsp.buf.format instead
           callback = vim.lsp.buf.format,
         })
       end
