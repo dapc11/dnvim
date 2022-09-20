@@ -145,8 +145,8 @@ vim.cmd([[
     endfunction
     command! ClearQuickfixList call ClearQuickfixList()
 ]])
-map("n", "<leader>cc", ":ClearQuickfixList<CR>", { desc = "Clear qf" })
-map("n", "<leader>l", ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>", { desc = "Clear highlights" })
+map("n", "<leader>zz", ":ClearQuickfixList<CR>", { desc = "Clear qf" })
+map("n", "<leader>zl", ":nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><c-l>", { desc = "Clear highlights" })
 if _G.plugins.hop then
   map(
     "n",
