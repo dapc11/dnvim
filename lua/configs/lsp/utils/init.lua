@@ -54,14 +54,39 @@ M.lsp_handlers = function()
   end
 end
 function M.lsp_keymaps(bufnr)
+  vim.api.nvim_buf_set_keymap(
+    bufnr,
+    "n",
+    "gd",
+    "<cmd>Telescope lsp_definitions<CR>",
+    { noremap = true, silent = true, desc = "Goto definition" }
+  )
+  vim.api.nvim_buf_set_keymap(
+    bufnr,
+    "n",
+    "gD",
+    "<cmd>Telescope lsp_declarations<CR>",
+    { noremap = true, silent = true, desc = "Goto declaration" }
+  )
+  vim.api.nvim_buf_set_keymap(
+    bufnr,
+    "n",
+    "gi",
+    "<cmd>Telescope lsp_implementations<CR>",
+    { noremap = true, silent = true, desc = "Goto implementation" }
+  )
+  vim.api.nvim_buf_set_keymap(
+    bufnr,
+    "n",
+    "gr",
+    "<cmd>Telescope lsp_references<CR>",
+    { noremap = true, silent = true, desc = "Show references" }
+  )
   vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "View diagnostic" })
   vim.keymap.set("n", ">d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
   vim.keymap.set("n", "<d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
   vim.keymap.set("n", "<space>cl", vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition", buffer = bufnr })
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show hover information", buffer = bufnr })
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation", buffer = bufnr })
   vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help", buffer = bufnr })
   vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help", buffer = bufnr })
   vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace", buffer = bufnr })
@@ -76,7 +101,11 @@ function M.lsp_keymaps(bufnr)
   vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { desc = "Rename", buffer = bufnr })
   vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { desc = "Code actions", buffer = bufnr })
   vim.keymap.set("n", "<space>cf", vim.lsp.buf.formatting, { desc = "Format current buffer", buffer = bufnr })
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Show references", buffer = bufnr })
+  -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto declaration" })
+  -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition", buffer = bufnr })
+  -- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation", buffer = bufnr })
+  -- vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Show references", buffer = bufnr })
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 end
 
 function M.lsp_highlight_document(client)
