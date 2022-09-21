@@ -59,6 +59,10 @@ function M.config()
         theme = "dropdown",
         layout_config = dropdown_config,
       },
+      live_grep = {
+        theme = "dropdown",
+        layout_config = dropdown_config,
+      },
       buffers = {
         theme = "dropdown",
         previewer = false,
