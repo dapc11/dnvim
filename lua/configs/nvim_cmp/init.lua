@@ -12,9 +12,7 @@ function M.config()
   local handlers = require("nvim-autopairs.completion.handlers")
   local compare = require("cmp.config.compare")
 
-  vim.cmd([[
-  set completeopt=menu,menuone,noselect
-  ]])
+  vim.opt.completeopt = "menu,menuone,noselect"
 
   cmp.event:on(
     "confirm_done",
