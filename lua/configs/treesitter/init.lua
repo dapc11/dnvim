@@ -6,7 +6,7 @@ function M.config()
   local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
   local disable_large_files = function(_, bufnr)
-    return vim.api.nvim_buf_line_count(bufnr) > 1000
+    return vim.api.nvim_buf_line_count(bufnr) > 2000
   end
 
   parser_config.gotmpl = {

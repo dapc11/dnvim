@@ -15,7 +15,7 @@ augroups.buf_write_pre = {
 			let current_pos = getpos(".")
 			silent! %s/\v\s+$|\n+%$//e
 			silent! call setpos(".", current_pos)
-		]],
+		]] ,
   },
 }
 
@@ -51,7 +51,7 @@ augroups.misc = {
 
         vim.bo.undofile = false
         vim.wo.colorcolumn = ""
-        vim.wo.relativenumber = false
+        vim.wo.relativenumber = true
         vim.wo.foldmethod = "manual"
         vim.wo.spell = false
         vim.opt.hlsearch = false

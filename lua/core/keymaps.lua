@@ -5,6 +5,7 @@ map("n", ">", "[", { noremap = false })
 map("o", ">", "[", { noremap = false })
 map("x", ">", "[", { noremap = false })
 -- Fuzzy find
+map("n", "<leader>b", ':lua require("telescope.builtin").buffers()<CR>', { desc = "Find buffer" })
 map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>', { desc = "Find keymap" })
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>', { desc = "Find file in history" })
 map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>', { desc = "Find Git file" })
@@ -35,7 +36,8 @@ map(
 map(
   "n",
   "<Leader>ff",
-  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>',
+  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>'
+  ,
   { desc = "Find repos file" }
 )
 map(
