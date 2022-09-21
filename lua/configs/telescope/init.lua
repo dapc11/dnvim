@@ -14,17 +14,37 @@ function M.config()
     pickers = {
       lsp_references = {
         theme = "dropdown",
+        initial_mode = "normal",
       },
       lsp_definitions = {
         theme = "dropdown",
+        initial_mode = "normal",
       },
       lsp_declarations = {
         theme = "dropdown",
+        initial_mode = "normal",
       },
       lsp_implementations = {
         theme = "dropdown",
+        initial_mode = "normal",
+      },
+      find_files = {
+        theme = "dropdown",
+        previewer = false,
+      },
+      oldfiles = {
+        theme = "dropdown",
+      },
+      git_files = {
+        theme = "dropdown",
+      },
+      current_buffer_fuzzy_find = {
+        theme = "dropdown",
       },
       buffers = {
+        theme = "dropdown",
+        previewer = false,
+        initial_mode = "normal",
         mappings = {
           n = {
             ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
@@ -40,7 +60,7 @@ function M.config()
       prompt_prefix = "   ",
       selection_caret = "  ",
       entry_prefix = "  ",
-      path_display = { "truncate" },
+      path_display = { "smart" },
       file_sorter = require("telescope.sorters").get_fuzzy_file,
       generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
       initial_mode = "insert",

@@ -8,7 +8,6 @@ function M.repo_grep()
     cwd = "~/repos/",
     path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1 } } },
     prompt_title = "Repos",
-    layout_strategy = "vertical",
     layout_config = {
       height = 0.85,
       width = 0.75,
