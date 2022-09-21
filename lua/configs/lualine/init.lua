@@ -1,21 +1,5 @@
 local M = {}
 
-local navic = require("nvim-navic")
-local function navic_location()
-  if navic.is_available() then
-    local l = navic.get_location()
-    return (l ~= "") and l or ""
-  else
-    return ""
-  end
-end
-
-local winbar = {
-  lualine_a = {
-    { navic_location },
-  },
-}
-
 function M.config()
   local components = require("configs.lualine.components")
   require("lualine").setup({
