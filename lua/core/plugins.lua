@@ -202,6 +202,11 @@ packer.startup({
                     ignoreDir = { ".git" },
                     maxPreload = 100000,
                     preloadFileSize = 10000,
+                    library = {
+                      [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                      [vim.fn.stdpath("config") .. "/lua"] = true,
+                      -- [vim.fn.datapath "config" .. "/lua"] = true,
+                    },
                   },
                   -- Do not send telemetry data containing a randomized but unique identifier
                   telemetry = {

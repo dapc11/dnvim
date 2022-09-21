@@ -6,7 +6,7 @@ function M.config()
     return
   end
 
-  local lsputils = require("utils")
+  local lsputils = require("configs.lsp.utils")
   lsputils.lsp_handlers()
 
   local on_attach = function(client, bufnr)
