@@ -9,42 +9,61 @@ function M.config()
   local actions = require("telescope.actions")
   local action_layout = require("telescope.actions.layout")
   local putils = require("telescope.previewers.utils")
+  local dropdown_config = {
+    center = {
+      height = 0.4,
+      preview_cutoff = 40,
+      prompt_position = "top",
+      width = 0.7,
+    },
+  }
 
   telescope.setup({
     pickers = {
       lsp_references = {
         theme = "dropdown",
         initial_mode = "normal",
+        layout_config = dropdown_config,
       },
       lsp_definitions = {
         theme = "dropdown",
         initial_mode = "normal",
+        layout_config = dropdown_config,
       },
       lsp_declarations = {
         theme = "dropdown",
         initial_mode = "normal",
+        layout_config = dropdown_config,
       },
       lsp_implementations = {
         theme = "dropdown",
         initial_mode = "normal",
+        layout_config = dropdown_config,
       },
       find_files = {
         theme = "dropdown",
         previewer = false,
+        layout_config = dropdown_config,
       },
       oldfiles = {
         theme = "dropdown",
+        previewer = false,
+        layout_config = dropdown_config,
       },
       git_files = {
         theme = "dropdown",
+        previewer = false,
+        layout_config = dropdown_config,
       },
       current_buffer_fuzzy_find = {
         theme = "dropdown",
+        layout_config = dropdown_config,
       },
       buffers = {
         theme = "dropdown",
         previewer = false,
         initial_mode = "normal",
+        layout_config = dropdown_config,
         mappings = {
           n = {
             ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
@@ -71,19 +90,6 @@ function M.config()
       color_devicons = true,
       use_less = true,
       set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-      layout_config = {
-        horizontal = {
-          prompt_position = "top",
-          preview_width = 0.55,
-          results_width = 0.8,
-        },
-        vertical = {
-          mirror = false,
-        },
-        width = 0.87,
-        height = 0.80,
-        preview_cutoff = 120,
-      },
       vimgrep_arguments = {
         "rg",
         "--no-heading",
