@@ -263,7 +263,10 @@ packer.startup({
 
     use({ "ellisonleao/gruvbox.nvim" })
     use({ "dapc11/onedark.nvim" })
-    use({ "catppuccin/nvim", as = "catppuccin" })
+    use({
+      "catppuccin/nvim",
+      as = "catppuccin",
+    })
     use({ "folke/tokyonight.nvim" })
 
     use({
@@ -447,6 +450,11 @@ packer.startup({
     })
     use({
       "SmiteshP/nvim-navic",
+      config = function()
+        require("nvim-navic").setup({
+          highlight = true,
+        })
+      end,
       requires = "neovim/nvim-lspconfig",
     })
   end,

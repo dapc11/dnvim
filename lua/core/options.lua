@@ -53,10 +53,50 @@ if executable("rg")
   set grepprg=rg\ --vimgrep
 endif
 ]])
-vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
+g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
 
-require("catppuccin").setup()
-
+require("catppuccin").setup({
+  integrations = {
+    cmp = true,
+    dashboard = true,
+    fidget = true,
+    gitsigns = true,
+    hop = true,
+    neogit = true,
+    nvimtree = true,
+    telescope = true,
+    treesitter = true,
+    which_key = true,
+    -- Special integrations, see https://github.com/catppuccin/nvim#special-integrations
+    dap = {
+      enabled = true,
+      enable_ui = true,
+    },
+    indent_blankline = {
+      enabled = true,
+      colored_indent_levels = false,
+    },
+    native_lsp = {
+      enabled = true,
+      virtual_text = {
+        errors = { "italic" },
+        hints = { "italic" },
+        warnings = { "italic" },
+        information = { "italic" },
+      },
+      underlines = {
+        errors = { "underline" },
+        hints = { "underline" },
+        warnings = { "underline" },
+        information = { "underline" },
+      },
+    },
+    navic = {
+      enabled = true,
+      custom_bg = "NONE",
+    },
+  },
+})
 vim.cmd([[
   set background=dark
   colorscheme catppuccin
