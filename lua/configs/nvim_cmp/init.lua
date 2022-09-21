@@ -10,6 +10,11 @@ function M.config()
   local cmp = require("cmp")
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
   local handlers = require("nvim-autopairs.completion.handlers")
+  local compare = require("cmp.config.compare")
+
+  vim.cmd([[
+  set completeopt=menu,menuone,noselect
+  ]])
 
   cmp.event:on(
     "confirm_done",
@@ -66,7 +71,7 @@ function M.config()
     }),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<CR>"] = cmp.mapping({
-      i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+      i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
       c = function(fallback)
         if cmp.visible() then
           cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
@@ -138,34 +143,39 @@ function M.config()
     },
     window = {
       documentation = cmp.config.window.bordered(),
+      completion = cmp.config.window.bordered(),
+    },
+    sorting = {
+      priority_weight = 2,
+      comparators = {
+        compare.offset,
+        compare.exact,
+        compare.score,
+        compare.recently_used,
+        compare.locality,
+        compare.sort_text,
+        compare.length,
+        compare.order,
+      },
     },
     sources = cmp.config.sources({
-      { name = "nvim_lsp" },
+      {
+        name = "nvim_lsp",
+        entry_filter = function(entry, ctx)
+          return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
+        end,
+      },
       { name = "luasnip" },
-    }, {
-      { name = "buffer", keyword_length = 3 },
+      { name = "buffer" },
       { name = "path", max_item_count = 10 },
     }),
   })
-
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline("/", {
-    mapping = mapping,
-    sources = {
-      { name = "buffer", keyword_length = 2 },
-    },
-  })
   cmp.setup.cmdline(":", {
+    preselect = cmp.PreselectMode.None,
     mapping = mapping,
     sources = {
-      { name = "path", keyword_length = 2 },
-      { name = "cmdline", keyword_length = 2, keyword_pattern = [=[[^[:blank:]\!]*]=] },
-    },
-  })
-  cmp.setup.filetype({ "gitcommit", "fugitive" }, {
-    sources = {
-      { name = "buffer" },
       { name = "path" },
+      { name = "cmdline", keyword_length = 2, keyword_pattern = [=[[^[:blank:]\!]*]=] },
     },
   })
 end

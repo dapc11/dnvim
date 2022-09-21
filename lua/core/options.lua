@@ -5,7 +5,6 @@ opt.autoread = true
 opt.backup = false
 opt.clipboard = vim.o.clipboard .. "unnamedplus" -- System clipboard
 opt.colorcolumn = "100" -- Dont go further
-opt.completeopt = {"menuone","noselect"} -- mostly just for cmp
 opt.cursorline = true -- Highlgiht cursor line
 opt.errorbells = false -- No sound on error
 opt.expandtab = true -- In Insert mode: Use the appropriate number of spaces to insert a tab
