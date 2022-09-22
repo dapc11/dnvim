@@ -3,6 +3,7 @@ function M.config()
   local function custom_callback(callback_name)
     return string.format(":lua require('configs.nvim_tree.utils').%s()<CR>", callback_name)
   end
+
   require("nvim-tree").setup({
     auto_reload_on_write = true,
     create_in_closed_folder = false,
@@ -22,10 +23,9 @@ function M.config()
     reload_on_bufenter = false,
     respect_buf_cwd = false,
     view = {
-      adaptive_size = true,
+      adaptive_size = false,
       centralize_selection = false,
       width = 40,
-      height = 30,
       hide_root_folder = false,
       side = "left",
       preserve_window_proportions = false,
@@ -36,8 +36,8 @@ function M.config()
         custom_only = false,
         list = {
           { key = "<c-e>", action = nil },
-          { key = "<c-f>", cb = custom_callback("launch_find_files") },
-          { key = "<c-g>", cb = custom_callback("launch_live_grep") },
+          { key = "<leader>f", cb = custom_callback("launch_find_files") },
+          { key = "<leader><leader>", cb = custom_callback("launch_live_grep") },
         },
       },
     },
