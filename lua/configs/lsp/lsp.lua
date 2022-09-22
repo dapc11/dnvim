@@ -128,7 +128,7 @@ function M.config()
     },
     root_dir = function(fname)
       return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
-        or util.path.dirname(fname)
+          or util.path.dirname(fname)
     end,
   })
 
@@ -137,7 +137,7 @@ function M.config()
 
   win.default_opts = function(options)
     local opts = _default_opts(options)
-    opts.border = "single"
+    opts.border = "rounded"
     return opts
   end
 end

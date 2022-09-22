@@ -17,7 +17,7 @@ local _default_opts = win.default_opts
 
 win.default_opts = function(options)
   local opts = _default_opts(options)
-  opts.border = "single"
+  opts.border = "rounded"
   return opts
 end
 lsputils.lsp_handlers()
@@ -26,6 +26,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
+
   lsputils.attach_navic(client, bufnr)
   lsputils.lsp_keymaps(bufnr)
   lsputils.lsp_highlight_document(client, bufnr)
