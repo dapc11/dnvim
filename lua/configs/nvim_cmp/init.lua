@@ -12,7 +12,7 @@ function M.config()
   local handlers = require("nvim-autopairs.completion.handlers")
   local compare = require("cmp.config.compare")
 
-  vim.opt.completeopt = "menu,menuone,noselect"
+  vim.o.completeopt = "menuone,noselect"
 
   cmp.event:on(
     "confirm_done",
@@ -31,7 +31,6 @@ function M.config()
       },
     })
   )
-
   local kind_icons = {
     Text = "",
     Method = "m",
@@ -121,6 +120,7 @@ function M.config()
         -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
         vim_item.menu = ({
           nvim_lsp = "[Lsp]",
+          nvim_lua = "[Lua]",
           luasnip = "[Snip]",
           buffer = "[Buf]",
           path = "[Path]",
@@ -175,6 +175,33 @@ function M.config()
       { name = "path" },
       { name = "cmdline", keyword_length = 2, keyword_pattern = [=[[^[:blank:]\!]*]=] },
     },
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline("/", {
+    mapping = mapping,
+    preselect = cmp.PreselectMode.None,
+    sources = {
+      { name = "buffer" },
+    },
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage", "NEOGIT_COMMIT_EDITMSG" }, {
+    sources = cmp.config.sources({
+      {
+        name = "buffer",
+        option = {
+          get_bufnrs = function()
+            local bufs = {}
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+              bufs[vim.api.nvim_win_get_buf(win)] = true
+            end
+            return vim.tbl_keys(bufs)
+          end,
+        },
+      },
+    }),
   })
 end
 

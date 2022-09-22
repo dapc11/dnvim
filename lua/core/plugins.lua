@@ -63,16 +63,15 @@ packer.startup({
       end,
     })
 
+    use("hrsh7th/cmp-buffer") -- buffer completions
+    use("hrsh7th/cmp-path") -- path completions
+    use("hrsh7th/cmp-cmdline") -- cmdline completions
+    use("hrsh7th/cmp-nvim-lsp")
+    use("hrsh7th/cmp-nvim-lua")
     use({ "rafamadriz/friendly-snippets" })
     use({
       "hrsh7th/nvim-cmp",
       after = "LuaSnip",
-      requires = {
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-      },
       config = function()
         require("configs.nvim_cmp").config()
       end,
@@ -151,7 +150,7 @@ packer.startup({
               },
               root_dir = function(fname)
                 return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
-                  or util.path.dirname(fname)
+                    or util.path.dirname(fname)
               end,
             })
           end,
