@@ -83,7 +83,7 @@ function M.config()
       prompt_prefix = "   ",
       selection_caret = "  ",
       entry_prefix = "  ",
-      path_display = { "smart" },
+      path_display = { "truncate" },
       file_sorter = require("telescope.sorters").get_fuzzy_file,
       generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
       initial_mode = "insert",
