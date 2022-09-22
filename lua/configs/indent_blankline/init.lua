@@ -12,7 +12,6 @@ function M.config()
         "startify",
         "dashboard",
         "packer",
-        "neogitstatus",
         "NvimTree",
         "Trouble",
         "text",

@@ -150,7 +150,7 @@ packer.startup({
               },
               root_dir = function(fname)
                 return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
-                    or util.path.dirname(fname)
+                  or util.path.dirname(fname)
               end,
             })
           end,
@@ -428,7 +428,6 @@ packer.startup({
       ft = "markdown",
       cmd = { "MarkdownPreview" },
     })
-    use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
     use({
       "akinsho/toggleterm.nvim",
       config = function()

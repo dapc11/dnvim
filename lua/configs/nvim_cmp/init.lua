@@ -187,7 +187,7 @@ function M.config()
   })
 
   -- Set configuration for specific filetype.
-  cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage", "NEOGIT_COMMIT_EDITMSG" }, {
+  cmp.setup.filetype({ "gitcommit" }, {
     sources = cmp.config.sources({
       {
         name = "buffer",

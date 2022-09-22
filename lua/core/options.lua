@@ -57,7 +57,6 @@ require("catppuccin").setup({
     fidget = true,
     gitsigns = true,
     hop = true,
-    neogit = true,
     nvimtree = true,
     telescope = true,
     treesitter = true,
