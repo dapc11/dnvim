@@ -37,10 +37,6 @@ opt.whichwrap:append("<>[]hl")
 
 g.mapleader = " "
 g.do_filetype_lua = 1
-g.indent_blankline_use_treesitter = true
-g.indent_blankline_show_first_indent_level = true
-g.indent_blankline_filetype_exclude = { "help" }
-g.indentLine_setConceal = 0
 g.registers_window_border = "rounded"
 
 vim.bo.matchpairs = "(:),{:},[:],<:>"
