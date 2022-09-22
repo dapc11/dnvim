@@ -36,8 +36,7 @@ map(
 map(
   "n",
   "<Leader>ff",
-  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>'
-  ,
+  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>',
   { desc = "Find repos file" }
 )
 map(
@@ -189,7 +188,7 @@ if _G.plugins.hop then
   )
 end
 
-map("n", "<C-e>", ":NvimTreeToggle<CR>", { desc = "Toggle explorer" })
+map("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle explorer" })
 map("n", "<leader>cd", "<cmd>lua vim.diagnostic.disable()<CR>", { desc = "Disable diagnostics" })
 map("n", "<leader>ce", "<cmd>lua vim.diagnostic.enable()<CR>", { desc = "Enable diagnostics" })
 

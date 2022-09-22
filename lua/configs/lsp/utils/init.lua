@@ -77,7 +77,7 @@ function M.lsp_keymaps(bufnr)
     "<cmd>Telescope lsp_references<CR>",
     { noremap = true, silent = true, desc = "Show references" }
   )
-  vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "View diagnostic" })
+  vim.keymap.set("n", "<space>k", vim.diagnostic.open_float, { desc = "View diagnostic" })
   vim.keymap.set("n", ">d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
   vim.keymap.set("n", "<d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
   vim.keymap.set("n", "<space>cl", vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
