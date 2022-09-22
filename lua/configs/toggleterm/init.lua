@@ -53,6 +53,7 @@ function M.config()
     lazygit:toggle()
   end
 
+  vim.api.nvim_set_keymap("n", "<C-g>", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
   vim.api.nvim_set_keymap("n", "<leader>gg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 
   -- if you only want these mappings for toggle term use term://*toggleterm#* instead
