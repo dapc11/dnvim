@@ -20,14 +20,32 @@ local view_selection = function(prompt_bufnr, _)
 end
 
 function M.launch_live_grep(opts)
+  opts = {
+    hidden = true,
+    previewer = false,
+    layout_config = {
+      cursor = {
+        height = 0.40,
+        width = 0.40,
+      },
+    },
+  }
   return M.launch_telescope("live_grep", opts)
 end
 
 function M.launch_find_files(opts)
+  opts = {
+    hidden = true,
+    initial_mode = "normal",
+    layout_config = {
+      height = 0.25,
+      width = 0.40,
+    },
+  }
   return M.launch_telescope("find_files", opts)
 end
 
-function M.launch_telescope(func_name, opts)
+function M.launch_telescope(picker, opts)
   local telescope_status_ok, _ = pcall(require, "telescope")
   if not telescope_status_ok then
     return
@@ -43,15 +61,10 @@ function M.launch_telescope(func_name, opts)
     basedir = TreeExplorer.cwd
   end
 
-  opts = opts or {}
   opts.cwd = basedir
   opts.search_dirs = { basedir }
   opts.attach_mappings = view_selection
-  opts.layout_config = {
-    height = 0.25,
-    width = 0.40,
-  }
-  return require("telescope.builtin")[func_name](themes.get_cursor(opts))
+  return require("telescope.builtin")[picker](themes.get_cursor(opts))
 end
 
 return M
