@@ -15,12 +15,9 @@ function M.config()
     shell = vim.o.shell, -- change the default shell
     -- This field is only relevant if direction is set to 'float'
     float_opts = {
-      -- border = "single",
-      winblend = 30,
-      highlights = {
-        -- border = "Normal",
-        background = "Normal",
-      },
+      border = "none",
+      width = 100000,
+      height = 100000,
     },
     size = function(term)
       if term.direction == "horizontal" then
@@ -36,8 +33,30 @@ function M.config()
     vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
   end
 
+  local Terminal = require("toggleterm.terminal").Terminal
+  local lazygit = Terminal:new({
+    cmd = "lazygit",
+    dir = "git_dir",
+    direction = "float",
+    -- function to run on opening the terminal
+    on_open = function(term)
+      vim.cmd("startinsert!")
+      vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+    end,
+    -- function to run on closing the terminal
+    on_close = function(term)
+      vim.cmd("startinsert!")
+    end,
+  })
+
+  function _lazygit_toggle()
+    lazygit:toggle()
+  end
+
+  vim.api.nvim_set_keymap("n", "<leader>gg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
+
   -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-  vim.cmd("autocmd TermOpen term://*toggleterm#* silent! lua set_terminal_keymaps()")
+  -- vim.cmd("autocmd TermOpen term://*toggleterm#* silent! lua set_terminal_keymaps()")
 end
 
 return M
