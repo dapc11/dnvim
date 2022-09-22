@@ -1,7 +1,6 @@
 local M = {}
 
 function M.config()
-  -- vim.cmd([[highlight IndentBlanklineChar guifg=#3e4451 gui=nocombine]])
   require("indent_blankline").setup({
     active = true,
     on_config_done = nil,
