@@ -85,7 +85,11 @@ packer.startup({
         "neovim/nvim-lspconfig",
       },
       config = function()
-        require("mason").setup()
+        require("mason").setup({
+          ui = {
+            border = "rounded",
+          },
+        })
         require("mason-lspconfig").setup()
         local status_ok, lspconfig = pcall(require, "lspconfig")
         if not status_ok then
@@ -150,7 +154,7 @@ packer.startup({
               },
               root_dir = function(fname)
                 return util.root_pattern(".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt")(fname)
-                    or util.path.dirname(fname)
+                  or util.path.dirname(fname)
               end,
             })
           end,
