@@ -98,14 +98,14 @@ M.get_winbar = function()
     end
   end
 
-  if not isempty(value) and get_buf_option("mod") then
-    local mod = "%#LspCodeLens#  %*"
-    if gps_added then
-      value = value .. " " .. mod
-    else
-      value = value .. mod
-    end
-  end
+  -- if not isempty(value) and get_buf_option("mod") then
+  --   local mod = "%#LspCodeLens#  %*"
+  --   if gps_added then
+  --     value = value .. " " .. mod
+  --   else
+  --     value = value .. mod
+  --   end
+  -- end
 
   local num_tabs = #vim.api.nvim_list_tabpages()
 
