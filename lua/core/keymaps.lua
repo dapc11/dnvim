@@ -36,7 +36,8 @@ map(
 map(
   "n",
   "<Leader>ff",
-  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>',
+  ':lua require("telescope.builtin").find_files({cwd = "~/repos/", path_display={"truncate", shorten = {len = 3, exclude = {1,-1}}}})<CR>'
+  ,
   { desc = "Find repos file" }
 )
 map(
@@ -52,10 +53,10 @@ map("n", "<C-j>", ':lua require("telescope.builtin").jumplist()<CR>', { desc = "
 -- Harpoon
 map("n", "<A-m>", ":lua require('harpoon.mark').add_file()<CR>", { desc = "Add current buffer to Harpoon" })
 map("n", "<A-l>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { desc = "Harpoon list" })
-map("n", "<A-1>", ":lua require('harpoon.ui').nav_file(1)<CR>", { desc = "First entry" })
-map("n", "<A-2>", ":lua require('harpoon.ui').nav_file(2)<CR>", { desc = "Second entry" })
-map("n", "<A-3>", ":lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Third entry" })
-map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth entry" })
+map("n", "<A-4>", ":lua require('harpoon.ui').nav_file(1)<CR>", { desc = "First entry" })
+map("n", "<A-5>", ":lua require('harpoon.ui').nav_file(2)<CR>", { desc = "Second entry" })
+map("n", "<A-6>", ":lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Third entry" })
+map("n", "<A-7>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth entry" })
 
 -- Git
 map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>", { desc = "Push Gerrit" })
