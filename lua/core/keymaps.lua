@@ -61,8 +61,8 @@ map("n", "<A-7>", ":lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Fourth
 -- Git
 map("n", "<leader>gp", ":Git push origin HEAD:refs/for/master<CR>", { desc = "Push Gerrit" })
 map("n", "<leader>gP", ":Git push<CR>", { desc = "Push" })
--- map("n", "<C-g>", ":Git<CR>", { desc = "Toggle Git status" })
--- map("n", "<leader>gg", ":Git<CR>", { desc = "Status" })
+map("n", "<C-g>", ":LazyGit<CR>", { desc = "Toggle Git status" })
+map("n", "<leader>gg", ":LazyGit<CR>", { desc = "Status" })
 map("n", "<leader>gt", ":!alacritty &<CR>", { desc = "Terminal" })
 map("n", "<leader>gc", ":Telescope git_commits<CR>", { desc = "Commits" })
 

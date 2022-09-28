@@ -526,6 +526,7 @@ packer.startup({
         })
       end,
     })
+    use({ "kdheepak/lazygit.nvim" })
   end,
   config = {
     compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",

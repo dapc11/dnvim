@@ -54,6 +54,10 @@ augroup end
 ]])
 
 vim.cmd([[
+if has('nvim')
+  let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+endif
+autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
 
 if exists("g:neovide")
 " Put anything you want to happen only in Neovide here
