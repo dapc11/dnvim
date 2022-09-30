@@ -28,6 +28,7 @@ opt.wildmenu = false
 opt.splitright = true
 opt.swapfile = false
 opt.tabstop = 4
+opt.laststatus = 3
 opt.termguicolors = true -- Make colorscheme work
 opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 opt.undofile = true
