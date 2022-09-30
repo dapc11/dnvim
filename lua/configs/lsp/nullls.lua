@@ -81,7 +81,7 @@ function M.config()
         group = augroup,
         buffer = bufnr,
         callback = function()
-          vim.lsp.buf.format({ async = true, bufnr = bufnr })
+          vim.lsp.buf.format({ async = false, bufnr = bufnr })
         end,
       })
     end,
