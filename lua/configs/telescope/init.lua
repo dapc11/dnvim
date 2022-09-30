@@ -35,6 +35,11 @@ function M.config()
         initial_mode = "normal",
         layout_config = dropdown_config,
       },
+      diagnostics = {
+        theme = "dropdown",
+        initial_mode = "normal",
+        layout_config = dropdown_config,
+      },
       lsp_implementations = {
         theme = "dropdown",
         initial_mode = "normal",

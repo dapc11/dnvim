@@ -9,6 +9,7 @@ map("n", "<leader>b", ':lua require("telescope.builtin").buffers()<CR>', { desc 
 map("n", "<leader>m", ':lua require("telescope.builtin").keymaps()<CR>', { desc = "Find keymap" })
 map("n", "<leader>h", ':lua require("telescope.builtin").oldfiles()<CR>', { desc = "Find file in history" })
 map("n", "<Leader>n", ':lua require("telescope.builtin").git_files()<CR>', { desc = "Find Git file" })
+map("n", "<Leader>fd", ":Telescope diagnostics<CR>", { desc = "Find diagnostics" })
 map(
   "n",
   "<Leader>N",
