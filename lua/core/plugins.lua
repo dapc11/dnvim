@@ -345,7 +345,7 @@ packer.startup({
             require("neotest-python")({
               dap = { justMyCode = false },
               runner = "pytest",
-              python = "/usr/bin/python3",
+              python = "python3",
             }),
             require("neotest-go"),
           },

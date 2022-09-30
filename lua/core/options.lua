@@ -48,6 +48,7 @@ if executable("rg")
   set grepprg=rg\ --vimgrep
 endif
 ]])
+g.python3_host_prog = "~/.envs/nvim/bin/python3"
 g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
 
 require("catppuccin").setup({
