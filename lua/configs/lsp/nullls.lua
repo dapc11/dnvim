@@ -11,12 +11,6 @@ function M.config()
     return vim.api.nvim_buf_line_count(bufnr) < 2000
   end
 
-  local write_good = null_ls.builtins.diagnostics.write_good.with({
-    filetypes = { "markdown", "text" },
-    runtime_condition = function(params)
-      return enable_ls(params.bufnr)
-    end,
-  })
   local black = null_ls.builtins.formatting.black
   local pylint = null_ls.builtins.diagnostics.pylint.with({
     filetypes = { "python" },
@@ -44,7 +38,6 @@ function M.config()
     black,
     gofmt,
     goimports,
-    write_good,
     pylint,
     flake8,
     isort,
