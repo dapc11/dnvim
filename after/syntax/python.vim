@@ -1,3 +1,0 @@
-syn region pythonDocString start=+^\s*"""+ end=+"""+ keepend contains=...
-highlight link pythonDocString pythonTSComment
-

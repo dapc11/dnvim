@@ -5,27 +5,23 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
-vim.opt.rtp:prepend(lazypath)
-
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
   spec = {
-    -- libs
-    { "nvim-tree/nvim-web-devicons", lazy = true },
-    { "MunifTanjim/nui.nvim", lazy = true },
-    -- plugins
+ { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "plugins" },
-    --{ import = "plugins.coding" },
+    { import = "plugins.coding" },
   },
   defaults = {
     lazy = false,
     version = false,
   },
+  install = { colorscheme = { "tokyonight" } },
   checker = { enabled = true },
   performance = {
     rtp = {
@@ -42,7 +38,3 @@ require("lazy").setup({
     },
   },
 })
-
-require("config.options")
-require("config.autocmds")
-require("config.keymaps")
