@@ -61,6 +61,15 @@ return {
             require("luasnip").lsp_expand(args.body)
           end,
         },
+        formatting = {
+          format = function(_, item)
+            local icons = require("config.icons").icons.kinds
+            if icons[item.kind] then
+              item.kind = icons[item.kind] .. item.kind
+            end
+            return item
+          end,
+        },
         mapping = cmp.mapping.preset.insert({
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then

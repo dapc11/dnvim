@@ -93,6 +93,11 @@ return {
         return register_capability(err, res, ctx)
       end
 
+      -- diagnostics
+      for name, icon in pairs(require("config.icons").icons.diagnostics) do
+        name = "DiagnosticSign" .. name
+        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+      end
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
       local servers = opts.servers

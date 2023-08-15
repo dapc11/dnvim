@@ -53,6 +53,7 @@ return {
       },
     },
     keys = function()
+      local Util = require("util")
       local function getVisualSelection()
         vim.cmd('noau normal! "vy"')
         local text = vim.fn.getreg("v")
@@ -75,6 +76,10 @@ return {
         -- find
         { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
         { "<leader>fp", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end, desc = "Find Plugin File" },
+        { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
+        { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
+        { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
+        { "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
         -- git
         { "<leader>gC", "<cmd>Telescope git_commits<CR>", desc = "commits" },
         { "<leader>gS", "<cmd>Telescope git_status<CR>", desc = "status" },
@@ -93,10 +98,50 @@ return {
         { "<leader>sh", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
         { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
         { "<leader>sr", "<cmd>Telescope resume<cr>", desc = "Resume" },
+        { "<leader>sw", Util.telescope("grep_string", { word_match = "-w" }), desc = "Word (root dir)" },
+        { "<leader>sW", Util.telescope("grep_string", { cwd = false, word_match = "-w" }), desc = "Word (cwd)" },
+        { "<leader>sw", Util.telescope("grep_string"), mode = "v", desc = "Selection (root dir)" },
+        { "<leader>sW", Util.telescope("grep_string", { cwd = false }), mode = "v", desc = "Selection (cwd)" },
         { "<leader><leader>", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
         { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = getVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
         { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
         { "<C-f>", function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = getVisualSelection() }) end, desc = "Current Buffer Grep Selection", mode = "v" },
+        {
+          "<leader>ss",
+          Util.telescope("lsp_document_symbols", {
+            symbols = {
+              "Class",
+              "Function",
+              "Method",
+              "Constructor",
+              "Interface",
+              "Module",
+              "Struct",
+              "Trait",
+              "Field",
+              "Property",
+            },
+          }),
+          desc = "Goto Symbol",
+        },
+        {
+          "<leader>sS",
+          Util.telescope("lsp_dynamic_workspace_symbols", {
+            symbols = {
+              "Class",
+              "Function",
+              "Method",
+              "Constructor",
+              "Interface",
+              "Module",
+              "Struct",
+              "Trait",
+              "Field",
+              "Property",
+            },
+          }),
+          desc = "Goto Symbol (Workspace)",
+        },
       }
     end,
     opts = function()

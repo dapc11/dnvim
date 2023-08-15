@@ -41,6 +41,7 @@ require("lazy").setup({
       },
     },
   },
+  icons = require("config.icons")
 })
 
 require("config.options")
