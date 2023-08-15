@@ -8,23 +8,6 @@ return {
     end,
   },
   {
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-neotest/neotest-go",
-    },
-    opts = {
-      adapters = {
-        ["neotest-go"] = {
-          runner = "testify",
-          experimental = {
-            test_table = true,
-          },
-          args = { "-count=1", "-json", "-timeout=60s" },
-        },
-      },
-    },
-  },
-  {
     "ray-x/go.nvim",
     dependencies = {
       "ray-x/guihua.lua",
@@ -80,7 +63,7 @@ return {
       sign_priority = 5,
       test_runner = "go", -- one of {`go`, `richgo`, `dlv`, `ginkgo`, `gotestsum`}
       luasnip = true,
-      trouble = true,
+      trouble = false,
     },
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()'
@@ -111,9 +94,18 @@ return {
         "mason.nvim",
         opts = function(_, opts)
           opts.ensure_installed = opts.ensure_installed or {}
-          table.insert(opts.ensure_installed, "delve")
+          vim.list_extend(opts.ensure_installed, { "gomodifytags", "impl", "gofumpt", "goimports-reviser", "delve" })
         end,
+      },
+      {
+        "leoluz/nvim-dap-go",
+        config = true,
       },
     },
   },
+  {
+    "leoluz/nvim-dap-go",
+    config = true,
+  }
+
 }

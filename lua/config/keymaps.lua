@@ -6,12 +6,13 @@ local function map(mode, lhs, rhs, opts)
   end
   vim.keymap.set(mode, lhs, rhs, opts)
 end
-
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
-map({ "n", "v", "x", "o" }, "ä", "}zz")
-map({ "n", "v", "x", "o" }, "ö", "{zz")
+map({ "n", "o", "x" }, "ö", "[", { noremap = true })
+map({ "n", "o", "x" }, "ä", "]", { noremap = true })
+map({ "n", "v", "x", "o" }, "Ä", "}zz")
+map({ "n", "v", "x", "o" }, "Ö", "{zz")
 map({ "n", "v", "x", "o" }, "<C-d>", "<C-d>zz")
 map({ "n", "v", "x", "o" }, "<C-u>", "<C-u>zz")
 
@@ -76,3 +77,6 @@ map(
   "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
   { desc = "Redraw / clear hlsearch / diff update" }
 )
+
+map('n', 'öd', vim.diagnostic.goto_prev)
+map('n', 'äd', vim.diagnostic.goto_next)

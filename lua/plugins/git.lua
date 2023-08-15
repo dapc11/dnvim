@@ -9,7 +9,7 @@ return {
           vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
         end
 
-        map("n", "]c", function()
+        map("n", "äc", function()
           if vim.wo.diff then
             return "]czz"
           end
@@ -20,7 +20,7 @@ return {
           return "<Ignore>"
         end, { expr = true })
 
-        map("n", "[c", function()
+        map("n", "öc", function()
           if vim.wo.diff then
             return "[czz"
           end
