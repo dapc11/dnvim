@@ -20,7 +20,7 @@ require("lazy").setup({
     { "MunifTanjim/nui.nvim", lazy = true },
     -- plugins
     { import = "plugins" },
-    --{ import = "plugins.coding" },
+    { import = "plugins.coding" },
   },
   defaults = {
     lazy = false,

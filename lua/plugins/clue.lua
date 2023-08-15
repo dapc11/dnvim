@@ -43,6 +43,7 @@ return {
           delay = 0,
         },
         clues = {
+          { mode = "n", keys = "<leader>b", desc = "+buffer" },
           { mode = "n", keys = "<leader>c", desc = "+code" },
           { mode = "n", keys = "<leader>d", desc = "+debug" },
           { mode = "n", keys = "<leader>da", desc = "+adapters" },
@@ -55,6 +56,9 @@ return {
           { mode = "n", keys = "<leader>U", desc = "+ui" },
           { mode = "n", keys = "<leader>x", desc = "+utils" },
           { mode = "n", keys = "<leader>z", desc = "+notes" },
+          { mode = "n", keys = "<leader>w", desc = "+window" },
+          { mode = "n", keys = "<leader><tab>", desc = "+tabs" },
+          { mode = "n", keys = "<leader>q", desc = "+exit" },
           { mode = "n", keys = "gz", desc = "+surround" },
           -- Enhance this by adding descriptions for <Leader> mapping groups
           miniclue.gen_clues.builtin_completion(),

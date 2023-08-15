@@ -83,26 +83,26 @@ return {
       trouble = true,
     },
     ft = { "go", "gomod" },
-    build = 'lua require("go.install").update_all_sync()',
+    build = ':lua require("go.install").update_all_sync()'
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    dependencies = { "ray-x/go.nvim" },
-    opts = function(_, opts)
-      if type(opts.sources) == "table" then
-        local nls = require("null-ls")
-        local gotest = require("go.null_ls").gotest()
-        local gotest_codeaction = require("go.null_ls").gotest_action()
-        local golangci_lint = require("go.null_ls").golangci_lint()
-        table.insert(opts.sources, gotest)
-        table.insert(opts.sources, golangci_lint)
-        table.insert(opts.sources, gotest_codeaction)
-        vim.list_extend(opts.sources, {
-          nls.builtins.code_actions.impl,
-        })
-      end
-    end,
-  },
+  -- {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   dependencies = { "ray-x/go.nvim" },
+  --   opts = function(_, opts)
+  --     if type(opts.sources) == "table" then
+  --       local nls = require("null-ls")
+  --       local gotest = require("go.null_ls").gotest()
+  --       local gotest_codeaction = require("go.null_ls").gotest_action()
+  --       local golangci_lint = require("go.null_ls").golangci_lint()
+  --       table.insert(opts.sources, gotest)
+  --       table.insert(opts.sources, golangci_lint)
+  --       table.insert(opts.sources, gotest_codeaction)
+  --       vim.list_extend(opts.sources, {
+  --         nls.builtins.code_actions.impl,
+  --       })
+  --     end
+  --   end,
+  -- },
   {
     "mfussenegger/nvim-dap",
     optional = true,

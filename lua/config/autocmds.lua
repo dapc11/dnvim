@@ -8,12 +8,21 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     "help",
     "man",
     "lspinfo",
-    "lir",
     "DressingSelect",
     "OverseerList",
     "tsplayground",
     "Markdown",
     "git",
+    "PlenaryTestPopup",
+    "lspinfo",
+    "notify",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+    "neotest-output",
+    "checkhealth",
+    "neotest-summary",
+    "neotest-output-panel",
   },
   callback = function()
     vim.cmd([[
@@ -81,5 +90,12 @@ vim.api.nvim_create_autocmd({ "BufWrite" }, {
   callback = function(_)
     local bufnr = vim.api.nvim_get_current_buf()
     vim.diagnostic.enable(bufnr)
+  end,
+})
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
   end,
 })

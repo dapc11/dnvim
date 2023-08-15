@@ -8,9 +8,9 @@ return {
       function()
         require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
       end,
-      desc = "Explorer NeoTree (cwd)",
+      desc = "Explorer (cwd)",
     },
-    { "<leader>e", "<leader>fe", desc = "Explorer NeoTree", remap = true },
+    { "<leader>e", "<leader>fe", desc = "Explorer", remap = true },
   },
   deactivate = function()
     vim.cmd([[Neotree close]])
@@ -31,6 +31,7 @@ return {
       follow_current_file = { enabled = true },
       use_libuv_file_watcher = true,
     },
+    use_libuv_file_watcher = true,
     window = {
       mappings = {
         ["<space>"] = "none",

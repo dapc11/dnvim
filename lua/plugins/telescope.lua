@@ -1,6 +1,8 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
+    cmd = "Telescope",
+    version = false,
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -50,8 +52,57 @@ return {
         },
       },
     },
+    keys = function()
+      local function getVisualSelection()
+        vim.cmd('noau normal! "vy"')
+        local text = vim.fn.getreg("v")
+        vim.fn.setreg("v", {})
+
+        text = string.gsub(text, "\n", "")
+        if #text > 0 then
+          return text
+        else
+          return ""
+        end
+      end
+
+      return {
+        { "<C-p>", "<cmd>Telescope projects<cr>", desc = "Find Project" },
+        { "<leader>r", "<cmd>Telescope oldfiles<cr>", desc = "Find Recent Files" },
+        { "<leader>fn", "<CMD>Telescope notify<cr>", desc = "Notifications" },
+        { "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
+        { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+        -- find
+        { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+        { "<leader>fp", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end, desc = "Find Plugin File" },
+        -- git
+        { "<leader>gC", "<cmd>Telescope git_commits<CR>", desc = "commits" },
+        { "<leader>gS", "<cmd>Telescope git_status<CR>", desc = "status" },
+        { "<leader>gB", "<cmd>Telescope git_branches<cr>", desc = "branches" },
+        { "<leader>n", "<cmd>Telescope git_files<cr>", desc = "Find Tracked Files" },
+        { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" } }) end, desc = "Find Untracked Files" },
+        -- search
+        { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
+        { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
+        { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
+        { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+        { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
+        { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
+        { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
+        { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = "Grep (root dir)" },
+        { "<leader>sh", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
+        { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
+        { "<leader>sr", "<cmd>Telescope resume<cr>", desc = "Resume" },
+        { "<leader><leader>", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+        { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = getVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
+        { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
+        { "<C-f>", function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = getVisualSelection() }) end, desc = "Current Buffer Grep Selection", mode = "v" },
+      }
+    end,
     opts = function()
       local actions = require("telescope.actions")
+      local layout = require("telescope.actions.layout")
+      local trouble = require("trouble.providers.telescope")
       return {
         defaults = {
           layout_strategy = "horizontal",
@@ -61,22 +112,24 @@ return {
           -- stylua: ignore
           mappings = {
             i = {
-              ["<C-q>"] = function(...) return require("trouble.providers.telescope").smart_open_with_trouble(...) end,
-              ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
-              ["<Esc>"] = require("telescope.actions").close,
-              ["<C-Down>"] = require("telescope.actions").cycle_history_next,
-              ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
-              ["<CR>"] = require("telescope.actions").select_default,
-              ["<C-h>"] = require("telescope.actions").select_horizontal,
-              ["<C-v>"] = require("telescope.actions").select_vertical,
-              ["<C-t>"] = require("telescope.actions").select_tab,
+              ["<C-q>"] = function(...) return trouble.smart_open_with_trouble(...) end,
+              ["<C-p>"] = layout.toggle_preview,
+              ["<Esc>"] = actions.close,
+              ["<C-Down>"] = actions.cycle_history_next,
+              ["<C-Up>"] = actions.cycle_history_prev,
+              ["<CR>"] = actions.select_default,
+              ["<C-h>"] = actions.select_horizontal,
+              ["<C-v>"] = actions.select_vertical,
+              ["<C-t>"] = actions.select_tab,
+              ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+              ["<S-Tab>"] = actions.move_selection_better + actions.toggle_selection,
             },
             n = {
-              ["<C-c>"] = require("telescope.actions").close,
-              ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
-              ["<C-q>"] = function(...) return require("trouble.providers.telescope").smart_open_with_trouble(...) end,
-              ["<C-down>"] = require("telescope.actions").cycle_history_next,
-              ["<C-up>"] = require("telescope.actions").cycle_history_prev,
+              ["<C-c>"] = actions.close,
+              ["<C-p>"] = layout.toggle_preview,
+              ["<C-q>"] = function(...) return trouble.smart_open_with_trouble(...) end,
+              ["<C-down>"] = actions.cycle_history_next,
+              ["<C-up>"] = actions.cycle_history_prev,
             },
           },
         },
