@@ -52,38 +52,63 @@ return {
     ---@param opts PluginLspOpts
     config = function(_, opts)
       -- mappings
-      vim.keymap.set('n', '<C-e>', vim.diagnostic.open_float)
+      vim.keymap.set("n", "<C-e>", vim.diagnostic.open_float)
 
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(ev)
           local lopts = { buffer = ev.buf }
-          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Goto declaration" }))
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Goto definition" }))
-          vim.keymap.set('n', 'gr', vim.lsp.buf.references, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Goto references" }))
-          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, vim.tbl_deep_extend(
-            "force", lopts, { desc = "" }))
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, lopts)
-          vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, lopts)
-          vim.keymap.set('n', '<leader>cwa', vim.lsp.buf.add_workspace_folder, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Add workspace folder" }))
-          vim.keymap.set('n', '<leader>cwr', vim.lsp.buf.remove_workspace_folder, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Remove workspace folder" }))
-          vim.keymap.set('n', '<leader>cwl', function()
+          vim.keymap.set(
+            "n",
+            "gD",
+            vim.lsp.buf.declaration,
+            vim.tbl_deep_extend("force", lopts, { desc = "Goto declaration" })
+          )
+          vim.keymap.set(
+            "n",
+            "gd",
+            vim.lsp.buf.definition,
+            vim.tbl_deep_extend("force", lopts, { desc = "Goto definition" })
+          )
+          vim.keymap.set(
+            "n",
+            "gr",
+            vim.lsp.buf.references,
+            vim.tbl_deep_extend("force", lopts, { desc = "Goto references" })
+          )
+          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_deep_extend("force", lopts, { desc = "" }))
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, lopts)
+          vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, lopts)
+          vim.keymap.set(
+            "n",
+            "<leader>cwa",
+            vim.lsp.buf.add_workspace_folder,
+            vim.tbl_deep_extend("force", lopts, { desc = "Add workspace folder" })
+          )
+          vim.keymap.set(
+            "n",
+            "<leader>cwr",
+            vim.lsp.buf.remove_workspace_folder,
+            vim.tbl_deep_extend("force", lopts, { desc = "Remove workspace folder" })
+          )
+          vim.keymap.set("n", "<leader>cwl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end, vim.tbl_deep_extend(
-            "force", lopts, { desc = "List workspace folders" }))
-          vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Rename" }))
-          vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Code actions" }))
-          vim.keymap.set('n', '<leader>cf', function()
-            vim.lsp.buf.format { async = true }
-          end, vim.tbl_deep_extend(
-            "force", lopts, { desc = "Format" }))
+          end, vim.tbl_deep_extend("force", lopts, { desc = "List workspace folders" }))
+          vim.keymap.set(
+            "n",
+            "<leader>cr",
+            vim.lsp.buf.rename,
+            vim.tbl_deep_extend("force", lopts, { desc = "Rename" })
+          )
+          vim.keymap.set(
+            { "n", "v" },
+            "<leader>ca",
+            vim.lsp.buf.code_action,
+            vim.tbl_deep_extend("force", lopts, { desc = "Code actions" })
+          )
+          vim.keymap.set("n", "<leader>cf", function()
+            vim.lsp.buf.format({ async = true })
+          end, vim.tbl_deep_extend("force", lopts, { desc = "Format" }))
         end,
       })
 

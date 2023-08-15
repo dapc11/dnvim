@@ -75,7 +75,13 @@ return {
         { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
         -- find
         { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-        { "<leader>fp", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end, desc = "Find Plugin File" },
+        {
+          "<leader>fp",
+          function()
+            require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root })
+          end,
+          desc = "Find Plugin File",
+        },
         { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
         { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
         { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
@@ -85,7 +91,15 @@ return {
         { "<leader>gS", "<cmd>Telescope git_status<CR>", desc = "status" },
         { "<leader>gB", "<cmd>Telescope git_branches<cr>", desc = "branches" },
         { "<leader>n", "<cmd>Telescope git_files<cr>", desc = "Find Tracked Files" },
-        { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" } }) end, desc = "Find Untracked Files" },
+        {
+          "<leader>N",
+          function()
+            require("telescope.builtin").git_files({
+              git_command = { "git", "ls-files", "--modified", "--exclude-standard" },
+            })
+          end,
+          desc = "Find Untracked Files",
+        },
         -- search
         { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
         { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -103,9 +117,23 @@ return {
         { "<leader>sw", Util.telescope("grep_string"), mode = "v", desc = "Selection (root dir)" },
         { "<leader>sW", Util.telescope("grep_string", { cwd = false }), mode = "v", desc = "Selection (cwd)" },
         { "<leader><leader>", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-        { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = getVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
+        {
+          "<leader><leader>",
+          function()
+            require("telescope.builtin").live_grep({ default_text = getVisualSelection() })
+          end,
+          desc = "Live Grep Selection",
+          mode = "v",
+        },
         { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
-        { "<C-f>", function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = getVisualSelection() }) end, desc = "Current Buffer Grep Selection", mode = "v" },
+        {
+          "<C-f>",
+          function()
+            require("telescope.builtin").current_buffer_fuzzy_find({ default_text = getVisualSelection() })
+          end,
+          desc = "Current Buffer Grep Selection",
+          mode = "v",
+        },
         {
           "<leader>ss",
           Util.telescope("lsp_document_symbols", {
@@ -157,7 +185,9 @@ return {
           -- stylua: ignore
           mappings = {
             i = {
-              ["<C-q>"] = function(...) return trouble.smart_open_with_trouble(...) end,
+              ["<C-q>"] = function(...)
+                return trouble.smart_open_with_trouble(...)
+              end,
               ["<C-p>"] = layout.toggle_preview,
               ["<Esc>"] = actions.close,
               ["<C-Down>"] = actions.cycle_history_next,
@@ -172,7 +202,9 @@ return {
             n = {
               ["<C-c>"] = actions.close,
               ["<C-p>"] = layout.toggle_preview,
-              ["<C-q>"] = function(...) return trouble.smart_open_with_trouble(...) end,
+              ["<C-q>"] = function(...)
+                return trouble.smart_open_with_trouble(...)
+              end,
               ["<C-down>"] = actions.cycle_history_next,
               ["<C-up>"] = actions.cycle_history_prev,
             },

@@ -12,7 +12,7 @@ return {
         "L3MON4D3/LuaSnip",
         build = (not jit.os:find("Windows"))
             and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-            or nil,
+          or nil,
         dependencies = {
           "rafamadriz/friendly-snippets",
           config = function()
@@ -33,10 +33,22 @@ return {
             silent = true,
             mode = "i",
           },
-          { "<tab>",   function() require("luasnip").jump(1) end,  mode = "s" },
-          { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+          {
+            "<tab>",
+            function()
+              require("luasnip").jump(1)
+            end,
+            mode = "s",
+          },
+          {
+            "<s-tab>",
+            function()
+              require("luasnip").jump(-1)
+            end,
+            mode = { "i", "s" },
+          },
         },
-      }
+      },
     },
     opts = function()
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -118,7 +130,7 @@ return {
                 return vim.tbl_keys(bufs)
               end,
             },
-          }
+          },
         }),
         experimental = {
           ghost_text = {
@@ -128,5 +140,5 @@ return {
         sorting = defaults.sorting,
       }
     end,
-  }
+  },
 }

@@ -61,7 +61,11 @@ return {
       { "<leader>gb", ":Git blame<cr>", desc = "Git Blame" },
       { "<leader>gf", ":Git fetch<cr>", desc = "Git Fetch" },
       { "<leader>gr", ":Git pull --rebase<cr>", desc = "Git Pull Rebase" },
-      { "<leader>gl", ":Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>", desc = "Git log" },
+      {
+        "<leader>gl",
+        ":Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>",
+        desc = "Git log",
+      },
     },
   },
   {
@@ -86,7 +90,13 @@ return {
     keys = {
       { "<leader>gq", vim.cmd.DiffviewClose, desc = "Diffview Close" },
       { "<leader>gd", vim.cmd.DiffviewOpen, desc = "Diffview (all modified files)" },
-      { "<leader>gh", function() vim.cmd.DiffviewFileHistory("%") end, desc = "Diffview Current File History" },
+      {
+        "<leader>gh",
+        function()
+          vim.cmd.DiffviewFileHistory("%")
+        end,
+        desc = "Diffview Current File History",
+      },
     },
   },
 }

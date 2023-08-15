@@ -1,5 +1,5 @@
 return {
-{
+  {
     "echasnovski/mini.surround",
     keys = function(_, keys)
       -- Populate the keys based on the user's options

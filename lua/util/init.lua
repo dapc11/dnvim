@@ -121,8 +121,6 @@ function M.telescope(builtin, opts)
   end
 end
 
-
-
 local enabled = true
 function M.toggle_diagnostics()
   enabled = not enabled
@@ -132,7 +130,6 @@ function M.toggle_diagnostics()
     vim.diagnostic.disable()
   end
 end
-
 
 -- delay notifications till vim.notify was replaced or after 500ms
 function M.lazy_notify()

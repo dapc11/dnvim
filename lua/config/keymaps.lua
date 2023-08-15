@@ -78,5 +78,5 @@ map(
   { desc = "Redraw / clear hlsearch / diff update" }
 )
 
-map('n', 'öd', vim.diagnostic.goto_prev)
-map('n', 'äd', vim.diagnostic.goto_next)
+map("n", "öd", vim.diagnostic.goto_prev)
+map("n", "äd", vim.diagnostic.goto_next)
