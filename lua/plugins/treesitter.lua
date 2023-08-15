@@ -23,7 +23,7 @@ return {
     cmd = { "TSUpdateSync" },
     keys = {
       { "<c-space>", desc = "Increment selection" },
-      { "<bs>", desc = "Decrement selection", mode = "x" },
+      { "<bs>",      desc = "Decrement selection", mode = "x" },
     },
     opts = {
       highlight = { enable = true },
@@ -71,6 +71,27 @@ return {
           return true
         end, opts.ensure_installed)
       end
+
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+      local disable_large_files = function(_, bufnr)
+        return vim.api.nvim_buf_line_count(bufnr) > 2000
+      end
+
+      opts.highlight = {
+        enable = true,
+        disable = disable_large_files,
+      }
+
+      parser_config.gotmpl = {
+        install_info = {
+          url = "https://github.com/ngalaiko/tree-sitter-go-template",
+          files = { "src/parser.c" },
+        },
+        filetype = "gotmpl",
+        used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml", "tpl", "yml" },
+      }
+
       require("nvim-treesitter.configs").setup(opts)
 
       if load_textobjects then

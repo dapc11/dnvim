@@ -99,3 +99,4 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+vim.cmd([[autocmd BufNewFile,BufRead *.yaml,*.tpl,*.yml if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif]])

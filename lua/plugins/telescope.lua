@@ -178,7 +178,6 @@ return {
       local trouble = require("trouble.providers.telescope")
       return {
         defaults = {
-          path_display = "truncate",
           layout_strategy = "horizontal",
           layout_config = { prompt_position = "top" },
           sorting_strategy = "ascending",
