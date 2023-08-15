@@ -8,7 +8,7 @@ return {
       vim.cmd([[colorscheme tokyonight]])
     end,
     opts = {
-      style = "storm",
+      style = "moon",
       transparent = false,
       terminal_colors = true,
       styles = {
