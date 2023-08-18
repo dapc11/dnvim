@@ -44,6 +44,13 @@ require("lazy").setup({
   icons = require("config.icons"),
 })
 
+if vim.g.neovide then
+  vim.o.guifont = "Liga_SFMono_Nerd_Font,SauceCodePro_Nerd_Font,SF_Pro_Display,JetBrains_Mono,Apple_Color_Emoji:h10"
+  vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_cursor_vfx_mode = ""
+  -- Put anything you want to happen only in Neovide here
+end
+
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
