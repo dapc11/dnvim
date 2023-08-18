@@ -57,10 +57,10 @@ return {
     -- stylua: ignore
     keys = {
       { "<leader>gp", ":Git push origin HEAD:refs/for/master<cr>", desc = "Push Gerrit" },
-      { "<leader>gP", ":Git push<cr>", desc = "Push Regular" },
-      { "<leader>gb", ":Git blame<cr>", desc = "Git Blame" },
-      { "<leader>gf", ":Git fetch<cr>", desc = "Git Fetch" },
-      { "<leader>gr", ":Git pull --rebase<cr>", desc = "Git Pull Rebase" },
+      { "<leader>gP", ":Git push<cr>",                             desc = "Push Regular" },
+      { "<leader>gb", ":Git blame<cr>",                            desc = "Git Blame" },
+      { "<leader>gf", ":Git fetch<cr>",                            desc = "Git Fetch" },
+      { "<leader>gr", ":Git pull --rebase<cr>",                    desc = "Git Pull Rebase" },
       {
         "<leader>gl",
         ":Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>",
@@ -87,10 +87,28 @@ return {
       "DiffviewToggleFiles",
       "DiffviewFocusFiles",
     },
+    opts = function()
+      local actions = require("diffview.actions")
+
+      return {
+        file_panel = {
+          listing_style = "tree", -- One of 'list' or 'tree'
+          tree_options = { -- Only applies when listing_style is 'tree'
+            flatten_dirs = true, -- Flatten dirs that only contain one single dir
+            folder_statuses = "only_folded", -- One of 'never', 'only_folded' or 'always'.
+          },
+          win_config = { -- See ':h diffview-config-win_config'
+            position = "bottom",
+            height = 15,
+            win_opts = {},
+          },
+        },
+      }
+    end,
     -- stylua: ignore
     keys = {
       { "<leader>gq", vim.cmd.DiffviewClose, desc = "Diffview Close" },
-      { "<leader>gd", vim.cmd.DiffviewOpen, desc = "Diffview (all modified files)" },
+      { "<leader>gd", vim.cmd.DiffviewOpen,  desc = "Diffview (all modified files)" },
       {
         "<leader>gh",
         function()

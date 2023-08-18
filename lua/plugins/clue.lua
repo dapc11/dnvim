@@ -45,6 +45,8 @@ return {
         clues = {
           { mode = "n", keys = "<leader>b", desc = "+buffer" },
           { mode = "n", keys = "<leader>c", desc = "+code" },
+          { mode = "n", keys = "<leader>cd", desc = "+debug" },
+          { mode = "n", keys = "<leader>cw", desc = "+workspace" },
           { mode = "n", keys = "<leader>d", desc = "+debug" },
           { mode = "n", keys = "<leader>da", desc = "+adapters" },
           { mode = "n", keys = "<leader>f", desc = "+find" },
@@ -53,6 +55,7 @@ return {
           { mode = "n", keys = "<leader>o", desc = "+overseer" },
           { mode = "n", keys = "<leader>t", desc = "+test" },
           { mode = "n", keys = "<leader>s", desc = "+search" },
+          { mode = "n", keys = "<leader>sn", desc = "+noice" },
           { mode = "n", keys = "<leader>U", desc = "+ui" },
           { mode = "n", keys = "<leader>x", desc = "+utils" },
           { mode = "n", keys = "<leader>z", desc = "+notes" },
