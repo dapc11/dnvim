@@ -205,4 +205,23 @@ function M.on_load(name, fn)
     })
   end
 end
+
+---@param command string
+function M.format(command)
+  local function buf_get_full_text(bufnr)
+    local text = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true), "\n")
+    if vim.api.nvim_buf_get_option(bufnr, "eol") then
+      text = text .. "\n"
+    end
+    return text
+  end
+
+  local bufnr = vim.fn.bufnr("%")
+  local input = buf_get_full_text(bufnr)
+  local output = vim.fn.system(command .. "2>/dev/null", input)
+
+  if vim.fn.empty(output) == 0 and output ~= input then
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.fn.split(output, "\n"))
+  end
+end
 return M

@@ -80,7 +80,6 @@ vim.api.nvim_create_autocmd({ "DiffUpdated" }, {
   end,
 })
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
-  -- or vim.api.nvim_create_autocmd({"BufNew", "TextChanged", "TextChangedI", "TextChangedP", "TextChangedT"}, {
   callback = function(_)
     local bufnr = vim.api.nvim_get_current_buf()
     vim.diagnostic.disable(bufnr)
@@ -89,6 +88,9 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
 
 vim.api.nvim_create_autocmd({ "BufWrite" }, {
   callback = function(_)
+    if vim.bo.filetype ~= "yaml" then
+      return
+    end
     local bufnr = vim.api.nvim_get_current_buf()
     vim.diagnostic.enable(bufnr)
   end,
@@ -100,4 +102,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
-vim.cmd([[autocmd BufNewFile,BufRead *.yaml,*.tpl,*.yml if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
+
+vim.api.nvim_create_autocmd({ "BufWrite" }, {
+  pattern = { "*.lua" },
+  callback = function(_)
+    require("util").format("stylua --search-parent-directories -")
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWrite" }, {
+  pattern = { "*.py" },
+  callback = function(_)
+    require("util").format("black --quiet -")
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.tpl", "*.yaml", "*.yml" },
+  callback = function(_)
+    vim.cmd([[ if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
+    vim.diagnostic.disable()
+  end,
+})
