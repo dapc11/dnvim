@@ -10,9 +10,6 @@ return {
       "saadparwaiz1/cmp_luasnip",
       {
         "L3MON4D3/LuaSnip",
-        build = (not jit.os:find("Windows"))
-            and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-          or nil,
         dependencies = {
           "rafamadriz/friendly-snippets",
           config = function()
@@ -22,31 +19,6 @@ return {
         opts = {
           history = true,
           delete_check_events = "TextChanged",
-        },
-        keys = {
-          {
-            "<tab>",
-            function()
-              return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-            end,
-            expr = true,
-            silent = true,
-            mode = "i",
-          },
-          {
-            "<tab>",
-            function()
-              require("luasnip").jump(1)
-            end,
-            mode = "s",
-          },
-          {
-            "<s-tab>",
-            function()
-              require("luasnip").jump(-1)
-            end,
-            mode = { "i", "s" },
-          },
         },
       },
     },
@@ -117,12 +89,22 @@ return {
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
+          entry_filter = function(entry, ctx)
+            return cmp.lsp.CompletionItemKind.Text ~= entry:get_kind()
+          end,
           { name = "luasnip" },
           { name = "path" },
           {
             name = "buffer",
+            max_item_count = 5,
+            keyword_length = 5,
             option = {
               get_bufnrs = function()
+                local buf = vim.api.nvim_get_current_buf()
+                local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+                if byte_size > 1024 * 1024 then -- 1 Megabyte max
+                  return {}
+                end
                 local bufs = {}
                 for _, win in ipairs(vim.api.nvim_list_wins()) do
                   bufs[vim.api.nvim_win_get_buf(win)] = true

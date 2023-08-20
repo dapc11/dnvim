@@ -218,7 +218,7 @@ function M.format(command)
 
   local bufnr = vim.fn.bufnr("%")
   local input = buf_get_full_text(bufnr)
-  local output = vim.fn.system(command .. "2>/dev/null", input)
+  local output = vim.fn.system(command .. " 2>/dev/null", input)
 
   if vim.fn.empty(output) == 0 and output ~= input then
     vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.fn.split(output, "\n"))

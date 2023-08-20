@@ -103,14 +103,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWrite" }, {
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*.lua" },
   callback = function(_)
     require("util").format("stylua --search-parent-directories -")
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWrite" }, {
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*.py" },
   callback = function(_)
     require("util").format("black --quiet -")
