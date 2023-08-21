@@ -108,9 +108,11 @@ return {
             vim.lsp.buf.code_action,
             vim.tbl_deep_extend("force", lopts, { desc = "Code actions" })
           )
-          vim.keymap.set("n", "<leader>cf", function()
-            vim.lsp.buf.format({ async = true })
-          end, vim.tbl_deep_extend("force", lopts, { desc = "Format" }))
+          if vim.bo.filetype ~= "lua" then
+            vim.keymap.set("n", "<leader>cf", function()
+              vim.lsp.buf.format({ async = true })
+            end, vim.tbl_deep_extend("force", lopts, { desc = "Format" }))
+          end
         end,
       })
 
