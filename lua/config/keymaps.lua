@@ -76,3 +76,6 @@ map(
 
 map("n", "öd", vim.diagnostic.goto_prev)
 map("n", "äd", vim.diagnostic.goto_next)
+
+-- Close all buffers if needed to refresh speed
+map("n", "<leader>bo", "<cmd>%bd!|e#<cr>", { desc = "Close all buffers but the current one" }) -- https://stackoverflow.com/a/42071865/516188
