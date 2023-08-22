@@ -2,7 +2,7 @@ return {
   "m4xshen/hardtime.nvim",
   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
   opts = {
+    disabled_filetypes = { "TelescopePrompt", "NeogitStatus", "qf", "netrw", "neo-tree", "lazy", "mason", "oil" },
     disable_mouse = false,
-    disabled_filetypes = { "NeogitStatus", "qf", "netrw", "neo-tree", "lazy", "mason", "oil" },
   },
 }
