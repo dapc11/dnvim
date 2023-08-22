@@ -1,11 +1,11 @@
 local load_textobjects = false
+local disable_large_files = function(_, bufnr)
+  return vim.api.nvim_buf_line_count(bufnr) > 2000
+end
 return {
-  -- Treesitter is a new parser generator tool that we can
-  -- use in Neovim to power faster and more accurate
-  -- syntax highlighting.
   {
     "nvim-treesitter/nvim-treesitter",
-    version = false, -- last release is way too old and doesn't work on Windows
+    version = false,
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
@@ -13,22 +13,17 @@ return {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         init = function()
-          -- disable rtp plugin, as we only need its queries for mini.ai
-          -- In case other textobject modules are enabled, we will load them
-          -- once nvim-treesitter is loaded
           require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
           load_textobjects = true
         end,
       },
     },
     cmd = { "TSUpdateSync" },
-    keys = {
-      { "<c-space>", desc = "Increment selection" },
-      { "<bs>", desc = "Decrement selection", mode = "x" },
-    },
     opts = {
-      highlight = { enable = true },
-      indent = { enable = true },
+      highlight = {
+        enable = true,
+      },
+      indent = { enable = true, disable = disable_large_files },
       ensure_installed = {
         "bash",
         "c",
@@ -54,12 +49,8 @@ return {
       textobjects = {
         select = {
           enable = true,
-
-          -- Automatically jump forward to textobj, similar to targets.vim
           lookahead = true,
-
           keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
             ["af"] = "@function.outer",
             ["if"] = "@function.inner",
             ["ac"] = "@class.outer",
@@ -69,27 +60,11 @@ return {
             ["aC"] = "@comment.outer",
             ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
           },
-          -- You can choose the select mode (default is charwise 'v')
-          --
-          -- Can also be a function which gets passed a table with the keys
-          -- * query_string: eg '@function.inner'
-          -- * method: eg 'v' or 'o'
-          -- and should return the mode ('v', 'V', or '<c-v>') or a table
-          -- mapping query_strings to modes.
           selection_modes = {
             ["@parameter.outer"] = "v", -- charwise
             ["@function.outer"] = "V", -- linewise
             ["@class.outer"] = "<c-v>", -- blockwise
           },
-          -- If you set this to `true` (default is `false`) then any textobject is
-          -- extended to include preceding or succeeding whitespace. Succeeding
-          -- whitespace has priority in order to act similarly to eg the built-in
-          -- `ap`.
-          --
-          -- Can also be a function which gets passed a table with the keys
-          -- * query_string: eg '@function.inner'
-          -- * selection_mode: eg 'v'
-          -- and should return true of false
           include_surrounding_whitespace = true,
         },
       },
@@ -117,15 +92,6 @@ return {
       end
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-
-      local disable_large_files = function(_, bufnr)
-        return vim.api.nvim_buf_line_count(bufnr) > 2000
-      end
-
-      opts.highlight = {
-        enable = true,
-        disable = disable_large_files,
-      }
 
       parser_config.gotmpl = {
         install_info = {

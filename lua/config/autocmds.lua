@@ -117,7 +117,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   pattern = { "*.tpl", "*.yaml", "*.yml" },
   callback = function(_)
     local bufnr = vim.api.nvim_get_current_buf()
@@ -135,14 +135,12 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {
   callback = function()
     local bufnr = vim.api.nvim_get_current_buf()
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
-    if ok and stats and (stats.size > 10000) then
+
+    if ok and stats and (stats.size > 400000) then
       vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
       vim.diagnostic.disable(bufnr)
       vim.opt_local.spell = false
       require("lualine").refresh()
-      if ok and stats and (stats.size > 100000) then
-        vim.treesitter.stop(bufnr)
-      end
     end
   end,
   group = aug,

@@ -79,9 +79,7 @@ map("n", "äd", vim.diagnostic.goto_next)
 
 map("n", "<leader>cs", function()
   local bufnr = vim.api.nvim_get_current_buf()
-  print(bufnr)
   vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
-  pcall(vim.treesitter.stop, bufnr)
   pcall(vim.diagnostic.disable, bufnr)
   vim.opt_local.spell = false
   require("lualine").refresh()
