@@ -120,7 +120,31 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = { "*.tpl", "*.yaml", "*.yml" },
   callback = function(_)
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
+    vim.diagnostic.disable(bufnr)
+    require("lualine").refresh()
+
     vim.cmd([[ if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
-    vim.diagnostic.disable()
   end,
+})
+
+local aug = vim.api.nvim_create_augroup("buf_large", { clear = true })
+
+vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {
+  callback = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+    if ok and stats and (stats.size > 10000) then
+      vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
+      vim.diagnostic.disable(bufnr)
+      vim.opt_local.spell = false
+      require("lualine").refresh()
+      if ok and stats and (stats.size > 100000) then
+        vim.treesitter.stop(bufnr)
+      end
+    end
+  end,
+  group = aug,
+  pattern = "*",
 })

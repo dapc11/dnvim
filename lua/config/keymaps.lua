@@ -77,5 +77,15 @@ map(
 map("n", "öd", vim.diagnostic.goto_prev)
 map("n", "äd", vim.diagnostic.goto_next)
 
+map("n", "<leader>cs", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  print(bufnr)
+  vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
+  pcall(vim.treesitter.stop, bufnr)
+  pcall(vim.diagnostic.disable, bufnr)
+  vim.opt_local.spell = false
+  require("lualine").refresh()
+end, { desc = "Stop all heavy lifting" })
+
 -- Close all buffers if needed to refresh speed
 map("n", "<leader>bo", "<cmd>%bd!|e#<cr>", { desc = "Close all buffers but the current one" }) -- https://stackoverflow.com/a/42071865/516188

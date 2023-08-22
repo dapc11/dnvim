@@ -34,42 +34,42 @@ return {
       desc = "Harpoon add",
     },
     {
-      "<A-q>",
+      "<leader>1",
       function()
         require("harpoon.ui").nav_file(1)
       end,
       desc = "Harpoon 1",
     },
     {
-      "<A-w>",
+      "<leader>2",
       function()
         require("harpoon.ui").nav_file(2)
       end,
       desc = "Harpoon 2",
     },
     {
-      "<A-e>",
+      "<leader>3",
       function()
         require("harpoon.ui").nav_file(3)
       end,
       desc = "Harpoon 3",
     },
     {
-      "<A-r>",
+      "<leader>4",
       function()
         require("harpoon.ui").nav_file(4)
       end,
       desc = "Harpoon 4",
     },
     {
-      "<A-t>",
+      "<leader>5",
       function()
         require("harpoon.ui").nav_file(5)
       end,
       desc = "Harpoon 5",
     },
     {
-      "<A-y>",
+      "<leader>6",
       function()
         require("harpoon.ui").nav_file(6)
       end,
