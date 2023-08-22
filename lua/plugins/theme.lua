@@ -54,6 +54,8 @@ return {
         highlights.TabLineFill = { bg = colors.bg_sidebar }
         highlights.BqfPreviewFloat = { bg = colors.bg }
         highlights.NeoTreeDirectoryName = { bold = true }
+        highlights.LineNr = { fg = colors.fg_dark } -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+        highlights.CursorLineNr = { fg = colors.fg, bold = true } -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
       end,
     },
   },
