@@ -1,7 +1,4 @@
 local load_textobjects = false
-local disable_large_files = function(_, bufnr)
-  return vim.api.nvim_buf_line_count(bufnr) > 2000
-end
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -22,8 +19,16 @@ return {
     opts = {
       highlight = {
         enable = true,
+        disable = function(_, bufnr)
+          return vim.api.nvim_buf_line_count(bufnr) > 10000
+        end,
       },
-      indent = { enable = true, disable = disable_large_files },
+      indent = {
+        enable = true,
+        disable = function(_, bufnr)
+          return vim.api.nvim_buf_line_count(bufnr) > 2000
+        end,
+      },
       ensure_installed = {
         "bash",
         "c",
@@ -67,9 +72,15 @@ return {
           },
           include_surrounding_whitespace = true,
         },
+        disable = function(_, bufnr)
+          return vim.api.nvim_buf_line_count(bufnr) > 10000
+        end,
       },
       incremental_selection = {
         enable = true,
+        disable = function(_, bufnr)
+          return vim.api.nvim_buf_line_count(bufnr) > 10000
+        end,
         keymaps = {
           init_selection = "<C-space>",
           node_incremental = "<C-space>",
