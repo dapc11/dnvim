@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     "fzf",
     "help",
     "man",
+    "dap-repl",
     "lspinfo",
     "DressingSelect",
     "OverseerList",

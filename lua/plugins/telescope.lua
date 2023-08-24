@@ -13,7 +13,6 @@ return {
       },
       {
         "dapc11/telescope-yaml.nvim",
-        ft = "yaml",
         config = function()
           require("telescope").load_extension("telescope-yaml")
         end,
@@ -85,7 +84,20 @@ return {
         },
         { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
         { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
-        { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
+        {
+          "<leader>fr",
+          function()
+            require("telescope.builtin").find_files({
+              cwd = "~/repos/",
+              path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1, -2 } } },
+              prompt_title = "Repos",
+              layout_config = {
+                height = 0.85,
+              },
+            })
+          end,
+          desc = "Find file in repos",
+        },
         { "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
         -- git
         { "<leader>gC", "<cmd>Telescope git_commits<CR>", desc = "commits" },
@@ -136,7 +148,22 @@ return {
           desc = "Search Highlight Groups",
         },
         { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-        { "<leader>sr", "<cmd>Telescope resume<cr>", desc = "Resume" },
+        { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
+        {
+          "<leader>sr",
+          function()
+            require("telescope.builtin").live_grep({
+              cwd = "~/repos/",
+              path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1 } } },
+              prompt_title = "Repos",
+              layout_config = {
+                height = 0.85,
+                width = 0.75,
+              },
+            })
+          end,
+          desc = "Live grep in repos",
+        },
         {
           "<leader>sw",
           Util.telescope("grep_string", { word_match = "-w" }),

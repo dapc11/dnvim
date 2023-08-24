@@ -30,6 +30,7 @@ return {
         timeout_ms = nil,
       },
       servers = {
+        jdtls = { mason = false },
         jsonls = {},
         lua_ls = {
           settings = {
@@ -140,6 +141,9 @@ return {
       )
 
       local function setup(server)
+        if server == "jdtls" then
+          return
+        end
         local server_opts = vim.tbl_deep_extend("force", {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
