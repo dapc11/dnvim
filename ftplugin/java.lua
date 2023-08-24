@@ -7,8 +7,7 @@
 
 -- Determine OS
 local home = os.getenv("HOME")
-
-local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local project_name = vim.fn.fnamemodify(vim.fn.finddir(".git/..", vim.fn.expand("%:p:h") .. ".;"), ":p:h:t")
 
 local status, jdtls = pcall(require, "jdtls")
 if not status then
@@ -49,9 +48,9 @@ local config = {
     "-configuration",
     home .. "/.local/share/nvim/mason/packages/jdtls/config_linux",
     "-data",
-    home .. "/workspace",
+    home .. "/workspace/" .. project_name,
   },
-  root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "ruleset2.0.yaml" }, { upward = true })[1]),
+  root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
   init_options = {
     bundles = bundles,
   },
@@ -147,15 +146,15 @@ local config = {
         runtimes = {
           {
             name = "JavaSE-11",
-            path = os.getenv("HOME") .. "/.sdkman/candidates/java/11.0.11-open/",
+            path = home .. "/.sdkman/candidates/java/11.0.11-open/",
           },
           {
             name = "JavaSE-1.8",
-            path = os.getenv("HOME") .. "/.sdkman/candidates/java/8.0.302-open/",
+            path = home .. "/.sdkman/candidates/java/8.0.302-open/",
           },
           {
             name = "JavaSE-17",
-            path = os.getenv("HOME") .. "/.sdkman/candidates/java/17.0.4-oracle/",
+            path = home .. "/.sdkman/candidates/java/17.0.4-oracle/",
           },
         },
       },
