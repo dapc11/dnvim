@@ -87,3 +87,9 @@ end, { desc = "Stop all heavy lifting" })
 
 -- Close all buffers if needed to refresh speed
 map("n", "<leader>bo", "<cmd>%bd!|e#<cr>", { desc = "Close all buffers but the current one" }) -- https://stackoverflow.com/a/42071865/516188
+map("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "Lsp Info" })
+map("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Lsp Restart" })
+map("n", "<leader>ld", "<cmd>LspLog<cr>", { desc = "Lsp Log" })
+map("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+map("n", "<C-c>", "<cmd>normal! ciw<cr>a")

@@ -143,6 +143,27 @@ return {
               icon = "﬘",
               color = { fg = "DarkCyan", gui = "bold" },
             },
+            function(msg)
+              msg = msg or "LS Inactive"
+              local buf_clients = vim.lsp.buf_get_clients()
+              if next(buf_clients) == nil then
+                if type(msg) == "boolean" or #msg == 0 then
+                  return "LS Inactive"
+                end
+                return msg
+              end
+              local buf_ft = vim.bo.filetype
+              local buf_client_names = {}
+
+              -- add client
+              for _, client in pairs(buf_clients) do
+                if client.name ~= "null-ls" then
+                  table.insert(buf_client_names, client.name)
+                end
+              end
+
+              return "  " .. table.concat(vim.fn.uniq(buf_client_names), ", ")
+            end,
           },
         },
         options = {
