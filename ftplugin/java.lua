@@ -7,18 +7,8 @@
 
 -- Determine OS
 local home = os.getenv("HOME")
-if vim.fn.has("mac") == 1 then
-  WORKSPACE_PATH = home .. "/workspace/"
-  CONFIG = "mac"
-elseif vim.fn.has("unix") == 1 then
-  WORKSPACE_PATH = home .. "/workspace/"
-  CONFIG = "linux"
-else
-  print("Unsupported system")
-end
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 
-local workspace_dir = WORKSPACE_PATH .. project_name
+local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 
 local status, jdtls = pcall(require, "jdtls")
 if not status then
@@ -28,6 +18,7 @@ end
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
 local bundles = {}
 local mason_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/")
 vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
@@ -56,9 +47,9 @@ local config = {
     "-jar",
     vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
     "-configuration",
-    home .. "/.local/share/nvim/mason/packages/jdtls/config_" .. CONFIG,
+    home .. "/.local/share/nvim/mason/packages/jdtls/config_linux",
     "-data",
-    workspace_dir,
+    home .. "/workspace",
   },
   root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "ruleset2.0.yaml" }, { upward = true })[1]),
   init_options = {
@@ -188,26 +179,14 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 require("jdtls").start_or_attach(config)
 
 local bufnr = vim.api.nvim_get_current_buf()
+-- stylua: ignore start
 vim.keymap.set("n", "<leader>co", jdtls.organize_imports, { desc = "Organize Imports", buffer = bufnr })
 vim.keymap.set("n", "<leader>cv", jdtls.extract_variable, { desc = "Extract Variable", buffer = bufnr })
 vim.keymap.set("n", "<leader>cc", jdtls.extract_constant, { desc = "Extract Constant", buffer = bufnr })
-vim.keymap.set("v", "<leader>cv", function()
-  jdtls.extract_variable(true)
-end, { desc = "Extract Variable", buffer = bufnr })
-vim.keymap.set("v", "<leader>cc", function()
-  jdtls.extract_constant(true)
-end, { desc = "Extract Constant", buffer = bufnr })
-vim.keymap.set("v", "<leader>cm", function()
-  jdtls.method(true)
-end, { desc = "Extract Method", buffer = bufnr })
-vim.keymap.set("n", "<leader>cu", function()
-  jdtls.update_project_config()
-end, { desc = "Update Config", buffer = bufnr })
-vim.keymap.set("n", "<leader>tr", function()
-  jdtls.test_nearest_method()
-  vim.cmd.DapToggleRepl()
-end, { desc = "Run Nearest", buffer = bufnr })
-vim.keymap.set("n", "<leader>tt", function()
-  jdtls.test_class()
-  vim.cmd.DapToggleRepl()
-end, { desc = "Run File", buffer = bufnr })
+vim.keymap.set("v", "<leader>cv", function() jdtls.extract_variable(true) end, { desc = "Extract Variable", buffer = bufnr })
+vim.keymap.set("v", "<leader>cc", function() jdtls.extract_constant(true) end, { desc = "Extract Constant", buffer = bufnr })
+vim.keymap.set("v", "<leader>cm", function() jdtls.method(true) end, { desc = "Extract Method", buffer = bufnr })
+vim.keymap.set("n", "<leader>cu", function() jdtls.update_project_config() end, { desc = "Update Config", buffer = bufnr })
+vim.keymap.set("n", "<leader>tr", function() jdtls.test_nearest_method() vim.cmd.DapToggleRepl() end, { desc = "Run Nearest", buffer = bufnr })
+vim.keymap.set("n", "<leader>tt", function() jdtls.test_class() vim.cmd.DapToggleRepl() end, { desc = "Run File", buffer = bufnr })
+-- stylua: ignore end
