@@ -1,6 +1,15 @@
 return {
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme catppuccin-frappe]])
+    end,
+  },
+  {
     "folke/tokyonight.nvim",
+    enabled = false,
     lazy = false,
     priority = 1000,
     config = function(_, opts)
@@ -84,45 +93,45 @@ return {
     event = "VeryLazy",
     opts = function()
       local custom_theme = require("lualine.themes.auto")
-      local colors = require("tokyonight.colors").setup()
-
-      custom_theme.normal = {
-        a = { bg = colors.blue, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.blue },
-        c = { bg = colors.bg_sidebar, fg = colors.fg_sidebar },
-      }
-
-      custom_theme.insert = {
-        a = { bg = colors.green, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.green },
-      }
-
-      custom_theme.command = {
-        a = { bg = colors.yellow, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.yellow },
-      }
-
-      custom_theme.visual = {
-        a = { bg = colors.magenta, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.magenta },
-      }
-
-      custom_theme.replace = {
-        a = { bg = colors.red, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.red },
-      }
-
-      custom_theme.terminal = {
-        a = { bg = colors.green1, fg = colors.black },
-        b = { bg = colors.fg_gutter, fg = colors.green1 },
-      }
-
-      custom_theme.inactive = {
-        a = { bg = colors.bg_sidebar, fg = colors.blue },
-        b = { bg = colors.bg_sidebar, fg = colors.fg_gutter, gui = "bold" },
-        c = { bg = colors.bg_sidebar, fg = colors.fg_gutter },
-      }
-
+      -- local colors = require("tokyonight.colors").setup()
+      --
+      -- custom_theme.normal = {
+      --   a = { bg = colors.blue, fg = colors.black },
+      --   b = { bg = colors.fg_gutter, fg = colors.blue },
+      --   c = { bg = colors.bg_sidebar, fg = colors.fg_sidebar },
+      -- }
+      --
+      -- custom_theme.insert = {
+      --   a = { bg = colors.green, fg = colors.black },
+      --   b = { bg = colors.fg_gutter, fg = colors.green },
+      -- }
+      --
+      -- custom_theme.command = {
+      --   a = { bg = colors.yellow, fg = colors.black },
+      --   b = { bg = colors.fg_gutter, fg = colors.yellow },
+      -- }
+      --
+      -- custom_theme.visual = {
+      --   a = { bg = colors.magenta, fg = colors.black },
+      --   b = { bg = colors.fg_gutter, fg = colors.magenta },
+      -- }
+      --
+      -- custom_theme.replace = {
+      --   a = { bg = colors.red, fg = colors.black },
+      --   b = { bg = colors.fg_gutter, fg = colors.red },
+      -- }
+      --
+      -- custom_theme.terminal = {
+      --   a = { bg = colors.green1, fg = colors.black },
+      --   b = { bg = colors.fg_gutter, fg = colors.green1 },
+      -- }
+      --
+      -- custom_theme.inactive = {
+      --   a = { bg = colors.bg_sidebar, fg = colors.blue },
+      --   b = { bg = colors.bg_sidebar, fg = colors.fg_gutter, gui = "bold" },
+      --   c = { bg = colors.bg_sidebar, fg = colors.fg_gutter },
+      -- }
+      --
       local neotree = { sections = {}, filetypes = { "neo-tree" } }
       return {
         sections = {

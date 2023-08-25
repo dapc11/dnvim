@@ -7,6 +7,7 @@ return {
       "TelescopePrompt",
       "NeogitStatus",
       "qf",
+      "git",
       "netrw",
       "neo-tree",
       "lazy",
