@@ -11,6 +11,7 @@ return {
       "netrw",
       "neo-tree",
       "lazy",
+      "fugitiveblame",
       "mason",
       "oil",
     },

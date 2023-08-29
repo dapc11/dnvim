@@ -66,7 +66,6 @@ return {
       luasnip = true,
       trouble = false,
     },
-    ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()',
   },
   -- {
