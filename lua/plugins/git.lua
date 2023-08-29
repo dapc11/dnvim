@@ -103,6 +103,46 @@ return {
             win_opts = {},
           },
         },
+        keymaps = {
+          diff3 = {
+            {
+              { "n", "x" },
+              "1do",
+              actions.diffget("base"),
+              { desc = "Obtain the diff hunk from the BASE version of the file" },
+            },
+            {
+              { "n", "x" },
+              "2do",
+              actions.diffget("ours"),
+              { desc = "Obtain the diff hunk from the OURS version of the file" },
+            },
+            {
+              { "n", "x" },
+              "3do",
+              actions.diffget("theirs"),
+              { desc = "Obtain the diff hunk from the THEIRS version of the file" },
+            },
+          },
+          file_panel = {
+            { "n", "öx", actions.prev_conflict, { desc = "Go to the previous conflict" } },
+            { "n", "äx", actions.next_conflict, { desc = "Go to the next conflict" } },
+          },
+          file_history_panel = {
+            {
+              "n",
+              "<down>",
+              actions.next_entry,
+              { desc = "Bring the cursor to the next file entry" },
+            },
+            {
+              "n",
+              "<up>",
+              actions.prev_entry,
+              { desc = "Bring the cursor to the previous file entry" },
+            },
+          },
+        },
       }
     end,
     -- stylua: ignore
