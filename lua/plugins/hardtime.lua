@@ -12,6 +12,7 @@ return {
       "neo-tree",
       "lazy",
       "fugitiveblame",
+      "fugitive",
       "mason",
       "oil",
     },
