@@ -63,9 +63,9 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", "ä<tab>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+map("n", "<<tab>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
-map("n", "ö<tab>", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+map("n", "><tab>", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 map(
   "n",
@@ -74,8 +74,8 @@ map(
   { desc = "Redraw / clear hlsearch / diff update" }
 )
 
-map("n", "öd", vim.diagnostic.goto_prev)
-map("n", "äd", vim.diagnostic.goto_next)
+map("n", ">d", vim.diagnostic.goto_prev)
+map("n", "<d", vim.diagnostic.goto_next)
 
 map("n", "<leader>cs", function()
   local bufnr = vim.api.nvim_get_current_buf()

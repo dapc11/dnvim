@@ -17,7 +17,7 @@ return {
           vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
         end
 
-        map("n", "äc", function()
+        map("n", "<c", function()
           if vim.wo.diff then
             return "]czz"
           end
@@ -28,7 +28,7 @@ return {
           return "<Ignore>"
         end, { expr = true })
 
-        map("n", "öc", function()
+        map("n", ">c", function()
           if vim.wo.diff then
             return "[czz"
           end
@@ -54,13 +54,12 @@ return {
   {
     "dapc11/vim-fugitive",
     lazy = false,
-    -- stylua: ignore
     keys = {
       { "<leader>gp", ":Git push origin HEAD:refs/for/master<cr>", desc = "Push Gerrit" },
-      { "<leader>gP", ":Git push<cr>",                             desc = "Push Regular" },
-      { "<leader>gb", ":Git blame<cr>",                            desc = "Git Blame" },
-      { "<leader>gf", ":Git fetch<cr>",                            desc = "Git Fetch" },
-      { "<leader>gr", ":Git pull --rebase<cr>",                    desc = "Git Pull Rebase" },
+      { "<leader>gP", ":Git push<cr>", desc = "Push Regular" },
+      { "<leader>gb", ":Git blame<cr>", desc = "Git Blame" },
+      { "<leader>gf", ":Git fetch<cr>", desc = "Git Fetch" },
+      { "<leader>gr", ":Git pull --rebase<cr>", desc = "Git Pull Rebase" },
       {
         "<leader>gl",
         ":Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>",
@@ -92,55 +91,15 @@ return {
 
       return {
         file_panel = {
-          listing_style = "tree", -- One of 'list' or 'tree'
-          tree_options = { -- Only applies when listing_style is 'tree'
-            flatten_dirs = true, -- Flatten dirs that only contain one single dir
-            folder_statuses = "only_folded", -- One of 'never', 'only_folded' or 'always'.
+          listing_style = "tree",
+          tree_options = {
+            flatten_dirs = true,
+            folder_statuses = "only_folded",
           },
-          win_config = { -- See ':h diffview-config-win_config'
+          win_config = {
             position = "bottom",
             height = 15,
             win_opts = {},
-          },
-        },
-        keymaps = {
-          diff3 = {
-            {
-              { "n", "x" },
-              "1do",
-              actions.diffget("base"),
-              { desc = "Obtain the diff hunk from the BASE version of the file" },
-            },
-            {
-              { "n", "x" },
-              "2do",
-              actions.diffget("ours"),
-              { desc = "Obtain the diff hunk from the OURS version of the file" },
-            },
-            {
-              { "n", "x" },
-              "3do",
-              actions.diffget("theirs"),
-              { desc = "Obtain the diff hunk from the THEIRS version of the file" },
-            },
-          },
-          file_panel = {
-            { "n", "öx", actions.prev_conflict, { desc = "Go to the previous conflict" } },
-            { "n", "äx", actions.next_conflict, { desc = "Go to the next conflict" } },
-          },
-          file_history_panel = {
-            {
-              "n",
-              "<down>",
-              actions.next_entry,
-              { desc = "Bring the cursor to the next file entry" },
-            },
-            {
-              "n",
-              "<up>",
-              actions.prev_entry,
-              { desc = "Bring the cursor to the previous file entry" },
-            },
           },
         },
       }
@@ -157,5 +116,22 @@ return {
         desc = "Diffview Current File History",
       },
     },
+  },
+  {
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    config = function()
+      require("git-conflict").setup({
+        list_opener = "copen",
+        default_mappings = {
+          ours = "o",
+          theirs = "t",
+          none = "0",
+          both = "b",
+          next = "<",
+          prev = ">",
+        },
+      })
+    end,
   },
 }

@@ -6,14 +6,14 @@ return {
       -- stylua: ignore
       keys = {
         {
-          "<leader>cdu",
+          "<leader>du",
           function()
             require("dapui").toggle({})
           end,
           desc = "Dap UI",
         },
         {
-          "<leader>cde",
+          "<leader>de",
           function()
             require("dapui").eval()
           end,

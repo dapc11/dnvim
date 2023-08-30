@@ -7,14 +7,14 @@ return {
     -- stylua: ignore
     keys = {
       {
-        "ät",
+        "<t",
         function()
           require("todo-comments").jump_next()
         end,
         desc = "Next todo comment",
       },
       {
-        "öt",
+        ">t",
         function()
           require("todo-comments").jump_prev()
         end,

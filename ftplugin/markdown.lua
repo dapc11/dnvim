@@ -20,5 +20,5 @@ vim.cmd([[
 setlocal wrap spell spelllang=en_us
 ]])
 
-vim.keymap.set("n", "äs", "]s", { buffer = bufnr })
-vim.keymap.set("n", "ös", "[s", { buffer = bufnr })
+vim.keymap.set("n", "<s", "]s", { buffer = bufnr })
+vim.keymap.set("n", ">s", "[s", { buffer = bufnr })

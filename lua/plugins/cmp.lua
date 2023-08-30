@@ -109,7 +109,14 @@ return {
           entry_filter = function(entry, _)
             return cmp.lsp.CompletionItemKind.Text ~= entry:get_kind()
           end,
-          { name = "luasnip" },
+          {
+            name = "luasnip",
+            option = { use_show_condition = true },
+            entry_filter = function()
+              local context = require("cmp.config.context")
+              return not context.in_treesitter_capture("string") and not context.in_syntax_group("String")
+            end,
+          },
           { name = "path" },
           {
             name = "buffer",
