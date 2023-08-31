@@ -266,7 +266,7 @@ return {
       return {
         defaults = {
           buffer_previewer_maker = new_maker,
-          layout_strategy = "horizontal",
+          layout_strategy = "vertical",
           layout_config = { prompt_position = "top" },
           sorting_strategy = "ascending",
           winblend = 0,
