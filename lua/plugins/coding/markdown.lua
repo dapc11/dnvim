@@ -8,14 +8,6 @@ return {
     end,
   },
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        marksman = {},
-      },
-    },
-  },
-  {
     "iamcco/markdown-preview.nvim",
     ft = "markdown",
     build = function()

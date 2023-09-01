@@ -1,5 +1,5 @@
 local bufnr = vim.api.nvim_get_current_buf()
-function getVisualSelection()
+function GetVisualSelection()
   local text = vim.fn.getreg("v")
   vim.fn.setreg("v", {})
 
@@ -14,6 +14,6 @@ end
 vim.keymap.set(
   "n",
   "gf",
-  '"vyi"<cmd>lua require("telescope.builtin").live_grep({ default_text = getVisualSelection() })<cr>',
+  '"vyi"<cmd>lua require("telescope.builtin").live_grep({ default_text = GetVisualSelection() })<cr>',
   { desc = "Find Usages", buffer = bufnr }
 )

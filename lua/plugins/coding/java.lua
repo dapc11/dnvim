@@ -8,12 +8,4 @@ return {
     end,
   },
   { "mfussenegger/nvim-jdtls", event = "VeryLazy" },
-  {
-    "neovim/nvim-lspconfig",
-    servers = {
-      jdtls = {
-        single_file_support = false,
-      },
-    },
-  },
 }

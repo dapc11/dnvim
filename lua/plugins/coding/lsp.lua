@@ -1,215 +1,157 @@
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+  vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
+    underline = true,
+    update_in_insert = false,
+    virtual_text = {
+      spacing = 4,
+      source = "if_many",
+      prefix = "●",
+    },
+    severity_sort = true,
+  })
+
+-- diagnostics icons
+for name, icon in pairs(require("config.icons").icons.diagnostics) do
+  name = "DiagnosticSign" .. name
+  vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+end
+
 return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      {
+        "williamboman/mason.nvim",
+        cmd = "Mason",
+        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+        build = ":MasonUpdate",
+      },
       "hrsh7th/cmp-nvim-lsp",
     },
-    ---@class PluginLspOpts
-    opts = {
-      diagnostics = {
-        underline = true,
-        update_in_insert = false,
-        virtual_text = {
-          spacing = 4,
-          source = "if_many",
-          prefix = "●",
-        },
-        severity_sort = true,
-      },
-      inlay_hints = {
-        enabled = false,
-      },
-      capabilities = {},
-      autoformat = true,
-      format_notify = false,
-      format = {
-        formatting_options = nil,
-        timeout_ms = nil,
-      },
-      servers = {
-        jdtls = { mason = false },
-        jsonls = {},
-        lua_ls = {
-          settings = {
-            Lua = {
-              workspace = {
-                checkThirdParty = false,
-                maxPreload = 10000,
-                preloadFileSize = 1000,
+    config = function(_, _)
+      local on_attach = function(_, bufnr)
+        local lopts = { buffer = bufnr, noremap = true, silent = true }
+        local function get_opts(desc)
+          local description = desc or ""
+          return vim.tbl_deep_extend("force", lopts, { desc = description })
+        end
+
+          -- stylua: ignore start
+          vim.keymap.set( "n", "<C-e>", vim.diagnostic.open_float, lopts)
+          vim.keymap.set( "n", "gD", vim.lsp.buf.declaration, get_opts("Goto declaration"))
+          vim.keymap.set( "n", "gd", vim.lsp.buf.definition, get_opts("Goto definition"))
+          vim.keymap.set( "n", "gr", vim.lsp.buf.references, get_opts("Goto references"))
+          vim.keymap.set( "n", "gi", vim.lsp.buf.implementation, get_opts())
+          vim.keymap.set( "n", "K", vim.lsp.buf.hover, get_opts())
+          vim.keymap.set( "n", "<C-k>", vim.lsp.buf.signature_help, get_opts())
+          vim.keymap.set( "n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, get_opts("Add workspace folder"))
+          vim.keymap.set( "n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, get_opts("Remove workspace folder"))
+          vim.keymap.set( "n", "<leader>cwl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, get_opts("List workspace folders"))
+          vim.keymap.set( "n", "<leader>cr", vim.lsp.buf.rename, get_opts("Rename"))
+          vim.keymap.set( { "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, get_opts("Code actions"))
+          vim.keymap.set( "n", ">d", vim.diagnostic.goto_prev, get_opts())
+          vim.keymap.set( "n", "<d", vim.diagnostic.goto_next, get_opts())
+          if vim.bo.filetype ~= "lua" then
+            vim.keymap.set( "n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, get_opts("Format"))
+          end
+        -- stylua: ignore end
+      end
+
+      local lspconfig = require("lspconfig")
+      lspconfig.pyright.setup({
+        on_attach = on_attach,
+        root_dir = function(fname)
+          local util = require("lspconfig.util")
+          local root_files = {
+            "pyproject.toml",
+            "setup.py",
+            "setup.cfg",
+            "requirements.txt",
+            "Pipfile",
+            "manage.py",
+            "pyrightconfig.json",
+          }
+          return util.root_pattern(unpack(root_files))(fname)
+            or util.root_pattern(".git")(fname)
+            or util.path.dirname(fname)
+        end,
+        settings = {
+          pyright = {
+            disableLanguageServices = false,
+            disableOrganizeImports = false,
+          },
+          python = {
+            analysis = {
+              diagnosticSeverityOverrides = {
+                reportMissingImports = "none",
+                reportOptionalMemberAccess = "none",
               },
-              completion = {
-                callSnippet = "Replace",
-              },
-              diagnostics = {
-                globals = { "jit", "vim", "lvim", "reload" },
-              },
+              autoImportCompletions = true,
+              autoSearchPaths = true,
+              diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true,
             },
           },
         },
-      },
-      setup = {},
-    },
-    ---@param opts PluginLspOpts
-    config = function(_, opts)
-      -- mappings
-      vim.keymap.set("n", "<C-e>", vim.diagnostic.open_float)
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(ev)
-          local lopts = { buffer = ev.buf }
-          vim.keymap.set(
-            "n",
-            "gD",
-            vim.lsp.buf.declaration,
-            vim.tbl_deep_extend("force", lopts, { desc = "Goto declaration" })
-          )
-          vim.keymap.set(
-            "n",
-            "gd",
-            vim.lsp.buf.definition,
-            vim.tbl_deep_extend("force", lopts, { desc = "Goto definition" })
-          )
-          vim.keymap.set(
-            "n",
-            "gr",
-            vim.lsp.buf.references,
-            vim.tbl_deep_extend("force", lopts, { desc = "Goto references" })
-          )
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_deep_extend("force", lopts, { desc = "" }))
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, lopts)
-          vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, lopts)
-          vim.keymap.set(
-            "n",
-            "<leader>cwa",
-            vim.lsp.buf.add_workspace_folder,
-            vim.tbl_deep_extend("force", lopts, { desc = "Add workspace folder" })
-          )
-          vim.keymap.set(
-            "n",
-            "<leader>cwr",
-            vim.lsp.buf.remove_workspace_folder,
-            vim.tbl_deep_extend("force", lopts, { desc = "Remove workspace folder" })
-          )
-          vim.keymap.set("n", "<leader>cwl", function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end, vim.tbl_deep_extend("force", lopts, { desc = "List workspace folders" }))
-          vim.keymap.set(
-            "n",
-            "<leader>cr",
-            vim.lsp.buf.rename,
-            vim.tbl_deep_extend("force", lopts, { desc = "Rename" })
-          )
-          vim.keymap.set(
-            { "n", "v" },
-            "<leader>ca",
-            vim.lsp.buf.code_action,
-            vim.tbl_deep_extend("force", lopts, { desc = "Code actions" })
-          )
-          if vim.bo.filetype ~= "lua" then
-            vim.keymap.set("n", "<leader>cf", function()
-              vim.lsp.buf.format({ async = true })
-            end, vim.tbl_deep_extend("force", lopts, { desc = "Format" }))
-          end
-        end,
+        single_file_support = true,
       })
-
-      local register_capability = vim.lsp.handlers["client/registerCapability"]
-
-      vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
-        return register_capability(err, res, ctx)
-      end
-
-      -- diagnostics
-      for name, icon in pairs(require("config.icons").icons.diagnostics) do
-        name = "DiagnosticSign" .. name
-        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-      end
-      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
-
-      local servers = opts.servers
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-        opts.capabilities or {}
-      )
-
-      local function setup(server)
-        if server == "jdtls" then
-          return
-        end
-        local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
-        }, servers[server] or {})
-
-        if opts.setup[server] then
-          if opts.setup[server](server, server_opts) then
-            return
-          end
-        elseif opts.setup["*"] then
-          if opts.setup["*"](server, server_opts) then
-            return
-          end
-        end
-        require("lspconfig")[server].setup(server_opts)
-      end
-
-      local have_mason, mlsp = pcall(require, "mason-lspconfig")
-      local all_mslp_servers = {}
-      if have_mason then
-        all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
-      end
-
-      local ensure_installed = {} ---@type string[]
-      for server, server_opts in pairs(servers) do
-        if server_opts then
-          server_opts = server_opts == true and {} or server_opts
-          if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-            setup(server)
-          else
-            ensure_installed[#ensure_installed + 1] = server
-          end
-        end
-      end
-
-      if have_mason then
-        mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
-      end
-    end,
-  },
-  -- cmdline tools and lsp servers
-  {
-    "williamboman/mason.nvim",
-    cmd = "Mason",
-    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-    build = ":MasonUpdate",
-    opts = {
-      ensure_installed = {
-        "stylua",
-      },
-    },
-    config = function(_, opts)
-      require("mason").setup(opts)
-      local mr = require("mason-registry")
-      local function ensure_installed()
-        for _, tool in ipairs(opts.ensure_installed) do
-          local p = mr.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
-        end
-      end
-      if mr.refresh then
-        mr.refresh(ensure_installed)
-      else
-        ensure_installed()
-      end
+      lspconfig.lua_ls.setup({
+        on_attach = on_attach,
+        settings = {
+          Lua = {
+            workspace = {
+              checkThirdParty = false,
+              maxPreload = 10000,
+              preloadFileSize = 1000,
+            },
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = {
+              globals = { "jit", "vim", "lvim", "reload" },
+            },
+          },
+        },
+      })
+      lspconfig.gopls.setup({
+        on_attach = on_attach,
+        settings = {
+          gopls = {
+            gofumpt = false,
+            codelenses = {
+              gc_details = false,
+              generate = false,
+              regenerate_cgo = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            diagnosticsDelay = "300ms",
+            symbolMatcher = "fuzzy",
+            completeUnimported = true,
+            staticcheck = false,
+            matcher = "Fuzzy",
+            usePlaceholders = true,
+            analyses = {
+              fieldalignment = true,
+              nilness = true,
+              shadow = true,
+              unusedparams = true,
+              unusedwrite = true,
+            },
+          },
+        },
+      })
     end,
   },
 }

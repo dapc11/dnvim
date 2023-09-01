@@ -13,12 +13,12 @@ map({ "n", "v", "x", "o" }, "<C-d>", "<C-d>zz")
 map({ "n", "v", "x", "o" }, "<C-u>", "<C-u>zz")
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("n", "n", "nzz", { desc = "Next search result" })
+map("x", "n", "nzz", { desc = "Next search result" })
+map("o", "n", "nzz", { desc = "Next search result" })
+map("n", "N", "Nzz", { desc = "Prev search result" })
+map("x", "N", "Nzz", { desc = "Prev search result" })
+map("o", "N", "Nzz", { desc = "Prev search result" })
 
 map({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
@@ -74,9 +74,6 @@ map(
   { desc = "Redraw / clear hlsearch / diff update" }
 )
 
-map("n", ">d", vim.diagnostic.goto_prev)
-map("n", "<d", vim.diagnostic.goto_next)
-
 map("n", "<leader>cs", function()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
@@ -93,6 +90,3 @@ map("n", "<leader>ld", "<cmd>LspLog<cr>", { desc = "Lsp Log" })
 map("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 map("n", "<C-c>", "<cmd>normal! ciw<cr>a")
-
-map("n", "<q", vim.cmd.cnext)
-map("n", ">q", vim.cmd.cprevious)

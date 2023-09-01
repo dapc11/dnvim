@@ -78,20 +78,13 @@ vim.api.nvim_create_autocmd({ "DiffUpdated" }, {
     end
   end,
 })
+
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
   callback = function(_)
-    local bufnr = vim.api.nvim_get_current_buf()
-    vim.diagnostic.disable(bufnr)
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWrite" }, {
-  callback = function(_)
-    if vim.bo.filetype ~= "yaml" then
-      return
+    if vim.bo.filetype == "yaml" then
+      local bufnr = vim.api.nvim_get_current_buf()
+      vim.diagnostic.disable(bufnr)
     end
-    local bufnr = vim.api.nvim_get_current_buf()
-    vim.diagnostic.enable(bufnr)
   end,
 })
 

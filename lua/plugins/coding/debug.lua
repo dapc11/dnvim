@@ -3,7 +3,6 @@ return {
   dependencies = {
     {
       "rcarriga/nvim-dap-ui",
-      -- stylua: ignore
       keys = {
         {
           "<leader>du",
@@ -52,7 +51,6 @@ return {
       },
     },
   },
-  -- stylua: ignore
   keys = {
     {
       "<leader>dB",
