@@ -17,7 +17,9 @@ return {
     opts = {
       disable_defaults = false,
       go = "go",
-      gofmt = "gofmt",
+      gofmt = "gopls",
+      lsp_gofumpt = false, -- true: set default gofmt in gopls format to gofumpt
+      lsp_document_formatting = true,
       max_line_len = 100,
       comment_placeholder = "",
       icons = { breakpoint = "", currentpos = "" },

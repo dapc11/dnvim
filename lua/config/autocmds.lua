@@ -109,6 +109,13 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*.go" },
+  callback = function(_)
+    require("go.format").gofmt()
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   pattern = { "*.tpl", "*.yaml", "*.yml" },
   callback = function(_)
