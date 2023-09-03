@@ -90,3 +90,8 @@ map("n", "<leader>ld", "<cmd>LspLog<cr>", { desc = "Lsp Log" })
 map("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 map("n", "<C-c>", "<cmd>normal! ciw<cr>a")
+
+vim.cmd([[
+xnoremap <leader>cR y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi
+nnoremap ; gn@i
+]])

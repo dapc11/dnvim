@@ -48,6 +48,7 @@ return {
           { mode = "n", keys = "<leader>b", desc = "+buffer" },
           { mode = "n", keys = "<leader>c", desc = "+code" },
           { mode = "n", keys = "<leader>cd", desc = "+debug" },
+          { mode = "n", keys = ":", desc = "Rerun Macro" },
           { mode = "n", keys = "<leader>cw", desc = "+workspace" },
           { mode = "n", keys = "<leader>d", desc = "+debug" },
           { mode = "n", keys = "<leader>da", desc = "+adapters" },
