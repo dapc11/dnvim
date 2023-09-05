@@ -30,7 +30,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function(_, _)
-      local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local on_attach = function(_, bufnr)
         local lopts = { buffer = bufnr, noremap = true, silent = true }
         local function get_opts(desc)

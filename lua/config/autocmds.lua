@@ -145,3 +145,11 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {
   group = aug,
   pattern = "*",
 })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "COMMIT_EDITMSG" },
+  callback = function()
+    vim.keymap.set("n", "<c-c><c-c>", "<cmd>wq<cr>", { noremap = true, buffer = true })
+    vim.keymap.set("i", "<c-c><c-c>", "<esc><cmd>wq<cr>", { noremap = true, buffer = true })
+  end,
+})
