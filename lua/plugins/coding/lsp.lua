@@ -30,6 +30,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function(_, _)
+      local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
       local on_attach = function(_, bufnr)
         local lopts = { buffer = bufnr, noremap = true, silent = true }
         local function get_opts(desc)
@@ -60,6 +61,7 @@ return {
 
       local lspconfig = require("lspconfig")
       lspconfig.pyright.setup({
+        capabilities = capabilities,
         on_attach = on_attach,
         root_dir = function(fname)
           local util = require("lspconfig.util")
@@ -97,6 +99,7 @@ return {
         single_file_support = true,
       })
       lspconfig.lua_ls.setup({
+        capabilities = capabilities,
         on_attach = on_attach,
         settings = {
           Lua = {
@@ -115,6 +118,7 @@ return {
         },
       })
       lspconfig.gopls.setup({
+        capabilities = capabilities,
         on_attach = on_attach,
         settings = {
           gopls = {
