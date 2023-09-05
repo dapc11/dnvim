@@ -51,3 +51,11 @@ vim.g.markdown_recommended_style = 0
 
 opt.swapfile = false -- don't use a swap file
 opt.laststatus = 3
+
+local original_fn = require("neogit.lib.git.push").push_interactive
+
+local wrapper_fn = function(remote, branch, args)
+  original_fn(remote, "HEAD:refs/for/" .. branch, args)
+end
+
+require("neogit.lib.git.push").push_interactive = wrapper_fn

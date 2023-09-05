@@ -28,7 +28,7 @@ return {
       sign_priority = 5,
       test_runner = "go", -- one of {`go`, `richgo`, `dlv`, `ginkgo`, `gotestsum`}
       luasnip = true,
-      trouble = true,
+      trouble = false,
     },
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()',
