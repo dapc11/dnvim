@@ -69,7 +69,6 @@ return {
   },
   {
     "dapc11/neogit",
-    commit = "5234a61a2b6bb26339bea628118d899e76a116e8",
     keys = { { "<C-g>", "<cmd>Neogit<cr>" } },
     config = true,
     dependencies = "nvim-lua/plenary.nvim",
@@ -87,8 +86,6 @@ return {
       "DiffviewFocusFiles",
     },
     opts = function()
-      local actions = require("diffview.actions")
-
       return {
         file_panel = {
           listing_style = "tree",
