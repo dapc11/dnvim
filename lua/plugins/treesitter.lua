@@ -20,7 +20,7 @@ return {
       highlight = {
         enable = true,
         disable = function(_, bufnr)
-          return vim.api.nvim_buf_line_count(bufnr) > 10000
+          return vim.api.nvim_buf_line_count(bufnr) > 5000
         end,
       },
       indent = {
@@ -73,13 +73,13 @@ return {
           include_surrounding_whitespace = true,
         },
         disable = function(_, bufnr)
-          return vim.api.nvim_buf_line_count(bufnr) > 10000
+          return vim.api.nvim_buf_line_count(bufnr) > 5000
         end,
       },
       incremental_selection = {
         enable = true,
         disable = function(_, bufnr)
-          return vim.api.nvim_buf_line_count(bufnr) > 10000
+          return vim.api.nvim_buf_line_count(bufnr) > 5000
         end,
         keymaps = {
           init_selection = "<C-space>",

@@ -68,7 +68,7 @@ return {
     },
   },
   {
-    "NeogitOrg/neogit",
+    "dapc11/neogit",
     commit = "5234a61a2b6bb26339bea628118d899e76a116e8",
     keys = { { "<C-g>", "<cmd>Neogit<cr>" } },
     config = true,
