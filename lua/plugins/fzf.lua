@@ -40,6 +40,20 @@ return {
           ["<S-down>"] = "preview-page-down",
           ["<S-up>"] = "preview-page-up",
         },
+        fzf = {
+          ["ctrl-z"] = "abort",
+          ["ctrl-u"] = "unix-line-discard",
+          ["ctrl-f"] = "half-page-down",
+          ["ctrl-b"] = "half-page-up",
+          ["ctrl-a"] = "beginning-of-line",
+          ["ctrl-e"] = "end-of-line",
+          ["alt-a"] = "toggle-all",
+          -- Only valid with fzf previewers (bat/cat/git/etc)
+          ["f3"] = "toggle-preview-wrap",
+          ["f4"] = "toggle-preview",
+          ["shift-down"] = "preview-page-down",
+          ["shift-up"] = "preview-page-up",
+        },
       },
       oldfiles = dropdown({
         prompt = " History: ",
@@ -68,6 +82,7 @@ return {
       { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       -- find
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
+      { "<leader>fh", "<cmd>FzfLua help_tags<cr>", desc = "Help" },
       {
         "<leader>fp",
         function()
@@ -75,8 +90,13 @@ return {
         end,
         desc = "Find Plugin File",
       },
-      -- { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
-      -- { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
+      {
+        "<leader>ff",
+        function()
+          require("fzf-lua").files()
+        end,
+        desc = "Find Files (root dir)",
+      },
       {
         "<leader>fr",
         function()
@@ -110,16 +130,16 @@ return {
         desc = "Command History",
       },
       { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },
-      -- {
-      --   "<leader>sd",
-      --   "<cmd>FzfLua diagnostics bufnr=0<cr>",
-      --   desc = "Document diagnostics",
-      -- },
-      -- {
-      --   "<leader>sD",
-      --   "<cmd>FzfLua diagnostics<cr>",
-      --   desc = "Workspace diagnostics",
-      -- },
+      {
+        "<leader>sd",
+        "<cmd>FzfLua diagnostics_document<cr>",
+        desc = "Document diagnostics",
+      },
+      {
+        "<leader>sD",
+        "<cmd>FzfLua diagnostics_workspace<cr>",
+        desc = "Workspace diagnostics",
+      },
       {
         "<leader>sg",
         "<cmd>FzfLua live_grep<cr>",
@@ -143,12 +163,14 @@ return {
         end,
         desc = "Live grep in repos",
       },
-      -- {
-      --   "<leader>sw",
-      --   require("fzf-lua").grep_visual,
-      --   mode = "v",
-      --   desc = "Selection (root dir)",
-      -- },
+      {
+        "<leader>sw",
+        function()
+          require("fzf-lua").grep_visual()
+        end,
+        mode = "v",
+        desc = "Selection (root dir)",
+      },
 
       { "<leader><leader>", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
       { "<C-f>", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "Find in Current Buffer" },

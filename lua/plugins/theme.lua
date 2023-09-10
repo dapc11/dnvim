@@ -7,6 +7,9 @@ return {
       require("catppuccin").setup({
         custom_highlights = function(colors)
           return {
+            NeoTreeNormal = { fg = colors.text, bg = colors.mantle },
+            NeoTreeNormalNC = { fg = colors.text, bg = colors.mantle },
+            WinSeparator = { bg = colors.mantle, fg = colors.mantle },
             FzfLuaCursorLine = { bg = colors.base },
             FzfLuaHelpNormal = { fg = colors.red },
             FzfLuaHeaderText = { fg = colors.red },

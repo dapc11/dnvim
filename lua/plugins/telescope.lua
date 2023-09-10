@@ -72,7 +72,6 @@ return {
         { "<C-p>", "<cmd>Telescope projects<cr>", desc = "Find Project" },
         { "<leader>fn", "<CMD>Telescope notify<cr>", desc = "Notifications" },
         -- find
-        { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
         { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
         { "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
         -- search
@@ -80,16 +79,6 @@ return {
           "<leader>sa",
           "<cmd>Telescope autocommands<cr>",
           desc = "Auto Commands",
-        },
-        {
-          "<leader>sd",
-          "<cmd>Telescope diagnostics bufnr=0<cr>",
-          desc = "Document diagnostics",
-        },
-        {
-          "<leader>sD",
-          "<cmd>Telescope diagnostics<cr>",
-          desc = "Workspace diagnostics",
         },
         {
           "<leader><leader>",
