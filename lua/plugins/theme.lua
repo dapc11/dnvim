@@ -4,6 +4,20 @@ return {
     name = "catppuccin",
     priority = 1000,
     config = function()
+      require("catppuccin").setup({
+        custom_highlights = function(colors)
+          return {
+            FzfLuaCursorLine = { bg = colors.base },
+            FzfLuaHelpNormal = { fg = colors.red },
+            FzfLuaHeaderText = { fg = colors.red },
+            FzfLuaBufLineNr = { fg = colors.blue },
+            FzfLuaBufFlagCur = { fg = colors.blue },
+            FzfLuaBufFlagAlt = { fg = colors.sky },
+            FzfLuaTabMarker = { bg = colors.base },
+            FzfLuaBorder = { fg = colors.blue },
+          }
+        end,
+      })
       vim.cmd([[colorscheme catppuccin-frappe]])
     end,
   },
