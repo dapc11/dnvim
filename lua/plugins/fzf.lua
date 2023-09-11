@@ -18,21 +18,43 @@ return {
     opts = {
       "max-perf",
       fzf_opts = { ["--layout"] = "reverse" },
-      winopts = { preview = { default = "builtin", layout = "vertical" } },
+      winopts = {
+        preview = {
+          default = "bat",
+          border = "border", -- border|noborder, applies only to
+          -- native fzf previewers (bat/cat/git/etc)
+          wrap = "nowrap", -- wrap|nowrap
+          hidden = "nohidden", -- hidden|nohidden
+          vertical = "down:45%", -- up|down:size
+          horizontal = "right:60%", -- right|left:size
+          layout = "flex", -- horizontal|vertical|flex
+          flip_columns = 120, -- #cols to switch to horizontal on flex
+          title = true, -- preview border title (file/buf)?
+          title_pos = "center", -- left|center|right, title alignment
+          scrollbar = "border", -- `false` or string:'float|border'
+          delay = 100, -- delay(ms) displaying the preview
+          winopts = { -- builtin previewer window options
+            number = true,
+            relativenumber = false,
+            cursorline = true,
+            cursorlineopt = "both",
+            cursorcolumn = false,
+            signcolumn = "no",
+            list = false,
+            foldenable = false,
+            foldmethod = "manual",
+          },
+        },
+      },
       fzf_colors = {
         ["fg"] = { "fg", "CursorLine" },
-        ["bg"] = { "bg", "Normal" },
-        ["hl"] = { "fg", "Comment" },
-        ["fg+"] = { "fg", "Normal" },
         ["bg+"] = { "bg", "CursorLine" },
-        ["hl+"] = { "fg", "Statement" },
-        -- ["info"] = { "fg", "PreProc" },
-        -- ["prompt"] = { "fg", "Conditional" },
-        ["pointer"] = { "fg", "Exception" },
-        ["marker"] = { "fg", "Keyword" },
-        -- ["spinner"] = { "fg", "Label" },
-        ["header"] = { "fg", "Comment" },
         ["gutter"] = { "bg", "Normal" },
+      },
+      previewers = {
+        bat = {
+          theme = "base16",
+        },
       },
       keymap = {
         builtin = {
@@ -57,17 +79,17 @@ return {
       },
       oldfiles = dropdown({
         prompt = " History: ",
-        cwd_only = true,
       }),
       files = dropdown({
         prompt = " Files: ",
+        git_icons = false,
+        file_icons = false,
       }),
       buffers = dropdown({
         prompt = "﬘ Buffers: ",
         winopts = {
           height = 0.60,
           width = 0.50,
-
           preview = { hidden = "hidden" },
         },
       }),
@@ -75,10 +97,18 @@ return {
         prompt = " Keymaps: ",
         winopts = { width = 0.7 },
       }),
+      lsp = {
+        symbols = {
+          async_or_timeout = true, -- symbols are async by default
+          symbol_style = 1, -- style for document/workspace symbols
+          symbol_icons = require("config.icons").icons.kinds,
+        },
+      },
     },
     keys = {
-      { "<leader>r", "<cmd>FzfLua oldfiles<cr>", desc = "Find Recent Files" },
-      { "<leader>,", "<cmd>FzfLua buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
+      { "<leader>r", "<cmd>FzfLua oldfiles cwd_only=true<cr>", desc = "Find Recent Files In Cwd" },
+      { "<leader>R", "<cmd>FzfLua oldfiles cwd_only=false<cr>", desc = "Find Recent Files" },
+      { "<leader>,", "<cmd>FzfLua buffers<cr>", desc = "Switch Buffer" },
       { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       -- find
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
