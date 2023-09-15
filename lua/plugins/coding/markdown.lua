@@ -16,6 +16,7 @@ return {
   },
   {
     "mickael-menu/zk-nvim",
+    lazy = false,
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },

@@ -4,7 +4,7 @@ local function dropdown(...)
     winopts = {
       height = 0.90,
       width = 0.80,
-      preview = { hidden = "nohidden", layout = "vertical" },
+      preview = { layout = "flex" },
     },
   }, ...)
 end
@@ -28,7 +28,7 @@ return {
           vertical = "down:45%", -- up|down:size
           horizontal = "right:60%", -- right|left:size
           layout = "flex", -- horizontal|vertical|flex
-          flip_columns = 120, -- #cols to switch to horizontal on flex
+          flip_columns = 200, -- #cols to switch to horizontal on flex
           title = true, -- preview border title (file/buf)?
           title_pos = "center", -- left|center|right, title alignment
           scrollbar = "border", -- `false` or string:'float|border'
@@ -57,11 +57,6 @@ return {
         },
       },
       keymap = {
-        builtin = {
-          ["<C-p>"] = "toggle-preview",
-          ["<S-down>"] = "preview-page-down",
-          ["<S-up>"] = "preview-page-up",
-        },
         fzf = {
           ["ctrl-z"] = "abort",
           ["ctrl-u"] = "unix-line-discard",
@@ -70,9 +65,7 @@ return {
           ["ctrl-a"] = "beginning-of-line",
           ["ctrl-e"] = "end-of-line",
           ["alt-a"] = "toggle-all",
-          -- Only valid with fzf previewers (bat/cat/git/etc)
-          ["f3"] = "toggle-preview-wrap",
-          ["f4"] = "toggle-preview",
+          ["ctrl-p"] = "toggle-preview",
           ["shift-down"] = "preview-page-down",
           ["shift-up"] = "preview-page-up",
         },

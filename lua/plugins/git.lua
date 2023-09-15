@@ -1,5 +1,14 @@
 return {
   {
+    "FabijanZulj/blame.nvim",
+    opts = {
+      date_format = "%Y/%m/%d",
+    },
+    keys = {
+      { "<leader>gb", "<cmd>ToggleBlame<cr>", desc = "Git Blame" },
+    },
+  },
+  {
     "lewis6991/gitsigns.nvim",
     opts = {
       signs = {
@@ -55,14 +64,13 @@ return {
     "dapc11/vim-fugitive",
     lazy = false,
     keys = {
-      { "<leader>gp", ":Git push origin HEAD:refs/for/master<cr>", desc = "Push Gerrit" },
-      { "<leader>gP", ":Git push<cr>", desc = "Push Regular" },
-      { "<leader>gb", ":Git blame<cr>", desc = "Git Blame" },
-      { "<leader>gf", ":Git fetch<cr>", desc = "Git Fetch" },
-      { "<leader>gr", ":Git pull --rebase<cr>", desc = "Git Pull Rebase" },
+      { "<leader>gp", "<cmd>Git push origin HEAD:refs/for/master<cr>", desc = "Push Gerrit" },
+      { "<leader>gP", "<cmd>Git push<cr>", desc = "Push Regular" },
+      { "<leader>gf", "<cmd>Git fetch<cr>", desc = "Git Fetch" },
+      { "<leader>gr", "<cmd>Git pull --rebase<cr>", desc = "Git Pull Rebase" },
       {
         "<leader>gl",
-        ":Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>",
+        "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>",
         desc = "Git log",
       },
     },

@@ -34,6 +34,7 @@ return {
       "spectre_panel",
       "startuptime",
       "tsplayground",
+      "blame",
     },
     disable_mouse = false,
   },
