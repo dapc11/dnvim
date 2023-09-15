@@ -59,6 +59,9 @@ return {
           },
         },
         keymap = {
+          builtin = {
+            ["<C-h>"] = "toggle-help",
+          },
           fzf = {
             ["ctrl-z"] = "abort",
             ["ctrl-u"] = "unix-line-discard",
