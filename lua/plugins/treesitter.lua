@@ -8,6 +8,7 @@ return {
     dependencies = {
       "nvim-treesitter/playground",
       "RRethy/nvim-treesitter-textsubjects",
+      "nvim-treesitter/nvim-treesitter-context",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         init = function()
@@ -61,19 +62,30 @@ return {
         "yaml",
       },
       playground = { enable = false },
+      -- tree_docs = { enable = true }, lacks python support
       textobjects = {
         select = {
           enable = true,
           lookahead = true,
           keymaps = {
+            ["l"] = "@assignment.lhs",
+            ["r"] = "@assignment.rhs",
+            ["aa"] = "@assignment.outer",
+            ["ia"] = "@assignment.inner",
             ["af"] = "@function.outer",
             ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
+            ["aC"] = "@class.outer",
+            ["ir"] = "@return.inner",
+            ["ar"] = "@return.outer",
+            ["il"] = "@loop.inner",
+            ["al"] = "@loop.outer",
+            ["ip"] = "@parameter.inner",
+            ["ap"] = "@parameter.outer",
             ["ib"] = "@block.inner",
             ["ab"] = "@block.outer",
-            ["iC"] = "@comment.inner",
-            ["aC"] = "@comment.outer",
-            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+            ["ic"] = "@conditional.inner",
+            ["ac"] = "@conditional.outer",
+            ["iC"] = { query = "@class.inner", desc = "Select inner part of a class region" },
           },
           selection_modes = {
             ["@parameter.outer"] = "v", -- charwise

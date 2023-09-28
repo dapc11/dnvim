@@ -91,6 +91,10 @@ map("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 map("n", "<C-c>", "<cmd>normal! ciw<cr>a")
 
+map("n", "<g", function()
+  require("treesitter-context").go_to_context()
+end, { silent = true })
+
 vim.cmd([[
 xnoremap <leader>cR y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi
 nnoremap ; gn@i
