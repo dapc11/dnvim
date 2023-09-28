@@ -1,29 +1,84 @@
 return {
-  "echasnovski/mini.indentscope",
-  version = false, -- wait till new 0.7.0 release to put it back on semver
-  event = { "BufReadPre", "BufNewFile" },
-  opts = {
-    -- symbol = "▏",
-    symbol = "│",
-    options = { try_as_border = true },
-  },
-  init = function()
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = {
-        "help",
-        "alpha",
-        "dashboard",
-        "neo-tree",
-        "Trouble",
-        "lazy",
-        "mason",
-        "notify",
-        "toggleterm",
-        "lazyterm",
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
+      enabled = true,
+      debounce = 200,
+      viewport_buffer = {
+        min = 30,
+        max = 500,
       },
-      callback = function()
-        vim.b.miniindentscope_disable = true
-      end,
-    })
-  end,
+      indent = {
+        char = "▎",
+        tab_char = nil,
+        highlight = "IblIndent",
+        smart_indent_cap = true,
+        priority = 1,
+      },
+      whitespace = {
+        highlight = "IblWhitespace",
+        remove_blankline_trail = true,
+      },
+      scope = {
+        enabled = true,
+        char = nil,
+        show_start = true,
+        show_end = true,
+        injected_languages = true,
+        highlight = "IblScope",
+        priority = 1024,
+        include = {
+          node_type = {},
+        },
+        exclude = {
+          language = {},
+          node_type = {
+            ["*"] = {
+              "source_file",
+              "program",
+            },
+            lua = {
+              "chunk",
+            },
+            python = {
+              "module",
+            },
+          },
+        },
+      },
+      exclude = {
+        filetypes = {
+          "fugitive",
+          "fugitiveblame",
+          "Jaq",
+          "qf",
+          "fzf",
+          "help",
+          "man",
+          "dap-repl",
+          "DressingSelect",
+          "OverseerList",
+          "Markdown",
+          "git",
+          "PlenaryTestPopup",
+          "lspinfo",
+          "notify",
+          "spectre_panel",
+          "startuptime",
+          "tsplayground",
+          "neotest-output",
+          "checkhealth",
+          "neotest-summary",
+          "neotest-output-panel",
+        },
+        buftypes = {
+          "terminal",
+          "nofile",
+          "quickfix",
+          "prompt",
+        },
+      },
+    },
+  },
 }

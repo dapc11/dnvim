@@ -7,6 +7,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "nvim-treesitter/playground",
+      "RRethy/nvim-treesitter-textsubjects",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         init = function()
@@ -17,6 +18,15 @@ return {
     },
     cmd = { "TSUpdateSync" },
     opts = {
+      textsubjects = {
+        enable = true,
+        prev_selection = ",", -- (Optional) keymap to select the previous selection
+        keymaps = {
+          ["."] = "textsubjects-smart",
+          [";"] = "textsubjects-container-outer",
+          ["i;"] = "textsubjects-container-inner",
+        },
+      },
       highlight = {
         enable = true,
         disable = function(_, bufnr)
@@ -50,7 +60,7 @@ return {
         "vimdoc",
         "yaml",
       },
-      playground = { enable = true },
+      playground = { enable = false },
       textobjects = {
         select = {
           enable = true,
