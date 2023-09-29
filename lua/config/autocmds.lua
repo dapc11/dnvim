@@ -128,6 +128,18 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
+  pattern = { "*.txt" },
+  callback = function(_)
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
+    vim.diagnostic.disable(bufnr)
+    require("lualine").refresh()
+
+    vim.cmd([[ if search('{"version"', 'nw') | setlocal filetype=json | endif]])
+  end,
+})
+
 local aug = vim.api.nvim_create_augroup("buf_large", { clear = true })
 
 vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {

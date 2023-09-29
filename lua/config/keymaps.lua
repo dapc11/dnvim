@@ -66,7 +66,9 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<<tab>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "><tab>", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-
+map("n", ">q", "<cmd>cprevious<cr>", { desc = "Previous Quickfix" })
+map("n", "<q", "<cmd>cnext<cr>", { desc = "Next Quickfix" })
+map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Open Quickfix List" })
 map(
   "n",
   "<leader>Ur",
@@ -99,4 +101,5 @@ vim.cmd([[
 xnoremap <leader>cR y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi
 nnoremap ; gn@i
 map , @q
+nnoremap <leader>X :let current_file=expand('%:p')<CR>:call setqflist([{'filename': current_file}]+getqflist(), 'a')<CR>:copen<CR>
 ]])

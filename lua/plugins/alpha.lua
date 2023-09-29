@@ -6,15 +6,15 @@ return {
 
     -- stylua: ignore
     dashboard.section.buttons.val = {
-      dashboard.button("n", " " .. " New file",          ":ene <BAR> startinsert<CR>"),
-      dashboard.button("f", " " .. " Find file",         ":FzfLua files<CR>"),
-      dashboard.button("b", " " .. " Notes",             ":ZkNotes<CR>"),
-      dashboard.button("p", " " .. " Projects",          ":Telescope projects<CR>"),
-      dashboard.button("r", " " .. " Recent files",      ":FzfLua oldfiles<CR>"),
-      dashboard.button("g", " " .. " Find text",         ":FzfLua live_grep<CR>"),
-      dashboard.button("c", " " .. " Config",            ":e $MYVIMRC<CR>"),
+      dashboard.button("n", " " .. " New file",          ":ene <BAR> startinsert <CR>"),
+      dashboard.button("f", " " .. " Find file",         ":Telescope find_files <CR>"),
+      dashboard.button("p", " " .. " Projects",          ":Telescope projects <CR>"),
+      dashboard.button("r", " " .. " Recent files",      ":Telescope oldfiles <CR>"),
+      dashboard.button("g", " " .. " Find text",         ":Telescope live_grep <CR>"),
+      dashboard.button("c", " " .. " Config",            ":e $MYVIMRC <CR>"),
       dashboard.button("l", " " .. " Plugin Management", ":Lazy<CR>"),
       dashboard.button("s", " " .. " Restore Session",   ":lua require('persistence').load({last = true }) <CR>"),
+      dashboard.button("b", " " .. " Notes",             ":ZkNotes<CR>"),
       dashboard.button("q", " " .. " Quit",              ":qa<CR>"),
     }
 

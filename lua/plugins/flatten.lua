@@ -1,6 +1,7 @@
 return {
   {
     "willothy/flatten.nvim",
+    enabled = false,
     opts = {
       callbacks = {
         post_open = function(bufnr, winnr, ft, _)

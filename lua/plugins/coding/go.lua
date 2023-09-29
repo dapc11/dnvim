@@ -25,6 +25,7 @@ return {
       icons = { breakpoint = "", currentpos = "" },
       lsp_config = false,
       lsp_keymaps = true,
+      lsp_diag_hdlr = false,
       sign_priority = 5,
       test_runner = "go", -- one of {`go`, `richgo`, `dlv`, `ginkgo`, `gotestsum`}
       luasnip = true,
