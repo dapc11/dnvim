@@ -112,7 +112,7 @@ return {
     -- stylua: ignore
     keys = {
       { "<leader>gq", vim.cmd.DiffviewClose, desc = "Diffview Close" },
-      { "<leader>gd", vim.cmd.DiffviewOpen,  desc = "Diffview (all modified files)" },
+      { "<leader>gd", vim.cmd.DiffviewOpen, desc = "Diffview (all modified files)" },
       {
         "<leader>gh",
         function()
