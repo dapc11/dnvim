@@ -13,6 +13,7 @@ return {
   { "junegunn/fzf", build = "./install --bin" },
   {
     "ibhagwan/fzf-lua",
+    enabled = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     opts = function()

@@ -88,6 +88,7 @@ return {
               diagnosticSeverityOverrides = {
                 reportMissingImports = "none",
                 reportOptionalMemberAccess = "none",
+                reportGeneralTypeIssues = "none",
               },
               autoImportCompletions = true,
               autoSearchPaths = true,
