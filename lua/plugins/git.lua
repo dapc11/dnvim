@@ -64,6 +64,7 @@ return {
     "dapc11/vim-fugitive",
     lazy = false,
     keys = {
+      { "<leader>gn", "<cmd>Git checkout -b", desc = "Create new Branch" },
       { "<leader>gp", "<cmd>Git push origin HEAD:refs/for/master<cr>", desc = "Push Gerrit" },
       { "<leader>gP", "<cmd>Git push<cr>", desc = "Push Regular" },
       { "<leader>gf", "<cmd>Git fetch<cr>", desc = "Git Fetch" },
