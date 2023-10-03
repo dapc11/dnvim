@@ -223,4 +223,14 @@ function M.format(command)
     vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.fn.split(output, "\n"))
   end
 end
+
+function M.map(mode, lhs, rhs, opts)
+  opts = opts or {}
+  opts.silent = opts.silent ~= false
+  if opts.remap and not vim.g.vscode then
+    opts.remap = nil
+  end
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
 return M

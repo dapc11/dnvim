@@ -3,12 +3,13 @@ return {
     "RRethy/vim-illuminate",
     config = function(_, opts)
       local illuminate = require("illuminate")
+      local map = require("util").map
       illuminate.configure(opts)
 
-      vim.keymap.set("n", "<h", function()
+      map("n", "<h", function()
         illuminate.goto_next_reference()
       end, { desc = "Next todo comment" })
-      vim.keymap.set("n", ">h", function()
+      map("n", ">h", function()
         illuminate.goto_prev_reference()
       end, { desc = "Previous todo comment" })
     end,
