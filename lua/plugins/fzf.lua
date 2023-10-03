@@ -1,9 +1,9 @@
 local function dropdown(...)
   return vim.tbl_deep_extend("force", {
-    fzf_opts = { ["--layout"] = "reverse" },
     winopts = {
-      height = 0.90,
-      width = 0.80,
+      height = 0.60,
+      width = 0.50,
+      fullscreen = false,
       preview = { layout = "flex" },
     },
   }, ...)
@@ -13,8 +13,8 @@ return {
   { "junegunn/fzf", build = "./install --bin" },
   {
     "ibhagwan/fzf-lua",
-    enabled = false,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    enabled = true,
+    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-telescope/telescope.nvim" },
     lazy = false,
     opts = function()
       local actions = require("fzf-lua").actions
@@ -22,31 +22,11 @@ return {
         "max-perf",
         fzf_opts = { ["--layout"] = "reverse" },
         winopts = {
+          fullscreen = true,
           preview = {
             default = "bat",
-            border = "border", -- border|noborder, applies only to
-            -- native fzf previewers (bat/cat/git/etc)
-            wrap = "nowrap", -- wrap|nowrap
-            hidden = "nohidden", -- hidden|nohidden
-            vertical = "down:45%", -- up|down:size
-            horizontal = "right:60%", -- right|left:size
-            layout = "flex", -- horizontal|vertical|flex
-            flip_columns = 200, -- #cols to switch to horizontal on flex
-            title = true, -- preview border title (file/buf)?
-            title_pos = "center", -- left|center|right, title alignment
-            scrollbar = "border", -- `false` or string:'float|border'
-            delay = 100, -- delay(ms) displaying the preview
-            winopts = { -- builtin previewer window options
-              number = true,
-              relativenumber = false,
-              cursorline = true,
-              cursorlineopt = "both",
-              cursorcolumn = false,
-              signcolumn = "no",
-              list = false,
-              foldenable = false,
-              foldmethod = "manual",
-            },
+            flip_columns = 200,
+            scrollbar = "border",
           },
         },
         fzf_colors = {
@@ -64,12 +44,6 @@ return {
             ["<C-h>"] = "toggle-help",
           },
           fzf = {
-            ["ctrl-z"] = "abort",
-            ["ctrl-u"] = "unix-line-discard",
-            ["ctrl-f"] = "half-page-down",
-            ["ctrl-b"] = "half-page-up",
-            ["ctrl-a"] = "beginning-of-line",
-            ["ctrl-e"] = "end-of-line",
             ["alt-a"] = "toggle-all",
             ["ctrl-p"] = "toggle-preview",
             ["shift-down"] = "preview-page-down",
@@ -77,19 +51,7 @@ return {
           },
         },
         actions = {
-          -- These override the default tables completely
-          -- no need to set to `false` to disable an action
-          -- delete or modify is sufficient
           files = {
-            -- providers that inherit these actions:
-            --   files, git_files, git_status, grep, lsp
-            --   oldfiles, quickfix, loclist, tags, btags
-            --   args
-            -- default action opens a single selection
-            -- or sends multiple selection to quickfix
-            -- replace the default action with the below
-            -- to open all files whether single or multiple
-            -- ["default"]     = actions.file_edit,
             ["default"] = actions.file_edit_or_qf,
             ["ctrl-s"] = actions.file_split,
             ["ctrl-v"] = actions.file_vsplit,
@@ -98,8 +60,6 @@ return {
             ["alt-l"] = actions.file_sel_to_ll,
           },
           buffers = {
-            -- providers that inherit these actions:
-            --   buffers, tabs, lines, blines
             ["default"] = actions.buf_edit,
             ["ctrl-s"] = actions.buf_split,
             ["ctrl-v"] = actions.buf_vsplit,
@@ -107,29 +67,24 @@ return {
           },
         },
         oldfiles = dropdown({
-          prompt = " History: ",
-        }),
-        files = dropdown({
-          prompt = " Files: ",
-          git_icons = false,
-          file_icons = false,
-        }),
-        buffers = dropdown({
-          prompt = "﬘ Buffers: ",
           winopts = {
-            height = 0.60,
-            width = 0.50,
             preview = { hidden = "hidden" },
           },
         }),
-        keymaps = dropdown({
-          prompt = " Keymaps: ",
-          winopts = { width = 0.7 },
+        files = dropdown({}),
+        buffers = dropdown({
+          winopts = {
+            preview = { hidden = "hidden" },
+          },
         }),
+        keymaps = dropdown({}),
+        grep = {
+          no_header_i = true,
+        },
         lsp = {
           symbols = {
-            async_or_timeout = true, -- symbols are async by default
-            symbol_style = 1, -- style for document/workspace symbols
+            async_or_timeout = true,
+            symbol_style = 1,
             symbol_icons = require("config.icons").icons.kinds,
           },
         },
@@ -232,8 +187,16 @@ return {
         desc = "Selection (root dir)",
       },
 
-      { "<leader><leader>", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
-      { "<C-f>", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "Find in Current Buffer" },
+      { "<leader><leader>", "<cmd>FzfLua grep_project<cr>", desc = "Live Grep" },
+      { "<C-f>", "<cmd>FzfLua grep_curbuf<cr>", desc = "Find in Current Buffer" },
+      {
+        "<C-f>",
+        function()
+          require("fzf-lua").grep_visual()
+        end,
+        desc = "Current Buffer Grep Selection",
+        mode = "v",
+      },
       {
         "<leader>ss",
         function()
