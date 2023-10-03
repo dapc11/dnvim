@@ -1,28 +1,5 @@
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = {
-    "fugitive",
-    "fugitiveblame",
-    "Jaq",
-    "qf",
-    "fzf",
-    "help",
-    "man",
-    "dap-repl",
-    "DressingSelect",
-    "OverseerList",
-    "Markdown",
-    "git",
-    "PlenaryTestPopup",
-    "lspinfo",
-    "notify",
-    "spectre_panel",
-    "startuptime",
-    "tsplayground",
-    "neotest-output",
-    "checkhealth",
-    "neotest-summary",
-    "neotest-output-panel",
-  },
+  pattern = require("util.common").ignored_filetype,
   callback = function()
     vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR>

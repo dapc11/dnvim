@@ -8,7 +8,6 @@ return {
     dependencies = {
       "nvim-treesitter/playground",
       "RRethy/nvim-treesitter-textsubjects",
-      "nvim-treesitter/nvim-treesitter-context",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         init = function()
