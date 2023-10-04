@@ -91,13 +91,13 @@ return {
       }
     end,
     keys = {
-      { "<leader>r", "<cmd>FzfLua oldfiles cwd_only=true<cr>", desc = "Find Recent Files In Cwd" },
-      { "<leader>R", "<cmd>FzfLua oldfiles cwd_only=false<cr>", desc = "Find Recent Files" },
-      { "<leader>,", "<cmd>FzfLua buffers<cr>", desc = "Switch Buffer" },
-      { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+      { "<leader>r", "<cmd>FzfLua oldfiles cwd_only=false<CR>", desc = "Find Recent Files" },
+      { "<leader>R", "<cmd>FzfLua oldfiles cwd_only=true<CR>", desc = "Find Recent Files In Cwd" },
+      { "<leader>,", "<cmd>FzfLua buffers<CR>", desc = "Switch Buffer" },
+      { "<leader>:", "<cmd>FzfLua command_history<CR>", desc = "Command History" },
       -- find
-      { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
-      { "<leader>fh", "<cmd>FzfLua help_tags<cr>", desc = "Help" },
+      { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Buffers" },
+      { "<leader>fh", "<cmd>FzfLua help_tags<CR>", desc = "Help" },
       {
         "<leader>fp",
         function()
