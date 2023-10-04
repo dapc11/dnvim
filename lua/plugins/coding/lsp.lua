@@ -89,6 +89,7 @@ return {
                 reportMissingImports = "none",
                 reportOptionalMemberAccess = "none",
                 reportGeneralTypeIssues = "none",
+                reportInvalidStringEscapeSequence = "none",
               },
               autoImportCompletions = true,
               autoSearchPaths = true,
