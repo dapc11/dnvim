@@ -5,7 +5,7 @@ return {
       date_format = "%Y/%m/%d",
     },
     keys = {
-      { "<leader>gb", "<cmd>ToggleBlame<cr>", desc = "Git Blame" },
+      { "<leader>gb", "<cmd>ToggleBlame<CR>", desc = "Git Blame" },
     },
   },
   {
@@ -65,20 +65,20 @@ return {
     lazy = false,
     keys = {
       { "<leader>gn", ":Git checkout -b", desc = "Create new Branch" },
-      { "<leader>gp", "<cmd>Git push origin HEAD:refs/for/master<cr>", desc = "Push Gerrit" },
-      { "<leader>gP", "<cmd>Git push<cr>", desc = "Push Regular" },
-      { "<leader>gf", "<cmd>Git fetch<cr>", desc = "Git Fetch" },
-      { "<leader>gr", "<cmd>Git pull --rebase<cr>", desc = "Git Pull Rebase" },
+      { "<leader>gp", "<cmd>Git push origin HEAD:refs/for/master<CR>", desc = "Push Gerrit" },
+      { "<leader>gP", "<cmd>Git push<CR>", desc = "Push Regular" },
+      { "<leader>gf", "<cmd>Git fetch<CR>", desc = "Git Fetch" },
+      { "<leader>gr", "<cmd>Git pull --rebase<CR>", desc = "Git Pull Rebase" },
       {
         "<leader>gl",
-        "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<cr><cr>",
+        "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<CR><CR>",
         desc = "Git log",
       },
     },
   },
   {
     "dapc11/neogit",
-    keys = { { "<C-g>", "<cmd>Neogit<cr>" } },
+    keys = { { "<C-g>", "<cmd>Neogit<CR>" } },
     config = true,
     dependencies = "nvim-lua/plenary.nvim",
   },

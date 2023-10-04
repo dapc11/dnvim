@@ -68,13 +68,13 @@ return {
       end
 
       return {
-        { "<C-p>", "<cmd>Telescope projects<cr>", desc = "Find Project" },
-        -- { "<leader>r", "<cmd>Telescope oldfiles<cr>", desc = "Find Recent Files" },
-        -- { "<leader>fn", "<CMD>Telescope notify<cr>", desc = "Notifications" },
-        -- { "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
-        -- { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+        { "<C-p>", "<cmd>Telescope projects<CR>", desc = "Find Project" },
+        -- { "<leader>r", "<cmd>Telescope oldfiles<CR>", desc = "Find Recent Files" },
+        -- { "<leader>fn", "<CMD>Telescope notify<CR>", desc = "Notifications" },
+        -- { "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<CR>", desc = "Switch Buffer" },
+        -- { "<leader>:", "<cmd>Telescope command_history<CR>", desc = "Command History" },
         -- -- find
-        -- { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+        -- { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Buffers" },
         -- {
         --   "<leader>fp",
         --   function()
@@ -102,7 +102,7 @@ return {
         -- -- git
         -- { "<leader>gC", "<cmd>Telescope git_commits<CR>", desc = "commits" },
         -- { "<leader>gS", "<cmd>Telescope git_status<CR>", desc = "status" },
-        -- { "<leader>gB", "<cmd>Telescope git_branches<cr>", desc = "branches" },
+        -- { "<leader>gB", "<cmd>Telescope git_branches<CR>", desc = "branches" },
         -- { "<leader>n", Util.telescope("files"), desc = "Find Tracked Files" },
         -- {
         --   "<leader>N",
@@ -114,41 +114,41 @@ return {
         --   desc = "Find Untracked Files",
         -- },
         -- -- search
-        -- { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
+        -- { '<leader>s"', "<cmd>Telescope registers<CR>", desc = "Registers" },
         -- {
         --   "<leader>sa",
-        --   "<cmd>Telescope autocommands<cr>",
+        --   "<cmd>Telescope autocommands<CR>",
         --   desc = "Auto Commands",
         -- },
-        -- { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
+        -- { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Buffer" },
         -- {
         --   "<leader>sc",
-        --   "<cmd>Telescope command_history<cr>",
+        --   "<cmd>Telescope command_history<CR>",
         --   desc = "Command History",
         -- },
-        -- { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
+        -- { "<leader>sC", "<cmd>Telescope commands<CR>", desc = "Commands" },
         -- {
         --   "<leader>sd",
-        --   "<cmd>Telescope diagnostics bufnr=0<cr>",
+        --   "<cmd>Telescope diagnostics bufnr=0<CR>",
         --   desc = "Document diagnostics",
         -- },
         -- {
         --   "<leader>sD",
-        --   "<cmd>Telescope diagnostics<cr>",
+        --   "<cmd>Telescope diagnostics<CR>",
         --   desc = "Workspace diagnostics",
         -- },
         -- {
         --   "<leader>sg",
-        --   "<cmd>Telescope live_grep<cr>",
+        --   "<cmd>Telescope live_grep<CR>",
         --   desc = "Grep (root dir)",
         -- },
         -- {
         --   "<leader>sh",
-        --   "<cmd>Telescope highlights<cr>",
+        --   "<cmd>Telescope highlights<CR>",
         --   desc = "Search Highlight Groups",
         -- },
-        -- { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-        -- { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
+        -- { "<leader>sk", "<cmd>Telescope keymaps<CR>", desc = "Key Maps" },
+        -- { "<leader>sR", "<cmd>Telescope resume<CR>", desc = "Resume" },
         -- {
         --   "<leader>sr",
         --   function()
@@ -194,7 +194,7 @@ return {
         -- },
         -- {
         --   "<leader><leader>",
-        --   ":lua require'telescope.builtin'.live_grep{only_sort_text = true}<cr>",
+        --   ":lua require'telescope.builtin'.live_grep{only_sort_text = true}<CR>",
         --   desc = "Live Grep",
         -- },
         -- {
@@ -205,7 +205,7 @@ return {
         --   desc = "Live Grep Selection",
         --   mode = "v",
         -- },
-        -- { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
+        -- { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Find in Current Buffer" },
         -- {
         --   "<C-f>",
         --   function()

@@ -125,8 +125,8 @@ return {
       -- git
       { "<leader>gC", "<cmd>FzfLua git_commits<CR>", desc = "commits" },
       { "<leader>gS", "<cmd>FzfLua git_status<CR>", desc = "status" },
-      { "<leader>gB", "<cmd>FzfLua git_branches<cr>", desc = "branches" },
-      { "<leader>n", "<cmd>FzfLua git_files<cr>", desc = "Find Tracked Files" },
+      { "<leader>gB", "<cmd>FzfLua git_branches<CR>", desc = "branches" },
+      { "<leader>n", "<cmd>FzfLua git_files<CR>", desc = "Find Tracked Files" },
       {
         "<leader>N",
         function()
@@ -137,36 +137,36 @@ return {
         desc = "Find Untracked Files",
       },
       -- search
-      { '<leader>s"', "<cmd>FzfLua registers<cr>", desc = "Registers" },
-      { "<leader>sb", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "Buffer" },
+      { '<leader>s"', "<cmd>FzfLua registers<CR>", desc = "Registers" },
+      { "<leader>sb", "<cmd>FzfLua lgrep_curbuf<CR>", desc = "Buffer" },
       {
         "<leader>sc",
-        "<cmd>FzfLua command_history<cr>",
+        "<cmd>FzfLua command_history<CR>",
         desc = "Command History",
       },
-      { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },
+      { "<leader>sC", "<cmd>FzfLua commands<CR>", desc = "Commands" },
       {
         "<leader>sd",
-        "<cmd>FzfLua diagnostics_document<cr>",
+        "<cmd>FzfLua diagnostics_document<CR>",
         desc = "Document diagnostics",
       },
       {
         "<leader>sD",
-        "<cmd>FzfLua diagnostics_workspace<cr>",
+        "<cmd>FzfLua diagnostics_workspace<CR>",
         desc = "Workspace diagnostics",
       },
       {
         "<leader>sg",
-        "<cmd>FzfLua live_grep<cr>",
+        "<cmd>FzfLua live_grep<CR>",
         desc = "Grep (root dir)",
       },
       {
         "<leader>sh",
-        "<cmd>FzfLua highlights<cr>",
+        "<cmd>FzfLua highlights<CR>",
         desc = "Search Highlight Groups",
       },
-      { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
-      { "<leader>sR", "<cmd>FzfLua resume<cr>", desc = "Resume" },
+      { "<leader>sk", "<cmd>FzfLua keymaps<CR>", desc = "Key Maps" },
+      { "<leader>sR", "<cmd>FzfLua resume<CR>", desc = "Resume" },
       {
         "<leader>sr",
         function()
@@ -187,8 +187,8 @@ return {
         desc = "Selection (root dir)",
       },
 
-      { "<leader><leader>", "<cmd>FzfLua grep_project<cr>", desc = "Live Grep" },
-      { "<C-f>", "<cmd>FzfLua grep_curbuf<cr>", desc = "Find in Current Buffer" },
+      { "<leader><leader>", "<cmd>FzfLua grep_project<CR>", desc = "Live Grep" },
+      { "<C-f>", "<cmd>FzfLua grep_curbuf<CR>", desc = "Find in Current Buffer" },
       {
         "<C-f>",
         function()
