@@ -2,7 +2,6 @@ return {
   {
     "nvim-neotest/neotest",
     dependencies = {
-      "stevearc/overseer.nvim",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
@@ -21,13 +20,6 @@ return {
         },
       }, neotest_ns)
       return {
-        consumers = {
-          overseer = require("neotest.consumers.overseer"),
-        },
-        overseer = {
-          enabled = true,
-          force_default = true,
-        },
         status = { virtual_text = true },
         output = { open_on_run = true },
         quickfix = {

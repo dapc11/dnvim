@@ -56,7 +56,6 @@ return {
           { mode = "n", keys = "<leader>g", desc = "+git" },
           { mode = "n", keys = "<leader>l", desc = "+lsp" },
           { mode = "n", keys = "<leader>h", desc = "+hunk" },
-          { mode = "n", keys = "<leader>o", desc = "+overseer" },
           { mode = "n", keys = "<leader>t", desc = "+test" },
           { mode = "n", keys = "<leader>s", desc = "+search" },
           { mode = "n", keys = "<leader>sn", desc = "+noice" },

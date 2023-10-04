@@ -158,7 +158,7 @@ return {
           theme = custom_theme,
           disabled_filetypes = { statusline = { "dashboard", "alpha" } },
         },
-        extensions = { "trouble", "nvim-dap-ui", "overseer", neotree, "lazy" },
+        extensions = { "trouble", "nvim-dap-ui", neotree, "lazy" },
       }
     end,
   },
