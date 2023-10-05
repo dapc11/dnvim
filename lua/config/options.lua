@@ -21,7 +21,8 @@ opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
-opt.scrolloff = 8 -- Lines of context
+-- opt.scrolloff = math.floor(0.5 * vim.o.lines) -- Lines of context
+-- opt.scrolloff = 8 -- Lines of context
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 opt.shiftround = true -- Round indent
 opt.shiftwidth = 2 -- Size of an indent
@@ -44,11 +45,11 @@ opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
-
-if vim.fn.has("nvim-0.10") == 1 then
-  opt.smoothscroll = true
-end
-
+--
+-- if vim.fn.has("nvim-0.10") == 1 then
+--   opt.smoothscroll = true
+-- end
+--
 if vim.fn.has("nvim-0.9.0") == 1 then
   opt.splitkeep = "screen"
   opt.shortmess:append({ C = true })

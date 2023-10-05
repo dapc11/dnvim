@@ -3,16 +3,24 @@ local map = require("util").map
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 
-map({ "n", "v", "x", "o" }, "<C-d>", "<C-d>zz")
-map({ "n", "v", "x", "o" }, "<C-u>", "<C-u>zz")
+map({ "n", "v", "x", "o" }, "<C-d>", "<C-d>")
+map({ "n", "v", "x", "o" }, "<C-u>", "<C-u>")
+map({ "n", "v" }, "ö", "{")
+map({ "n", "v" }, "ä", "}")
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "nzz", { desc = "Next search result" })
-map("x", "n", "nzz", { desc = "Next search result" })
-map("o", "n", "nzz", { desc = "Next search result" })
-map("n", "N", "Nzz", { desc = "Prev search result" })
-map("x", "N", "Nzz", { desc = "Prev search result" })
-map("o", "N", "Nzz", { desc = "Prev search result" })
+map(
+  { "n", "x", "o" },
+  "n",
+  "<Cmd>lua vim.cmd('normal! n'); MiniAnimate.execute_after('scroll', 'normal! zvzz')<CR>",
+  { desc = "Next search result" }
+)
+map(
+  { "n", "x", "o" },
+  "N",
+  "<Cmd>lua vim.cmd('normal! N'); MiniAnimate.execute_after('scroll', 'normal! zvzz')<CR>",
+  { desc = "Previous search result" }
+)
 
 map({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
@@ -95,7 +103,6 @@ vim.cmd([[
   xnoremap <leader>cR y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<CR>gvqi
   nnoremap ; gn@i
   map , @q
-  nnoremap <leader>X :let current_file=expand('%:p')<CR>:call setqflist([{'filename': current_file}]+getqflist(), 'a')<CR>:copen<CR>
 
   nmap <c-c> "+y
   vmap <c-c> "+y
