@@ -8,12 +8,19 @@
 --     ]])
 --   end,
 -- })
-
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "" },
   callback = function()
     local buf_ft = vim.bo.filetype
-    if buf_ft == "" or buf_ft == nil then
+    local function tableContains(table, element)
+      for _, value in pairs(table) do
+        if value == element then
+          return true
+        end
+      end
+      return false
+    end
+    if buf_ft == "" or buf_ft == nil or tableContains(require("util.common").ignored_filetypes, buf_ft) then
       vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR>
       nnoremap <silent> <buffer> <esc> :close<CR>
