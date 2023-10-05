@@ -54,14 +54,6 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animation_length = 0.1
   vim.g.neovide_cursor_trail_size = 0.4
   vim.g.neovide_cursor_vfx_mode = ""
-  -- system clipboard
-  vim.cmd([[
-    nmap <c-c> "+y
-    vmap <c-c> "+y
-    inoremap <c-v> <c-r>+
-    cnoremap <c-v> <c-r>+
-    inoremap <c-r> <c-v>
-  ]])
 end
 
 require("config.options")

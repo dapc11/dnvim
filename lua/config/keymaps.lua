@@ -92,8 +92,16 @@ map("n", "<g", function()
 end, { silent = true })
 
 vim.cmd([[
-xnoremap <leader>cR y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<CR>gvqi
-nnoremap ; gn@i
-map , @q
-nnoremap <leader>X :let current_file=expand('%:p')<CR>:call setqflist([{'filename': current_file}]+getqflist(), 'a')<CR>:copen<CR>
+  xnoremap <leader>cR y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<CR>gvqi
+  nnoremap ; gn@i
+  map , @q
+  nnoremap <leader>X :let current_file=expand('%:p')<CR>:call setqflist([{'filename': current_file}]+getqflist(), 'a')<CR>:copen<CR>
+
+  nmap <c-c> "+y
+  vmap <c-c> "+y
+  vmap <tab> >gv
+  vmap <s-tab> <gv
+  inoremap <c-v> <c-r>+
+  cnoremap <c-v> <c-r>+
+  inoremap <c-r> <c-v>
 ]])
