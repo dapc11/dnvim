@@ -131,7 +131,7 @@ return {
         "<leader>N",
         function()
           require("fzf-lua").git_files({
-            git_command = { "git", "ls-files", "--modified", "--exclude-standard" },
+            cmd = "git ls-files --modified --exclude-standard",
           })
         end,
         desc = "Find Untracked Files",
