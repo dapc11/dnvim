@@ -3,24 +3,9 @@ local map = require("util").map
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 
-map({ "n", "v", "x", "o" }, "<C-d>", "<C-d>")
-map({ "n", "v", "x", "o" }, "<C-u>", "<C-u>")
+map({ "i", "v", "n", "s" }, "<C-a>", "<C-u>", { desc = "Scroll up" })
 map({ "n", "v" }, "ö", "{")
 map({ "n", "v" }, "ä", "}")
-
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map(
-  { "n", "x", "o" },
-  "n",
-  "<Cmd>lua vim.cmd('normal! n'); MiniAnimate.execute_after('scroll', 'normal! zvzz')<CR>",
-  { desc = "Next search result" }
-)
-map(
-  { "n", "x", "o" },
-  "N",
-  "<Cmd>lua vim.cmd('normal! N'); MiniAnimate.execute_after('scroll', 'normal! zvzz')<CR>",
-  { desc = "Previous search result" }
-)
 
 map({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
