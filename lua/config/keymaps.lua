@@ -3,7 +3,7 @@ local map = require("util").map
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 
-map({ "i", "v", "n", "s" }, "<C-a>", "<C-u>", { desc = "Scroll up" })
+-- map({ "i", "v", "n", "s" }, "<C-a>", "<C-u>", { desc = "Scroll up" })
 map({ "n", "v" }, "ö", "{")
 map({ "n", "v" }, "ä", "}")
 
