@@ -14,7 +14,7 @@ map("n", "z<Down>", "zcjzOzz", { desc = "Close current fold and open next" })
 map("n", "z<Up>", "zckzOzz", { desc = "Close current fold and open previous" })
 
 -- save file
-map({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
+map({ "i" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
 map("n", "W", "<cmd>noautocmd w<CR>")
 --
 -- better indenting
@@ -79,6 +79,14 @@ map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
 map("n", "<leader>ll", "<cmd>Lazy<CR>", { desc = "Lazy" })
 
 map("n", "<C-c>", "<cmd>normal! ciw<CR>a")
+map("n", "§", "@:")
+map("n", "<C-s>", function()
+  vim.api.nvim_command("norm! yiw")
+  vim.fn.setreg("/", vim.fn.getreg("+"))
+  vim.api.nvim_feedkeys("ciw", "n", false)
+end, { desc = "Search & Replace" })
+
+map("v", "<C-s>", [[y/\V<C-R>=escape(@",'/\')<CR><CR>Ncgn]], { desc = "Search & Replace" })
 
 map("n", "<g", function()
   require("treesitter-context").go_to_context()

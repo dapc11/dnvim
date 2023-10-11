@@ -38,6 +38,9 @@ return {
           bat = {
             theme = "base16",
           },
+          git = {
+            cmd = "git ls-files --exclude-standard --cached",
+          },
         },
         keymap = {
           builtin = {
