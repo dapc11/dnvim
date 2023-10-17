@@ -2,7 +2,7 @@ return {
   { "kevinhwang91/nvim-bqf" },
   {
     "folke/trouble.nvim",
-    enabled = false,
+    enabled = true,
     keys = function()
       return {
         { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },

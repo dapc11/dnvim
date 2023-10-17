@@ -50,7 +50,7 @@ return {
           vim.keymap.set( "n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, get_opts("Remove workspace folder"))
           vim.keymap.set( "n", "<leader>cwl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, get_opts("List workspace folders"))
           vim.keymap.set( "n", "<leader>cr", vim.lsp.buf.rename, get_opts("Rename"))
-          vim.keymap.set( { "n", "v" }, "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>", get_opts("Code actions"))
+          vim.keymap.set( "v", "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>", get_opts("Code actions"))
           vim.keymap.set( "n", ">d", vim.diagnostic.goto_prev, get_opts())
           vim.keymap.set( "n", "<d", vim.diagnostic.goto_next, get_opts())
           if vim.bo.filetype ~= "lua" then
@@ -119,6 +119,7 @@ return {
           },
         },
       })
+      lspconfig.marksman.setup({})
       lspconfig.gopls.setup({
         capabilities = capabilities,
         on_attach = on_attach,

@@ -1,7 +1,6 @@
 return {
   {
     "echasnovski/mini.bufremove",
-    -- stylua: ignore
     keys = {
       {
         "<leader>bd",
