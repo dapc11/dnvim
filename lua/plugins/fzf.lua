@@ -94,50 +94,64 @@ return {
       }
     end,
     keys = {
-      { "<leader>r", "<cmd>FzfLua oldfiles cwd_only=false<CR>", desc = "Find Recent Files" },
-      { "<leader>R", "<cmd>FzfLua oldfiles cwd_only=true<CR>", desc = "Find Recent Files In Cwd" },
-      { "<leader>,", "<cmd>FzfLua buffers<CR>", desc = "Switch Buffer" },
-      { "<leader>:", "<cmd>FzfLua command_history<CR>", desc = "Command History" },
-      -- find
-      { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Buffers" },
-      { "<leader>fh", "<cmd>FzfLua help_tags<CR>", desc = "Help" },
+      -- { "<leader>r", "<cmd>FzfLua oldfiles cwd_only=false<CR>", desc = "Find Recent Files" },
+      -- { "<leader>R", "<cmd>FzfLua oldfiles cwd_only=true<CR>", desc = "Find Recent Files In Cwd" },
+      -- { "<leader>,", "<cmd>FzfLua buffers<CR>", desc = "Switch Buffer" },
+      -- { "<leader>:", "<cmd>FzfLua command_history<CR>", desc = "Command History" },
+      -- -- find
+      -- { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Buffers" },
+      -- { "<leader>fh", "<cmd>FzfLua help_tags<CR>", desc = "Help" },
+      -- {
+      --   "<leader>fp",
+      --   function()
+      --     require("fzf-lua").files({ cwd = require("lazy.core.config").options.root, prompt = "Plugin Files" })
+      --   end,
+      --   desc = "Find Plugin File",
+      -- },
+      -- {
+      --   "<leader>ff",
+      --   function()
+      --     require("fzf-lua").files()
+      --   end,
+      --   desc = "Find Files (root dir)",
+      -- },
+      -- {
+      --   "<leader>fr",
+      --   function()
+      --     require("fzf-lua").files({
+      --       cwd = "~/repos/",
+      --       prompt = "Repos",
+      --     })
+      --   end,
+      --   desc = "Find file in repos",
+      -- },
+      -- -- git
+      -- { "<leader>gC", "<cmd>FzfLua git_commits<CR>", desc = "commits" },
+      -- { "<leader>gS", "<cmd>FzfLua git_status<CR>", desc = "status" },
+      -- { "<leader>gB", "<cmd>FzfLua git_branches<CR>", desc = "branches" },
+      -- { "<leader>n", "<cmd>FzfLua git_files<CR>", desc = "Find Tracked Files" },
+      -- {
+      --   "<leader>N",
+      --   function()
+      --     require("fzf-lua").git_files({
+      --       cmd = "git ls-files --modified --exclude-standard",
+      --     })
+      --   end,
+      --   desc = "Find Untracked Files",
+      -- },
       {
-        "<leader>fp",
+        "<leader>ca",
         function()
-          require("fzf-lua").files({ cwd = require("lazy.core.config").options.root, prompt = "Plugin Files" })
-        end,
-        desc = "Find Plugin File",
-      },
-      {
-        "<leader>ff",
-        function()
-          require("fzf-lua").files()
-        end,
-        desc = "Find Files (root dir)",
-      },
-      {
-        "<leader>fr",
-        function()
-          require("fzf-lua").files({
-            cwd = "~/repos/",
-            prompt = "Repos",
+          require("fzf-lua").lsp_code_actions({
+            winopts = {
+              height = 0.60,
+              width = 0.50,
+              fullscreen = false,
+              preview = { layout = "flex" },
+            },
           })
         end,
-        desc = "Find file in repos",
-      },
-      -- git
-      { "<leader>gC", "<cmd>FzfLua git_commits<CR>", desc = "commits" },
-      { "<leader>gS", "<cmd>FzfLua git_status<CR>", desc = "status" },
-      { "<leader>gB", "<cmd>FzfLua git_branches<CR>", desc = "branches" },
-      { "<leader>n", "<cmd>FzfLua git_files<CR>", desc = "Find Tracked Files" },
-      {
-        "<leader>N",
-        function()
-          require("fzf-lua").git_files({
-            cmd = "git ls-files --modified --exclude-standard",
-          })
-        end,
-        desc = "Find Untracked Files",
+        desc = "Code Actions",
       },
       -- search
       { '<leader>s"', "<cmd>FzfLua registers<CR>", desc = "Registers" },
@@ -181,15 +195,6 @@ return {
         end,
         desc = "Live grep in repos",
       },
-      {
-        "<leader>sw",
-        function()
-          require("fzf-lua").grep_visual()
-        end,
-        mode = "v",
-        desc = "Selection (root dir)",
-      },
-
       { "<leader><leader>", "<cmd>FzfLua grep_project<CR>", desc = "Live Grep" },
       { "<C-f>", "<cmd>FzfLua grep_curbuf<CR>", desc = "Find in Current Buffer" },
       {
@@ -199,13 +204,6 @@ return {
         end,
         desc = "Current Buffer Grep Selection",
         mode = "v",
-      },
-      {
-        "<leader>ss",
-        function()
-          require("fzf-lua").lsp_document_symbols()
-        end,
-        desc = "Goto Symbol",
       },
     },
   },
