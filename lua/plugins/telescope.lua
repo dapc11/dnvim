@@ -68,7 +68,18 @@ return {
       end
 
       return {
-        { "<C-p>", "<cmd>Telescope projects<CR>", desc = "Find Project" },
+        {
+          "<C-p>",
+          function()
+            require("telescope").extensions.projects.projects({
+              layout_config = {
+                height = 0.60,
+                width = 0.50,
+              },
+            })
+          end,
+          desc = "Find Project",
+        },
         -- { "<leader>r", "<cmd>Telescope oldfiles<CR>", desc = "Find Recent Files" },
         -- { "<leader>fn", "<CMD>Telescope notify<CR>", desc = "Notifications" },
         -- { "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<CR>", desc = "Switch Buffer" },

@@ -32,7 +32,7 @@ return {
         fzf_colors = {
           ["fg"] = { "fg", "CursorLine" },
           ["bg+"] = { "bg", "CursorLine" },
-          ["gutter"] = { "bg", "Normal" },
+          ["gutter"] = { "bg", "NormalFloat" },
         },
         previewers = {
           bat = {
