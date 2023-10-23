@@ -12,6 +12,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.cmd([[
+nmap > [
+nmap < ]
+omap > [
+omap < ]
+xmap > [
+xmap < ]
+]])
 
 require("lazy").setup({
   spec = {
@@ -19,6 +27,7 @@ require("lazy").setup({
     { "nvim-tree/nvim-web-devicons", lazy = true },
     { "MunifTanjim/nui.nvim", lazy = true },
     -- plugins
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "plugins" },
     { import = "plugins.coding" },
   },
@@ -51,11 +60,20 @@ require("lazy").setup({
 if vim.g.neovide then
   vim.g.neovide_theme = "auto"
   vim.o.guifont = "Liga_SFMono_Nerd_Font,SauceCodePro_Nerd_Font,SF_Pro_Display,JetBrains_Mono,Apple_Color_Emoji:h10"
-  vim.g.neovide_cursor_animation_length = 0.1
+  vim.g.neovide_cursor_animation_length = 0.0
   vim.g.neovide_cursor_trail_size = 0.4
+  vim.g.neovide_scroll_animation_length = 0.4
   vim.g.neovide_cursor_vfx_mode = ""
 end
 
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
+vim.cmd([[
+nmap > [
+nmap < ]
+omap > [
+omap < ]
+xmap > [
+xmap < ]
+]])

@@ -49,12 +49,3 @@ else
     vim.env.PYTHONPATH = nil
   end
 end
-
-local bufnr = vim.api.nvim_get_current_buf()
-vim.keymap.set("n", "<leader>cgf", require("pytrize.api").jump_fixture, { desc = "Jump to Fixture", buffer = bufnr })
-vim.keymap.set("n", "<leader>cgp", require("pytrize.api").jump, { desc = "Jump to Parameterized", buffer = bufnr })
-vim.keymap.set("n", "<leader>cv", "<cmd>:VenvSelect<cr>", { desc = "Select VirtualEnv", buffer = bufnr })
-vim.keymap.set("n", "<leader>tm", require("dap-python").test_method, { desc = "Debug Method", buffer = bufnr })
-vim.keymap.set("n", "<leader>tc", require("dap-python").test_class, { desc = "Debug Class", buffer = bufnr })
-vim.keymap.set("n", "<leader>dm", require("dap-python").test_method, { desc = "Debug Method", buffer = bufnr })
-vim.keymap.set("n", "<leader>dc", require("dap-python").test_class, { desc = "Debug Class", buffer = bufnr })

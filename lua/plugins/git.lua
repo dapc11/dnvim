@@ -11,22 +11,15 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     opts = {
-      signs = {
-        add = { text = "▎" },
-        change = { text = "▎" },
-        delete = { text = "" },
-        topdelete = { text = "" },
-        changedelete = { text = "▎" },
-        untracked = { text = "▎" },
-      },
       on_attach = function(buffer)
         local gs = package.loaded.gitsigns
 
-        local function map(mode, l, r, desc)
-          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        local function map(mode, l, r, desc, expr)
+          local ex = expr or false
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc, expr = ex })
         end
 
-        map("n", "<c", function()
+        map("n", "]c", function()
           if vim.wo.diff then
             return "]czz"
           end
@@ -35,9 +28,9 @@ return {
             vim.fn.feedkeys("zz")
           end)
           return "<Ignore>"
-        end, { expr = true })
+        end, "Next Hunk", true)
 
-        map("n", ">c", function()
+        map("n", "[c", function()
           if vim.wo.diff then
             return "[czz"
           end
@@ -46,7 +39,7 @@ return {
             vim.fn.feedkeys("zz")
           end)
           return "<Ignore>"
-        end, { expr = true })
+        end, "Previous hunk", true)
         map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
         map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
         map("n", "<leader>hS", gs.stage_buffer, "Stage Buffer")
@@ -110,7 +103,6 @@ return {
         },
       }
     end,
-    -- stylua: ignore
     keys = {
       { "<leader>gq", vim.cmd.DiffviewClose, desc = "Diffview Close" },
       { "<leader>gd", vim.cmd.DiffviewOpen, desc = "Diffview (all modified files)" },
@@ -126,18 +118,16 @@ return {
   {
     "akinsho/git-conflict.nvim",
     version = "*",
-    config = function()
-      require("git-conflict").setup({
-        list_opener = "copen",
-        default_mappings = {
-          ours = "o",
-          theirs = "t",
-          none = "0",
-          both = "b",
-          next = "<",
-          prev = ">",
-        },
-      })
-    end,
+    opts = {
+      list_opener = "copen",
+      default_mappings = {
+        ours = "o",
+        theirs = "t",
+        none = "0",
+        both = "b",
+        next = "<",
+        prev = ">",
+      },
+    },
   },
 }

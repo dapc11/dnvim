@@ -1,7 +1,6 @@
 local M = {}
 
 M.ignored_filetypes = {
-  "alpha",
   "DressingSelect",
   "Jaq",
   "Markdown",

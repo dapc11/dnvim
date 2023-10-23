@@ -21,14 +21,11 @@ opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
--- opt.scrolloff = math.floor(0.5 * vim.o.lines) -- Lines of context
--- opt.scrolloff = 8 -- Lines of context
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 opt.shiftround = true -- Round indent
 opt.shiftwidth = 2 -- Size of an indent
 opt.shortmess:append({ W = true, I = true, c = true })
 opt.showmode = false -- Dont show mode since we have a statusline
--- opt.sidescrolloff = 8 -- Columns of context
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
@@ -51,15 +48,18 @@ opt.wrap = false -- Disable line wrap
 --   opt.smoothscroll = true
 -- end
 --
-if vim.fn.has("nvim-0.9.0") == 1 then
-  opt.splitkeep = "screen"
-  opt.shortmess:append({ C = true })
-  opt.foldmethod = "expr"
-  opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-  opt.statuscolumn = [[%!v:lua.require'util.ui'.statuscolumn()]]
-else
-  opt.foldmethod = "indent"
-end
-
+-- if vim.fn.has("nvim-0.9.0") == 1 then
+--   opt.splitkeep = "screen"
+--   opt.shortmess:append({ C = true })
+--   opt.foldmethod = "expr"
+--   opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- else
+--   opt.foldmethod = "indent"
+-- end
+--
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+vim.cmd([[
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+]])

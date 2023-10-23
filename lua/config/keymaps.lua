@@ -50,11 +50,7 @@ map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 map("n", "<leader><tab>l", "<cmd>tablast<CR>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<CR>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", "<cmd>tabnew<CR>", { desc = "New Tab" })
-map("n", "<<tab>", "<cmd>tabnext<CR>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
-map("n", "><tab>", "<cmd>tabprevious<CR>", { desc = "Previous Tab" })
-map("n", ">q", "<cmd>cprevious<CR>", { desc = "Previous Quickfix" })
-map("n", "<q", "<cmd>cnext<CR>", { desc = "Next Quickfix" })
 map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
 map(
   "n",
@@ -71,8 +67,6 @@ map("n", "<leader>cs", function()
   require("lualine").refresh()
 end, { desc = "Stop all heavy lifting" })
 
--- Close all buffers if needed to refresh speed
-map("n", "<leader>bo", "<cmd>%bd!|e#<CR>", { desc = "Close all buffers but the current one" }) -- https://stackoverflow.com/a/42071865/516188
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
 map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })

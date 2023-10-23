@@ -21,6 +21,3 @@ setlocal wrap spell spelllang=en_us
 " au FileType markdown setl comments=b:*,b:-,b:+,n:>
 " au FileType markdown setl formatoptions+=r
 ]])
-
-vim.keymap.set("n", "<s", "]s", { buffer = bufnr })
-vim.keymap.set("n", ">s", "[s", { buffer = bufnr })
