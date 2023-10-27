@@ -46,6 +46,7 @@ return {
         map("n", "<leader>hu", gs.undo_stage_hunk, "Undo Stage Hunk")
         map("n", "<leader>hR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
+        map("n", "<leader>hd", gs.detach, "Detach")
         map("n", "<leader>hB", function()
           gs.blame_line({ full = true })
         end, "Blame Line")
