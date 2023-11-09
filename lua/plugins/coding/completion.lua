@@ -1,6 +1,9 @@
 return {
   "hrsh7th/nvim-cmp",
+  event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
+    "hrsh7th/cmp-cmdline",
+    "FelipeLema/cmp-async-path",
     {
       "L3MON4D3/LuaSnip",
       keys = function()
@@ -9,7 +12,6 @@ return {
       dependencies = {
         "rafamadriz/friendly-snippets",
         config = function()
-          require("luasnip.loaders.from_vscode").lazy_load()
           require("luasnip/loaders/from_vscode").load({ paths = { "~/.config/nvim/snippets" } })
         end,
       },
@@ -19,6 +21,37 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    for _, source in ipairs(opts.sources) do
+      source.group_index = source.group_index or 1
+    end
+    local cmp = require("cmp")
+    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+    cmp.setup.cmdline({ "/", "?" }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "buffer" },
+      },
+    })
+
+    cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
+      sources = cmp.config.sources({
+        {
+          name = "buffer",
+          option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end,
+          },
+        },
+      }),
+    })
+    cmp.setup(opts)
+  end,
   opts = function(_, opts)
     local has_words_before = function()
       unpack = unpack or table.unpack
@@ -51,23 +84,6 @@ return {
           fallback()
         end
       end, { "i", "s" }),
-    })
-
-    cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
-      sources = cmp.config.sources({
-        {
-          name = "buffer",
-          option = {
-            get_bufnrs = function()
-              local bufs = {}
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                bufs[vim.api.nvim_win_get_buf(win)] = true
-              end
-              return vim.tbl_keys(bufs)
-            end,
-          },
-        },
-      }),
     })
   end,
 }

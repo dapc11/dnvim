@@ -40,4 +40,5 @@ augroup END
 
 return {
   { "LunarVim/bigfile.nvim" },
+  "stevearc/profile.nvim",
 }

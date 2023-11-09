@@ -3,8 +3,24 @@
   "contributes": {
     "snippets": [
       {
-        "language": "all",
+        "language": "python",
         "path": "./python.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      },
+      {
+        "language": "go",
+        "path": "./go.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./yaml.json"
+      },
+      {
+        "language": "gitcommit",
+        "path": "./gitcommit.json"
       }
     ]
   }
