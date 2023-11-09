@@ -9,7 +9,6 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {
       vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
       vim.diagnostic.disable(bufnr)
       vim.opt_local.spell = false
-      require("lualine").refresh()
     end
   end,
   group = aug,

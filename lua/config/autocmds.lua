@@ -106,7 +106,6 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
     local bufnr = vim.api.nvim_get_current_buf()
     vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
     vim.diagnostic.disable(bufnr)
-    require("lualine").refresh()
 
     vim.cmd([[ if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
   end,
@@ -118,7 +117,6 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
     local bufnr = vim.api.nvim_get_current_buf()
     vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
     vim.diagnostic.disable(bufnr)
-    require("lualine").refresh()
 
     vim.cmd([[ if search('{"version"', 'nw') | setlocal filetype=json | endif]])
   end,
