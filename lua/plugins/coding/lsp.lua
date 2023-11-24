@@ -3,6 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        typos_lsp = {},
         ruff_lsp = { mason = false, autostart = false },
         lua_ls = {
           settings = {
