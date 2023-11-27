@@ -6,7 +6,14 @@ return {
       date_format = "%Y/%m/%d",
     },
     keys = {
-      { "<leader>gb", "<cmd>ToggleBlame<CR>", desc = "Git Blame" },
+      {
+        "<leader>gb",
+        function()
+          require("neo-tree.command").execute({ action = "close" })
+          vim.cmd.ToggleBlame()
+        end,
+        desc = "Git Blame",
+      },
     },
   },
   {
