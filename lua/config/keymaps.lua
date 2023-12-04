@@ -34,10 +34,14 @@ map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
 map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
 map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
 map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
+map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- Move Lines
-map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
-map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
+-- map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
+-- map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
 map("i", "<S-Down>", "<esc><cmd>m .+1<CR>==gi", { desc = "Move down" })
 map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
 map("v", "<S-Down>", ":m '>+1<CR>gv=gv", { desc = "Move down" })
@@ -94,7 +98,15 @@ vim.cmd([[
   vmap <c-c> "+y
   vmap <tab> >gv
   vmap <s-tab> <gv
-  inoremap <c-v> <c-r>+
   cnoremap <c-v> <c-r>+
   inoremap <c-r> <c-v>
+  inoremap <c-v> <c-r>+
+  cnoremap <c-r> \(.*\)
+  " Search results always on center
+  nnoremap n nzz
+  nnoremap N Nzz
+  nnoremap * *Nzz
+  nnoremap # #nzz
+  nnoremap g* g*zz
+  nnoremap <expr> <Leader>. '<esc>' . repeat('.', v:count1)
 ]])
