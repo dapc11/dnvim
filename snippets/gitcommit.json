@@ -129,6 +129,16 @@
       "$0"
     ]
   },
+  "lcm": {
+    "prefix": "lcm",
+    "body": [
+      "Update ${1:3pp}",
+      "",
+      "${1:3pp}: ${2:old_version} -> ${3:new_version}",
+      "",
+      "$0"
+    ]
+  },
   "troublereport": {
     "prefix": "tr",
     "body": [
