@@ -99,6 +99,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 --     require("go.format").gofmt()
 --   end,
 -- })
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*.sh" },
+  callback = function(_)
+    require("util").format("shfmt -ln bash -i 4 -")
+  end,
+})
 
 vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   pattern = { "*.tpl", "*.yaml", "*.yml" },
