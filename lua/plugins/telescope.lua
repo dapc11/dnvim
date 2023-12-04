@@ -14,7 +14,15 @@ return {
       {
         "dapc11/project.nvim",
         dependencies = "nvim-telescope/telescope.nvim",
-        lazy = false,
+        keys = {
+          {
+            "<C-p>",
+            function()
+              require("telescope").extensions.projects.projects()
+            end,
+            desc = "Find Project",
+          },
+        },
         config = function(_, opts)
           require("project_nvim").setup(opts)
           require("telescope").load_extension("projects")
@@ -48,13 +56,6 @@ return {
     },
     keys = {
       { "<leader>/", false },
-      {
-        "<C-p>",
-        function()
-          require("telescope").extensions.projects.projects()
-        end,
-        desc = "Find Project",
-      },
       {
         "<leader>r",
         function()
