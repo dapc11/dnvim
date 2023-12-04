@@ -1,0 +1,7 @@
+{
+  "arguments": {
+    "prefix": "arg",
+    "body": "# idiomatic parameter and option handling in sh\nwhile test \\$# -gt 0\ndo\n\tcase \"\\$1\" in\n\t\t--$1) echo \"implement\" \n\t\t\t;;\n\t\t--$2) echo \"implement\"\n\t\t\t;;\n\t\t--*) echo \"bad option \\$1\"\n\t\t\t;;\n\t\t*) echo \"argument \\$1\"\n\t\t\t;;\n\tesac\n\tshift\ndone",
+    "description": "Arguments"
+  }
+}

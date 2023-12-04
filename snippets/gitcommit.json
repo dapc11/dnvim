@@ -92,5 +92,50 @@
     "body": [
       "BREAKING CHANGE: $0"
     ]
+  },
+  "vulnerability": {
+    "prefix": "vuln",
+    "body": [
+      "Vulnerability: ${1: shortname}",
+      "Jira: ${2:longname}",
+      "",
+      "$0"
+    ]
+  },
+  "jira": {
+    "prefix": "jira",
+    "body": [
+      "Jira: ${1:longname}",
+      "",
+      "$0"
+    ]
+  },
+  "lcm": {
+    "prefix": "lcm",
+    "body": [
+      "Update ${1:3pp}",
+      "",
+      "${1:3pp}: ${2:old_version} -> ${3:new_version}",
+      "",
+      "$0"
+    ]
+  },
+  "requirement": {
+    "prefix": "req",
+    "body": [
+      "Requirement: ${1: shortname}",
+      "Jira: ${2:longname}",
+      "",
+      "$0"
+    ]
+  },
+  "troublereport": {
+    "prefix": "tr",
+    "body": [
+      "Jira: ${1: shortname}",
+      "Troublereport: ${2:longname}",
+      "",
+      "$0"
+    ]
   }
 }

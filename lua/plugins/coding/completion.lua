@@ -6,13 +6,10 @@ return {
     "FelipeLema/cmp-async-path",
     {
       "L3MON4D3/LuaSnip",
-      keys = function()
-        return {}
-      end,
       dependencies = {
         "rafamadriz/friendly-snippets",
         config = function()
-          require("luasnip/loaders/from_vscode").load({ paths = { "~/.config/nvim/snippets" } })
+          require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
         end,
       },
       opts = {
@@ -48,6 +45,7 @@ return {
             end,
           },
         },
+        { name = "luasnip" }
       }),
     })
     cmp.setup(opts)
