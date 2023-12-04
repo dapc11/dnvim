@@ -71,7 +71,7 @@
   "todo-comments.nvim": { "branch": "main", "commit": "4a6737a8d70fe1ac55c64dfa47fcb189ca431872" },
   "tokyonight.nvim": { "branch": "main", "commit": "f247ee700b569ed43f39320413a13ba9b0aef0db" },
   "trouble.nvim": { "branch": "main", "commit": "f1168feada93c0154ede4d1fe9183bf69bac54ea" },
-  "venv-selector.nvim": { "branch": "main", "commit": "61bc33b040ecdb93ec5788104ff41808cd5e511a" },
+  "venv-selector.nvim": { "branch": "main", "commit": "e119a6a15c99ec54fb6c19c145d9cd859bfdcf77" },
   "vim-asterisk": { "branch": "master", "commit": "77e97061d6691637a034258cc415d98670698459" },
   "vim-easy-align": { "branch": "master", "commit": "12dd6316974f71ce333e360c0260b4e1f81169c3" },
   "vim-fugitive": { "branch": "master", "commit": "6a466032ab018c7f548816ec1074002c709fd96d" },
