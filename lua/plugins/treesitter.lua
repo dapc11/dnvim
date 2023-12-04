@@ -28,7 +28,7 @@ return {
         },
       },
       highlight = {
-        enable = true,
+        enable = false,
         disable = function(_, bufnr)
           return vim.api.nvim_buf_line_count(bufnr) > 5000
         end,
@@ -58,6 +58,7 @@ return {
       -- tree_docs = { enable = true }, lacks python support
       textobjects = {
         select = {
+          disable = { "yaml" },
           enable = true,
           lookahead = true,
           keymaps = {
@@ -79,11 +80,6 @@ return {
             ["ic"] = "@conditional.inner",
             ["ac"] = "@conditional.outer",
             ["iC"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-          },
-          selection_modes = {
-            ["@parameter.outer"] = "v", -- charwise
-            ["@function.outer"] = "V", -- linewise
-            ["@class.outer"] = "<c-v>", -- blockwise
           },
           include_surrounding_whitespace = true,
         },
