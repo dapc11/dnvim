@@ -45,7 +45,7 @@ return {
             end,
           },
         },
-        { name = "luasnip" }
+        { name = "luasnip" },
       }),
     })
     cmp.setup(opts)
