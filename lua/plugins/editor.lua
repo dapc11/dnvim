@@ -46,7 +46,7 @@ return {
     },
   },
   {
-    'haya14busa/vim-asterisk',
+    "haya14busa/vim-asterisk",
     lazy = false,
     init = function()
       vim.cmd([[
@@ -59,6 +59,6 @@ return {
         map z#  <Plug>(asterisk-z#)
         map gz# <Plug>(asterisk-gz#)
       ]])
-    end
-  }
+    end,
+  },
 }
