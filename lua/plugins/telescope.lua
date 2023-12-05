@@ -14,6 +14,7 @@ return {
       {
         "dapc11/project.nvim",
         dependencies = "nvim-telescope/telescope.nvim",
+        lazy = false,
         keys = {
           {
             "<C-p>",
