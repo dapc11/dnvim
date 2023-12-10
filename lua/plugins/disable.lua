@@ -1,7 +1,6 @@
 return {
   { "akinsho/bufferline.nvim", enabled = false },
   { "mfussenegger/nvim-lint", enabled = false },
-  { "stevearc/conform.nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
   { "echasnovski/mini.pairs", enabled = false },
   { "folke/noice.nvim", enabled = false },

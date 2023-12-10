@@ -79,33 +79,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
---   pattern = { "*.lua" },
---   callback = function(_)
---     require("util").format("stylua --search-parent-directories -")
---   end,
--- })
---
--- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
---   pattern = { "*.py" },
---   callback = function(_)
---     require("util").format("black --quiet -")
---   end,
--- })
---
--- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
---   pattern = { "*.go" },
---   callback = function(_)
---     require("go.format").gofmt()
---   end,
--- })
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*.sh" },
-  callback = function(_)
-    require("util").format("shfmt -ln bash -i 4 -")
-  end,
-})
-
 vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   pattern = { "*.tpl", "*.yaml", "*.yml" },
   callback = function(_)
