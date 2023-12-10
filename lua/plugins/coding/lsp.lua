@@ -42,7 +42,6 @@ return {
           },
         },
         typos_lsp = {},
-        ruff_lsp = { mason = false, autostart = false },
         lua_ls = {
           settings = {
             workspace = {
@@ -81,15 +80,6 @@ return {
           },
         },
       },
-    },
-    setup = {
-      ruff_lsp = function()
-        require("lazyvim.util").lsp.on_attach(function(client, _)
-          if client.name == "ruff_lsp" then
-            return
-          end
-        end)
-      end,
     },
   },
 }
