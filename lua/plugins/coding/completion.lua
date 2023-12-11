@@ -55,15 +55,6 @@ return {
         { name = "buffer" },
       },
     })
-    cmp.setup.cmdline(":", {
-      mapping = cmd_mapping,
-      sources = cmp.config.sources({
-        {
-          { name = "cmdline" },
-        },
-        { name = "path" },
-      }),
-    })
 
     cmp.setup.filetype({ "gitcommit" }, {
       sources = cmp.config.sources({
