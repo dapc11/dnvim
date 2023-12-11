@@ -65,7 +65,7 @@ return {
       }),
     })
 
-    cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
+    cmp.setup.filetype({ "gitcommit" }, {
       sources = cmp.config.sources({
         {
           name = "buffer",

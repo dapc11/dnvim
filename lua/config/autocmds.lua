@@ -32,20 +32,6 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = {
-    "DiffviewFileHistory",
-    "DiffviewFiles",
-  },
-  callback = function()
-    vim.cmd([[
-      nnoremap <silent> <buffer> q :DiffviewClose<CR>
-      nnoremap <silent> <buffer> <esc> :DiffviewClose<CR>
-      set nobuflisted
-    ]])
-  end,
-})
-
 vim.api.nvim_create_autocmd({ "DiffUpdated" }, {
   pattern = { "" },
   callback = function()

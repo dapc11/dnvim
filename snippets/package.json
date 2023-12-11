@@ -23,10 +23,6 @@
         "path": "./gitcommit.json"
       },
       {
-        "language": "NeogitCommitMessage",
-        "path": "./neogitcommitmessage.json"
-      },
-      {
         "language": "sh",
         "path": "./sh.json"
       }

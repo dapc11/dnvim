@@ -1,22 +1,6 @@
 GetVisualSelection = require("util.common").GetVisualSelection
 return {
   {
-    "FabijanZulj/blame.nvim",
-    opts = {
-      date_format = "%Y/%m/%d",
-    },
-    keys = {
-      {
-        "<leader>gb",
-        function()
-          require("neo-tree.command").execute({ action = "close" })
-          vim.cmd.ToggleBlame()
-        end,
-        desc = "Git Blame",
-      },
-    },
-  },
-  {
     "lewis6991/gitsigns.nvim",
     opts = {
       on_attach = function(buffer)
@@ -66,6 +50,9 @@ return {
     "dapc11/vim-fugitive",
     lazy = false,
     keys = {
+      { "<C-g>", "<cmd>Git<CR>" },
+      { "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Diff" },
+      { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
       { "<leader>gn", "<cmd>Git checkout -b", desc = "Create new Branch" },
       { "<leader>gp", "<cmd>Git push origin HEAD:refs/for/master<CR>", desc = "Push Gerrit" },
       { "<leader>gP", "<cmd>Git push<CR>", desc = "Push Regular" },
@@ -89,67 +76,8 @@ return {
         "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<CR><CR>",
         desc = "Git log",
       },
-    },
-  },
-  {
-    "dapc11/neogit",
-    keys = { { "<C-g>", "<cmd>Neogit<CR>" } },
-    config = true,
-    dependencies = "nvim-lua/plenary.nvim",
-  },
-  {
-    "sindrets/diffview.nvim",
-    event = "VeryLazy",
-    dependencies = "nvim-lua/plenary.nvim",
-    cmd = {
-      "DiffviewOpen",
-      "DiffviewClose",
-      "DiffviewFileHistory",
-      "DiffviewRefresh",
-      "DiffviewToggleFiles",
-      "DiffviewFocusFiles",
-    },
-    opts = function()
-      return {
-        file_panel = {
-          listing_style = "tree",
-          tree_options = {
-            flatten_dirs = true,
-            folder_statuses = "only_folded",
-          },
-          win_config = {
-            position = "bottom",
-            height = 15,
-            win_opts = {},
-          },
-        },
-      }
-    end,
-    keys = {
-      { "<leader>gq", vim.cmd.DiffviewClose, desc = "Diffview Close" },
-      { "<leader>gd", vim.cmd.DiffviewOpen, desc = "Diffview (all modified files)" },
-      {
-        "<leader>gh",
-        function()
-          vim.cmd.DiffviewFileHistory("%")
-        end,
-        desc = "Diffview Current File History",
-      },
-    },
-  },
-  {
-    "akinsho/git-conflict.nvim",
-    version = "*",
-    opts = {
-      list_opener = "copen",
-      default_mappings = {
-        ours = "o",
-        theirs = "t",
-        none = "0",
-        both = "b",
-        next = "<",
-        prev = ">",
-      },
+      { "<leader>gh", "<cmd>0Gllog<cr>", desc = "View File History" },
+      { "<leader>ge", "<cmd>Gedit<cr>", desc = "Edit Current Version" },
     },
   },
 }

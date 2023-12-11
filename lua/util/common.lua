@@ -4,7 +4,6 @@ M.ignored_filetypes = {
   "DressingSelect",
   "Jaq",
   "Markdown",
-  "NeogitStatus",
   "PlenaryTestPopup",
   "TelescopePrompt",
   "blame",
