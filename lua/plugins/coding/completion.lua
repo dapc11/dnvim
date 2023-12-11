@@ -21,16 +21,48 @@ return {
     },
   },
   config = function(_, opts)
+    local cmp = require("cmp")
+    local cmd_mapping = vim.tbl_extend("force", cmp.mapping.preset.cmdline(), {
+      ["<C-Space>"] = {
+        c = cmp.mapping.complete(),
+      },
+      ["<Down>"] = {
+        c = function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            fallback()
+          end
+        end,
+      },
+      ["<Up>"] = {
+        c = function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            fallback()
+          end
+        end,
+      },
+    })
+
     for _, source in ipairs(opts.sources) do
       source.group_index = source.group_index or 1
     end
-    local cmp = require("cmp")
-    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline({ "/", "?" }, {
-      mapping = cmp.mapping.preset.cmdline(),
+      mapping = cmd_mapping,
       sources = {
         { name = "buffer" },
       },
+    })
+    cmp.setup.cmdline(":", {
+      mapping = cmd_mapping,
+      sources = cmp.config.sources({
+        {
+          { name = "cmdline" },
+        },
+        { name = "path" },
+      }),
     })
 
     cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
@@ -87,6 +119,17 @@ return {
           fallback()
         end
       end, { "i", "s" }),
+      ["<CR>"] = cmp.mapping({
+        i = function(fallback)
+          if cmp.visible() then
+            cmp.confirm()
+          else
+            fallback()
+          end
+        end,
+        s = cmp.mapping.confirm({ select = true }),
+        c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+      }),
     })
   end,
 }
