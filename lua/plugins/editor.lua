@@ -40,12 +40,6 @@ return {
     },
   },
   {
-    "echasnovski/mini.indentscope",
-    opts = {
-      draw = { delay = 500 },
-    },
-  },
-  {
     "haya14busa/vim-asterisk",
     lazy = false,
     init = function()
