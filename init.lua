@@ -13,12 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.cmd([[
-nmap > [
-nmap < ]
-omap > [
-omap < ]
-xmap > [
-xmap < ]
+  nmap > [
+  nmap < ]
+  omap > [
+  omap < ]
+  xmap > [
+  xmap < ]
 ]])
 
 require("lazy").setup({
@@ -69,14 +69,7 @@ end
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
-vim.cmd([[
-nmap > [
-nmap < ]
-omap > [
-omap < ]
-xmap > [
-xmap < ]
-]])
+
 local should_profile = os.getenv("NVIM_PROFILE")
 if should_profile then
   require("profile").instrument_autocmds()

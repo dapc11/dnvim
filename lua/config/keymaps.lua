@@ -17,9 +17,6 @@ map("n", "z<Up>", "zckzOzz", { desc = "Close current fold and open previous" })
 map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
 map("n", "W", "<cmd>noautocmd w<CR>")
 --
--- better indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
 
 -- windows
 map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
@@ -74,7 +71,6 @@ end, { desc = "Stop all heavy lifting" })
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
 map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
-map("n", "<leader>ll", "<cmd>Lazy<CR>", { desc = "Lazy" })
 
 map("n", "§", "@:")
 map("n", "<C-c>", function()
