@@ -57,6 +57,7 @@ return {
     },
     keys = {
       { "<leader>/", false },
+      { "<leader>gc", false },
       {
         "<leader>r",
         function()
@@ -79,7 +80,6 @@ return {
         desc = "Find file in repos",
       },
       -- git
-      { "<leader>gC", "<cmd>Telescope git_commits<CR>", desc = "commits" },
       { "<leader>gS", "<cmd>Telescope git_status<CR>", desc = "status" },
       { "<leader>gB", "<cmd>Telescope git_branches<CR>", desc = "branches" },
       {
@@ -139,54 +139,7 @@ return {
         defaults = {
           buffer_previewer_maker = new_maker,
           preview = false,
-          -- layout_config = {
-          --   width = 0.50,
-          --   height = 0.60,
-          --   prompt_position = "top",
-          --   preview_cutoff = 80,
-          -- },
           sorting_strategy = "ascending",
-          path_display = function(_, inputPath)
-            -- Function to check if a table contains a value
-            local function tableContains(table, value)
-              for _, v in ipairs(table) do
-                if v == value then
-                  return true
-                end
-              end
-              return false
-            end
-            local prefix = string.sub(inputPath, 1, 3)
-            if
-              (prefix == "v3/" or prefix == "v4/")
-              and string.find(inputPath, "kubernetes/pods/logs")
-              and string.find(inputPath, ".txt")
-            then
-              -- Split the path into segments using "/"
-              local segments = {}
-              for segment in string.gmatch(inputPath, "[^/]+") do
-                table.insert(segments, segment)
-              end
-
-              -- Define the indexes to exclude
-              local excludeIndexes = { 2, 3, 4, 6, 7 }
-              -- Create a new path by excluding segments at specified indexes
-              local newPath = ""
-              for i, segment in ipairs(segments) do
-                if not tableContains(excludeIndexes, i) then
-                  if newPath == "" then
-                    newPath = segment
-                  else
-                    newPath = newPath .. "/" .. segment
-                  end
-                end
-              end
-
-              return newPath
-            else
-              return inputPath
-            end
-          end,
           winblend = 0,
           mappings = {
             i = {
