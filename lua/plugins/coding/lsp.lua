@@ -50,7 +50,7 @@ return {
             },
             Lua = {
               workspace = {
-                checkThirdParty = false,
+                checkThirdParty = "Disable",
               },
               library = {
                 vim.fn.expand("$VIMRUNTIME"),
@@ -63,6 +63,7 @@ return {
               preloadFileSize = 2000,
               diagnostics = {
                 globals = {
+                  "vim",
                   -- Awesomewm related globals
                   "client",
                   "awesome",
