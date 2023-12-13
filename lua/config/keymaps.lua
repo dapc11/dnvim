@@ -72,6 +72,12 @@ map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
 map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
 
+map("n", "<leader>cbf", "<cmd>Dispatch bob/bob -q format<CR>", { desc = "Format" })
+map("n", "<leader>cbl", "<cmd>Dispatch bob/bob -q lint-test<CR>", { desc = "Lint Test" })
+map("n", "<leader>cbu", "<cmd>Dispatch bob/bob -q unit-test<CR>", { desc = "Unit Test" })
+map("n", "<leader>cbb", "<cmd>Dispatch bob/bob clean init build<CR>", { desc = "Build" })
+map("n", "<leader>cbp", "<cmd>Dispatch bob/bob -q pre-integration-test<CR>", { desc = "Publish to Sandbox" })
+
 map("n", "§", "@:")
 map("n", "<C-c>", function()
   vim.api.nvim_command("norm! yiw")
