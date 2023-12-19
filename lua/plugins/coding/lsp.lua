@@ -42,7 +42,6 @@ return {
             },
           },
         },
-        typos_lsp = {},
         lua_ls = {
           settings = {
             workspace = {
