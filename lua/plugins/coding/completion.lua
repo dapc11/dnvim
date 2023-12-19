@@ -57,36 +57,43 @@ return {
       return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
     end
 
+    opts.formatting = {
+      format = function(entry, vim_item)
+        if entry.source.name == "nvim_lsp" then
+          vim_item.dup = 0
+        end
+        return vim_item
+      end,
+    }
     opts.sources = cmp.config.sources({
       {
         name = "nvim_lsp",
         entry_filter = function(entry, _)
-          return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
-            or require("cmp").lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+          local itemKind = require("cmp").lsp.CompletionItemKind
+          return itemKind.Text ~= entry:get_kind() or itemKind.Snippet ~= entry:get_kind()
         end,
       },
-      { name = "luasnip" },
+      {
+        name = "luasnip",
+        entry_filter = function()
+          local context = require("cmp.config.context")
+          return not context.in_treesitter_capture("string") and not context.in_syntax_group("String")
+        end,
+      },
       { name = "path" },
       {
         name = "buffer",
         option = {
           indexing_interval = 1000,
           keyword_length = 5,
-          get_bufnrs = function()
-            local buf = vim.api.nvim_get_current_buf()
-            local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-            if byte_size > 1024 * 1024 then -- 1 Megabyte max
-              return {}
-            end
-            return all_visible_buffers()
-          end,
+          get_bufnrs = all_visible_buffers,
         },
       },
     })
     opts.preselect = cmp.PreselectMode.None
     opts.mapping = vim.tbl_extend("force", opts.mapping, {
-      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-d>"] = cmp.mapping.scroll_docs(4),
       ["<C-Space>"] = cmp.mapping.complete(),
       ["<C-e>"] = cmp.mapping.abort(),
       ["<Tab>"] = cmp.mapping(function(fallback)
@@ -120,6 +127,8 @@ return {
         s = cmp.mapping.confirm({ select = true }),
         c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
       }),
+      ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "insert" }),
+      ["<Down>"] = cmp.mapping.select_next_item({ behavior = "insert" }),
     })
   end,
 }
