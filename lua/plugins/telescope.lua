@@ -1,4 +1,15 @@
 local GetVisualSelection = require("util.common").GetVisualSelection
+
+local function theme(opts)
+  local resolve = require("telescope.config.resolve")
+  local lopts = vim.tbl_extend("force", {
+    results_title = "",
+    layout_config = {
+      height = resolve.resolve_height({ 0.3, max = 50, min = 5 }),
+    },
+  }, opts or {})
+  return require("telescope.themes").get_ivy(lopts)
+end
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -72,9 +83,6 @@ return {
             cwd = "~/repos/",
             path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1, -2 } } },
             prompt_title = "Repos",
-            layout_config = {
-              height = 0.85,
-            },
           })
         end,
         desc = "Find file in repos",
@@ -136,6 +144,51 @@ return {
         end)
       end
       return {
+        pickers = {
+          autocommands = theme(),
+          buffers = theme(),
+          colorscheme = theme(),
+          command_history = theme(),
+          commands = theme(),
+          current_buffer_tags = theme(),
+          diagnostics = theme(),
+          filetypes = theme(),
+          find_files = theme(),
+          git_bcommits = theme(),
+          git_bcommits_range = theme(),
+          git_branches = theme(),
+          git_commits = theme(),
+          git_files = theme(),
+          git_stash = theme(),
+          git_status = theme(),
+          help_tags = theme(),
+          highlights = theme(),
+          jumplist = theme(),
+          keymaps = theme(),
+          loclist = theme(),
+          lsp_definitions = theme(),
+          lsp_document_symbols = theme({ symbol_width = 200 }),
+          lsp_dynamic_workspace_symbols = theme({ symbol_width = 200 }),
+          lsp_implementations = theme(),
+          lsp_incoming_calls = theme(),
+          lsp_outgoing_calls = theme(),
+          lsp_references = theme(),
+          lsp_type_definitions = theme(),
+          lsp_workspace_symbols = theme(),
+          man_pages = theme(),
+          marks = theme(),
+          oldfiles = theme(),
+          pickers = theme(),
+          quickfix = theme(),
+          quickfixhistory = theme(),
+          registers = theme(),
+          resume = theme(),
+          search_history = theme(),
+          spell_suggest = theme(),
+          tags = theme(),
+          vim_options = theme(),
+        },
+        -- pickers = pickers_theme(borderless_theme()),
         defaults = {
           buffer_previewer_maker = new_maker,
           preview = false,
