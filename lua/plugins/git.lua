@@ -39,7 +39,7 @@ return {
         map("n", "<leader>hR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
         map("n", "<leader>hd", gs.detach, "Detach")
-        map("n", "<leader>hB", function()
+        map("n", "<leader>hb", function()
           gs.blame_line({ full = true })
         end, "Blame Line")
         map({ "o", "x" }, "ih", "<cmd><C-U>Gitsigns select_hunk<CR>", "Select Hunk")
