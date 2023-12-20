@@ -7,6 +7,14 @@
       "$0"
     ]
   },
+  "cleanup": {
+    "prefix": "cleanup",
+    "body": [
+      "chore(cleanup): ${1:title}",
+      "",
+      "$0"
+    ]
+  },
   "fix conventional commit": {
     "prefix": "fix",
     "body": [
