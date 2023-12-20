@@ -11,7 +11,7 @@ opt.foldlevel = 99
 opt.foldtext = "v:lua.require'util.ui'.foldtext()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
-opt.grepprg = "rg --vimgrep"
+opt.grepprg = "rg --vimgrep --no-heading --smart-case"
 opt.ignorecase = true -- Ignore case
 opt.inccommand = "nosplit" -- preview incremental substitute
 opt.laststatus = 3
@@ -60,7 +60,3 @@ opt.statuscolumn = "" -- Disable costly statuscolumn calculations
 --
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
-
-vim.cmd([[
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-]])
