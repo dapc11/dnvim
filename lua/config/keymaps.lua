@@ -65,7 +65,6 @@ map("n", "<leader>cs", function()
   vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
   pcall(vim.diagnostic.disable, bufnr)
   vim.opt_local.spell = false
-  require("lualine").refresh()
 end, { desc = "Stop all heavy lifting" })
 
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })

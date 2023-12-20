@@ -8,4 +8,5 @@ return {
   { "echasnovski/mini.indentscope", enabled = false },
   { "echasnovski/mini.ai", enabled = false },
   { "nvim-treesitter/nvim-treesitter-context", enabled = false },
+  { "nvim-lualine/lualine.nvim", enabled = false },
 }
