@@ -12,117 +12,79 @@ local function theme(opts)
 end
 return {
   {
+    "dapc11/telescope-yaml.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    ft = { "yaml" },
+    config = function()
+      require("telescope").load_extension("telescope-yaml")
+    end,
+  },
+  {
+    "dapc11/project.nvim",
+    dependencies = "nvim-telescope/telescope.nvim",
+    lazy = false,
+    keys = {
+      {
+        "<C-p>",
+        function()
+          require("telescope").extensions.projects.projects()
+        end,
+        desc = "Find Project",
+      },
+    },
+    config = function(_, opts)
+      require("project_nvim").setup(opts)
+      require("telescope").load_extension("projects")
+    end,
+    opts = {
+      active = true,
+      on_config_done = nil,
+      manual_mode = false,
+      detection_methods = { "pattern" },
+      patterns = {
+        "ruleset2.0.yaml",
+        ".git",
+        "_darcs",
+        ".hg",
+        ".bzr",
+        ".svn",
+        "Makefile",
+        "package.json",
+        "script_version.txt",
+        "drc-report",
+        "image-design-rule-check-report.html",
+      },
+      ignore_lsp = {},
+      exclude_dirs = {},
+      show_hidden = true,
+      silent_chdir = true,
+      scope_chdir = "global",
+      datapath = vim.fn.stdpath("data"),
+    },
+  },
+  {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
     version = false,
-    dependencies = {
-      {
-        "dapc11/telescope-yaml.nvim",
-        config = function()
-          require("telescope").load_extension("telescope-yaml")
-        end,
-      },
-      {
-        "dapc11/project.nvim",
-        dependencies = "nvim-telescope/telescope.nvim",
-        lazy = false,
-        keys = {
-          {
-            "<C-p>",
-            function()
-              require("telescope").extensions.projects.projects()
-            end,
-            desc = "Find Project",
-          },
-        },
-        config = function(_, opts)
-          require("project_nvim").setup(opts)
-          require("telescope").load_extension("projects")
-        end,
-        opts = {
-          active = true,
-          on_config_done = nil,
-          manual_mode = false,
-          detection_methods = { "pattern" },
-          patterns = {
-            "ruleset2.0.yaml",
-            ".git",
-            "_darcs",
-            ".hg",
-            ".bzr",
-            ".svn",
-            "Makefile",
-            "package.json",
-            "script_version.txt",
-            "drc-report",
-            "image-design-rule-check-report.html",
-          },
-          ignore_lsp = {},
-          exclude_dirs = {},
-          show_hidden = true,
-          silent_chdir = true,
-          scope_chdir = "global",
-          datapath = vim.fn.stdpath("data"),
-        },
-      },
-    },
+    -- stylua: ignore start
     keys = {
       { "<leader>/", false },
       { "<leader>gc", false },
-      {
-        "<leader>r",
-        function()
-          require("telescope.builtin").oldfiles()
-        end,
-        desc = "Find Recent Files",
-      },
-      {
-        "<leader>fr",
-        function()
-          require("telescope.builtin").find_files({
-            cwd = "~/repos/",
-            path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1, -2 } } },
-            prompt_title = "Repos",
-          })
-        end,
-        desc = "Find file in repos",
-      },
+      { "<leader>r", function() require("telescope.builtin").oldfiles() end, desc = "Find Recent Files" },
+      { "<leader>fr", function() require("telescope.builtin").find_files({ cwd = "~/repos/", path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1, -2 } } }, prompt_title = "Repos", }) end, desc = "Find file in repos" },
       -- git
       { "<leader>gS", "<cmd>Telescope git_status<CR>", desc = "status" },
       { "<leader>gB", "<cmd>Telescope git_branches<CR>", desc = "branches" },
-      {
-        "<leader>n",
-        require("lazyvim.util").telescope("files"),
-        desc = "Find Tracked Files",
-      },
-      {
-        "<leader>N",
-        function()
-          require("telescope.builtin").git_files({
-            git_command = { "git", "ls-files", "--modified", "--exclude-standard" },
-          })
-        end,
-        desc = "Find Untracked Files",
-      },
+      { "<leader>n", require("lazyvim.util").telescope("files"), desc = "Find Tracked Files" },
+      { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
       { "<leader><leader>", require("lazyvim.util").telescope("live_grep"), desc = "Grep" },
-      {
-        "<leader><leader>",
-        function()
-          require("telescope.builtin").live_grep({ default_text = GetVisualSelection() })
-        end,
-        desc = "Live Grep Selection",
-        mode = "v",
-      },
+      { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = GetVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
       { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
-      {
-        "<C-f>",
-        function()
-          require("telescope.builtin").current_buffer_fuzzy_find({ default_text = GetVisualSelection() })
-        end,
-        desc = "Current Buffer Grep Selection",
-        mode = "v",
-      },
+      { "<C-f>", function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = GetVisualSelection() }) end, desc = "Current Buffer Grep Selection", mode = "v" },
     },
+    -- stylua: ignore end
     opts = function()
       local actions = require("telescope.actions")
       local layout = require("telescope.actions.layout")
