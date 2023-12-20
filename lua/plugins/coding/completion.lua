@@ -1,16 +1,32 @@
-local function all_visible_buffers()
-  local bufs = {}
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    bufs[vim.api.nvim_win_get_buf(win)] = true
-  end
-  return vim.tbl_keys(bufs)
-end
+local buffer = {
+  name = "buffer",
+  option = {
+    indexing_interval = 1000,
+    keyword_length = 5,
+    get_bufnrs = function()
+      local bufs = {}
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        bufs[vim.api.nvim_win_get_buf(win)] = true
+      end
+      return vim.tbl_keys(bufs)
+    end,
+  },
+}
 
+local snippet = {
+  name = "luasnip",
+  entry_filter = function()
+    local context = require("cmp.config.context")
+    return not context.in_treesitter_capture("string") and not context.in_syntax_group("String")
+  end,
+}
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
 return {
   "hrsh7th/nvim-cmp",
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
-    "FelipeLema/cmp-async-path",
     {
       "L3MON4D3/LuaSnip",
       lazy = false,
@@ -27,30 +43,7 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    local cmp = require("cmp")
-
-    for _, source in ipairs(opts.sources) do
-      source.group_index = source.group_index or 1
-    end
-
-    cmp.setup.filetype({ "gitcommit" }, {
-      sources = cmp.config.sources({
-        {
-          name = "buffer",
-          option = {
-            get_bufnrs = all_visible_buffers,
-          },
-        },
-        { name = "luasnip" },
-      }),
-    })
-    cmp.setup(opts)
-  end,
   opts = function(_, opts)
-    local luasnip = require("luasnip")
-    local cmp = require("cmp")
-
     local has_words_before = function()
       unpack = unpack or table.unpack
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -65,6 +58,7 @@ return {
         return vim_item
       end,
     }
+
     opts.sources = cmp.config.sources({
       {
         name = "nvim_lsp",
@@ -73,24 +67,11 @@ return {
           return itemKind.Text ~= entry:get_kind() or itemKind.Snippet ~= entry:get_kind()
         end,
       },
-      {
-        name = "luasnip",
-        entry_filter = function()
-          local context = require("cmp.config.context")
-          return not context.in_treesitter_capture("string") and not context.in_syntax_group("String")
-        end,
-      },
+      snippet,
       { name = "path" },
-      {
-        name = "buffer",
-        option = {
-          indexing_interval = 1000,
-          keyword_length = 5,
-          get_bufnrs = all_visible_buffers,
-        },
-      },
+      buffer,
     })
-    opts.preselect = cmp.PreselectMode.None
+
     opts.mapping = vim.tbl_extend("force", opts.mapping, {
       ["<C-u>"] = cmp.mapping.scroll_docs(-4),
       ["<C-d>"] = cmp.mapping.scroll_docs(4),
@@ -130,5 +111,15 @@ return {
       ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "insert" }),
       ["<Down>"] = cmp.mapping.select_next_item({ behavior = "insert" }),
     })
+  end,
+  config = function(_, opts)
+    for _, source in ipairs(opts.sources) do
+      source.group_index = source.group_index or 1
+    end
+
+    cmp.setup.filetype({ "gitcommit" }, {
+      sources = cmp.config.sources({ buffer, snippet }),
+    })
+    cmp.setup(opts)
   end,
 }
