@@ -70,8 +70,6 @@ return {
     version = false,
     -- stylua: ignore start
     keys = {
-      { "<leader>/", false },
-      { "<leader>gc", false },
       { "<leader>r", function() require("telescope.builtin").oldfiles() end, desc = "Find Recent Files" },
       { "<leader>fr", function() require("telescope.builtin").find_files({ cwd = "~/repos/", path_display = { "truncate", shorten = { len = 1, exclude = { 1, -1, -2 } } }, prompt_title = "Repos", }) end, desc = "Find file in repos" },
       -- git
