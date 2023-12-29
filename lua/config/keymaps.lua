@@ -5,20 +5,20 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsea
 
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
-map("n", "n", [[nzz]])
-map("n", "N", [[Nzz]])
-map("n", "*", [[*Nzz]])
-map("n", "#", [[#nzz]])
-map("n", "g*", [[g*zz]])
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
+map("n", "*", "*Nzz")
+map("n", "#", "#nzz")
+map("n", "g*", "g*zz")
 
 map({ "n", "v" }, "ö", "{")
 map({ "n", "v" }, "ä", "}")
 
 map("n", "gw", "*N", { desc = "Search word under cursor" })
 
-map("x", "<leader>p", [["_dP]])
-map({ "n", "v" }, "<leader>y", [["+y]])
-map("n", "<leader>Y", [["+Y]])
+map("x", "<leader>p", '"_dP')
+map({ "n", "v" }, "<leader>y", '"+y')
+map("n", "<leader>Y", '"+Y')
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace" })
 
 -- save file
@@ -79,21 +79,24 @@ map("n", "<leader>cbu", "<cmd>Dispatch bob/bob -q unit-test<CR>", { desc = "Unit
 map("n", "<leader>cbb", "<cmd>Dispatch bob/bob clean init build<CR>", { desc = "Build" })
 map("n", "<leader>cbp", "<cmd>Dispatch bob/bob -q pre-integration-test<CR>", { desc = "Publish to Sandbox" })
 map("n", "<leader>.", [['<esc>' . repeat('.', v:count1)]], { desc = "Repeat cgn", expr = true })
-map("c", "<c-v>", [[<c-r>+]])
-map("i", "<c-r", [[c-v>]])
-map("i", "<c-v", [[c-r>+]])
+map("c", "<c-v>", "<c-r>+")
+map("i", "<c-r", "c-v>")
+map("i", "<c-v", "c-r>+")
 map("c", "<c-r>", [[]\(.*\)]])
-map("n", "<c-c>", [["+y]])
-map("v", "<c-c>", [["+y]])
-map("v", "<tab>", [[>gv]])
-map("v", "<s-tab>", [[<gv]])
-vim.cmd([[set wildcharm=<C-Z>]])
-map("c", "<up>", [[wildmenumode() ? "\<left>" : "\<up>"]], { expr = true })
-map("c", "<down>", [[wildmenumode() ? "\<right>" : "\<down>"]], { expr = true })
-map("c", "<left>", [[wildmenumode() ? "\<up>" : "\<left>"]], { expr = true })
-map("c", "<right>", [[wildmenumode() ? " \<bs>\<C-Z>" : "\<right>"]], { expr = true })
-map("c", "<Tab>", [[getcmdtype() =~ '[\/?]' ? "<C-g>" : "<C-z>"]], { expr = true })
-map("c", "<S-Tab>", [[getcmdtype() =~ '[\/?]' ? "<C-t>" : "<S-Tab>"]], { expr = true })
+map("n", "<c-c>", '"+y')
+map("v", "<c-c>", '"+y')
+map("v", "<tab>", ">gv")
+map("v", "<s-tab>", "<gv")
 map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]], { silent = true })
 map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]], { silent = true })
-map("n", ",", [[@q]])
+map("n", ",", "@q")
+
+vim.cmd([[
+  set wildcharm=<C-Z>
+  cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"
+  cnoremap <expr> <down> wildmenumode() ? "\<right>" : "\<down>"
+  cnoremap <expr> <left> wildmenumode() ? "\<up>" : "\<left>"
+  cnoremap <expr> <right> wildmenumode() ? " \<bs>\<C-Z>" : "\<right>"
+  cnoremap <expr> <Tab>   getcmdtype() =~ '[\/?]' ? "<C-g>" : "<C-z>"
+  cnoremap <expr> <S-Tab> getcmdtype() =~ '[\/?]' ? "<C-t>" : "<S-Tab>"
+]])
