@@ -6,6 +6,7 @@ require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snipp
 cmp.setup({
   sources = {
     { name = "nvim_lsp" },
+    { name = "nvim_lua" },
     { name = "buffer" },
     { name = "luasnip" },
   },

@@ -39,6 +39,7 @@ return {
       },
       { "saadparwaiz1/cmp_luasnip", events = lazyfile },
       { "hrsh7th/cmp-nvim-lsp", events = lazyfile },
+      { "hrsh7th/cmp-nvim-lua", events = lazyfile },
       { "hrsh7th/cmp-buffer", events = lazyfile },
       { "hrsh7th/nvim-cmp", events = lazyfile },
     },
