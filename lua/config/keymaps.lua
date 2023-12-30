@@ -11,6 +11,8 @@ map("n", "*", "*Nzz")
 map("n", "#", "#nzz")
 map("n", "g*", "g*zz")
 
+map("n", "==", "gg=G")
+
 map({ "n", "v" }, "ö", "{")
 map({ "n", "v" }, "ä", "}")
 
@@ -20,6 +22,12 @@ map("x", "<leader>p", '"_dP')
 map({ "n", "v" }, "<leader>y", '"+y')
 map("n", "<leader>Y", '"+Y')
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace" })
+
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+
+-- better indenting
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 
 -- save file
 map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
@@ -79,14 +87,14 @@ map("n", "<leader>cbu", "<cmd>Dispatch bob/bob -q unit-test<CR>", { desc = "Unit
 map("n", "<leader>cbb", "<cmd>Dispatch bob/bob clean init build<CR>", { desc = "Build" })
 map("n", "<leader>cbp", "<cmd>Dispatch bob/bob -q pre-integration-test<CR>", { desc = "Publish to Sandbox" })
 map("n", "<leader>.", [['<esc>' . repeat('.', v:count1)]], { desc = "Repeat cgn", expr = true })
-map("c", "<c-v>", "<c-r>+")
-map("i", "<c-r", "c-v>")
-map("i", "<c-v", "c-r>+")
-map("c", "<c-r>", [[]\(.*\)]])
-map("n", "<c-c>", '"+y')
-map("v", "<c-c>", '"+y')
-map("v", "<tab>", ">gv")
-map("v", "<s-tab>", "<gv")
+map("c", "<C-v>", "<C-r>+")
+map("i", "<C-r>", "<C-v>")
+map("i", "<C-v>", "<C-r>+")
+map("c", "<C-r>", [[]\(.*\)]])
+map("n", "<C-c>", '"+y')
+map("v", "<C-c>", '"+y')
+map("v", "<Tab>", ">gv")
+map("v", "<S-Tab>", "<gv")
 map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]], { silent = true })
 map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]], { silent = true })
 map("n", ",", "@q")

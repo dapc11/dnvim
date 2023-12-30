@@ -3,7 +3,16 @@ local map = require("util").map
 return {
   {
     "lewis6991/gitsigns.nvim",
+    events = { "BufReadPost", "BufNewFile", "BufWritePre" },
     opts = {
+      signs = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
+        untracked = { text = "▎" },
+      },
       -- stylua: ignore
       on_attach = function(buffer)
         local gs = package.loaded.gitsigns
@@ -25,8 +34,8 @@ return {
       { "<C-g>", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Diff" },
       { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
-      { "<leader>gp", "<cmd>Git push origin HEAD:refs/for/master<CR>", desc = "Push Gerrit" },
-      { "<leader>gP", "<cmd>Git push<CR>", desc = "Push Regular" },
+      { "<leader>gpg", "<cmd>Git push origin HEAD:refs/for/master<CR>", desc = "Push Gerrit" },
+      { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push Regular" },
       { "<leader>gF", "<cmd>Git fetch<CR>", desc = "Git Fetch" },
       { "<leader>gr", "<cmd>Git pull --rebase<CR>", desc = "Git Pull Rebase" },
       { "<leader>gg", function() vim.cmd.Ggrep({ "-q " .. GetVisualSelection() }) end, mode = "v", desc = "Git Grep", },

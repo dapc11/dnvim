@@ -46,20 +46,4 @@ opt.statuscolumn = "" -- Disable costly statuscolumn calculations
 opt.colorcolumn = "80"
 opt.hlsearch = true
 opt.incsearch = true
--- opt.mousescroll = "ver:" .. math.floor(0.5 * vim.o.lines) .. ",hor:6"
---
--- if vim.fn.has("nvim-0.10") == 1 then
---   opt.smoothscroll = true
--- end
---
--- if vim.fn.has("nvim-0.9.0") == 1 then
---   opt.splitkeep = "screen"
---   opt.shortmess:append({ C = true })
---   opt.foldmethod = "expr"
---   opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
--- else
---   opt.foldmethod = "indent"
--- end
---
--- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

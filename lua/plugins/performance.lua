@@ -45,4 +45,9 @@ return {
     dependencies = "neovim/nvim-lspconfig",
     event = "VeryLazy",
   },
+  {
+    "chrisgrieser/nvim-early-retirement",
+    config = true,
+    event = "VeryLazy",
+  },
 }

@@ -1,0 +1,23 @@
+{
+  "nofmt": {
+    "prefix": "nofmt",
+    "body": [
+      "-- stylua: ignore"
+    ],
+    "description": "Stylua ignore"
+  },
+  "startnofmt": {
+    "prefix": "nofmtstart",
+    "body": [
+      "-- stylua: ignore start"
+    ],
+    "description": "Stylua ignore start"
+  },
+  "endnofmt": {
+    "prefix": "nofmtend",
+    "body": [
+      "-- stylua: ignore end"
+    ],
+    "description": "Stylua ignore end"
+  }
+}

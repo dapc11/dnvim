@@ -1,11 +1,5 @@
 return {
   {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin-frappe",
-    },
-  },
-  {
     "NvChad/nvim-colorizer.lua",
     opts = {
       filetypes = {
