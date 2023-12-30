@@ -9,7 +9,7 @@ return {
         function()
           require("neo-tree.command").execute({ toggle = true })
         end,
-        desc = "Explorer NeoTree (root dir)",
+        desc = "Explorer",
         remap = true,
       },
     },

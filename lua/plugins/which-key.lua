@@ -19,7 +19,6 @@ return {
       ["<leader>l"] = { name = "+misc" },
       ["<leader>q"] = { name = "+quit/session" },
       ["<leader>s"] = { name = "+search" },
-      ["<leader>u"] = { name = "+ui" },
       ["<leader>U"] = { name = "+ui" },
       ["<leader>w"] = { name = "+windows" },
       ["<leader>x"] = { name = "+diagnostics/quickfix" },

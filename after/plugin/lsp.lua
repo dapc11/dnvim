@@ -11,13 +11,17 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    -- Ctrl+Space to trigger completion menu
     ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-n>"] = cmp_action.luasnip_jump_forward(),
-    ["<C-b>"] = cmp_action.luasnip_jump_backward(),
+
+    -- Navigate between snippet placeholder
+    ["<Tab>"] = cmp_action.luasnip_jump_forward(),
+    ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
+
+    -- Scroll up and down in the completion documentation
     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-    ["<Tab>"] = cmp_action.luasnip_supertab(),
-    ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
+    ["<C-e>"] = cmp.mapping.abort(),
   }),
   formatting = cmp_format,
   snippet = {
