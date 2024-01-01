@@ -44,4 +44,8 @@ return {
       { "hrsh7th/nvim-cmp", events = lazyfile },
     },
   },
+  {
+    "folke/neodev.nvim",
+    config = false,
+  },
 }

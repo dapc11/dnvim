@@ -47,8 +47,8 @@ lsp_zero.on_attach(function(_, bufnr)
   vim.keymap.set("n", "<leader>cf", function() require("conform").format() end, opts("Format", bufnr))
   vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts("Code Action", bufnr))
   vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, opts("Rename Symbol", bufnr))
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts("Goto Next Diagnostic", bufnr))
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts("Goto Prev Diagnostic", bufnr))
+  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts("Goto Next Diagnostic", bufnr))
+  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts("Goto Prev Diagnostic", bufnr))
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts("", bufnr))
 end)
 
@@ -62,7 +62,13 @@ require("mason-lspconfig").setup({
       require("lspconfig").gopls.setup(require("plugins.language_servers.gopls"))
     end,
     lua_ls = function()
-      require("lspconfig").lua_ls.setup(require("plugins.language_servers.lua_ls"))
+      require("neodev").setup()
+
+      -- then setup your lsp server as usual
+      local lspconfig = require("lspconfig")
+
+      -- example to setup lua_ls and enable call snippets
+      lspconfig.lua_ls.setup(require("plugins.language_servers.lua_ls"))
     end,
   },
 })
