@@ -69,6 +69,10 @@ return {
       local layout = require("telescope.actions.layout")
       local previewers = require("telescope.previewers")
 
+      local open_with_trouble = function(...)
+        return require("trouble.providers.telescope").smart_open_with_trouble(...)
+      end
+
       local new_maker = function(filepath, bufnr, opts)
         opts = opts or {}
 
@@ -137,6 +141,7 @@ return {
           winblend = 0,
           mappings = {
             i = {
+              ["<c-t>"] = open_with_trouble,
               ["<C-p>"] = layout.toggle_preview,
               ["<Esc>"] = actions.close,
               ["<C-Down>"] = actions.cycle_history_next,
