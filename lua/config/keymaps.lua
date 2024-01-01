@@ -62,13 +62,6 @@ map("n", "<leader><tab>l", "<cmd>tablast<CR>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<CR>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", "<cmd>tabnew<CR>", { desc = "New Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
-map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
-map(
-  "n",
-  "<leader>Ur",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-  { desc = "Redraw / clear hlsearch / diff update" }
-)
 
 map("n", "<leader>cs", function()
   local bufnr = vim.api.nvim_get_current_buf()

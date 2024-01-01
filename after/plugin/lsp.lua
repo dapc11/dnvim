@@ -63,21 +63,19 @@ require("mason-lspconfig").setup({
     end,
     lua_ls = function()
       require("neodev").setup()
-
-      -- then setup your lsp server as usual
       local lspconfig = require("lspconfig")
-
-      -- example to setup lua_ls and enable call snippets
       lspconfig.lua_ls.setup(require("plugins.language_servers.lua_ls"))
     end,
   },
 })
 
+local icons = require("config.icons").icons
+
 lsp_zero.set_sign_icons({
-  error = "✘",
-  warn = "▲",
-  hint = "⚑",
-  info = "»",
+  error = icons.diagnostics.Error,
+  warn = icons.diagnostics.Warn,
+  hint = icons.diagnostics.Hint,
+  info = icons.diagnostics.Info,
 })
 
 vim.diagnostic.config({

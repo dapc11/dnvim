@@ -57,6 +57,7 @@ return {
       { "<leader>r", function() require("telescope.builtin").oldfiles() end, desc = "Find Recent Files" },
       { "<leader>n", function() require("telescope.builtin").find_files() end, desc = "Find Tracked Files" },
       { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
+      { "<leader>sp", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root, }) end, desc = "Find Plugin File" },
       { "<leader><leader>", function() require("telescope.builtin").live_grep() end, desc = "Grep" },
       { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = GetVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
       { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
