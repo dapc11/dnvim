@@ -7,8 +7,8 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
-    { name = "buffer" },
     { name = "luasnip" },
+    { name = "buffer" },
   },
   mapping = cmp.mapping.preset.insert({
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -24,7 +24,15 @@ cmp.setup({
     ["<C-d>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = cmp.mapping.abort(),
   }),
-  formatting = cmp_format,
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.dup = ({
+        buffer = 0,
+        nvim_lsp = 1,
+      })[entry.source.name] or 0
+      return vim_item
+    end,
+  },
   snippet = {
     expand = function(args)
       require("luasnip").lsp_expand(args.body)
