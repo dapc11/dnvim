@@ -1,5 +1,3 @@
-local lazyfile = { "BufReadPost", "BufNewFile", "BufWritePre" }
-
 return {
   {
     "stevearc/conform.nvim",

@@ -7,7 +7,7 @@ return {
   version = false,
   build = ":TSUpdate",
   event = { "BufReadPost", "BufNewFile" },
-  cmd = { "TSUpdateSync" },
+  cmd = "TSUpdateSync",
   dependencies = {
     {
       "nvim-treesitter/nvim-treesitter-textobjects",

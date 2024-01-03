@@ -3,7 +3,7 @@ local map = require("util").map
 return {
   {
     "lewis6991/gitsigns.nvim",
-    events = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    events = lazyfile,
     opts = {
       signs = {
         add = { text = "▎" },

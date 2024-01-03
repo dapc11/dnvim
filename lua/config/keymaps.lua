@@ -62,15 +62,23 @@ map("n", "<leader><tab>l", "<cmd>tablast<CR>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<CR>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", "<cmd>tabnew<CR>", { desc = "New Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
-map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
-map(
-  "n",
-  "<leader>Ur",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-  { desc = "Redraw / clear hlsearch / diff update" }
-)
+map("n", "<leader>xq", function()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win["quickfix"] == 1 then
+      qf_exists = true
+    end
+  end
+  if qf_exists == true then
+    vim.cmd("cclose")
+    return
+  end
+  if not vim.tbl_isempty(vim.fn.getqflist()) then
+    vim.cmd("copen")
+  end
+end, { desc = "Open Quickfix List" })
 
-map("n", "<leader>cs", function()
+map("n", "<leader>ls", function()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
   pcall(vim.diagnostic.disable, bufnr)
@@ -108,3 +116,6 @@ vim.cmd([[
   cnoremap <expr> <Tab>   getcmdtype() =~ '[\/?]' ? "<C-g>" : "<C-z>"
   cnoremap <expr> <S-Tab> getcmdtype() =~ '[\/?]' ? "<C-t>" : "<S-Tab>"
 ]])
+
+map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
+map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })

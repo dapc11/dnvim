@@ -4,7 +4,9 @@ end
 _G.bt = function(...)
   require("util").bt(...)
 end
+
 vim.print = _G.dd
+_G.lazyfile = { "BufReadPost", "BufNewFile", "BufWritePre" }
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.cmd([[
