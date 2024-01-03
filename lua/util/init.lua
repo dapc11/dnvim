@@ -71,4 +71,23 @@ function M.bt(...)
   end
   M._dump(value, { bt = true })
 end
+
+-- stylua: ignore
+function M.lsp_keymaps(bufnr)
+  local function opts(desc)
+    return { buffer = bufnr, noremap = true, silent = true, desc = desc or "" }
+  end
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("LSP References"))
+  vim.keymap.set("n", "<leader>cs", vim.lsp.buf.workspace_symbol, opts("Workspace Symbols"))
+  vim.keymap.set("n", "<leader>cf", function() require("conform").format() end, opts("Format"))
+  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
+  vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts("Rename Symbol"))
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Goto Next Diagnostic"))
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Goto Prev Diagnostic"))
+  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts())
+  vim.keymap.set("n", "<C-e>", vim.diagnostic.open_float, opts())
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts())
+end
+
 return M

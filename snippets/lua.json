@@ -1,4 +1,11 @@
 {
+  "debug": {
+    "prefix": "log",
+    "body": [
+      "vim.print(\"$1: \" .. $1)",
+      "$0"
+    ]
+  },
   "nofmt": {
     "prefix": "nofmt",
     "body": [

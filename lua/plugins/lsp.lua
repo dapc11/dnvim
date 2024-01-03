@@ -33,7 +33,6 @@ return {
       {
         "L3MON4D3/LuaSnip",
         events = lazyfile,
-        dependencies = { "rafamadriz/friendly-snippets" },
       },
       { "saadparwaiz1/cmp_luasnip", events = lazyfile },
       { "hrsh7th/cmp-nvim-lsp", events = lazyfile },

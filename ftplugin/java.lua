@@ -166,29 +166,7 @@ config["on_attach"] = function(_, bufnr)
   local _, _ = pcall(vim.lsp.codelens.refresh)
   require("jdtls.dap").setup_dap_main_class_configs()
   jdtls.setup_dap({ hotcodereplace = "auto" })
-  local lopts = { buffer = bufnr, noremap = true, silent = true }
-  local function get_opts(desc)
-    local description = desc or ""
-    return vim.tbl_deep_extend("force", lopts, { desc = description })
-  end
-
-  -- stylua: ignore start
-  vim.keymap.set( "n", "<C-e>", vim.diagnostic.open_float, lopts)
-  vim.keymap.set( "n", "gD", vim.lsp.buf.declaration, get_opts("Goto declaration"))
-  vim.keymap.set( "n", "gd", vim.lsp.buf.definition, get_opts("Goto definition"))
-  vim.keymap.set( "n", "gr", vim.lsp.buf.references, get_opts("Goto references"))
-  vim.keymap.set( "n", "gi", vim.lsp.buf.implementation, get_opts())
-  vim.keymap.set( "n", "K", vim.lsp.buf.hover, get_opts())
-  vim.keymap.set( "n", "<C-k>", vim.lsp.buf.signature_help, get_opts())
-  vim.keymap.set( "n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, get_opts("Add workspace folder"))
-  vim.keymap.set( "n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, get_opts("Remove workspace folder"))
-  vim.keymap.set( "n", "<leader>cwl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, get_opts("List workspace folders"))
-  vim.keymap.set( "n", "<leader>cr", vim.lsp.buf.rename, get_opts("Rename"))
-  vim.keymap.set( { "n", "v" }, "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>", get_opts("Code actions"))
-  vim.keymap.set( "n", "[d", vim.diagnostic.goto_prev, get_opts())
-  vim.keymap.set( "n", "]d", vim.diagnostic.goto_next, get_opts())
-  vim.keymap.set( "n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, get_opts("Format"))
-  -- stylua: ignore end
+  require("util").lsp_keymaps(bufnr)
 end
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -209,6 +187,6 @@ vim.keymap.set("v", "<leader>cv", function() jdtls.extract_variable({visual = tr
 vim.keymap.set("v", "<leader>cc", function() jdtls.extract_constant({visual = true}) end, { desc = "Extract Constant", buffer = bufnr })
 vim.keymap.set("v", "<leader>cm", function() jdtls.method({visual = true}) end, { desc = "Extract Method", buffer = bufnr })
 vim.keymap.set("n", "<leader>cu", function() jdtls.update_project_config() end, { desc = "Update Config", buffer = bufnr })
-vim.keymap.set("n", "<leader>tr", function() jdtls.test_nearest_method() vim.cmd.DapToggleRepl() end, { desc = "Run Nearest", buffer = bufnr })
-vim.keymap.set("n", "<leader>tt", function() jdtls.test_class() vim.cmd.DapToggleRepl() end, { desc = "Run File", buffer = bufnr })
+vim.keymap.set("n", "<leader>cd", function() jdtls.test_nearest_method() vim.cmd.DapToggleRepl() end, { desc = "Run Nearest", buffer = bufnr })
+vim.keymap.set("n", "<leader>ct", function() jdtls.test_class() vim.cmd.DapToggleRepl() end, { desc = "Run File", buffer = bufnr })
 -- stylua: ignore end

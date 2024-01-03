@@ -33,23 +33,8 @@ cmp.setup({
 })
 local lsp_zero = require("lsp-zero")
 
-local function opts(desc, bufnr)
-  return { buffer = bufnr, remap = false, desc = desc }
-end
-
--- stylua: ignore
 lsp_zero.on_attach(function(_, bufnr)
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts("Goto definition", bufnr))
-  vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts("LSP References", bufnr))
-  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts("", bufnr))
-  vim.keymap.set("n", "<leader>cs", function() vim.lsp.buf.workspace_symbol() end, opts("Workspace Symbols", bufnr))
-  vim.keymap.set("n", "<leader>cd", function() vim.diagnostic.open_float() end, opts("Open Float", bufnr))
-  vim.keymap.set("n", "<leader>cf", function() require("conform").format() end, opts("Format", bufnr))
-  vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts("Code Action", bufnr))
-  vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, opts("Rename Symbol", bufnr))
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts("Goto Next Diagnostic", bufnr))
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts("Goto Prev Diagnostic", bufnr))
-  vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts("", bufnr))
+  require("util").lsp_keymaps(bufnr)
 end)
 
 require("mason").setup({})
@@ -63,8 +48,7 @@ require("mason-lspconfig").setup({
     end,
     lua_ls = function()
       require("neodev").setup()
-      local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup(require("plugins.language_servers.lua_ls"))
+      require("lspconfig").lua_ls.setup(require("plugins.language_servers.lua_ls"))
     end,
   },
 })
