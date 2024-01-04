@@ -21,7 +21,8 @@ map("n", "gw", "*N", { desc = "Search word under cursor" })
 map("x", "<leader>p", '"_dP')
 map({ "n", "v" }, "<leader>y", '"+y')
 map("n", "<leader>Y", '"+Y')
-map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace" })
+map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
+map("v", "<leader>s", [["hy:%s/<C-r>h//gc<left><left><left>]], { desc = "Replace", silent = false })
 
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 

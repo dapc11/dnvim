@@ -19,7 +19,6 @@ return {
       ["<leader>h"] = { name = "+hunks" },
       ["<leader>l"] = { name = "+misc" },
       ["<leader>q"] = { name = "+quit/session" },
-      ["<leader>s"] = { name = "+search" },
       ["<leader>w"] = { name = "+windows" },
       ["<leader>x"] = { name = "+misc" },
       ["<leader>z"] = { name = "+notes" },
