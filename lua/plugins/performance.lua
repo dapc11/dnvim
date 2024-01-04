@@ -43,7 +43,7 @@ return {
   {
     "zeioth/garbage-day.nvim",
     dependencies = "neovim/nvim-lspconfig",
-    event = "VeryLazy",
+    event = lazyfile,
   },
   {
     "chrisgrieser/nvim-early-retirement",

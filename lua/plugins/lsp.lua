@@ -1,7 +1,8 @@
+local lazylsp = { "BufReadPre", "BufNewFile" }
 return {
   {
     "stevearc/conform.nvim",
-    events = lazyfile,
+    events = lazylsp,
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
@@ -12,7 +13,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
-    events = lazyfile,
+    events = lazylsp,
     opts = {
       ensure_installed = {
         "stylua",
@@ -21,28 +22,108 @@ return {
       },
     },
   },
-  { "mfussenegger/nvim-jdtls", event = "VeryLazy" },
+  { "mfussenegger/nvim-jdtls", event = lazylsp },
   {
     "VonHeikemen/lsp-zero.nvim",
-    events = lazyfile,
+    lazy = true,
+    events = lazylsp,
     branch = "v3.x",
     dependencies = {
-      { "williamboman/mason.nvim", events = lazyfile },
-      { "williamboman/mason-lspconfig.nvim", events = lazyfile },
-      { "neovim/nvim-lspconfig", events = lazyfile },
       {
-        "L3MON4D3/LuaSnip",
-        events = lazyfile,
+        "neovim/nvim-lspconfig",
+        dependencies = {
+          { "williamboman/mason.nvim", events = lazylsp },
+          { "williamboman/mason-lspconfig.nvim", events = lazylsp },
+          { "L3MON4D3/LuaSnip", events = lazylsp },
+          { "saadparwaiz1/cmp_luasnip", events = lazylsp },
+          { "hrsh7th/cmp-nvim-lsp", events = lazylsp },
+          { "hrsh7th/cmp-nvim-lua", events = lazylsp },
+          { "hrsh7th/cmp-buffer", events = lazylsp },
+          { "hrsh7th/nvim-cmp", events = lazylsp },
+        },
+        events = lazylsp,
+        config = function()
+          local cmp = require("cmp")
+          local cmp_action = require("lsp-zero").cmp_action()
+
+          require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+          cmp.setup({
+            sources = {
+              { name = "nvim_lsp" },
+              { name = "nvim_lua" },
+              { name = "luasnip" },
+              { name = "buffer" },
+            },
+            mapping = cmp.mapping.preset.insert({
+              ["<CR>"] = cmp.mapping.confirm({ select = false }),
+              -- Ctrl+Space to trigger completion menu
+              ["<C-Space>"] = cmp.mapping.complete(),
+
+              -- Navigate between snippet placeholder
+              ["<Tab>"] = cmp_action.luasnip_jump_forward(),
+              ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
+
+              -- Scroll up and down in the completion documentation
+              ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+              ["<C-d>"] = cmp.mapping.scroll_docs(4),
+              ["<C-e>"] = cmp.mapping.abort(),
+            }),
+            formatting = {
+              format = function(entry, vim_item)
+                vim_item.dup = ({
+                  buffer = 0,
+                  nvim_lsp = 1,
+                })[entry.source.name] or 0
+                return vim_item
+              end,
+            },
+            snippet = {
+              expand = function(args)
+                require("luasnip").lsp_expand(args.body)
+              end,
+            },
+          })
+          local lsp_zero = require("lsp-zero")
+
+          lsp_zero.on_attach(function(_, bufnr)
+            require("util").lsp_keymaps(bufnr)
+          end)
+
+          require("mason").setup({})
+          require("mason-lspconfig").setup({
+            ensure_installed = { "gopls", "golangci_lint_ls", "lua_ls", "pylsp" },
+            handlers = {
+              -- Exclude lsp setup by defining it as follows: tsserver = lsp_zero.noop
+              lsp_zero.default_setup,
+              gopls = function()
+                require("lspconfig").gopls.setup(require("plugins.language_servers.gopls"))
+              end,
+              lua_ls = function()
+                require("neodev").setup()
+                require("lspconfig").lua_ls.setup(require("plugins.language_servers.lua_ls"))
+              end,
+            },
+          })
+
+          local icons = require("config.icons").icons
+
+          lsp_zero.set_sign_icons({
+            error = icons.diagnostics.Error,
+            warn = icons.diagnostics.Warn,
+            hint = icons.diagnostics.Hint,
+            info = icons.diagnostics.Info,
+          })
+
+          vim.diagnostic.config({
+            virtual_text = false,
+          })
+        end,
       },
-      { "saadparwaiz1/cmp_luasnip", events = lazyfile },
-      { "hrsh7th/cmp-nvim-lsp", events = lazyfile },
-      { "hrsh7th/cmp-nvim-lua", events = lazyfile },
-      { "hrsh7th/cmp-buffer", events = lazyfile },
-      { "hrsh7th/nvim-cmp", events = lazyfile },
     },
   },
   {
     "folke/neodev.nvim",
+    events = lazylsp,
     config = false,
   },
 }
