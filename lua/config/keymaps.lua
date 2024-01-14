@@ -57,6 +57,7 @@ map("v", "<S-Up>", ":m '<-2<CR>gv=gv", { desc = "Move up" })
 map("n", "Q", ":tabclose<CR>", { desc = "Close tab" })
 
 map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
+map("n", "<leader>ll", "<cmd>Lazy<CR>", { desc = "Lazy" })
 
 -- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<CR>", { desc = "Last Tab" })
