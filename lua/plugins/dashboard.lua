@@ -15,6 +15,7 @@ return {
         new_section("Find file", "Telescope git_files", "Telescope"),
         new_section("Recent files", "Telescope oldfiles", "Telescope"),
         new_section("Grep text", "Telescope live_grep", "Telescope"),
+        new_section("Projects", "Telescope projects", "Telescope"),
         new_section("Lazy", "Lazy", "Config"),
         new_section("Config", "lua require('telescope.builtin').find_files({cwd = vim.fn.stdpath('config')})", "Config"),
         new_section("New file", "ene | startinsert", "Built-in"),
