@@ -1,4 +1,5 @@
 return {
+  filetypes = { "go" },
   settings = {
     gopls = {
       gofumpt = false,

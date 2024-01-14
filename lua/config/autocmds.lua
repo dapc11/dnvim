@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
     vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
     vim.diagnostic.disable(bufnr)
 
-    vim.cmd([[ if search('{{.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
+    vim.cmd([[ if search('{{.*end.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
   end,
 })
 

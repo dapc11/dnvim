@@ -114,6 +114,12 @@ return {
             info = icons.diagnostics.Info,
           })
 
+          lsp_zero.set_server_config({
+            on_init = function(client)
+              client.server_capabilities.semanticTokensProvider = nil
+            end,
+          })
+
           vim.diagnostic.config({
             virtual_text = false,
           })
