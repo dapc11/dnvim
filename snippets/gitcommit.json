@@ -130,9 +130,7 @@
   "lcmplugins": {
     "prefix": "lcmplugins",
     "body": [
-      "chore(lcm): plugins",
-      "",
-      "$0"
+      "chore(lcm): plugins"
     ]
   },
   "lcm": {
