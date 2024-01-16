@@ -1,7 +1,24 @@
 return {
   {
+    "kvrohit/rasmus.nvim",
+    priority = 1000,
+    lazy = false,
+    init = function()
+      -- Configure the appearance
+      vim.g.rasmus_italic_functions = true
+      vim.g.rasmus_bold_functions = true
+
+      -- Set the colorscheme variant to monochrome
+      vim.g.rasmus_variant = "dark"
+
+      -- Load the colorscheme
+      vim.cmd([[colorscheme rasmus]])
+    end,
+  },
+  {
     "rebelot/kanagawa.nvim",
     priority = 1000,
+    lazy = false,
     config = function(_, opts)
       require("kanagawa").setup(vim.tbl_extend("force", opts, {
         colors = {
@@ -30,7 +47,6 @@ return {
         end,
       }))
     end,
-    lazy = false,
   },
   {
     "NvChad/nvim-colorizer.lua",
