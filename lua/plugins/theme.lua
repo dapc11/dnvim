@@ -3,6 +3,7 @@ return {
     "kvrohit/rasmus.nvim",
     priority = 1000,
     lazy = false,
+    enabled = false,
     init = function()
       -- Configure the appearance
       vim.g.rasmus_italic_functions = true
@@ -15,6 +16,55 @@ return {
       vim.cmd([[colorscheme rasmus]])
     end,
   },
+  {
+    "navarasu/onedark.nvim",
+    enabled = true,
+    priority = 1000,
+    config = function()
+      local bg = "#24292e"
+      local sidebar = "#282c34"
+      local fg = "#b6bdca"
+      local winsep = "#848b98"
+      require("onedark").setup({
+        style = "dark",
+        colors = { bg0 = bg },
+        highlights = {
+          NormalFloat = { bg = sidebar },
+          FloatBorder = { bg = sidebar, fg = sidebar },
+          WinSeparator = { bg = bg, fg = winsep },
+          NeoTreeWinSeparator = { bg = bg, fg = winsep },
+          FloatTitle = { bg = sidebar, fmt = "bold" },
+          TelescopeBorder = { bg = sidebar, fg = sidebar },
+          TelescopePreviewBorder = { bg = sidebar, fg = sidebar },
+          TelescopeResultsBorder = { bg = sidebar, fg = sidebar },
+          TelescopePromptBorder = { bg = sidebar, fg = sidebar },
+          TelescopeNormal = { bg = sidebar },
+          TelescopeTitle = { fg = fg, bg = sidebar, fmt = "bold" },
+          TelescopePromptNormal = { fg = fg, bg = sidebar },
+        },
+      })
+      require("onedark").load()
+    end,
+  },
+  -- {
+  --   "catppuccin/nvim",
+  --   enabled = false,
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     require("catppuccin").setup({
+  --       custom_highlights = function(colors)
+  --         return {
+  --           NeoTreeNormal = { fg = colors.text, bg = colors.mantle },
+  --           NeoTreeNormalNC = { fg = colors.text, bg = colors.mantle },
+  --           WinSeparator = { bg = colors.mantle, fg = colors.mantle },
+  --           NormalFloat = { bg = colors.base },
+  --         }
+  --       end,
+  --     })
+  --     vim.cmd([[colorscheme catppuccin-frappe]])
+  --   end,
+  -- },
   {
     "rebelot/kanagawa.nvim",
     priority = 1000,
