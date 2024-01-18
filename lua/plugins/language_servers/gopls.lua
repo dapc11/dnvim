@@ -1,4 +1,7 @@
 return {
+  on_init = function(client)
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
   filetypes = { "go" },
   settings = {
     gopls = {
