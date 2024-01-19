@@ -77,6 +77,10 @@ return {
                 return vim_item
               end,
             },
+            window = {
+              completion = cmp.config.window.bordered(),
+              documentation = cmp.config.window.bordered(),
+            },
             snippet = {
               expand = function(args)
                 require("luasnip").lsp_expand(args.body)
@@ -95,6 +99,13 @@ return {
             handlers = {
               -- Exclude lsp setup by defining it as follows: tsserver = lsp_zero.noop
               lsp_zero.default_setup,
+              dockerls = function()
+                require("lspconfig").dockerls.setup({
+                  on_init = function(client)
+                    client.server_capabilities.semanticTokensProvider = nil
+                  end,
+                })
+              end,
               gopls = function()
                 require("lspconfig").gopls.setup(require("plugins.language_servers.gopls"))
               end,

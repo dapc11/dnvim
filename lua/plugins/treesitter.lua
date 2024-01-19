@@ -37,7 +37,7 @@ return {
   },
   opts = {
     highlight = {
-      enable = false,
+      enable = true,
       disable = large_file,
     },
     indent = {
@@ -55,7 +55,7 @@ return {
       "query",
       "yaml",
     },
-    playground = { enable = false },
+    playground = { enable = true },
     textobjects = {
       move = {
         enable = true,
