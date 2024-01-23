@@ -90,4 +90,66 @@ function M.lsp_keymaps(bufnr)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts())
 end
 
+function M.telescope(builtin, opts)
+  local params = { builtin = builtin, opts = opts }
+  return function()
+    builtin = params.builtin
+    opts = params.opts
+    opts = vim.tbl_deep_extend("force", { cwd = M.get_root(M.root_patterns[1]) }, opts or {}) --[[@as lazyvim.util.telescope.opts]]
+    if builtin == "files" then
+      if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
+        opts.show_untracked = true
+        builtin = "git_files"
+      else
+        builtin = "find_files"
+      end
+    end
+    -- if opts.cwd and opts.cwd ~= vim.loop.cwd() then
+    --   ---@diagnostic disable-next-line: inject-field
+    --   opts.attach_mappings = function(_, map)
+    --     map("i", "<a-c>", function()
+    --       local action_state = require("telescope.actions.state")
+    --       local line = action_state.get_current_line()
+    --       M.telescope(
+    --         params.builtin,
+    --         vim.tbl_deep_extend("force", {}, params.opts or {}, { cwd = false, default_text = line })
+    --       )()
+    --     end)
+    --     return true
+    --   end
+    -- end
+
+    require("telescope.builtin")[builtin](opts)
+  end
+end
+
+local function match(dir, pattern)
+  if string.sub(pattern, 1, 1) == "=" then
+    return vim.fn.fnamemodify(dir, ":t") == string.sub(pattern, 2, #pattern)
+  else
+    return vim.fn.globpath(dir, pattern) ~= ""
+  end
+end
+
+local function parent_dir(dir)
+  return vim.fn.fnamemodify(dir, ":h")
+end
+
+function M.get_root(root_indicator)
+  local current = vim.api.nvim_buf_get_name(0)
+  local parent = parent_dir(current)
+
+  while 1 do
+    if match(parent, root_indicator) then
+      return parent
+    end
+
+    current, parent = parent, parent_dir(parent)
+    if parent == current then
+      break
+    end
+  end
+  return nil
+end
+
 return M

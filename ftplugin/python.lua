@@ -1,31 +1,4 @@
-local function match(dir, pattern)
-  if string.sub(pattern, 1, 1) == "=" then
-    return vim.fn.fnamemodify(dir, ":t") == string.sub(pattern, 2, #pattern)
-  else
-    return vim.fn.globpath(dir, pattern) ~= ""
-  end
-end
-
-local function parent_dir(dir)
-  return vim.fn.fnamemodify(dir, ":h")
-end
-
-local function get_root(pythonpath_file)
-  local current = vim.api.nvim_buf_get_name(0)
-  local parent = parent_dir(current)
-
-  while 1 do
-    if match(parent, pythonpath_file) then
-      return parent
-    end
-
-    current, parent = parent, parent_dir(parent)
-    if parent == current then
-      break
-    end
-  end
-  return nil
-end
+local get_root = require("util.init").get_root
 
 local function file_exists(name)
   local f = io.open(name, "r")
