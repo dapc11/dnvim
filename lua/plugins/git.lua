@@ -16,8 +16,8 @@ return {
       -- stylua: ignore
       on_attach = function(buffer)
         local gs = package.loaded.gitsigns
-        map("n", "]c", function() if vim.wo.diff then return "]czz" end vim.schedule(function() require("gitsigns").next_hunk() vim.fn.feedkeys("zz") end) return "<Ignore>" end, { buffer = buffer, desc = "Next Hunk", expr = true })
-        map("n", "[c", function() if vim.wo.diff then return "[czz" end vim.schedule(function() require("gitsigns").prev_hunk() vim.fn.feedkeys("zz") end) return "<Ignore>"
+        map("n", "]g", function() if vim.wo.diff then return "]czz" end vim.schedule(function() require("gitsigns").next_hunk() vim.fn.feedkeys("zz") end) return "<Ignore>" end, { buffer = buffer, desc = "Next Hunk", expr = true })
+        map("n", "[g", function() if vim.wo.diff then return "[czz" end vim.schedule(function() require("gitsigns").prev_hunk() vim.fn.feedkeys("zz") end) return "<Ignore>"
         end, { buffer = buffer, desc = "Previous hunk", expr = true })
         map({ "n", "v" }, "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", { buffer = buffer, desc = "Stage Hunk"})
         map({ "n", "v" }, "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", { buffer = buffer, desc = "Reset Hunk" })
