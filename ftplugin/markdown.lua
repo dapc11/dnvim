@@ -18,6 +18,6 @@ vim.keymap.set(
 )
 vim.cmd([[
 setlocal wrap spell spelllang=en_us
-" au FileType markdown setl comments=b:*,b:-,b:+,n:>
-" au FileType markdown setl formatoptions+=r
+au FileType markdown setl comments=b:*,b:-,b:+,n:>
+au FileType markdown setl formatoptions+=r
 ]])
