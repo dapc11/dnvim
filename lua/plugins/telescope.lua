@@ -81,8 +81,8 @@ return {
       end
       return {
         pickers = {
-          lsp_document_symbols = theme({ symbol_width = 200 }),
-          lsp_dynamic_workspace_symbols = theme({ symbol_width = 200 }),
+          lsp_document_symbols = theme({ symbol_width = 100 }),
+          lsp_dynamic_workspace_symbols = theme({ symbol_width = 100 }),
         },
         --   autocommands = theme(),
         --   buffers = theme(),
