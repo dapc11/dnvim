@@ -60,8 +60,8 @@ return {
               ["<C-Space>"] = cmp.mapping.complete(),
 
               -- Navigate between snippet placeholder
-              ["<Tab>"] = cmp_action.luasnip_jump_forward(),
-              ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
+              ["<C-f>"] = cmp_action.luasnip_jump_forward(),
+              ["<C-b>"] = cmp_action.luasnip_jump_backward(),
 
               -- Scroll up and down in the completion documentation
               ["<C-u>"] = cmp.mapping.scroll_docs(-4),

@@ -27,6 +27,8 @@ map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
 -- better indenting
+map("i", "<tab>", "<c-t>")
+map("i", "<s-tab>", "<c-d>")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
