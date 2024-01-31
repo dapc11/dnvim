@@ -66,6 +66,10 @@ map("n", "<leader><tab>l", "<cmd>tablast<CR>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<CR>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", "<cmd>tabnew<CR>", { desc = "New Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
+map("n", "<leader>x<right>", "<cmd>cnewer<CR>", { desc = "Next Quickfix List" })
+map("n", "<leader>x<left>", "<cmd>colder<CR>", { desc = "Previous Quickfix List" })
+map("n", "<leader>xl", "<cmd>chi<CR>", { desc = "List Quickfix Lists" })
+map("n", "<leader>xx", "<cmd>Copen", { desc = "Open Given Quickfix List" })
 map("n", "<leader>xq", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
