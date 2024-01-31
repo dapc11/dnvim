@@ -78,6 +78,7 @@ return {
           ["@variable.member"] = { fg = "$fg", fmt = "none" },
           ["@variable.parameter"] = { fg = "$fg", fmt = "none" },
           ["@punctuation.special"] = { fg = "$fg", fmt = "none" },
+          ["@property.yaml"] = { fg = "$fg", fmt = "none" },
 
           -- ["@function.builtin"] = { fg = "$blue" },
           -- ["@function.macro"] = { fg = "$blue" },
