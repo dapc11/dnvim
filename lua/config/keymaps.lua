@@ -97,11 +97,17 @@ map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
 map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
 
-map("n", "<leader>cbf", "<cmd>Dispatch bob/bob -q format<CR>", { desc = "Format" })
-map("n", "<leader>cbl", "<cmd>Dispatch bob/bob -q lint-test<CR>", { desc = "Lint Test" })
-map("n", "<leader>cbu", "<cmd>Dispatch bob/bob -q unit-test<CR>", { desc = "Unit Test" })
-map("n", "<leader>cbb", "<cmd>Dispatch bob/bob clean init build<CR>", { desc = "Build" })
-map("n", "<leader>cbp", "<cmd>Dispatch bob/bob -q pre-integration-test<CR>", { desc = "Publish to Sandbox" })
+map("n", "<leader>br", [[:copen | Dispatch<CR>]], { desc = "Re-run last Dispatch" })
+map("n", "<leader>bb", ":Dispatch ", { desc = "Dispatch", silent = false })
+map("n", "<leader>bf", "<cmd>Dispatch bob/bob -q format<CR>", { desc = "Format" })
+map("n", "<leader>bl", "<cmd>Dispatch bob/bob -q lint-test<CR>", { desc = "Lint Test" })
+map("n", "<leader>bu", "<cmd>Dispatch bob/bob -q unit-test<CR>", { desc = "Unit Test" })
+map(
+  "n",
+  "<leader>bp",
+  "<cmd>Dispatch bob/bob clean init build pre-integration-test<CR>",
+  { desc = "Build and publish" }
+)
 map("n", "<leader>.", [['<esc>' . repeat('.', v:count1)]], { desc = "Repeat cgn", expr = true })
 map("c", "<C-v>", "<C-r>*")
 -- map("i", "<C-r>", "<C-v>")

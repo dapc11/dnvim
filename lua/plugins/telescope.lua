@@ -48,7 +48,7 @@ return {
     cmd = "Telescope",
     -- stylua: ignore
     keys = {
-      { "<leader>b", function() require("telescope.builtin").buffers() end, desc = "Find Buffer" },
+      { "<leader>.", function() require("telescope.builtin").buffers() end, desc = "Find Buffer" },
       { "<leader>r", function() require("telescope.builtin").oldfiles() end, desc = "Find Recent Files" },
       { "<leader>n", function() require("telescope.builtin").find_files() end, desc = "Find Tracked Files" },
       { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
