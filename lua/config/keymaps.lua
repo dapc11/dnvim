@@ -69,7 +69,7 @@ map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
 map("n", "<leader>x<right>", "<cmd>cnewer<CR>", { desc = "Next Quickfix List" })
 map("n", "<leader>x<left>", "<cmd>colder<CR>", { desc = "Previous Quickfix List" })
 map("n", "<leader>xl", "<cmd>chi<CR>", { desc = "List Quickfix Lists" })
-map("n", "<leader>xx", "<cmd>Copen", { desc = "Open Given Quickfix List" })
+map("n", "<leader>xx", "<cmd>Copen<CR>", { desc = "Open Given Quickfix List" })
 map("n", "<leader>xq", function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
@@ -150,3 +150,4 @@ vim.cmd([[
 
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
 map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
+map("n", "<M-x>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
