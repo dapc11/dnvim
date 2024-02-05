@@ -26,20 +26,20 @@ end
 local bufnr = vim.api.nvim_get_current_buf()
 vim.keymap.set(
   "n",
-  "ccq",
+  "<leader>ccq",
   "<cmd>new | 0read !black --config pyproject.toml #<cr>",
   { desc = "Run Black for Current Buffer", buffer = bufnr }
 )
 vim.keymap.set("n", "ccw", "<cmd>new | 0read !bandit #<cr>", { desc = "Run Bandit for Current Buffer", buffer = bufnr })
 vim.keymap.set(
   "n",
-  "cce",
+  "<leader>cce",
   "<cmd>new | 0read !flake8 --ignore C812,E501 #<cr><cr>",
   { desc = "Run Flake8 for Current Buffer", buffer = bufnr }
 )
 vim.keymap.set(
   "n",
-  "ccr",
+  "<leader>ccr",
   "<cmd>new | 0read !pylint --disable W4901 #<cr><cr>",
   { desc = "Run Pylint for Current Buffer", buffer = bufnr }
 )
@@ -71,3 +71,15 @@ end
 vim.api.nvim_set_keymap("n", "<leader>cq", [[:lua RunCodeQualityChecks()<CR>]], { noremap = true, silent = true })
 
 vim.cmd("hi link @string.documentation.python SpecialComment")
+
+vim.keymap.set("n", "gf", function()
+  require("telescope.builtin").live_grep({
+    default_text = "def " .. vim.fn.expand("<cword>"),
+  })
+end, { desc = "Find Definition Under Cursor", buffer = bufnr })
+
+vim.keymap.set("n", "gF", function()
+  require("telescope.builtin").live_grep({
+    default_text = vim.fn.expand("<cword>"),
+  })
+end, { desc = "Find Usages Under Cursor", buffer = bufnr })
