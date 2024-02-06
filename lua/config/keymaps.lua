@@ -18,7 +18,8 @@ map({ "n", "v" }, "ä", "}")
 
 map("n", "gw", "*N", { desc = "Search word under cursor" })
 
-map("x", "<leader>p", '"_dP')
+map("n", "Y", "y$")
+map("v", "p", [["_dP]])
 map({ "n", "v" }, "<leader>y", '"+y')
 map("n", "<leader>Y", '"+Y')
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
