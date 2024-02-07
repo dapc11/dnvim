@@ -43,6 +43,10 @@ return {
     },
   },
   {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+  },
+  {
     "nvim-telescope/telescope.nvim",
     dependencies = { "dapc11/project.nvim", "dapc11/telescope-yaml.nvim" },
     cmd = "Telescope",
@@ -53,6 +57,7 @@ return {
       { "<leader>n", function() require("telescope.builtin").find_files() end, desc = "Find Tracked Files" },
       { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
       { "<leader>lc", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root, }) end, desc = "Find Plugin File" },
+      { "<leader>lh", function() require("telescope.builtin").help_tags() end, desc = "Find Help" },
       { "<leader><leader>", function() require("telescope.builtin").live_grep() end, desc = "Grep" },
       { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = GetVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
       { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
@@ -152,10 +157,20 @@ return {
             },
           },
         },
+        extensions = {
+          fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+          },
+        },
       }
     end,
     config = function(_, opts)
       require("telescope").setup(opts)
+      require("telescope").load_extension("fzf")
       require("telescope").load_extension("projects")
       require("telescope").load_extension("telescope-yaml")
     end,
