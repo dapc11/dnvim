@@ -37,6 +37,7 @@ return {
       { "<leader>gpg", "<cmd>Git push origin HEAD:refs/for/master<CR>", desc = "Push Gerrit" },
       { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push Regular" },
       { "<leader>gf", "<cmd>Git fetch<CR>", desc = "Git Fetch" },
+      { "<leader>gC", ":Git fetch | Git checkout origin/master -b ", desc = "Git Start New Feature Branch" },
       { "<leader>gr", "<cmd>Git pull --rebase<CR>", desc = "Git Pull Rebase" },
       { "<leader>gg", function() vim.cmd.Ggrep({ "-q " .. GetVisualSelection() }) end, mode = "v", desc = "Git Grep", },
       { "<leader>gg", ":Git grep -q ", desc = "Git Grep", },
