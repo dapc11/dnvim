@@ -152,3 +152,14 @@ vim.cmd([[
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
 map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
 map("n", "<M-x>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
+function Gsearch()
+  vim.ui.input({ prompt = "Search phrase> " }, function(input)
+    vim.cmd.Git({
+      "log -G" .. input .. " --branches --all --oneline",
+    })
+  end)
+end
+
+map("n", "<leader>gH", Gsearch)
+map("n", "<leader>f", ":grep ")
