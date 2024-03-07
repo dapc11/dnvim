@@ -1,22 +1,5 @@
 return {
   {
-    "kvrohit/rasmus.nvim",
-    priority = 1000,
-    lazy = false,
-    enabled = false,
-    init = function()
-      -- Configure the appearance
-      vim.g.rasmus_italic_functions = true
-      vim.g.rasmus_bold_functions = true
-
-      -- Set the colorscheme variant to monochrome
-      vim.g.rasmus_variant = "dark"
-
-      -- Load the colorscheme
-      vim.cmd([[colorscheme rasmus]])
-    end,
-  },
-  {
     "navarasu/onedark.nvim",
     enabled = true,
     priority = 1000,
