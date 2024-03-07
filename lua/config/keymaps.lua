@@ -13,8 +13,9 @@ map("n", "g*", "g*zz")
 
 map("n", "==", "gg=G")
 
-map({ "n", "v" }, "ö", "{")
-map({ "n", "v" }, "ä", "}")
+-- Note to self: c is for usage in motion dö, dä
+map({ "n", "v", "c" }, "ö", "{")
+map({ "n", "v", "c" }, "ä", "}")
 
 map("n", "gw", "*N", { desc = "Search word under cursor" })
 
@@ -41,10 +42,10 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
 map("n", "<leader>v", "<C-W>v", { desc = "Split window right", remap = true })
 
 -- Move to window using the <ctrl> arrow keys
-map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
-map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
-map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
-map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
+-- map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
+-- map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
+-- map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
+-- map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
@@ -70,22 +71,23 @@ map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
 map("n", "<leader>x<right>", "<cmd>cnewer<CR>", { desc = "Next Quickfix List" })
 map("n", "<leader>x<left>", "<cmd>colder<CR>", { desc = "Previous Quickfix List" })
 map("n", "<leader>xl", "<cmd>chi<CR>", { desc = "List Quickfix Lists" })
-map("n", "<leader>xx", "<cmd>Copen<CR>", { desc = "Open Given Quickfix List" })
-map("n", "<leader>xq", function()
-  local qf_exists = false
-  for _, win in pairs(vim.fn.getwininfo()) do
-    if win["quickfix"] == 1 then
-      qf_exists = true
-    end
-  end
-  if qf_exists == true then
-    vim.cmd("cclose")
-    return
-  end
-  if not vim.tbl_isempty(vim.fn.getqflist()) then
-    vim.cmd("copen")
-  end
-end, { desc = "Open Quickfix List" })
+map("n", "<leader>xx", "<cmd>copen<CR>", { desc = "Open Given Quickfix List" })
+-- map("n", "<leader>xq", function()
+--   local qf_exists = false
+--   for _, win in pairs(vim.fn.getwininfo()) do
+--     if win["quickfix"] == 1 then
+--       qf_exists = true
+--     end
+--   end
+--   if qf_exists == true then
+--     vim.cmd("cclose")
+--     return
+--   end
+--   if not vim.tbl_isempty(vim.fn.getqflist()) then
+--     vim.cmd("copen")
+--   end
+-- end, { desc = "Open Quickfix List" })
+map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
 
 map("n", "<leader>ls", function()
   local bufnr = vim.api.nvim_get_current_buf()
