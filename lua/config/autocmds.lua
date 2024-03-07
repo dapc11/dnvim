@@ -85,13 +85,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.lua" },
-  callback = function(args)
-    require("conform").format({ bufnr = args.buf })
-  end,
-})
-
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*" },
   callback = function()
