@@ -21,6 +21,7 @@ extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 local bundles = {}
 local mason_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/")
 vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
+vim.list_extend(bundles, vim.split(vim.fn.glob("/home/epedape/software/vscode-java-test/server/*.jar", 1), "\n"))
 vim.list_extend(
   bundles,
   vim.split(
@@ -187,6 +188,6 @@ vim.keymap.set("v", "<leader>cv", function() jdtls.extract_variable({visual = tr
 vim.keymap.set("v", "<leader>cc", function() jdtls.extract_constant({visual = true}) end, { desc = "Extract Constant", buffer = bufnr })
 vim.keymap.set("v", "<leader>cm", function() jdtls.method({visual = true}) end, { desc = "Extract Method", buffer = bufnr })
 vim.keymap.set("n", "<leader>cu", function() jdtls.update_project_config() end, { desc = "Update Config", buffer = bufnr })
-vim.keymap.set("n", "<leader>cd", function() jdtls.test_nearest_method() vim.cmd.DapToggleRepl() end, { desc = "Run Nearest", buffer = bufnr })
-vim.keymap.set("n", "<leader>ct", function() jdtls.test_class() vim.cmd.DapToggleRepl() end, { desc = "Run File", buffer = bufnr })
+vim.keymap.set("n", "<leader>cd", function() jdtls.test_nearest_method()  end, { desc = "Run Nearest", buffer = bufnr })
+vim.keymap.set("n", "<leader>ct", function() jdtls.test_class()  end, { desc = "Run File", buffer = bufnr })
 -- stylua: ignore end
