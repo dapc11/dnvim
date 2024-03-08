@@ -1,14 +1,8 @@
-local function close_neo_tree()
-  require("neo-tree.sources.manager").close_all()
-  vim.notify("closed all")
-end
-
 return {
   "folke/persistence.nvim",
   event = "BufReadPre",
   opts = {
     options = vim.opt.sessionoptions:get(),
-    pre_save = close_neo_tree,
   },
     -- stylua: ignore
     keys = {

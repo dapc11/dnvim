@@ -20,7 +20,7 @@ return {
         new_section("Config", function() require('telescope.builtin').find_files({cwd = vim.fn.stdpath('config')}) end, "Config"),
         new_section("New file", "ene | startinsert", "Built-in"),
         new_section("Quit", "qa", "Built-in"),
-        new_section("Session restore", function() require("persistence").load() end, "Session"),
+        new_section("Session restore", function() require("persistence").load({ last = true }) end, "Session"),
       },
       content_hooks = {
         starter.gen_hook.aligning("center", "center"),
