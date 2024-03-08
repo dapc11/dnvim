@@ -2,3 +2,4 @@ lua/packer_compiled.lua
 .idea/
 .luarc.json
 lua/secret.lua
+spell/
