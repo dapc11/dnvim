@@ -1,4 +1,17 @@
 GetVisualSelection = require("util.common").GetVisualSelection
+function Gsearch()
+  local input = vim.fn.input("Search phrase> ", "")
+  vim.cmd({ cmd = "Gclog", args = {
+    "-G" .. input .. " --",
+  } })
+end
+function GsearchCurrent()
+  local input = vim.fn.input("Search phrase> ", "")
+  vim.cmd({ cmd = "Gclog", args = {
+    "-G" .. input .. " -- %",
+  } })
+end
+
 local map = require("util").map
 return {
   {
@@ -27,10 +40,11 @@ return {
     },
   },
   {
-    "dapc11/vim-fugitive",
+    "tpope/vim-fugitive",
     lazy = false,
     -- stylua: ignore
     keys = {
+      {"<leader>ge", "<cmd>Gedit<CR>", desc = "Edit" },
       { "<C-g>", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Diff" },
       { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
@@ -44,7 +58,9 @@ return {
       { "<leader>gl", "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<CR><CR>", desc = "Git log", },
       { "<leader>gn", "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit origin/master..HEAD<CR><CR>", desc = "Git New", },
       { "<leader>gm", "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit HEAD..origin/master<CR><CR>", desc = "Git Missing", },
-      { "<leader>gh", "<cmd>0Gllog<cr>", desc = "View File History" },
+      { "<leader>gh", "<cmd>0Gclog<cr>", desc = "View File History" },
+      { "<leader>gs", Gsearch, desc = "Git Search History"},
+      { "<leader>gS", GsearchCurrent, desc = "Git Search Current File History"}
     },
   },
 }
