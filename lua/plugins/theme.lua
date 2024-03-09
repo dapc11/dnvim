@@ -15,14 +15,12 @@ return {
           variables = "none",
         },
         colors = {
-          bg0 = "#24292e",
           fg = "#b6bdca",
         },
         highlights = {
           NormalFloat = { bg = "$bg0" },
           FloatBorder = { bg = "$bg0", fg = winsep },
           WinSeparator = { bg = "$bg0", fg = winsep },
-          NeoTreeWinSeparator = { bg = "$bg0", fg = winsep },
           FloatTitle = { bg = "$bg0", fmt = "bold" },
           TelescopeBorder = { bg = "$bg0", fg = winsep },
           TelescopePreviewBorder = { bg = "$bg0", fg = winsep },
