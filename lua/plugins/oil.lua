@@ -1,5 +1,5 @@
 return {
-  "stevearc/oil.nvim",
+  "dapc11/oil.nvim",
   opts = {
     win_options = {
       wrap = false,
