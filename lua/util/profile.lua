@@ -22,4 +22,4 @@ local function toggle_profile()
     prof.start("*")
   end
 end
-vim.keymap.set("", "<leader>lp", toggle_profile, { desc = "Toggle Profile" })
+vim.keymap.set("n", "<leader>lp", toggle_profile, { desc = "Toggle Profile" })

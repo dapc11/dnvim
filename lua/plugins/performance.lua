@@ -38,7 +38,7 @@ augroup END
 ]])
 
 return {
-  { "LunarVim/bigfile.nvim" },
+  "LunarVim/bigfile.nvim",
   "stevearc/profile.nvim",
   {
     "zeioth/garbage-day.nvim",

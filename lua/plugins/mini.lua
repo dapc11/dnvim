@@ -4,15 +4,15 @@ return {
     version = "*",
     opts = {
       mappings = {
-        add = "gsa", -- Add surrounding in Normal and Visual modes
-        delete = "gsd", -- Delete surrounding
-        find = "", -- Find surrounding (to the right)
-        find_left = "", -- Find surrounding (to the left)
-        highlight = "", -- Highlight surrounding
-        replace = "gsr", -- Replace surrounding
-        update_n_lines = "gsn", -- Update `n_lines`
-        suffix_last = "l", -- Suffix to search with "prev" method
-        suffix_next = "n", -- Suffix to search with "next" method
+        add = "gsa",
+        delete = "gsd",
+        find = "",
+        find_left = "",
+        highlight = "",
+        replace = "gsr",
+        update_n_lines = "gsn",
+        suffix_last = "l",
+        suffix_next = "n",
       },
     },
     config = function(_, opts)
@@ -42,7 +42,7 @@ return {
   },
   {
     "echasnovski/mini.starter",
-    version = false, -- wait till new 0.7.0 release to put it back on semver
+    version = false,
     event = "VimEnter",
     opts = function()
       local new_section = function(name, action, section)
@@ -71,7 +71,6 @@ return {
       return config
     end,
     config = function(_, config)
-      -- close Lazy and re-open when starter is ready
       if vim.o.filetype == "lazy" then
         vim.cmd.close()
         vim.api.nvim_create_autocmd("User", {

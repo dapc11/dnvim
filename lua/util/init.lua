@@ -10,20 +10,6 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-function M.get_loc()
-  local me = debug.getinfo(1, "S")
-  local level = 2
-  local info = debug.getinfo(level, "S")
-  while info and (info.source == me.source or info.source == "@" .. vim.env.MYVIMRC or info.what ~= "Lua") do
-    level = level + 1
-    info = debug.getinfo(level, "S")
-  end
-  info = info or me
-  local source = info.source:sub(2)
-  source = vim.loop.fs_realpath(source) or source
-  return source .. ":" .. info.linedefined
-end
-
 ---@param value any
 ---@param opts? {loc:string, bt?:boolean}
 function M._dump(value, opts)

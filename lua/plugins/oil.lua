@@ -35,12 +35,7 @@ return {
     },
   },
   keys = {
-    {
-      "<leader>e",
-      "<cmd>Oil<cr>",
-      desc = "Explorer",
-      remap = true,
-    },
+    { "<leader>e", "<cmd>Oil<cr>", desc = "Explorer", remap = true },
   },
   dependencies = { "nvim-tree/nvim-web-devicons" },
 }
