@@ -68,12 +68,7 @@ function RunCodeQualityChecks()
   vim.api.nvim_command("vertical sb " .. vim.fn.bufnr(output_buffer))
 end
 
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>cq",
-  [[:lua RunCodeQualityChecks()<CR>]],
-  { noremap = true, silent = true, buffer = bufnr }
-)
+vim.api.nvim_set_keymap("n", "<leader>cq", [[:lua RunCodeQualityChecks()<CR>]], { noremap = true, silent = true })
 
 vim.cmd("hi link @string.documentation.python SpecialComment")
 
