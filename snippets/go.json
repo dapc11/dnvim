@@ -115,49 +115,49 @@
     "description": "Snippet for if else"
   },
   "if err != nil": {
-    "prefix": "ir",
+    "prefix": "ife",
     "body": "if err != nil {\n\t${1:return ${2:nil, }${3:err}}\n}",
     "description": "Snippet for if err != nil"
   },
   "fmt.Println": {
-    "prefix": "fp",
+    "prefix": "printl",
     "body": "fmt.Println(\"$1\")",
     "description": "Snippet for fmt.Println()"
   },
   "fmt.Printf": {
-    "prefix": "ff",
+    "prefix": "printf",
     "body": "fmt.Printf(\"$1\", ${2:var})",
     "description": "Snippet for fmt.Printf()"
   },
+  "print variable content": {
+    "prefix": "printv",
+    "body": "fmt.Printf(\"${1:var}: %#+v\\\\n\", ${1:var})",
+    "description": "Snippet for fmt.Printf() with variable content"
+  },
+  "fmt.Error": {
+    "prefix": "errn",
+    "body": "errors.New(\"$1\")",
+    "description": "Snippet for errors.New()"
+  },
+  "error variable content": {
+    "prefix": "errf",
+    "body": "fmt.Errorf(\"$1: %#+v\", err)",
+    "description": "Snippet for fmt.Errorf() with variable content"
+  },
   "log.Println": {
-    "prefix": "lp",
+    "prefix": "logl",
     "body": "log.Println(\"$1\")",
     "description": "Snippet for log.Println()"
   },
   "log.Printf": {
-    "prefix": "lf",
+    "prefix": "logf",
     "body": "log.Printf(\"$1\", ${2:var})",
     "description": "Snippet for log.Printf()"
   },
   "log variable content": {
-    "prefix": "lv",
+    "prefix": "logv",
     "body": "log.Printf(\"${1:var}: %#+v\\\\n\", ${1:var})",
     "description": "Snippet for log.Printf() with variable content"
-  },
-  "t.Log": {
-    "prefix": "tl",
-    "body": "t.Log(\"$1\")",
-    "description": "Snippet for t.Log()"
-  },
-  "t.Logf": {
-    "prefix": "tlf",
-    "body": "t.Logf(\"$1\", ${2:var})",
-    "description": "Snippet for t.Logf()"
-  },
-  "t.Logf variable content": {
-    "prefix": "tlv",
-    "body": "t.Logf(\"${1:var}: %#+v\\\\n\", ${1:var})",
-    "description": "Snippet for t.Logf() with variable content"
   },
   "make(...)": {
     "prefix": "make",
