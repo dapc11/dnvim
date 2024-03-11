@@ -1,24 +1,7 @@
-local function findTerminal()
-  for _, bufId in pairs(vim.api.nvim_list_bufs()) do
-    if string.find(vim.api.nvim_buf_get_name(bufId), "term://") then
-      return bufId
-    end
-  end
-  return nil
-end
-
 local function openTerminal(direction)
-  local currentTerminal = findTerminal()
-  if currentTerminal ~= nil then
-    vim.cmd("wincmd j")
-    vim.cmd("buf " .. currentTerminal)
-  else
-    vim.cmd(direction)
-    vim.cmd("wincmd l")
-    vim.print(currentTerminal)
-    vim.cmd.terminal({ "zsh" })
-  end
-
+  vim.cmd(direction)
+  vim.cmd("wincmd l")
+  vim.cmd.edit({ "term://zsh" })
   vim.cmd("startinsert")
 end
 
