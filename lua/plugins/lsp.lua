@@ -60,14 +60,11 @@ return {
             },
             mapping = cmp.mapping.preset.insert({
               ["<CR>"] = cmp.mapping.confirm({ select = false }),
-              -- Ctrl+Space to trigger completion menu
               ["<C-Space>"] = cmp.mapping.complete(),
 
-              -- Navigate between snippet placeholder
               ["<Tab>"] = cmp_action.luasnip_jump_forward(),
               ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
 
-              -- Scroll up and down in the completion documentation
               ["<C-u>"] = cmp.mapping.scroll_docs(-4),
               ["<C-d>"] = cmp.mapping.scroll_docs(4),
               ["<C-e>"] = cmp.mapping.abort(),
@@ -101,7 +98,6 @@ return {
           require("mason-lspconfig").setup({
             ensure_installed = { "gopls", "golangci_lint_ls", "lua_ls", "pylsp" },
             handlers = {
-              -- Exclude lsp setup by defining it as follows: tsserver = lsp_zero.noop
               lsp_zero.default_setup,
               dockerls = function()
                 require("lspconfig").dockerls.setup({
@@ -147,5 +143,13 @@ return {
     "folke/neodev.nvim",
     events = lazylsp,
     config = false,
+  },
+  {
+    "rafaelsq/nvim-goc.lua",
+    opts = { verticalSplit = false },
+    config = function(_, opts)
+      local goc = require("nvim-goc")
+      goc.setup(opts)
+    end,
   },
 }
