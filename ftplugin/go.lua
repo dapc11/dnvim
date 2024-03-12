@@ -1,17 +1,12 @@
 local bufnr = vim.api.nvim_get_current_buf()
 
 -- vim.keymap.set("n", "gf", "", { desc = "Find Usages", buffer = bufnr })
-vim.keymap.set(
-  "n",
-  "<leader>bt",
-  "<cmd>Dispatch gotestsum --format pkgname-and-test-fails --no-summary=output,skipped --format-hide-empty-pkg<cr>",
-  { desc = "Dispatch tests", buffer = bufnr }
-)
+vim.keymap.set("n", "<leader>bt")
 
 local goc = require("nvim-goc")
 
 vim.keymap.set("n", "<Leader>ccc", goc.Coverage, { silent = true, buffer = bufnr, desc = "Go Coverage" })
-vim.keymap.set("n", "<Leader>ccx", goc.ClearCoverage, { silent = true, buffer = bufnr, desc = "Go Clear Coverage"})
+vim.keymap.set("n", "<Leader>ccx", goc.ClearCoverage, { silent = true, buffer = bufnr, desc = "Go Clear Coverage" })
 
 function Cf(testCurrentFunction)
   local cb = function(path)

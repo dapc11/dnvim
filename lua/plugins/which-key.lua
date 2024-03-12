@@ -12,7 +12,6 @@ return {
       ["["] = { name = "+prev" },
       ["<leader><tab>"] = { name = "+tabs" },
       ["<leader>c"] = { name = "+code" },
-      ["<leader>b"] = { name = "+dispatch" },
       ["<leader>g"] = { name = "+git" },
       ["<leader>gp"] = { name = "+push" },
       ["<leader>h"] = { name = "+hunks" },
