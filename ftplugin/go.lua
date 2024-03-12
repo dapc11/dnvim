@@ -1,7 +1,5 @@
 local bufnr = vim.api.nvim_get_current_buf()
 
--- vim.keymap.set("n", "gf", "", { desc = "Find Usages", buffer = bufnr })
-vim.keymap.set("n", "<leader>bt")
 
 local goc = require("nvim-goc")
 
