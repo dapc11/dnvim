@@ -26,6 +26,8 @@ return {
           TelescopePreviewBorder = { bg = "$bg0", fg = winsep },
           TelescopeResultsBorder = { bg = "$bg0", fg = winsep },
           TelescopePromptBorder = { bg = "$bg0", fg = winsep },
+          FzfLuaBorder = { bg = "$bg0", fg = winsep},
+          FzfLuaPreviewNormal = { bg = "$bg0"},
           TelescopeNormal = { bg = "$bg0" },
           TelescopeTitle = { fg = "$fg", bg = "$bg0", fmt = "bold" },
           TelescopePromptNormal = { fg = "$fg", bg = "$bg0" },

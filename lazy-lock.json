@@ -10,6 +10,7 @@
   "conform.nvim": { "branch": "master", "commit": "5a15cc46e75cad804fd51ec5af9227aeb1d1bdaa" },
   "dial.nvim": { "branch": "master", "commit": "27eb570085db2ef44bff4f620d3806039184651c" },
   "flash.nvim": { "branch": "main", "commit": "48817af25f51c0590653bbc290866e4890fe1cbe" },
+  "fzf-lua": { "branch": "main", "commit": "97b455afe4a6c4d5a7f5c7b2dcab35a86b537872" },
   "garbage-day.nvim": { "branch": "main", "commit": "601f912505a886ce86f580443b3719b9ed352094" },
   "gitsigns.nvim": { "branch": "main", "commit": "2c2463dbd82eddd7dbab881c3a62cfbfbe3c67ae" },
   "harpoon": { "branch": "master", "commit": "ccae1b9bec717ae284906b0bf83d720e59d12b91" },

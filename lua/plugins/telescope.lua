@@ -59,8 +59,6 @@ return {
       { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
       { "<leader>lc", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root, }) end, desc = "Find Plugin File" },
       { "<leader>lh", function() require("telescope.builtin").help_tags() end, desc = "Find Help" },
-      { "<leader><leader>", function() require("telescope.builtin").live_grep() end, desc = "Grep" },
-      { "<leader><leader>", function() require("telescope.builtin").live_grep({ default_text = GetVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
       { "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
       { "<C-f>", function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = GetVisualSelection() }) end, desc = "Current Buffer Grep Selection", mode = "v" },
       { "<C-p>", function() require("telescope").extensions.projects.projects() end, desc = "Find Project" },
@@ -131,6 +129,63 @@ return {
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("projects")
       require("telescope").load_extension("telescope-yaml")
+    end,
+  },
+  {
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    lazy = false,
+    keys = {
+      {
+        "<leader><leader>",
+        function()
+          require("fzf-lua").grep({ search = "" })
+        end,
+        desc = "Grep",
+      },
+      {
+        "<leader><leader>",
+        function()
+          require("fzf-lua").grep({ search = GetVisualSelection() })
+        end,
+        desc = "Live Grep Selection",
+        mode = "v",
+      },
+    },
+    config = function()
+      local actions = require("fzf-lua.actions")
+      require("fzf-lua").setup({
+        winopts = {
+          preview = {
+            vertical = "down:0%",
+            layout = "vertical",
+          },
+        },
+        fzf_colors = {
+          ["fg"] = { "fg", "Normal" },
+          ["bg"] = { "bg", "Normal" },
+          ["fg+"] = { "fg", "Normal" },
+          ["hl+"] = { "fg", "CmpItemKindVariable" },
+          ["prompt"] = { "fg", "SpecialKey" },
+          ["pointer"] = { "fg", "DiagnosticError" },
+          ["marker"] = { "fg", "DiagnosticError" },
+          ["spinner"] = { "fg", "Label" },
+          ["header"] = { "fg", "Comment" },
+          ["gutter"] = { "bg", "Normal" },
+        },
+        grep = {
+          multiprocess = true,
+          git_icons = false,
+          file_icons = false,
+          color_icons = false,
+          rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+          actions = {
+            ["ctrl-g"] = { actions.grep_lgrep },
+            ["ctrl-h"] = { actions.toggle_ignore },
+            ["alt-q"] = actions.buf_sel_to_qf,
+          },
+        },
+      })
     end,
   },
 }
