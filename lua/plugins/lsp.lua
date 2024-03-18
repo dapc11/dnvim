@@ -4,6 +4,16 @@ return {
     "stevearc/conform.nvim",
     events = lazylsp,
     opts = {
+      format_on_save = function(bufnr)
+        -- Disable "format_on_save lsp_fallback" for languages that don't
+        -- have a well standardized coding style. You can add additional
+        -- languages here or re-enable it for the disabled ones.
+        local disable_filetypes = { c = true, cpp = true }
+        return {
+          timeout_ms = 500,
+          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+        }
+      end,
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "black" },
@@ -64,10 +74,18 @@ return {
 
               ["<Tab>"] = cmp_action.luasnip_jump_forward(),
               ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
+              ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+              ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 
               ["<C-u>"] = cmp.mapping.scroll_docs(-4),
               ["<C-d>"] = cmp.mapping.scroll_docs(4),
               ["<C-e>"] = cmp.mapping.abort(),
+              ["<C-l>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  return cmp.complete_common_string()
+                end
+                fallback()
+              end, { "i", "c" }),
             }),
             formatting = {
               format = function(entry, vim_item)

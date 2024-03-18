@@ -61,21 +61,19 @@ end
 -- stylua: ignore
 function M.lsp_keymaps(bufnr)
   local function opts(desc)
-    return { buffer = bufnr, noremap = true, silent = true, desc = desc or "" }
+    return { buffer = bufnr, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
   end
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("LSP References"))
-  vim.keymap.set("n", "<leader>cs", function ()
-    require("telescope.builtin").lsp_document_symbols()
-  end, opts("Workspace Symbols"))
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
+  vim.keymap.set("n", "<leader>cs", require("telescope.builtin").lsp_document_symbols , opts("Workspace Symbols"))
   vim.keymap.set("n", "<leader>cf", function() require("conform").format() end, opts("Format"))
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-  vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts("Rename Symbol"))
+  vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts("Rename"))
+  vim.keymap.set("n", "<leader>cd",  require("telescope.builtin").diagnostics, opts("Diagnostics"))
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Goto Next Diagnostic"))
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Goto Prev Diagnostic"))
-  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts())
-  vim.keymap.set("n", "<C-e>", vim.diagnostic.open_float, opts())
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts())
+  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 end
 
 function M.telescope(builtin, opts)
@@ -92,20 +90,6 @@ function M.telescope(builtin, opts)
         builtin = "find_files"
       end
     end
-    -- if opts.cwd and opts.cwd ~= vim.loop.cwd() then
-    --   ---@diagnostic disable-next-line: inject-field
-    --   opts.attach_mappings = function(_, map)
-    --     map("i", "<a-c>", function()
-    --       local action_state = require("telescope.actions.state")
-    --       local line = action_state.get_current_line()
-    --       M.telescope(
-    --         params.builtin,
-    --         vim.tbl_deep_extend("force", {}, params.opts or {}, { cwd = false, default_text = line })
-    --       )()
-    --     end)
-    --     return true
-    --   end
-    -- end
 
     require("telescope.builtin")[builtin](opts)
   end

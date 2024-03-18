@@ -130,10 +130,6 @@ vim.cmd([[
   cnoremap <C-E>  <End>
   " forward one character
   cnoremap <C-F>  <Right>
-  " recall newer command-line
-  cnoremap <C-N>  <Down>
-  " recall previous (older) command-line
-  cnoremap <C-P>  <Up>
   " back one word
   cnoremap <Esc><C-B> <S-Left>
   " forward one word

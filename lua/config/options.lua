@@ -23,6 +23,7 @@ opt.pumheight = 10 -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 opt.shiftround = true -- Round indent
+opt.shiftwidth = 4 -- Size of an indent
 opt.shortmess:append({ W = true, I = true, c = true })
 opt.showmode = true -- Dont show mode since we have a statusline
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
