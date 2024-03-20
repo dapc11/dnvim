@@ -55,8 +55,8 @@ return {
         events = lazylsp,
         config = function()
           local cmp = require("cmp")
-          local cmp_action = require("lsp-zero").cmp_action()
           local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+          local luasnip = require("luasnip")
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
           require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
@@ -68,24 +68,26 @@ return {
               { name = "buffer" },
               { name = "path" },
             },
+
             mapping = cmp.mapping.preset.insert({
               ["<CR>"] = cmp.mapping.confirm({ select = false }),
               ["<C-Space>"] = cmp.mapping.complete(),
-
-              ["<Tab>"] = cmp_action.luasnip_jump_forward(),
-              ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
-              ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-              ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-
+              ["<C-l>"] = cmp.mapping(function()
+                if luasnip.expand_or_locally_jumpable() then
+                  luasnip.expand_or_jump()
+                end
+              end, { "i", "s" }),
+              ["<C-h>"] = cmp.mapping(function()
+                if luasnip.locally_jumpable(-1) then
+                  luasnip.jump(-1)
+                end
+              end, { "i", "s" }),
+              ["<C-n>"] = cmp.mapping.select_next_item(),
+              ["<C-p>"] = cmp.mapping.select_prev_item(),
+              ["<C-y>"] = cmp.mapping.confirm({ select = true }),
               ["<C-u>"] = cmp.mapping.scroll_docs(-4),
               ["<C-d>"] = cmp.mapping.scroll_docs(4),
               ["<C-e>"] = cmp.mapping.abort(),
-              ["<C-l>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  return cmp.complete_common_string()
-                end
-                fallback()
-              end, { "i", "c" }),
             }),
             formatting = {
               format = function(entry, vim_item)

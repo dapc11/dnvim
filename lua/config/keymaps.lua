@@ -72,21 +72,6 @@ map("n", "<leader>x<right>", "<cmd>cnewer<CR>", { desc = "Next Quickfix List" })
 map("n", "<leader>x<left>", "<cmd>colder<CR>", { desc = "Previous Quickfix List" })
 map("n", "<leader>xl", "<cmd>chi<CR>", { desc = "List Quickfix Lists" })
 map("n", "<leader>xx", "<cmd>copen<CR>", { desc = "Open Given Quickfix List" })
--- map("n", "<leader>xq", function()
---   local qf_exists = false
---   for _, win in pairs(vim.fn.getwininfo()) do
---     if win["quickfix"] == 1 then
---       qf_exists = true
---     end
---   end
---   if qf_exists == true then
---     vim.cmd("cclose")
---     return
---   end
---   if not vim.tbl_isempty(vim.fn.getqflist()) then
---     vim.cmd("copen")
---   end
--- end, { desc = "Open Quickfix List" })
 map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
 
 map("n", "<leader>ls", function()
@@ -95,7 +80,6 @@ map("n", "<leader>ls", function()
   pcall(vim.diagnostic.disable, bufnr)
   vim.opt_local.spell = false
 end, { desc = "Stop all heavy lifting" })
-
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
 map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
@@ -106,8 +90,6 @@ map("c", "<C-v>", "<C-r>*")
 map("i", "<C-v>", "<C-r>+")
 map("n", "<C-c>", '"+y')
 map("v", "<C-c>", '"+y')
-map("v", "<Tab>", ">gv")
-map("v", "<S-Tab>", "<gv")
 map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]], { silent = true })
 map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]], { silent = true })
 map("n", ",", "@q")
@@ -138,8 +120,6 @@ vim.cmd([[
 
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
 map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
-map("n", "<M-x>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-
 map("n", "<leader>f", ":grep ", { desc = "Static grep" })
 
 map("n", "<leader>cF", function()
