@@ -70,31 +70,29 @@ return {
       local layout = require("telescope.actions.layout")
       local previewers = require("telescope.previewers")
 
-      local new_maker = function(filepath, bufnr, opts)
-        opts = opts or {}
-
-        filepath = vim.fn.expand(filepath)
-        vim.loop.fs_stat(filepath, function(_, stat)
-          if not stat then
-            return
-          end
-          if stat.size > 100000 then
-            return
-          else
-            previewers.buffer_previewer_maker(filepath, bufnr, opts)
-          end
-        end)
-      end
       return {
         pickers = {
           lsp_document_symbols = theme({ symbol_width = 100 }),
           lsp_dynamic_workspace_symbols = theme({ symbol_width = 100 }),
         },
         defaults = {
-          buffer_previewer_maker = new_maker,
+          buffer_previewer_maker = function(filepath, bufnr, opts)
+            opts = opts or {}
+
+            filepath = vim.fn.expand(filepath)
+            vim.loop.fs_stat(filepath, function(_, stat)
+              if not stat then
+                return
+              end
+              if stat.size > 100000 then
+                return
+              else
+                previewers.buffer_previewer_maker(filepath, bufnr, opts)
+              end
+            end)
+          end,
           preview = false,
           sorting_strategy = "ascending",
-          winblend = 0,
           mappings = {
             i = {
               ["<C-p>"] = layout.toggle_preview,
