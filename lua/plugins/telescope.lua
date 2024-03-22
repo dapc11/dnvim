@@ -72,6 +72,27 @@ return {
 
       return {
         pickers = {
+          git_branches = {
+            mappings = {
+              i = {
+                ["<C-d>"] = "preview_scrolling_down",
+              },
+            },
+            previewer = require("telescope.previewers").new_termopen_previewer({
+              get_command = function(entry)
+                return {
+                  "git",
+                  "log",
+                  "--pretty=format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset",
+                  "--max-count",
+                  "50",
+                  "--abbrev-commit",
+                  "--date=relative",
+                  entry.value,
+                }
+              end,
+            }),
+          },
           lsp_document_symbols = theme({ symbol_width = 100 }),
           lsp_dynamic_workspace_symbols = theme({ symbol_width = 100 }),
         },
