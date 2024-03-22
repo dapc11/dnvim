@@ -25,6 +25,9 @@ return {
     "williamboman/mason.nvim",
     events = lazylsp,
     opts = {
+      ui = {
+        border = "rounded",
+      },
       ensure_installed = {
         "stylua",
         "black",
