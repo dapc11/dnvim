@@ -52,14 +52,14 @@ return {
     cmd = "Telescope",
     -- stylua: ignore
     keys = {
-      { "<leader>.", require("telescope.builtin").buffers, desc = "Find Buffer" },
       { "<leader>gc", require("telescope.builtin").git_branches, desc = "Checkout Branch" },
       { "<leader>r", require("telescope.builtin").oldfiles, desc = "Find Recent Files" },
       { "<leader>n", require("telescope.builtin").find_files, desc = "Find Tracked Files" },
       { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
       { "<leader>lc", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root, }) end, desc = "Find Plugin File" },
       { "<leader>lh", require("telescope.builtin").help_tags, desc = "Find Help" },
-      { "<leader><leader>", function() require("telescope.builtin").grep_string({ search = ""}) end, desc = "Grep" },
+      { "<leader><leader>", require("telescope.builtin").live_grep, desc = "Grep" },
+      { "<leader>f", function() require("telescope.builtin").grep_string({ search = ""}) end, desc = "Grep" },
       { "<leader><leader>", function() require("telescope.builtin").grep_string({ search = GetVisualSelection() }) end, desc = "Live Grep Selection", mode = "v" },
       { "<C-f>", require("telescope.builtin").current_buffer_fuzzy_find, desc = "Find in Current Buffer" },
       { "<C-f>", function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = GetVisualSelection() }) end, desc = "Current Buffer Grep Selection", mode = "v" },

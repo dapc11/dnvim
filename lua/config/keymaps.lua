@@ -120,7 +120,6 @@ vim.cmd([[
 
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
 map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
-map("n", "<leader>f", ":grep ", { desc = "Static grep" })
 
 map("n", "<leader>cF", function()
   require("util.common").Toggle_format_on_save()
