@@ -1,3 +1,4 @@
+local notes_dir = vim.fn.expand("$HOME/notes")
 return {
   {
     "iamcco/markdown-preview.nvim",
@@ -20,11 +21,25 @@ return {
     keys = {
       {
         "<leader>zn",
-        "<cmd>ZkNew { dir = vim.fn.expand('$HOME/notes'), title = vim.fn.input('Title: ') }<CR>",
+        function()
+          require("zk.commands").get("ZkNew")({ dir = notes_dir, title = vim.fn.input("Title: ") })
+        end,
         desc = "New Note",
       },
-      { "<leader>zb", vim.cmd.ZkNotes, desc = "Browse Notes" },
-      { "<leader>zz", "<cmd>Telescope live_grep cwd=~/notes<CR>", desc = "Find Note" },
+      {
+        "<leader>zb",
+        function()
+          require("zk.commands").get("ZkNotes")({ sort = "modified" })
+        end,
+        desc = "Browse Notes",
+      },
+      {
+        "<leader>zs",
+        function()
+          require("telescope.builtin").live_grep({ cwd = notes_dir })
+        end,
+        desc = "Search Notes",
+      },
     },
   },
 }
