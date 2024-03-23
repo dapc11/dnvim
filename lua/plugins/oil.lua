@@ -12,6 +12,7 @@ return {
       concealcursor = "nvic",
     },
     prompt_save_on_select_new_entry = true,
+    skip_confirm_for_simple_edits = true,
     cleanup_delay_ms = 2000,
     keymaps = {
       ["g?"] = "actions.show_help",

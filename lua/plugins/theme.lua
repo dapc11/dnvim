@@ -26,8 +26,6 @@ return {
           TelescopePreviewBorder = { bg = "$bg0", fg = winsep },
           TelescopeResultsBorder = { bg = "$bg0", fg = winsep },
           TelescopePromptBorder = { bg = "$bg0", fg = winsep },
-          FzfLuaBorder = { bg = "$bg0", fg = winsep},
-          FzfLuaPreviewNormal = { bg = "$bg0"},
           TelescopeNormal = { bg = "$bg0" },
           TelescopeTitle = { fg = "$fg", bg = "$bg0", fmt = "bold" },
           TelescopePromptNormal = { fg = "$fg", bg = "$bg0" },
@@ -62,123 +60,9 @@ return {
           ["@variable.parameter"] = { fg = "$fg", fmt = "none" },
           ["@punctuation.special"] = { fg = "$fg", fmt = "none" },
           ["@property.yaml"] = { fg = "$fg", fmt = "none" },
-
-          -- ["@function.builtin"] = { fg = "$blue" },
-          -- ["@function.macro"] = { fg = "$blue" },
-
-          -- ["@annotation"] = colors.Fg,
-          -- ["@attribute"] = colors.Cyan,
-          -- ["@attribute.typescript"] = colors.Blue,
-          -- ["@boolean"] = colors.Orange,
-          -- ["@character"] = colors.Orange,
-          -- ["@comment"] = {fg = c.grey, fmt = cfg.code_style.comments},
-          -- ["@conditional"] = {fg = c.purple, fmt = cfg.code_style.keywords},
-          -- ["@constant"] = {fg = c.orange, fmt = cfg.code_style.constants},
-          -- ["@constant.builtin"] = {fg = c.orange, fmt = cfg.code_style.constants},
-          -- ["@constant.macro"] = {fg = c.orange, fmt = cfg.code_style.constants},
-          -- ["@error"] = colors.Fg,
-          -- ["@exception"] = colors.Purple,
-          -- ["@float"] = colors.Orange,
-          -- ["@include"] = colors.Purple,
-          -- ["@keyword"] = {fg = c.purple, fmt = cfg.code_style.keywords},
-          -- ["@keyword.operator"] =  {fg = c.purple, fmt = cfg.code_style.keywords},
-          -- ["@namespace"] = colors.Yellow,
-          -- ["@none"] = colors.Fg,
-          -- ["@number"] = colors.Orange,
-          -- ["@operator"] = colors.Fg,
-          -- ["@parameter.reference"] = colors.Fg,
-          -- ["@preproc"] = colors.Purple,
-          -- ["@property"] = colors.Cyan,
-          -- ["@punctuation.delimiter"] = colors.lightgrey,
-          -- ["@punctuation.bracket"] = colors.lightgrey,
-          -- ["@repeat"] = { fg = c.purple, fmt = cfg.code_style.keywords },
-          -- ["@string"] = { fg = c.green, fmt = cfg.code_style.strings },
-          -- ["@string.regex"] = { fg = c.orange, fmt = cfg.code_style.strings },
-          -- ["@symbol"] = colors.Cyan,
-          -- ["@tag"] = colors.Purple,
-          -- ["@tag.attribute"] = colors.Yellow,
-          -- ["@tag.delimiter"] = colors.Purple,
-          -- ["@text"] = colors.Fg,
-          -- ["@text.strong"] = { fg = c.fg, fmt = "bold" },
-          -- ["@text.emphasis"] = { fg = c.fg, fmt = "italic" },
-          -- ["@text.underline"] = { fg = c.fg, fmt = "underline" },
-          -- ["@text.strike"] = { fg = c.fg, fmt = "strikethrough" },
-          -- ["@text.title"] = { fg = c.orange, fmt = "bold" },
-          -- ["@text.literal"] = colors.Green,
-          -- ["@text.uri"] = { fg = c.cyan, fmt = "underline" },
-          -- ["@text.todo.checked"] = { fg = c.green, fmt = cfg.code_style.comments },
-          -- ["@text.math"] = colors.Fg,
-          -- ["@text.reference"] = colors.Blue,
-          -- ["@text.environment"] = colors.Fg,
-          -- ["@text.environment.name"] = colors.Fg,
-          -- ["@text.diff.add"] = colors.Green,
-          -- ["@note"] = colors.Fg,
-          -- ["@warning"] = colors.Fg,
-          -- ["@danger"] = colors.Fg,
-          -- ["@type"] = colors.Yellow,
-          -- ["@type.builtin"] = colors.Orange,
-          -- ["@variable"] = { fg = c.fg, fmt = cfg.code_style.variables },
-          -- ["@label"] = colors.Red,
-          -- ["@punctuation.special"] = colors.Red,
-          -- ["@text.todo"] = { fg = c.red, fmt = cfg.code_style.comments },
-          -- ["@text.todo.unchecked"] = { fg = c.red, fmt = cfg.code_style.comments },
-          -- ["@text.diff.delete"] = colors.Red,
-          -- ["@variable.builtin"] = { fg = c.red, fmt = cfg.code_style.variables },
         },
       })
       require("onedark").load()
-    end,
-  },
-  -- {
-  --   "catppuccin/nvim",
-  --   enabled = false,
-  --   name = "catppuccin",
-  --   priority = 1000,
-  --   config = function()
-  --     require("catppuccin").setup({
-  --       custom_highlights = function(colors)
-  --         return {
-  --           NeoTreeNormal = { fg = colors.text, bg = colors.mantle },
-  --           NeoTreeNormalNC = { fg = colors.text, bg = colors.mantle },
-  --           WinSeparator = { bg = colors.mantle, fg = colors.mantle },
-  --           NormalFloat = { bg = colors.base },
-  --         }
-  --       end,
-  --     })
-  --     vim.cmd([[colorscheme catppuccin-frappe]])
-  --   end,
-  -- },
-  {
-    "rebelot/kanagawa.nvim",
-    priority = 1000,
-    lazy = false,
-    config = function(_, opts)
-      require("kanagawa").setup(vim.tbl_extend("force", opts, {
-        colors = {
-          theme = {
-            all = {
-              ui = {
-                bg_gutter = "none",
-              },
-            },
-          },
-        },
-        overrides = function(colors)
-          local theme = colors.theme
-          return {
-            StatusLine = { bg = colors.palette.winterBlue },
-            StatusLineNC = { bg = colors.palette.winterBlue },
-            Error = { fg = colors.palette.autumnRed },
-            DiagnosticError = { fg = colors.palette.autumnRed },
-            DiagnosticSignError = { fg = colors.palette.autumnRed },
-            ErrorMsg = { fg = colors.palette.autumnRed, bg = colors.palette.sumilnk0 },
-            Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
-            PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
-            PmenuSbar = { bg = theme.ui.bg_m1 },
-            PmenuThumb = { bg = theme.ui.bg_p2 },
-          }
-        end,
-      }))
     end,
   },
   {

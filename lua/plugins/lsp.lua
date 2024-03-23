@@ -2,7 +2,7 @@ local lazylsp = { "BufReadPre", "BufNewFile" }
 return {
   {
     "stevearc/conform.nvim",
-    events = lazylsp,
+    ft = { "lua", "python", "go" },
     opts = {
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -35,7 +35,7 @@ return {
       },
     },
   },
-  { "mfussenegger/nvim-jdtls", event = lazylsp },
+  { "mfussenegger/nvim-jdtls", ft = "java" },
   {
     "VonHeikemen/lsp-zero.nvim",
     lazy = true,
@@ -165,11 +165,12 @@ return {
   },
   {
     "folke/neodev.nvim",
-    events = lazylsp,
+    ft = "lua",
     config = false,
   },
   {
     "rafaelsq/nvim-goc.lua",
+    ft = "go",
     opts = { verticalSplit = false },
     config = function(_, opts)
       local goc = require("nvim-goc")
