@@ -10,7 +10,4 @@ local function open_jira_in_browser()
   end
 end
 
-vim.keymap.set("n", "gj", open_jira_in_browser, { desc = "Find Usages", buffer = bufnr })
-vim.keymap.set("n", "gf", function()
-  vim.api.nvim_exec("tab Git show " .. vim.call("expand", "<cword>"), true)
-end, { desc = "Find Usages", buffer = bufnr })
+vim.keymap.set("n", "gd", open_jira_in_browser, { desc = "Goto Jira Definition", buffer = bufnr })
