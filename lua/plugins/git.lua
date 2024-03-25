@@ -69,7 +69,7 @@ return {
       { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
       { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push" },
       { "<leader>gpf", "<cmd>Git fetch<CR>", desc = "Fetch" },
-      { "<leader>gpr", "<cmd>Git pull --rebase origin/master<CR>", desc = "Pull" },
+      { "<leader>gpr", "<cmd>Git fetch | Git rebase origin/master<CR>", desc = "Pull" },
       { "<leader>gC", ":Git fetch | Git checkout origin/master -b ", desc = "New Feature Branch" },
       {
         "<leader>gg",
