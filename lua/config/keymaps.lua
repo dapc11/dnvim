@@ -86,7 +86,6 @@ map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
 
 map("n", "<leader>.", [['<esc>' . repeat('.', v:count1)]], { desc = "Repeat cgn", expr = true })
 map("c", "<C-v>", "<C-r>*")
--- map("i", "<C-r>", "<C-v>")
 map("i", "<C-v>", "<C-r>+")
 map("n", "<C-c>", '"+y')
 map("v", "<C-c>", '"+y')
