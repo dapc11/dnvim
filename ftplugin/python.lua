@@ -30,7 +30,12 @@ vim.keymap.set(
   "<cmd>new | 0read !black --config pyproject.toml #<cr>",
   { desc = "Run Black for Current Buffer", buffer = bufnr }
 )
-vim.keymap.set("n", "ccw", "<cmd>new | 0read !bandit #<cr>", { desc = "Run Bandit for Current Buffer", buffer = bufnr })
+vim.keymap.set(
+  "n",
+  "<leader>ccw",
+  "<cmd>new | 0read !bandit #<cr>",
+  { desc = "Run Bandit for Current Buffer", buffer = bufnr }
+)
 vim.keymap.set(
   "n",
   "<leader>cce",

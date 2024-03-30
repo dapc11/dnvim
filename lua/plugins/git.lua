@@ -70,6 +70,7 @@ return {
       { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push" },
       { "<leader>gpf", "<cmd>Git fetch<CR>", desc = "Fetch" },
       { "<leader>gpr", "<cmd>Git fetch | Git rebase origin/master<CR>", desc = "Pull" },
+      { "<leader>gps", "<cmd>Git submodule update --init --recursive<CR>", desc = "Update Submodules" },
       { "<leader>gC", ":Git fetch | Git checkout origin/master -b ", desc = "New Feature Branch" },
       {
         "<leader>gg",
