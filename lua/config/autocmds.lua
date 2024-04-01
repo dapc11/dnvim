@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   pattern = { "*.tpl", "*.yaml", "*.yml" },
   callback = function(event)
-    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = true }))
+    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
     vim.diagnostic.disable(event.buf)
 
     vim.cmd([[ if search('{{.*end.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
