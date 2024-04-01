@@ -40,6 +40,7 @@
   "telescope-yaml.nvim": { "branch": "main", "commit": "9afb4a730f362bb717258793f393a269541f9339" },
   "telescope.nvim": { "branch": "master", "commit": "1bb28df3cfc241b961331f00dcb8d5b45fe3e4f0" },
   "todo-comments.nvim": { "branch": "main", "commit": "a7e39ae9e74f2c8c6dc4eea6d40c3971ae84752d" },
+  "tokyonight.nvim": { "branch": "main", "commit": "9bf9ec53d5e87b025e2404069b71e7ebdc3a13e5" },
   "vim-easy-align": { "branch": "master", "commit": "12dd6316974f71ce333e360c0260b4e1f81169c3" },
   "vim-fugitive": { "branch": "master", "commit": "c0b03f1cac242d96837326d300f42a660306fc1a" },
   "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" },
