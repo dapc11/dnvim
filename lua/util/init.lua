@@ -81,7 +81,7 @@ function M.telescope(builtin, opts)
   return function()
     builtin = params.builtin
     opts = params.opts
-    opts = vim.tbl_deep_extend("force", { cwd = M.get_root(M.root_patterns[1]) }, opts or {}) --[[@as lazyvim.util.telescope.opts]]
+    opts = vim.tbl_deep_extend("force", { cwd = M.get_project_root(M.root_patterns[1]) }, opts or {}) --[[@as lazyvim.util.telescope.opts]]
     if builtin == "files" then
       if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
         opts.show_untracked = true
@@ -107,12 +107,12 @@ local function parent_dir(dir)
   return vim.fn.fnamemodify(dir, ":h")
 end
 
-function M.get_root(root_indicator)
+function M.get_project_root(project_root_indicator)
   local current = vim.api.nvim_buf_get_name(0)
   local parent = parent_dir(current)
 
   while 1 do
-    if match(parent, root_indicator) then
+    if match(parent, project_root_indicator) then
       return parent
     end
 
@@ -124,4 +124,20 @@ function M.get_root(root_indicator)
   return nil
 end
 
+function M.get_root_by_indicator(root_indicator)
+  local current = vim.api.nvim_buf_get_name(0)
+  local parent = parent_dir(current)
+
+  while 1 do
+    if vim.fn.globpath(parent, root_indicator) ~= "" then
+      return current
+    end
+
+    current, parent = parent, parent_dir(parent)
+    if parent == current then
+      break
+    end
+  end
+  return nil
+end
 return M
