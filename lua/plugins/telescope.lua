@@ -74,6 +74,13 @@ return {
 
       return {
         pickers = {
+          live_grep = {
+            mappings = {
+              i = {
+                ["<CR>"] = actions.select_default + actions.center,
+              },
+            },
+          },
           git_branches = {
             mappings = {
               i = {
