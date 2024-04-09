@@ -123,3 +123,14 @@ map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
 map("n", "<leader>cF", function()
   require("util.common").Toggle_format_on_save()
 end, { desc = "Toggle Formatting" })
+
+local function open_CVE_in_browser()
+  local cve = string.match(vim.fn.getline("."), "CVE%-%d+%-%d+")
+  if cve then
+    vim.fn.jobstart({ "xdg-open", "https://nvd.nist.gov/vuln/detail/" .. cve }, { detach = true })
+  else
+    print("No CVE found in the current line.")
+  end
+end
+
+vim.keymap.set("n", "gv", open_CVE_in_browser, { desc = "Goto CVE Definition" })

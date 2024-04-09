@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
 vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   pattern = "*.txt",
   callback = function(event)
-    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.bug }))
+    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
     vim.diagnostic.disable(event.buf)
 
     vim.cmd([[ if search('{"version"', 'nw') | setlocal filetype=json | endif]])

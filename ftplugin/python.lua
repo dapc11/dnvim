@@ -9,6 +9,9 @@ end
 local pythonpath_file = ".pythonpath"
 local root = get_root(pythonpath_file)
 
+function string.starts(String, Start)
+  return string.sub(String, 1, string.len(Start)) == Start
+end
 if root == nil then
   vim.env.PYTHONPATH = nil
 else
@@ -16,7 +19,11 @@ else
   local python_path = ""
   if file_exists(absolute_path) then
     for line in io.open(absolute_path):lines() do
-      python_path = python_path .. root .. "/" .. line .. ":"
+      if string.starts(line, "/home/") then
+        python_path = python_path .. line .. ":"
+      else
+        python_path = python_path .. root .. "/" .. line .. ":"
+      end
     end
     vim.env.PYTHONPATH = python_path
   else
@@ -96,7 +103,7 @@ vim.keymap.set("n", "gf", function()
   })
 end, { desc = "Goto Fixture", buffer = bufnr })
 
-vim.keymap.set("n", "gF", function()
+vim.keymap.set("n", "gR", function()
   require("telescope.builtin").live_grep({
     default_text = vim.fn.expand("<cword>"),
   })

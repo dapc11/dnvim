@@ -125,6 +125,28 @@ return {
             ensure_installed = { "gopls", "golangci_lint_ls", "lua_ls", "pylsp" },
             handlers = {
               lsp_zero.default_setup,
+              pylsp = function()
+                require("lspconfig").pylsp.setup({
+                  settings = {
+                    pylsp = {
+                      plugins = {
+                        -- formatter options
+                        black = { enabled = true },
+                        flake8 = { enabled = true },
+                        -- linter options
+                        pylint = { enabled = true, executable = "pylint" },
+                        pycodestyle = { enabled = true },
+                        -- type checker
+                        pylsp_mypy = { enabled = true },
+                        -- -- auto-completion options
+                        -- jedi_completion = { fuzzy = true },
+                        -- import sorting
+                        pyls_isort = { enabled = true },
+                      },
+                    },
+                  },
+                })
+              end,
               dockerls = function()
                 require("lspconfig").dockerls.setup({
                   on_init = function(client)

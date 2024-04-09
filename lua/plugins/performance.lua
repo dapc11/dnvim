@@ -1,12 +1,12 @@
 local aug = vim.api.nvim_create_augroup("buf_large", { clear = true })
 
 vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {
-  callback = function()
+  callback = function(event)
     local bufnr = vim.api.nvim_get_current_buf()
-    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
 
     if ok and stats and (stats.size > 400000) then
-      vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
+      vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
       vim.diagnostic.disable(bufnr)
       vim.opt_local.spell = false
     end
