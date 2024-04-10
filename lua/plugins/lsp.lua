@@ -126,33 +126,7 @@ return {
             handlers = {
               lsp_zero.default_setup,
               pylsp = function()
-                require("lspconfig").pylsp.setup({
-                  settings = {
-                    pylsp = {
-                      plugins = {
-                        -- formatter options
-                        black = { enabled = true },
-                        flake8 = { enabled = true },
-                        -- linter options
-                        pylint = { enabled = true, executable = "pylint" },
-                        pycodestyle = { enabled = true },
-                        -- type checker
-                        pylsp_mypy = { enabled = true },
-                        -- -- auto-completion options
-                        -- jedi_completion = { fuzzy = true },
-                        -- import sorting
-                        pyls_isort = { enabled = true },
-                      },
-                    },
-                  },
-                })
-              end,
-              dockerls = function()
-                require("lspconfig").dockerls.setup({
-                  on_init = function(client)
-                    client.server_capabilities.semanticTokensProvider = nil
-                  end,
-                })
+                require("lspconfig").pylsp.setup(require("plugins.language_servers.pylsp"))
               end,
               gopls = function()
                 require("lspconfig").gopls.setup(require("plugins.language_servers.gopls"))
