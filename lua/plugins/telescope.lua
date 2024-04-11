@@ -32,6 +32,7 @@ return {
         "Makefile",
         "script_version.txt",
         "drc-report",
+        "v4-class-methods",
         "image-design-rule-check-report.html",
       },
       ignore_lsp = {},
