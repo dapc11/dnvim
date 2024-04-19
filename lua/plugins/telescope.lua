@@ -1,5 +1,24 @@
 local GetVisualSelection = require("util.common").GetVisualSelection
 
+local select_one_or_multi = function(prompt_bufnr)
+  local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+  local multi = picker:get_multi_selection()
+  if not vim.tbl_isempty(multi) then
+    require("telescope.actions").close(prompt_bufnr)
+    for _, j in pairs(multi) do
+      if j.path ~= nil then
+        if j.lnum ~= nil then
+          vim.cmd(string.format("%s %s:%s", "edit", j.path, j.lnum))
+        else
+          vim.cmd(string.format("%s %s", "edit", j.path))
+        end
+      end
+    end
+  else
+    require("telescope.actions").select_default(prompt_bufnr)
+  end
+end
+
 local function theme(opts)
   local resolve = require("telescope.config.resolve")
   local lopts = vim.tbl_extend("force", {
@@ -132,7 +151,7 @@ return {
               ["<Esc>"] = actions.close,
               ["<C-Down>"] = actions.cycle_history_next,
               ["<C-Up>"] = actions.cycle_history_prev,
-              ["<CR>"] = actions.select_default,
+              ["<CR>"] = select_one_or_multi,
               ["<C-h>"] = actions.select_horizontal,
               ["<C-v>"] = actions.select_vertical,
               ["<C-t>"] = actions.select_tab,
