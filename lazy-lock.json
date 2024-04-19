@@ -45,7 +45,6 @@
   "vim-easy-align": { "branch": "master", "commit": "12dd6316974f71ce333e360c0260b4e1f81169c3" },
   "vim-fugitive": { "branch": "master", "commit": "dac8e5c2d85926df92672bf2afb4fc48656d96c7" },
   "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" },
-  "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" },
   "vim-unimpaired": { "branch": "master", "commit": "6d44a6dc2ec34607c41ec78acf81657248580bf1" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
   "zk-nvim": { "branch": "main", "commit": "fb0962b75a680561f94cae0588b8da92ea8d2fae" }
