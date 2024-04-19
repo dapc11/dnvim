@@ -97,8 +97,8 @@ return {
         desc = "Show Missing Commits",
       },
       { "<leader>gh", "<cmd>0Gclog<cr>", desc = "View File History" },
-      { "<leader>gs", Gsearch, desc = "Search History" },
-      { "<leader>gS", GsearchCurrent, desc = "Search Current File History" },
+      { "<leader>gS", Gsearch, desc = "Search History" },
+      { "<leader>gs", GsearchCurrent, desc = "Search Current File History" },
     },
   },
 }
