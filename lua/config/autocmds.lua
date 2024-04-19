@@ -75,3 +75,13 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
   pattern = { "[^l]*" },
   command = "cwindow",
 })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = vim.api.nvim_get_current_buf()
+    if vim.api.nvim_buf_line_count(bufnr) > 5000 then
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+  end,
+})
