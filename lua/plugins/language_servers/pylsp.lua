@@ -1,11 +1,12 @@
 return {
   settings = {
     pylsp = {
-      configurationSources = { "black", "flake8", "pylint", "pycodestyle", "pylsp_mypy", "pyls_isort" },
+      -- "flake8", "pylint", "pycodestyle", "pylsp_mypy", "pyls_isort"
+      configurationSources = { "black" },
       plugins = {
         black = { enabled = true },
         flake8 = {
-          enabled = true,
+          enabled = false,
           maxLineLength = 200,
           extendIgnore = {
             "W503",
@@ -14,16 +15,16 @@ return {
           },
         },
         pylint = {
-          enabled = true,
+          enabled = false,
           executable = "pylint",
           args = {
             "--max-line-length=200",
             "--disable=C0115,C0301,C0114,W0611,E0401,E0501,E0611",
           },
         },
-        pycodestyle = { enabled = true },
-        pylsp_mypy = { enabled = true },
-        pyls_isort = { enabled = true },
+        pycodestyle = { enabled = false },
+        pylsp_mypy = { enabled = false },
+        pyls_isort = { enabled = false },
       },
     },
   },
