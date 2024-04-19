@@ -82,7 +82,7 @@ map("n", "<leader>ls", function()
 end, { desc = "Stop all heavy lifting" })
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
-map("n", "<leader>ld", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
+map("n", "<leader>lL", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
 
 map("n", "<leader>.", [['<esc>' . repeat('.', v:count1)]], { desc = "Repeat cgn", expr = true })
 map("c", "<C-v>", "<C-r>*")

@@ -55,10 +55,12 @@ return {
     keys = {
       { "<leader>gc", require("telescope.builtin").git_branches, desc = "Checkout Branch" },
       { "<leader>r", require("telescope.builtin").oldfiles, desc = "Find Recent Files" },
+      { "<leader>b", require("telescope.builtin").buffers, desc = "Find Open Buffers" },
       { "<leader>n", require("telescope.builtin").find_files, desc = "Find Tracked Files" },
       { "<leader>N", function() require("telescope.builtin").git_files({ git_command = { "git", "ls-files", "--modified", "--exclude-standard" }, }) end, desc = "Find Untracked Files" },
       { "<leader>lc", function() require("telescope.builtin").find_files({ cwd = "~/.config", }) end, desc = "Find in Dotfiles" },
       { "<leader>lC", function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root, }) end, desc = "Find in Plugin Files" },
+      { "<leader>ld", function() require("telescope.builtin").find_files({ cwd = "~/Downloads/" }) end, desc = "Find in Downloads" },
       { "<leader>lh", require("telescope.builtin").help_tags, desc = "Find Help" },
       { "<leader>lH", require("telescope.builtin").highlights, desc = "Find Highlights" },
       { "<leader><leader>", require("telescope.builtin").live_grep, desc = "Grep" },
