@@ -68,3 +68,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.b.miniindentscope_disable = true
   end,
 })
+
+-- always open quickfix window automatically.
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+  group = vim.api.nvim_create_augroup("AutoOpenQuickfix", { clear = true }),
+  pattern = { "[^l]*" },
+  command = "cwindow",
+})
