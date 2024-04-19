@@ -26,7 +26,7 @@ return {
     enabled = true,
     priority = 1000,
     config = function()
-      local winsep = "#516672"
+      local winsep = "$fg"
       require("onedark").setup({
         style = "dark",
         code_style = {
@@ -42,7 +42,7 @@ return {
         highlights = {
           NormalFloat = { bg = "$bg0" },
           FloatBorder = { bg = "$bg0", fg = winsep },
-          WinSeparator = { bg = "$bg3", fg = "$bg3" },
+          WinSeparator = { bg = "bg0", fg = winsep },
           FloatTitle = { bg = "$bg0", fmt = "bold" },
           TelescopeBorder = { bg = "$bg0", fg = winsep },
           TelescopePreviewBorder = { bg = "$bg0", fg = winsep },
