@@ -15,6 +15,7 @@ opt.grepprg = "rg --vimgrep --no-heading --smart-case"
 opt.ignorecase = true -- Ignore case
 opt.inccommand = "nosplit" -- preview incremental substitute
 opt.laststatus = 3
+opt.cmdheight = 0
 opt.list = true -- Show some invisible characters (tabs...
 opt.mouse = "a" -- Enable mouse mode
 opt.number = true -- Print line number
