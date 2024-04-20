@@ -59,6 +59,9 @@ return {
           Define = { fg = "$blue" },
           Operator = { fg = "$orange" },
           Repeat = { fg = "$orange" },
+          DiffAdd = { fg = "$green", bg = "$bg0" },
+          DiffDelete = { fg = "$red", bg = "$bg0" },
+          DiffChange = { fg = "$blue", bg = "$bg0" },
 
           ["@field"] = { fg = "$fg", fmt = "none" },
           ["@function"] = { fg = "$blue", fmt = "none" },
