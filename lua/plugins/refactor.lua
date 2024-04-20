@@ -9,7 +9,7 @@ return {
     local rf = require("refactoring").refactor
     return {
       {
-        "<leader>rf",
+        "<leader>crf",
         function()
           rf("Extract Function")
         end,
@@ -17,7 +17,7 @@ return {
         desc = "Extract Function",
       },
       {
-        "<leader>rv",
+        "<leader>crv",
         function()
           rf("Extract Variable")
         end,
@@ -25,7 +25,7 @@ return {
         desc = "Extract Variable",
       },
       {
-        "<leader>rr",
+        "<leader>crr",
         function()
           require("telescope").extensions.refactoring.refactors()
         end,
