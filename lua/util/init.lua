@@ -63,36 +63,20 @@ function M.lsp_keymaps(bufnr)
   local function opts(desc)
     return { buffer = bufnr, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
   end
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
-  vim.keymap.set("n", "<leader>cs", require("telescope.builtin").lsp_document_symbols , opts("Workspace Symbols"))
-  vim.keymap.set("n", "<leader>cf", function() require("conform").format() end, opts("Format"))
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
+  local fzf = require("fzf-lua")
+  vim.keymap.set("n", "gd", fzf.lsp_definitions, opts("Goto Definition"))
+  vim.keymap.set("n", "gr", fzf.lsp_references, opts("Goto References"))
+  vim.keymap.set("n", "<leader>cs", fzf.lsp_document_symbols , opts("Workspace Symbols"))
+  vim.keymap.set("n", "<leader>cc", function() require("conform").format() end, opts("Format"))
+  vim.keymap.set("n", "<leader>cf", fzf.lsp_finder, opts("Finder"))
+  vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, opts("Code Action"))
   vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
-  vim.keymap.set("n", "<leader>cd",  require("telescope.builtin").diagnostics, opts("Diagnostics"))
+  vim.keymap.set("n", "<leader>cd",  fzf.diagnostics_document, opts("Document Diagnostics"))
+  vim.keymap.set("n", "<leader>cD",  fzf.diagnostics_workspace, opts("Workspace Diagnostics"))
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Goto Next Diagnostic"))
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Goto Prev Diagnostic"))
   vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
-end
-
-function M.telescope(builtin, opts)
-  local params = { builtin = builtin, opts = opts }
-  return function()
-    builtin = params.builtin
-    opts = params.opts
-    opts = vim.tbl_deep_extend("force", { cwd = M.get_project_root(M.root_patterns[1]) }, opts or {}) --[[@as lazyvim.util.telescope.opts]]
-    if builtin == "files" then
-      if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
-        opts.show_untracked = true
-        builtin = "git_files"
-      else
-        builtin = "find_files"
-      end
-    end
-
-    require("telescope.builtin")[builtin](opts)
-  end
 end
 
 local function match(dir, pattern)
