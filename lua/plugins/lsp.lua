@@ -105,8 +105,8 @@ return {
               end,
             },
             window = {
-              completion = cmp.config.window.bordered(),
-              documentation = cmp.config.window.bordered(),
+              completion = { scrollbar = false },
+              documentation = { scrollbar = false },
             },
             snippet = {
               expand = function(args)
