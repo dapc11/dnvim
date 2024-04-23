@@ -1,5 +1,5 @@
 local bufnr = vim.api.nvim_get_current_buf()
-vim.keymap.set({ "v", "n" }, "<leader>cf", ":%!jq '.'", { desc = "Format", buffer = bufnr })
+vim.keymap.set({ "v", "n" }, "<leader>cF", ":%!jq '.'", { desc = "Format", buffer = bufnr })
 vim.keymap.set(
   "n",
   "<leader>cl",
@@ -10,7 +10,7 @@ vim.keymap.set(
 local function open_CVE_in_browser()
   local cve = string.match(vim.fn.getline("."), "CVE%-%d+%-%d+")
   if cve then
-    vim.fn.jobstart({ "xdg-open", "https://nvd.nist.gov/vuln/detail/" .. cve }, { detach = true })
+    vim.fn.jobstart({ "firefox", "https://nvd.nist.gov/vuln/detail/" .. cve }, { detach = true })
   else
     print("No CVE found in the current line.")
   end
