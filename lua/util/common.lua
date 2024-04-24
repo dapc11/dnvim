@@ -95,4 +95,13 @@ function M.Toggle_format_on_save()
   end
 end
 
+function M.Fzf_projectionist()
+  coroutine.wrap(function()
+    local choice = require("fzf").fzf(require("secret").project_dirs, "--reverse")
+    if choice then
+      require("fzf-lua").files({ cwd = choice[1] })
+    end
+  end)()
+end
+
 return M

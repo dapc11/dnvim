@@ -78,20 +78,26 @@ return {
       end
 
       local starter = require("mini.starter")
+      local fzf = require("fzf-lua")
       local starter_config = {
         evaluate_single = true,
-      -- stylua: ignore
-      items = {
-        new_section("Find file", function () require("util.init").telescope("files")() end, "Telescope"),
-        new_section("Recent files", "Telescope oldfiles", "Telescope"),
-        new_section("Grep text", "Telescope live_grep", "Telescope"),
-        new_section("Projects", "Telescope projects", "Telescope"),
-        new_section("Lazy", "Lazy", "Config"),
-        new_section("Config", function() require('telescope.builtin').find_files({cwd = vim.fn.stdpath('config')}) end, "Config"),
-        new_section("New file", "ene | startinsert", "Built-in"),
-        new_section("Quit", "qa", "Built-in"),
-        new_section("Session restore", function() require("persistence").load({ last = true }) end, "Session"),
-      },
+        items = {
+          new_section("Find file", fzf.files, "Finders"),
+          new_section("Recent files", fzf.oldfiles, "Finders"),
+          new_section("Grep text", fzf.live_grep, "Finders"),
+          new_section("Projects", function()
+            require("util.common").Fzf_projectionist()
+          end, "Finders"),
+          new_section("Lazy", "Lazy", "Config"),
+          new_section("Config", function()
+            fzf.files({ cwd = require("lazy.core.config").options.root })
+          end, "Config"),
+          new_section("New file", "ene | startinsert", "Built-in"),
+          new_section("Quit", "qa", "Built-in"),
+          new_section("Session restore", function()
+            require("persistence").load({ last = true })
+          end, "Session"),
+        },
         content_hooks = {
           starter.gen_hook.aligning("center", "center"),
         },

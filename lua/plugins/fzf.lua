@@ -1,15 +1,7 @@
-function fzf_projectionist()
-  coroutine.wrap(function()
-    local choice = require("fzf").fzf(require("secret").project_dirs, '--preview="ls -la {}"')
-    if choice then
-      require("fzf-lua").files({ cwd = choice[1] })
-    end
-  end)()
-end
-
 return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons", "vijaymarupudi/nvim-fzf" },
+  lazy = false,
   config = function()
     local actions = require("fzf-lua.actions")
     local fzf = require("fzf-lua")
@@ -99,7 +91,9 @@ return {
       { "<C-f>", fzf.lgrep_curbuf, desc = "Find in Current Buffer" },
       {
         "<C-p>",
-        fzf_projectionist,
+        function()
+          require("util.common").Fzf_projectionist()
+        end,
         desc = "Find Project",
       },
     }
