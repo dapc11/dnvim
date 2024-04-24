@@ -5,7 +5,6 @@ M.ignored_filetypes = {
   "Jaq",
   "Markdown",
   "PlenaryTestPopup",
-  "TelescopePrompt",
   "blame",
   "checkhealth",
   "dap-repl",
@@ -97,7 +96,15 @@ end
 
 function M.Fzf_projectionist()
   coroutine.wrap(function()
-    local choice = require("fzf").fzf(require("secret").project_dirs, "--reverse")
+    local fd_command = "fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname"
+    local fd_output = io.popen(fd_command):read("*a")
+
+    -- Split the output into lines
+    local repositories = {}
+    for repository in fd_output:gmatch("[^\n]+") do
+      table.insert(repositories, repository)
+    end
+    local choice = require("fzf").fzf(repositories, "--reverse")
     if choice then
       require("fzf-lua").files({ cwd = choice[1] })
     end
