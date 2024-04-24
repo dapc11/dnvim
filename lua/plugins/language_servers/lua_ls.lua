@@ -18,6 +18,9 @@ return {
       },
       maxPreload = 5000,
       preloadFileSize = 2000,
+      misc = {
+        parameters = { "--loglevel=error" },
+      },
       diagnostics = {
         globals = {
           "vim",
