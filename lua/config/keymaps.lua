@@ -134,3 +134,27 @@ local function open_CVE_in_browser()
 end
 
 vim.keymap.set("n", "gv", open_CVE_in_browser, { desc = "Goto CVE Definition" })
+
+local nav = {
+  h = "Left",
+  j = "Down",
+  k = "Up",
+  l = "Right",
+}
+
+local function navigate(dir)
+  return function()
+    local win = vim.api.nvim_get_current_win()
+    vim.cmd.wincmd(dir)
+    local pane = vim.env.WEZTERM_PANE
+    if pane and win == vim.api.nvim_get_current_win() then
+      local pane_dir = nav[dir]
+      vim.fn.system("wezterm cli activate-pane-direction " .. pane_dir)
+    end
+  end
+end
+
+-- Move to window using the movement keys
+for key, dir in pairs(nav) do
+  vim.keymap.set("n", "<M-" .. dir .. ">", navigate(key))
+end
