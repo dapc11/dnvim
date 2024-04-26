@@ -71,7 +71,6 @@ map("n", "<leader><tab>d", "<cmd>tabclose<CR>", { desc = "Close Tab" })
 map("n", "<leader>x<right>", "<cmd>cnewer<CR>", { desc = "Next Quickfix List" })
 map("n", "<leader>x<left>", "<cmd>colder<CR>", { desc = "Previous Quickfix List" })
 map("n", "<leader>xl", "<cmd>chi<CR>", { desc = "List Quickfix Lists" })
-map("n", "<leader>xx", "<cmd>copen<CR>", { desc = "Open Given Quickfix List" })
 map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
 
 map("n", "<leader>ls", function()
