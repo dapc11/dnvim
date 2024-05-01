@@ -85,8 +85,7 @@ return {
       },
       { "<leader>lh", fzf.helptags, desc = "Find Help" },
       { "<leader>lH", fzf.highlights, desc = "Find Highlights" },
-      { "<leader><leader>", fzf.live_grep, desc = "Grep" },
-      { "<leader>f", fzf.grep_project, desc = "Grep" },
+      { "<leader><leader>", fzf.grep_project, desc = "Grep" },
       { "<leader><leader>", fzf.grep_visual, desc = "Live Grep Selection", mode = "v" },
       { "<C-f>", fzf.lgrep_curbuf, desc = "Find in Current Buffer" },
       {

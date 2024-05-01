@@ -122,9 +122,8 @@ return {
 
           require("mason").setup({})
           require("mason-lspconfig").setup({
-            ensure_installed = { "gopls", "golangci_lint_ls", "lua_ls", "pylsp" },
+            ensure_installed = { "gopls", "lua_ls", "pylsp" },
             handlers = {
-              lsp_zero.default_setup,
               pylsp = function()
                 require("lspconfig").pylsp.setup(require("plugins.language_servers.pylsp"))
               end,
@@ -171,8 +170,7 @@ return {
     ft = "go",
     opts = { verticalSplit = false },
     config = function(_, opts)
-      local goc = require("nvim-goc")
-      goc.setup(opts)
+      require("nvim-goc").setup(opts)
     end,
   },
 }
