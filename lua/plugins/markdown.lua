@@ -8,11 +8,8 @@ return {
   },
   {
     "mickael-menu/zk-nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
     opts = {
-      picker = "telescope",
+      picker = "fzf_lua",
     },
     config = function(_, opts)
       require("zk").setup(opts)
@@ -24,7 +21,7 @@ return {
         desc = "New Note",
       },
       { "<leader>zb", vim.cmd.ZkNotes, desc = "Browse Notes" },
-      { "<leader>zz", "<cmd>Telescope live_grep cwd=~/notes<CR>", desc = "Find Note" },
+      { "<leader>zz", "<cmd>FzfLua live_grep cwd=~/notes<CR>", desc = "Find Note" },
     },
   },
 }
