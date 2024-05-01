@@ -10,16 +10,16 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("DiffUpdated", {
-  pattern = "",
-  callback = function(_)
-    if vim.wo.diff then
-      vim.diagnostic.disable()
-      vim.keymap.set("n", "o", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
-      vim.keymap.set("n", "t", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("DiffUpdated", {
+--   pattern = "",
+--   callback = function(_)
+--     if vim.wo.diff then
+--       vim.diagnostic.disable()
+--       vim.keymap.set("n", "o", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
+--       vim.keymap.set("n", "t", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
+--     end
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "yaml",

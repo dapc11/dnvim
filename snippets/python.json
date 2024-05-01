@@ -1,18 +1,18 @@
 {
   "#!/usr/bin/env python3": {
-    "prefix": "env",
+    "prefix": "shebang",
     "body": "#!/usr/bin/env python3\n$0",
     "description": "Adds shebang line for default python 3 interpreter."
   },
   "Pretty print dict": {
-    "prefix": "dump",
+    "prefix": "pretty",
     "body": [
       "json.dumps($1, indent=2)"
     ],
     "description": "Pretty print a dict"
   },
   "Open file for reading": {
-    "prefix": "readfile",
+    "prefix": "read",
     "body": [
       "with open($1) as f:",
       "\ttext = f.read()"
@@ -20,28 +20,15 @@
     "description": "Open file for reading in a with statement"
   },
   "Open file for writing": {
-    "prefix": "writefile",
+    "prefix": "write",
     "body": [
       "with open($1, w) as f:",
       "\tf.write($2)"
     ],
     "description": "Open file for writing using a with statement"
   },
-  "Encoding statement": {
-    "prefix": "cod",
-    "body": "# -*- coding: utf-8 -*-",
-    "description": "File encoding statement"
-  },
-  "Abstract method": {
-    "prefix": "abstractmethod",
-    "body": [
-      "def ${1:name}:",
-      "\traise NotImplementedError(\"This method is abstract. To provide a concrete implementation override this method in a subclass.\")"
-    ],
-    "description": "Abstract method body"
-  },
   "Print function variable": {
-    "prefix": "pvar",
+    "prefix": "print",
     "body": [
       "print('${1:func}: ${2:var} = {}'.format($2))"
     ],
@@ -60,7 +47,7 @@
     "description": "Call entry point function if this script is run directly"
   },
   "New class with init": {
-    "prefix": "class1",
+    "prefix": "class",
     "body": [
       "class ${1:name}${2:(object)}:",
       "\tdef __init__(self, ${3:var}):",
@@ -71,7 +58,7 @@
     "description": "Simple class skeleton with init and str magic methods"
   },
   "try/except": {
-    "prefix": "try/except",
+    "prefix": "trye",
     "body": [
       "try:",
       "\t${1:pass}",
@@ -81,7 +68,7 @@
     "description": "Code snippet for a try/except statement"
   },
   "try/finally": {
-    "prefix": "try/finally",
+    "prefix": "tryf",
     "body": [
       "try:",
       "\t${1:pass}",
@@ -91,7 +78,7 @@
     "description": "Code snippet for a try/finally statement"
   },
   "try/except/finally": {
-    "prefix": "try/except/finally",
+    "prefix": "tryef",
     "body": [
       "try:",
       "\t${1:pass}",
@@ -101,14 +88,6 @@
       "\t${5:pass}"
     ],
     "description": "Code snippet for a try/except/finally statement"
-  },
-  "def(class method)": {
-    "prefix": "def class method",
-    "body": [
-      "def ${1:funcname}(self, ${2:parameter_list}):",
-      "\t${3:pass}"
-    ],
-    "description": "Code snippet for a class method"
   },
   "def(static class method)": {
     "prefix": "def static class method",
@@ -134,96 +113,25 @@
     ],
     "description": "Code snippet for a lambda statement"
   },
-  "if(main)": {
-    "prefix": "__main__",
-    "body": [
-      "if __name__ == \"__main__\":",
-      "    ${1:pass}"
-    ],
-    "description": "Code snippet for a `if __name__ == \"__main__\": ...` block"
-  },
   "List comprehension": {
-    "prefix": "lc",
+    "prefix": "listc",
     "body": "[${1:value} for ${2:value} in ${3:iterable}]$0",
     "description": "List comprehension for creating a list based on existing lists."
   },
-  "List comprehension if else": {
-    "prefix": "lcie",
-    "body": "[${1:value} if ${2:condition} else ${3:condition} for ${4:value} in ${5:iterable}]$0",
-    "description": "List comprehension for creating a list based on existing lists, with conditional if-else statement."
-  },
-  "List comprehension if filter": {
-    "prefix": "lci",
-    "body": "[${1:value} for ${2:value} in ${3:iterable} if ${4:condition}$0]",
-    "description": "List comprehension for creating a list based on existing lists, with conditional if statement."
-  },
   "Dictionary comprehension": {
-    "prefix": "dc",
+    "prefix": "dictc",
     "body": "{${1:key}: ${2:value} for ${3:key}, ${4:value} in ${5:iterable}}$0",
     "description": "Handy and faster way to create dictories based on existing dictionaries."
   },
-  "Dictionary comprehension if filter": {
-    "prefix": "dci",
-    "body": "{${1:key}: ${2:value} for ${3:key}, ${4:value} in ${5:iterable} if ${6:condition}}$0",
-    "description": "Handy and faster way to create dictories based on existing dictionaries, with conditional if statement."
-  },
   "Set comprehension": {
-    "prefix": "sc",
+    "prefix": "setc",
     "body": "{${1:value} for ${2:value} in ${3:iterable}}$0",
     "description": "Create a set based on existing iterables."
   },
-  "Set Comprehension if filter": {
-    "prefix": "sci",
-    "body": "{${1:value} for ${2:value} in ${3:iterable} if ${4:condition}}$0",
-    "description": "Create a set based on existing iterables, with condition if statement."
-  },
-  "Generator comprehension": {
-    "prefix": "gc",
-    "body": "(${1:key} for ${2:value} in ${3:iterable})$0",
-    "description": "Create a generator based on existing iterables."
-  },
-  "Generator comprehension if filter": {
-    "prefix": "gci",
-    "body": "(${1:key} for ${2:value} in ${3:iterable} if ${4:condition})$0",
-    "description": "Create a generator based on existing iterables, with condition if statement."
-  },
-  "class": {
-    "prefix": "class",
-    "body": [
-      "class ${1:classname}(${2:object}):",
-      "\t${3:pass}"
-    ],
-    "description": "Code snippet for a class definition"
-  },
-  "New class": {
-    "prefix": "classi",
-    "body": "class ${1:ClassName}(${2:object}):\n\t\"\"\"${3:docstring for $1.}\"\"\"\n\tdef __init__(self, ${4:arg}):\n\t\t${5:super($1, self).__init__()}\n\t\tself.arg = arg\n\t\t$0",
-    "description": "Code snippet for a class definition."
-  },
-  "New method": {
-    "prefix": "defs",
-    "body": "def ${1:mname}(self, ${2:arg}):\n\t${3:pass}$0",
-    "description": "Code snippet for a class method definition."
-  },
   "New method w/ return": {
-    "prefix": "defst",
+    "prefix": "def",
     "body": "def ${1:mname}(self, ${2:arg}) -> ${3:return_type}:\n\t${4:pass}$0",
     "description": "Code snippet for a class method definition."
-  },
-  "New function": {
-    "prefix": "def",
-    "body": "def ${1:fname}(${2:arg}):\n\t${3:pass}$0",
-    "description": "Code snippet for function definition."
-  },
-  "New function w/ return": {
-    "prefix": "deft",
-    "body": "def ${1:fname}(${2:arg}) -> ${3:return_type}:\n\t${4:pass}$0",
-    "description": "Code snippet for function definition."
-  },
-  "New async function": {
-    "prefix": "adef",
-    "body": "async def ${1:fname}(${2:arg}):\n\t${3:pass}$0",
-    "description": "Code snippet for async function definition."
   },
   "New property": {
     "prefix": "property",
@@ -299,9 +207,4 @@
     ],
     "description": "Code snippet for a with statement"
   },
-  "self": {
-    "prefix": "s",
-    "body": "self.$0",
-    "description": "Shortend snippet to reference the self property in an object."
-  }
 }

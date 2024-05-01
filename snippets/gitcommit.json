@@ -87,20 +87,6 @@
       "$0"
     ]
   },
-  "test conventional commit": {
-    "prefix": "test",
-    "body": [
-      "test(${1:scope}): ${2:title}",
-      "",
-      "$0"
-    ]
-  },
-  "breaking change conventional commit footer": {
-    "prefix": "BREAK",
-    "body": [
-      "BREAKING CHANGE: $0"
-    ]
-  },
   "vulnerability": {
     "prefix": "vuln",
     "body": [
@@ -128,13 +114,13 @@
     ]
   },
   "lcmplugins": {
-    "prefix": "lcmplugins",
+    "prefix": "lcm",
     "body": [
       "chore(lcm): plugins"
     ]
   },
   "lcm": {
-    "prefix": "lcm",
+    "prefix": "update",
     "body": [
       "Update ${1:3pp}",
       "",
