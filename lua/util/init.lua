@@ -64,8 +64,8 @@ function M.lsp_keymaps(bufnr)
     return { buffer = bufnr, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
   end
   local fzf = require("fzf-lua")
-  vim.keymap.set("n", "gd", fzf.lsp_definitions, opts("Goto Definition"))
-  vim.keymap.set("n", "gr", fzf.lsp_references, opts("Goto References"))
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
   vim.keymap.set("n", "<leader>cs", fzf.lsp_document_symbols , opts("Workspace Symbols"))
   vim.keymap.set("n", "<leader>cc", function() require("conform").format() end, opts("Format"))
   vim.keymap.set("n", "<leader>cf", fzf.lsp_finder, opts("Finder"))
