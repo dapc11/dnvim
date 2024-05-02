@@ -1,6 +1,5 @@
 local bufnr = vim.api.nvim_get_current_buf()
 
-
 local goc = require("nvim-goc")
 
 vim.keymap.set("n", "<Leader>ccc", goc.Coverage, { silent = true, buffer = bufnr, desc = "Go Coverage" })

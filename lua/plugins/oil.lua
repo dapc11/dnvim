@@ -1,5 +1,17 @@
+local close = {
+  desc = "Close oil and restore original buffer",
+  callback = function()
+    local oilbuf = vim.api.nvim_get_current_buf()
+    local ok = pcall(vim.cmd.bprev)
+    if not ok then
+      vim.cmd("FzfLua files")
+    end
+    vim.api.nvim_buf_delete(oilbuf, { force = true })
+  end,
+}
+
 return {
-  "dapc11/oil.nvim",
+  "stevearc/oil.nvim",
   opts = {
     win_options = {
       wrap = false,
@@ -15,14 +27,13 @@ return {
     skip_confirm_for_simple_edits = true,
     cleanup_delay_ms = 2000,
     keymaps = {
-      ["g?"] = "actions.show_help",
-      ["<CR>"] = "actions.select",
       ["<C-s>"] = "actions.select_vsplit",
       ["<C-v>"] = "actions.select_split",
       ["<C-t>"] = "actions.select_tab",
       ["<C-p>"] = "actions.preview",
-      ["<C-c>"] = "actions.close",
-      ["q"] = "actions.close",
+      ["<C-c>"] = close,
+      ["<Esc>"] = close,
+      ["q"] = close,
       ["<C-l>"] = "actions.refresh",
       ["-"] = "actions.parent",
       ["<BS>"] = "actions.parent",
@@ -36,7 +47,7 @@ return {
     },
   },
   keys = {
-    { "<leader>e", "<cmd>Oil<cr>", desc = "Explorer", remap = true },
+    { "<leader>e", vim.cmd.Oil, desc = "Explorer", remap = true },
   },
   dependencies = { "nvim-tree/nvim-web-devicons" },
 }

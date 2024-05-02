@@ -1,25 +1,50 @@
+local count_bufs_by_type = function(loaded_only)
+  loaded_only = (loaded_only == nil and true or loaded_only)
+  local count = { normal = 0, acwrite = 0, help = 0, nofile = 0, nowrite = 0, quickfix = 0, terminal = 0, prompt = 0 }
+  local buftypes = vim.api.nvim_list_bufs()
+  for _, bufname in pairs(buftypes) do
+    if (not loaded_only) or vim.api.nvim_buf_is_loaded(bufname) then
+      local buftype = vim.api.nvim_buf_get_option(bufname, "buftype")
+      buftype = buftype ~= "" and buftype or "normal"
+      count[buftype] = count[buftype] + 1
+    end
+  end
+  return count
+end
+
+local function close_buffer()
+  local bufTable = count_bufs_by_type()
+  if bufTable.normal <= 1 then
+    vim.cmd.close()
+  else
+    vim.cmd.bdelete()
+  end
+end
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = require("util.common").ignored_filetypes,
   callback = function(event)
+    local buf_ft = vim.bo.filetype
+    if buf_ft ~= "oil" then
+      vim.keymap.set("n", "q", close_buffer, { silent = true, buffer = true })
+      vim.keymap.set("n", "<esc>", close_buffer, { silent = true, buffer = true })
+      vim.keymap.set("n", "<c-c>", close_buffer, { silent = true, buffer = true })
+    end
     vim.bo[event.buf].buflisted = false
     vim.opt.colorcolumn = "0"
-    vim.keymap.set("n", "q", "<cmd>close<CR>", { silent = true, buffer = true })
-    vim.keymap.set("n", "<esc>", "<cmd>close<CR>", { silent = true, buffer = true })
     vim.keymap.set("n", "<c-j>", "j<CR>", { silent = true, buffer = true })
     vim.keymap.set("n", "<c-k>", "k<CR>", { silent = true, buffer = true })
   end,
 })
 
--- vim.api.nvim_create_autocmd("DiffUpdated", {
---   pattern = "",
---   callback = function(_)
---     if vim.wo.diff then
---       vim.diagnostic.disable()
---       vim.keymap.set("n", "o", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
---       vim.keymap.set("n", "t", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
---     end
---   end,
--- })
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "diff",
+  callback = function(_)
+    vim.diagnostic.disable()
+    vim.keymap.set("n", "o", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
+    vim.keymap.set("n", "t", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
+  end,
+})
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "yaml",
