@@ -90,7 +90,7 @@ return {
           end, "Finders"),
           new_section("Lazy", "Lazy", "Config"),
           new_section("Config", function()
-            fzf.files({ cwd = require("lazy.core.config").options.root })
+            fzf.files({ cwd = "~/.config/nvim/" })
           end, "Config"),
           new_section("New file", "ene | startinsert", "Built-in"),
           new_section("Quit", "qa", "Built-in"),
