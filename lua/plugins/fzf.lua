@@ -1,12 +1,18 @@
 return {
   "ibhagwan/fzf-lua",
-  dependencies = { "nvim-tree/nvim-web-devicons", "vijaymarupudi/nvim-fzf" },
+  dependencies = { "nvim-tree/nvim-web-devicons", "vijaymarupudi/nvim-fzf", "nvim-lua/plenary.nvim" },
   lazy = false,
   config = function()
     local actions = require("fzf-lua.actions")
     local fzf = require("fzf-lua")
     fzf.setup({
       "max-perf",
+      fzf_colors = {
+        ["bg"] = { "bg", "Normal" },
+        ["bg+"] = { "bg", "Normal" },
+        ["gutter"] = "-1",
+        ["border"] = "-1",
+      },
       winopts = {
         preview = {
           hidden = "hidden",

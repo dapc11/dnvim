@@ -128,8 +128,8 @@ return {
         overrides = function(colors)
           local theme = colors.theme
           return {
-            StatusLine = { bg = colors.palette.winterBlue },
-            StatusLineNC = { bg = colors.palette.winterBlue },
+            StatusLine = { bg = theme.ui.bg_p1 },
+            StatusLineNC = { bg = theme.ui.bg_p1 },
             Error = { fg = colors.palette.autumnRed },
             DiagnosticError = { fg = colors.palette.autumnRed },
             DiagnosticSignError = { fg = colors.palette.autumnRed },
@@ -138,6 +138,28 @@ return {
             PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
             PmenuSbar = { bg = theme.ui.bg_m1 },
             PmenuThumb = { bg = theme.ui.bg_p2 },
+            WhichKeyFloat = { bg = colors.palette.sumiInk4 },
+
+            MiniStarterCurrent = { fg = theme.ui.fg, bold = true },
+            MiniStarterFooter = { fg = colors.palette.dragonRed, italic = true },
+            MiniStarterHeader = { fg = colors.palette.carpYellow },
+            MiniStarterInactive = { fg = colors.palette.katanaGray, italic = true },
+            MiniStarterItem = { fg = theme.ui.fg_dim, bg = theme.ui.bg },
+            MiniStarterItemBullet = { fg = colors.palette.katanaGray },
+            MiniStarterItemPrefix = { fg = colors.palette.surimiOrange, bold = true },
+            MiniStarterSection = { fg = colors.palette.crystalBlue, bold = true },
+            MiniStarterQuery = { fg = colors.palette.springBlue },
+
+            MiniStatuslineDevinfo = { fg = theme.ui.fg, bg = theme.ui.bg_p2 },
+            MiniStatuslineFileinfo = { fg = theme.ui.fg, bg = theme.ui.bg_p2 },
+            MiniStatuslineFilename = { fg = colors.palette.katanaGray, bg = theme.ui.bg_p1 },
+            MiniStatuslineInactive = { fg = colors.palette.katanaGray, bg = theme.ui.bg },
+            MiniStatuslineModeCommand = { fg = theme.ui.bg, bg = colors.palette.autumnYellow, bold = true },
+            MiniStatuslineModeInsert = { fg = theme.ui.bg, bg = colors.palette.lotusBlue3, bold = true },
+            MiniStatuslineModeNormal = { fg = theme.ui.bg, bg = colors.palette.lotusGreen2, bold = true },
+            MiniStatuslineModeOther = { fg = theme.ui.bg, bg = colors.palette.lotusCyan, bold = true },
+            MiniStatuslineModeReplace = { fg = theme.ui.bg, bg = colors.palette.lotusRed2, bold = true },
+            MiniStatuslineModeVisual = { fg = theme.ui.bg, bg = colors.palette.lotusViolet2, bold = true },
           }
         end,
       }))

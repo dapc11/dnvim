@@ -48,5 +48,5 @@ opt.colorcolumn = "80"
 opt.hlsearch = true
 opt.incsearch = true
 
-vim.cmd("colorscheme onedark")
+vim.cmd("colorscheme kanagawa")
 vim.g.markdown_recommended_style = 0
