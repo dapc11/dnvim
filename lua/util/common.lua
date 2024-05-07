@@ -110,6 +110,17 @@ function M.fzf_projectionist()
         vim.cmd("cd " .. selected[1])
         fzf.oldfiles({ cwd = selected[1] })
       end,
+      ["ctrl-g"] = function(selected, _)
+        local windows = vim.api.nvim_list_wins()
+        for _, v in pairs(windows) do
+          local status, _ = pcall(vim.api.nvim_win_get_var, v, "fugitive_status")
+          if status then
+            vim.api.nvim_win_close(v, false)
+          end
+        end
+        vim.cmd("Gcd " .. selected[1])
+        vim.cmd.Git()
+      end,
     },
   })
 end
