@@ -10,7 +10,7 @@
   "cleanup": {
     "prefix": "cleanup",
     "body": [
-      "chore(cleanup): ${1:title}",
+      "cleanup(${1:scope}): ${2:title}",
       "",
       "$0"
     ]
