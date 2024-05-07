@@ -114,55 +114,66 @@ return {
     "rebelot/kanagawa.nvim",
     priority = 1000,
     lazy = false,
-    config = function(_, opts)
-      require("kanagawa").setup(vim.tbl_extend("force", opts, {
-        colors = {
-          theme = {
-            all = {
-              ui = {
-                bg_gutter = "none",
-              },
+    opts = {
+      colors = {
+        theme = {
+          all = {
+            ui = {
+              bg_gutter = "none",
             },
           },
         },
-        overrides = function(colors)
-          local theme = colors.theme
-          return {
-            StatusLine = { bg = theme.ui.bg_p1 },
-            StatusLineNC = { bg = theme.ui.bg_p1 },
-            Error = { fg = colors.palette.autumnRed },
-            DiagnosticError = { fg = colors.palette.autumnRed },
-            DiagnosticSignError = { fg = colors.palette.autumnRed },
-            ErrorMsg = { fg = colors.palette.autumnRed, bg = colors.palette.sumilnk0 },
-            Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
-            PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
-            PmenuSbar = { bg = theme.ui.bg_m1 },
-            PmenuThumb = { bg = theme.ui.bg_p2 },
-            WhichKeyFloat = { bg = colors.palette.sumiInk4 },
+      },
+      overrides = function(colors)
+        local u = colors.theme.ui
+        local p = colors.palette
 
-            MiniStarterCurrent = { fg = theme.ui.fg, bold = true },
-            MiniStarterFooter = { fg = colors.palette.dragonRed, italic = true },
-            MiniStarterHeader = { fg = colors.palette.carpYellow },
-            MiniStarterInactive = { fg = colors.palette.katanaGray, italic = true },
-            MiniStarterItem = { fg = theme.ui.fg_dim, bg = theme.ui.bg },
-            MiniStarterItemBullet = { fg = colors.palette.katanaGray },
-            MiniStarterItemPrefix = { fg = colors.palette.surimiOrange, bold = true },
-            MiniStarterSection = { fg = colors.palette.crystalBlue, bold = true },
-            MiniStarterQuery = { fg = colors.palette.springBlue },
+        return {
+          StatusLine = { bg = u.bg_p1 },
+          StatusLineNC = { bg = u.bg_p1 },
+          Error = { fg = p.autumnRed },
+          DiagnosticError = { fg = p.autumnRed },
+          DiagnosticSignError = { fg = p.autumnRed },
+          ErrorMsg = { fg = p.autumnRed, bg = p.sumilnk0 },
+          Pmenu = { fg = u.shade0, bg = u.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
+          PmenuSel = { fg = "NONE", bg = u.bg_p2 },
+          PmenuSbar = { bg = u.bg_m1 },
+          PmenuThumb = { bg = u.bg_p2 },
+          WhichKeyFloat = { bg = p.sumiInk4 },
+          FloatBorder = { bg = u.bg, fg = u.fg },
+          WinSeparator = { bg = u.bg, fg = u.fg, bold = true },
 
-            MiniStatuslineDevinfo = { fg = theme.ui.fg, bg = theme.ui.bg_p2 },
-            MiniStatuslineFileinfo = { fg = theme.ui.fg, bg = theme.ui.bg_p2 },
-            MiniStatuslineFilename = { fg = colors.palette.katanaGray, bg = theme.ui.bg_p1 },
-            MiniStatuslineInactive = { fg = colors.palette.katanaGray, bg = theme.ui.bg },
-            MiniStatuslineModeCommand = { fg = theme.ui.bg, bg = colors.palette.autumnYellow, bold = true },
-            MiniStatuslineModeInsert = { fg = theme.ui.bg, bg = colors.palette.lotusBlue3, bold = true },
-            MiniStatuslineModeNormal = { fg = theme.ui.bg, bg = colors.palette.lotusGreen2, bold = true },
-            MiniStatuslineModeOther = { fg = theme.ui.bg, bg = colors.palette.lotusCyan, bold = true },
-            MiniStatuslineModeReplace = { fg = theme.ui.bg, bg = colors.palette.lotusRed2, bold = true },
-            MiniStatuslineModeVisual = { fg = theme.ui.bg, bg = colors.palette.lotusViolet2, bold = true },
-          }
-        end,
-      }))
-    end,
+          MiniStarterCurrent = { fg = u.fg, bold = true },
+          MiniStarterFooter = { fg = p.dragonRed, italic = true },
+          MiniStarterHeader = { fg = p.carpYellow },
+          MiniStarterInactive = { fg = p.katanaGray, italic = true },
+          MiniStarterItem = { fg = u.fg_dim, bg = u.bg },
+          MiniStarterItemBullet = { fg = p.katanaGray },
+          MiniStarterItemPrefix = { fg = p.surimiOrange, bold = true },
+          MiniStarterSection = { fg = p.crystalBlue, bold = true },
+          MiniStarterQuery = { fg = p.springBlue },
+
+          MiniStatuslineDevinfo = { fg = u.fg, bg = u.bg_p2 },
+          MiniStatuslineFileinfo = { fg = u.fg, bg = u.bg_p2 },
+          MiniStatuslineFilename = { fg = p.katanaGray, bg = u.bg_p1 },
+          MiniStatuslineInactive = { fg = p.katanaGray, bg = u.bg },
+          MiniStatuslineModeCommand = { fg = u.bg, bg = p.autumnYellow, bold = true },
+          MiniStatuslineModeInsert = { fg = u.bg, bg = p.lotusBlue3, bold = true },
+          MiniStatuslineModeNormal = { fg = u.bg, bg = p.lotusGreen2, bold = true },
+          MiniStatuslineModeOther = { fg = u.bg, bg = p.lotusCyan, bold = true },
+          MiniStatuslineModeReplace = { fg = u.bg, bg = p.lotusRed2, bold = true },
+          MiniStatuslineModeVisual = { fg = u.bg, bg = p.lotusViolet2, bold = true },
+
+          ["@function"] = { fg = p.carpYellow },
+          ["@method"] = { fg = p.crystalBlue },
+          ["@keyword"] = { fg = p.oniViolet, bold = true },
+          ["@string.escape"] = { fg = u.lotusCyan },
+          ["@keyword.function"] = { fg = p.oniViolet, bold = true },
+          ["@keyword.repeat"] = { fg = p.oniViolet, bold = true },
+          ["@keyword.return"] = { fg = p.oniViolet, bold = true },
+          ["@keyword.exception"] = { fg = p.oniViolet, bold = true },
+        }
+      end,
+    },
   },
 }
