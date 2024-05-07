@@ -4,14 +4,44 @@ return {
   lazy = false,
   config = function()
     local actions = require("fzf-lua.actions")
+    local utils = require("fzf-lua.utils")
     local fzf = require("fzf-lua")
+
+    local function hl_validate(hl)
+      return not utils.is_hl_cleared(hl) and hl or nil
+    end
     fzf.setup({
       "max-perf",
+      hls = {
+        normal = hl_validate("TelescopeNormal"),
+        border = hl_validate("TelescopeBorder"),
+        title = hl_validate("TelescopePromptTitle"),
+        help_normal = hl_validate("TelescopeNormal"),
+        help_border = hl_validate("TelescopeBorder"),
+        preview_normal = hl_validate("TelescopeNormal"),
+        preview_border = hl_validate("TelescopeBorder"),
+        preview_title = hl_validate("TelescopePreviewTitle"),
+        -- builtin preview only
+        cursor = hl_validate("Cursor"),
+        cursorline = hl_validate("TelescopeSelection"),
+        cursorlinenr = hl_validate("TelescopeSelection"),
+        search = hl_validate("IncSearch"),
+      },
       fzf_colors = {
+        ["fg"] = { "fg", "Normal" },
         ["bg"] = { "bg", "Normal" },
-        ["bg+"] = { "bg", "Normal" },
-        ["gutter"] = "-1",
-        ["border"] = "-1",
+        ["hl"] = { "fg", "TelescopeMatching" },
+        ["fg+"] = { "fg", "TelescopeSelection" },
+        ["bg+"] = { "bg", "TelescopeSelection" },
+        ["hl+"] = { "fg", "TelescopeMatching" },
+        ["info"] = { "fg", "TelescopeMultiSelection" },
+        ["border"] = { "fg", "TelescopeBorder" },
+        ["gutter"] = { "bg", "Normal" },
+        ["query"] = { "fg", "TelescopePromptNormal" },
+        ["prompt"] = { "fg", "TelescopePromptPrefix" },
+        ["pointer"] = { "fg", "TelescopeSelectionCaret" },
+        ["marker"] = { "fg", "TelescopeSelectionCaret" },
+        ["header"] = { "fg", "TelescopeTitle" },
       },
       winopts = {
         preview = {
@@ -19,11 +49,32 @@ return {
         },
       },
       keymap = {
+        -- These override the default tables completely
+        -- no need to set to `false` to disable a bind
+        -- delete or modify is sufficient
         builtin = {
-          ["<C-p>"] = "toggle-preview",
+          -- neovim `:tmap` mappings for the fzf win
+          ["<C-?>"] = "toggle-help",
+          ["<S-down>"] = "preview-page-down",
+          ["<S-up>"] = "preview-page-up",
+          ["<S-left>"] = "preview-page-reset",
         },
         fzf = {
+          -- fzf '--bind=' options
+          ["ctrl-z"] = "abort",
+          ["ctrl-u"] = "unix-line-discard",
+          ["ctrl-f"] = "half-page-down",
+          ["ctrl-b"] = "half-page-up",
+          ["ctrl-a"] = "beginning-of-line",
+          ["ctrl-e"] = "end-of-line",
+          ["alt-a"] = "toggle-all",
+          -- Only valid with fzf previewers (bat/cat/git/etc)
+          ["f3"] = "toggle-preview-wrap",
+          ["f4"] = "toggle-preview",
+          ["shift-down"] = "preview-page-down",
+          ["shift-up"] = "preview-page-up",
           ["ctrl-p"] = "toggle-preview",
+          ["ctrl-q"] = "select-all+accept",
         },
       },
       actions = {
@@ -47,6 +98,17 @@ return {
               actions.file_edit(selected, opts)
             end
           end,
+          ["ctrl-x"] = actions.file_split,
+          ["ctrl-v"] = actions.file_vsplit,
+          ["ctrl-t"] = actions.file_tabedit,
+          ["alt-q"] = actions.file_sel_to_qf,
+          ["alt-l"] = actions.file_sel_to_ll,
+        },
+        buffers = {
+          ["default"] = actions.buf_edit,
+          ["ctrl--"] = actions.buf_split,
+          ["ctrl-v"] = actions.buf_vsplit,
+          ["ctrl-t"] = actions.buf_tabedit,
         },
       },
       grep = {
@@ -55,7 +117,7 @@ return {
         glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
         actions = {
           ["ctrl-l"] = { actions.grep_lgrep },
-          ["ctrl-g"] = { actions.toggle_ignore },
+          ["ctrl-h"] = { actions.toggle_ignore },
         },
       },
     })
@@ -92,7 +154,16 @@ return {
       { "<leader>lh", fzf.helptags, desc = "Find Help" },
       { "<leader>lH", fzf.highlights, desc = "Find Highlights" },
       { "<leader><leader>", fzf.grep_project, desc = "Grep" },
+      { "<leader>R", fzf.resume, desc = "Resume" },
       { "<leader><leader>", fzf.grep_visual, desc = "Live Grep Selection", mode = "v" },
+      {
+        "<C-f>",
+        function()
+          fzf.lgrep_curbuf({ search = require("util.common").GetVisualSelection() })
+        end,
+        desc = "Live Grep Selection",
+        mode = "v",
+      },
       { "<C-f>", fzf.lgrep_curbuf, desc = "Find in Current Buffer" },
       {
         "<C-p>",

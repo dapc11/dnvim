@@ -99,14 +99,14 @@ function M.Fzf_projectionist()
     local fd_command = "fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname"
     local fd_output = io.popen(fd_command):read("*a")
 
-    -- Split the output into lines
     local repositories = {}
     for repository in fd_output:gmatch("[^\n]+") do
       table.insert(repositories, repository)
     end
-    local choice = require("fzf").fzf(repositories, "--reverse")
+    local choice = require("fzf-lua").fzf_exec(repositories)
     if choice then
-      require("fzf-lua").files({ cwd = choice[1] })
+      -- TODO: Add support for branching based on keys, livegrep, recent files etc
+      require("fzf-lua").git_files({ cwd = choice[1] })
     end
   end)()
 end

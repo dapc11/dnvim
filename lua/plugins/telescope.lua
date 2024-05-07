@@ -33,6 +33,7 @@ return {
   { "dapc11/telescope-yaml.nvim", ft = { "yaml" } },
   {
     "dapc11/project.nvim",
+    enable = false,
     config = function(_, opts)
       require("project_nvim").setup(opts)
     end,
