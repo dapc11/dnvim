@@ -159,7 +159,7 @@ return {
       {
         "<C-f>",
         function()
-          fzf.lgrep_curbuf({ search = require("util.common").GetVisualSelection() })
+          fzf.lgrep_curbuf({ search = require("util.common").get_visual_selection() })
         end,
         desc = "Live Grep Selection",
         mode = "v",
@@ -168,7 +168,7 @@ return {
       {
         "<C-p>",
         function()
-          require("util.common").Fzf_projectionist()
+          require("util.common").fzf_projectionist()
         end,
         desc = "Find Project",
       },

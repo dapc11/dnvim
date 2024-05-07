@@ -1,4 +1,4 @@
-GetVisualSelection = require("util.common").GetVisualSelection
+GetVisualSelection = require("util.common").get_visual_selection
 
 function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")

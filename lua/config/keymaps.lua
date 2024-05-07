@@ -120,7 +120,7 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
 map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
 
 map("n", "<leader>cF", function()
-  require("util.common").Toggle_format_on_save()
+  require("util.common").toggle_format_on_save()
 end, { desc = "Toggle Formatting" })
 
 local function open_CVE_in_browser()

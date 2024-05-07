@@ -1,5 +1,4 @@
 local bufnr = vim.api.nvim_get_current_buf()
-GetVisualSelection = require("util.common").GetVisualSelection
 
 local function open_jira_in_browser()
   local jira_id = string.match(vim.fn.getline("."), require("secret").jira_pattern)

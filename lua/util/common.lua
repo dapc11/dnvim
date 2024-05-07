@@ -32,7 +32,7 @@ M.ignored_filetypes = {
   "tsplayground",
 }
 
-function M.GetVisualSelection()
+function M.get_visual_selection()
   vim.cmd('noau normal! "vy"')
   local text = vim.fn.getreg("v")
   vim.fn.setreg("v", {})
@@ -82,7 +82,7 @@ function M.disable_format_on_save()
   M.clear_augroup("lsp_format_on_save")
 end
 
-function M.Toggle_format_on_save()
+function M.toggle_format_on_save()
   local exists, autocmds = pcall(vim.api.nvim_get_autocmds, {
     group = "lsp_format_on_save",
     event = "BufWritePre",
@@ -94,7 +94,7 @@ function M.Toggle_format_on_save()
   end
 end
 
-function M.Fzf_projectionist()
+function M.fzf_projectionist()
   local fzf = require("fzf-lua")
   fzf.fzf_exec("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname", {
     actions = {
