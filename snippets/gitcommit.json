@@ -90,8 +90,8 @@
   "vulnerability": {
     "prefix": "vuln",
     "body": [
-      "Vulnerability: ${1: shortname}",
-      "Jira: ${2:longname}",
+      "Vulnerability: ${2: shortname}",
+      "Jira: ${1:longname}",
       "",
       "$0"
     ]
