@@ -1,5 +1,4 @@
 local get_root = require("util.init").get_project_root
-local get_root_true = require("util.init").get_root_by_indicator
 
 local function file_exists(name)
   local f = io.open(name, "r")
@@ -87,24 +86,12 @@ vim.cmd("hi link @string.documentation.python SpecialComment")
 
 vim.keymap.set("n", "gf", function()
   vim.cmd('noau normal! "vyiw')
-  require("telescope.builtin").live_grep({
-    default_text = "def " .. vim.fn.getreg("v") .. "\\(.*\\):",
-    cwd = get_root_true("*-test"),
-    on_complete = {
-      function(picker)
-        -- remove this on_complete callback
-        picker:clear_completion_callbacks()
-        -- if we have exactly one match, select it
-        if picker.manager.linked_states.size == 1 then
-          require("telescope.actions").select_default(picker.prompt_bufnr)
-        end
-      end,
-    },
+  require("fzf-lua").grep_project({
+    search = "def " .. vim.fn.getreg("v") .. "(",
+    path_shorten = true,
   })
 end, { desc = "Goto Fixture", buffer = bufnr })
 
 vim.keymap.set("n", "gR", function()
-  require("telescope.builtin").live_grep({
-    default_text = vim.fn.expand("<cword>"),
-  })
+  require("fzf-lua").grep_project({ search = vim.fn.expand("<cword>"), path_shorten = true })
 end, { desc = "Find Usages Under Cursor", buffer = bufnr })

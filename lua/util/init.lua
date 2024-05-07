@@ -108,20 +108,4 @@ function M.get_project_root(project_root_indicator)
   return nil
 end
 
-function M.get_root_by_indicator(root_indicator)
-  local current = vim.api.nvim_buf_get_name(0)
-  local parent = parent_dir(current)
-
-  while 1 do
-    if vim.fn.globpath(parent, root_indicator) ~= "" then
-      return current
-    end
-
-    current, parent = parent, parent_dir(parent)
-    if parent == current then
-      break
-    end
-  end
-  return nil
-end
 return M

@@ -104,7 +104,7 @@ function M.fzf_projectionist()
       end,
       ["ctrl-f"] = function(selected, _)
         vim.cmd("cd " .. selected[1])
-        fzf.grep_project({ search = "" })
+        fzf.grep_project()
       end,
       ["ctrl-r"] = function(selected, _)
         vim.cmd("cd " .. selected[1])

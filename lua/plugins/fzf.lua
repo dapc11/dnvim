@@ -116,7 +116,6 @@ return {
         glob_flag = "--iglob", -- for case sensitive globs use '--glob'
         glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
         actions = {
-          ["ctrl-l"] = { actions.grep_lgrep },
           ["ctrl-h"] = { actions.toggle_ignore },
         },
       },
@@ -165,6 +164,13 @@ return {
         mode = "v",
       },
       { "<C-f>", fzf.lgrep_curbuf, desc = "Find in Current Buffer" },
+      {
+        "<leader>xt",
+        function()
+          fzf.grep_project({ search = "TODO" })
+        end,
+        desc = "Find in TODOs in project",
+      },
       {
         "<C-p>",
         function()
