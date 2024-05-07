@@ -95,19 +95,23 @@ function M.Toggle_format_on_save()
 end
 
 function M.Fzf_projectionist()
-  coroutine.wrap(function()
-    local fd_command = "fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname"
-    local fd_output = io.popen(fd_command):read("*a")
-
-    local repositories = {}
-    for repository in fd_output:gmatch("[^\n]+") do
-      table.insert(repositories, repository)
-    end
-    local choice = require("fzf-lua").fzf_exec(repositories)
-    if choice then
-      -- TODO: Add support for branching based on keys, livegrep, recent files etc
-      require("fzf-lua").git_files({ cwd = choice[1] })
-  end)()
+  local fzf = require("fzf-lua")
+  fzf.fzf_exec("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname", {
+    actions = {
+      ["default"] = function(selected, _)
+        vim.cmd("cd " .. selected[1])
+        fzf.git_files()
+      end,
+      ["ctrl-f"] = function(selected, _)
+        vim.cmd("cd " .. selected[1])
+        fzf.grep_project({ search = "" })
+      end,
+      ["ctrl-r"] = function(selected, _)
+        vim.cmd("cd " .. selected[1])
+        fzf.oldfiles({ cwd = selected[1] })
+      end,
+    },
+  })
 end
 
 function M.split(string, delimiter)
