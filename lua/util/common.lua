@@ -107,8 +107,26 @@ function M.Fzf_projectionist()
     if choice then
       -- TODO: Add support for branching based on keys, livegrep, recent files etc
       require("fzf-lua").git_files({ cwd = choice[1] })
-    end
   end)()
+end
+
+function M.split(string, delimiter)
+  local Table = {}
+  local fpat = "(.-)" .. delimiter
+  local last_end = 1
+  local s, e, cap = string:find(fpat, 1)
+  while s do
+    if s ~= 1 or cap ~= "" then
+      table.insert(Table, cap)
+    end
+    last_end = e + 1
+    s, e, cap = string:find(fpat, last_end)
+  end
+  if last_end <= #string then
+    cap = string:sub(last_end)
+    table.insert(Table, cap)
+  end
+  return Table
 end
 
 return M
