@@ -167,7 +167,7 @@ return {
       {
         "<leader>xt",
         function()
-          fzf.grep_project({ search = "TODO" })
+          fzf.grep_project({ search = "TODO", path_shorten = true })
         end,
         desc = "Find in TODOs in project",
       },
