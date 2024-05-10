@@ -172,6 +172,10 @@ return {
           ["@keyword.repeat"] = { fg = p.oniViolet, bold = true },
           ["@keyword.return"] = { fg = p.oniViolet, bold = true },
           ["@keyword.exception"] = { fg = p.oniViolet, bold = true },
+          ["@variable"] = { fg = u.oldWhite },
+          ["@variable.builtin"] = { fg = p.oldWhite },
+          ["@variable.member"] = { fg = u.fg },
+          ["@variable.parameter"] = { fg = u.fg },
         }
       end,
     },
