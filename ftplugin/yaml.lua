@@ -23,7 +23,7 @@ local function fzf_yaml()
       end,
       ["ctrl-v"] = function(selected, _)
         local value = ""
-        for i, x in pairs(split(selected[1], ":")) do
+        for i, x in pairs(split(selected[1], ": ")) do
           if i ~= 1 then
             value = value .. x
           end
