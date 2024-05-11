@@ -33,4 +33,4 @@ local function fzf_yaml()
     },
   })
 end
-vim.keymap.set("n", "<leader>fk", fzf_yaml, { desc = "YAML key", buffer = bufnr })
+vim.keymap.set("n", "<leader>fk", fzf_yaml, { desc = "YAML key", buffer = true })

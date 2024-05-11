@@ -1,5 +1,3 @@
-local bufnr = vim.api.nvim_get_current_buf()
-
 vim.keymap.set("n", "gd", function()
   local jira_id = string.match(vim.fn.getline("."), require("secret").jira_pattern)
   if jira_id then
@@ -7,4 +5,4 @@ vim.keymap.set("n", "gd", function()
   else
     print("No Jira ID found in the current line.")
   end
-end, { desc = "Goto Jira Definition", buffer = bufnr })
+end, { desc = "Goto Jira Definition", buffer = true })

@@ -179,15 +179,14 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 
 require("jdtls").start_or_attach(config)
 
-local bufnr = vim.api.nvim_get_current_buf()
 -- stylua: ignore start
-vim.keymap.set("n", "<leader>co", jdtls.organize_imports, { desc = "Organize Imports", buffer = bufnr })
-vim.keymap.set("n", "<leader>cv", jdtls.extract_variable, { desc = "Extract Variable", buffer = bufnr })
-vim.keymap.set("n", "<leader>cc", jdtls.extract_constant, { desc = "Extract Constant", buffer = bufnr })
-vim.keymap.set("v", "<leader>cv", function() jdtls.extract_variable({visual = true}) end, { desc = "Extract Variable", buffer = bufnr })
-vim.keymap.set("v", "<leader>cc", function() jdtls.extract_constant({visual = true}) end, { desc = "Extract Constant", buffer = bufnr })
-vim.keymap.set("v", "<leader>cm", function() jdtls.method({visual = true}) end, { desc = "Extract Method", buffer = bufnr })
-vim.keymap.set("n", "<leader>cu", function() jdtls.update_project_config() end, { desc = "Update Config", buffer = bufnr })
-vim.keymap.set("n", "<leader>cd", function() jdtls.test_nearest_method()  end, { desc = "Run Nearest", buffer = bufnr })
-vim.keymap.set("n", "<leader>ct", function() jdtls.test_class()  end, { desc = "Run File", buffer = bufnr })
+vim.keymap.set("n", "<leader>co", jdtls.organize_imports, { desc = "Organize Imports", buffer = true })
+vim.keymap.set("n", "<leader>cv", jdtls.extract_variable, { desc = "Extract Variable", buffer = true })
+vim.keymap.set("n", "<leader>cc", jdtls.extract_constant, { desc = "Extract Constant", buffer = true })
+vim.keymap.set("v", "<leader>cv", function() jdtls.extract_variable({visual = true}) end, { desc = "Extract Variable", buffer = true })
+vim.keymap.set("v", "<leader>cc", function() jdtls.extract_constant({visual = true}) end, { desc = "Extract Constant", buffer = true })
+vim.keymap.set("v", "<leader>cm", function() jdtls.method({visual = true}) end, { desc = "Extract Method", buffer = true })
+vim.keymap.set("n", "<leader>cu", function() jdtls.update_project_config() end, { desc = "Update Config", buffer = true })
+vim.keymap.set("n", "<leader>cd", function() jdtls.test_nearest_method()  end, { desc = "Run Nearest", buffer = true })
+vim.keymap.set("n", "<leader>ct", function() jdtls.test_class()  end, { desc = "Run File", buffer = true })
 -- stylua: ignore end

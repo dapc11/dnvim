@@ -30,30 +30,29 @@ else
   end
 end
 
-local bufnr = vim.api.nvim_get_current_buf()
 vim.keymap.set(
   "n",
   "<leader>ccq",
   "<cmd>new | 0read !black --config pyproject.toml #<cr>",
-  { desc = "Run Black for Current Buffer", buffer = bufnr }
+  { desc = "Run Black for Current Buffer", buffer = true }
 )
 vim.keymap.set(
   "n",
   "<leader>ccw",
   "<cmd>new | 0read !bandit #<cr>",
-  { desc = "Run Bandit for Current Buffer", buffer = bufnr }
+  { desc = "Run Bandit for Current Buffer", buffer = true }
 )
 vim.keymap.set(
   "n",
   "<leader>cce",
   "<cmd>new | 0read !flake8 --ignore C812,E501 #<cr><cr>",
-  { desc = "Run Flake8 for Current Buffer", buffer = bufnr }
+  { desc = "Run Flake8 for Current Buffer", buffer = true }
 )
 vim.keymap.set(
   "n",
   "<leader>ccr",
   "<cmd>new | 0read !pylint --disable W4901 #<cr><cr>",
-  { desc = "Run Pylint for Current Buffer", buffer = bufnr }
+  { desc = "Run Pylint for Current Buffer", buffer = true }
 )
 function RunCodeQualityChecks()
   local current_file = vim.fn.expand("%:p") -- Get the full path of the current file
@@ -90,8 +89,8 @@ vim.keymap.set("n", "gf", function()
     search = "def " .. vim.fn.getreg("v") .. "(",
     path_shorten = true,
   })
-end, { desc = "Goto Fixture", buffer = bufnr })
+end, { desc = "Goto Fixture", buffer = true })
 
 vim.keymap.set("n", "gR", function()
   require("fzf-lua").grep_project({ search = vim.fn.expand("<cword>"), path_shorten = true })
-end, { desc = "Find Usages Under Cursor", buffer = bufnr })
+end, { desc = "Find Usages Under Cursor", buffer = true })
