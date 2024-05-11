@@ -105,6 +105,7 @@ function M.fzf_projectionist()
       ["ctrl-f"] = function(selected, _)
         vim.cmd("cd " .. selected[1])
         fzf.grep_project()
+        -- TODO: Need to finish cd before grepping. ctrl+p -> main -> ctrl+f def pytestconfig ends up in cwd + target path
       end,
       ["ctrl-r"] = function(selected, _)
         vim.cmd("cd " .. selected[1])
