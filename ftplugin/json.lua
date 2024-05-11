@@ -1,8 +1,12 @@
-local bufnr = vim.api.nvim_get_current_buf()
-vim.keymap.set({ "v", "n" }, "<leader>cF", ":%!jq '.'", { desc = "Format", buffer = bufnr })
+vim.keymap.set(
+  { "v", "n" },
+  "<leader>cF",
+  ":%!jq -R -r '. as $line | try fromjson catch $line'<CR>",
+  { desc = "Format", buffer = true }
+)
 vim.keymap.set(
   "n",
   "<leader>cl",
-  ":%!jq -r '\"\\(.timestamp)\t\\(.severity)\t\\(.message)\"'<CR>",
-  { desc = "Make logs readable", buffer = bufnr }
+  ":%!jq -R -r '. as $line | try fromjson catch $line | \"\\(.timestamp)\t\\(.severity)\t\\(.message)\"'<CR>",
+  { desc = "Make logs readable", buffer = true }
 )
