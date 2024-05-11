@@ -7,12 +7,15 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufReadPost" }, {
 
     if ok and stats and (stats.size > 400000) then
       print("Buffer too big, disabling LSP and Diagnostics...")
+      -- local client = vim.lsp.get_client_by_id(event.data.client_id)
+      -- client.server_capabilities.semanticTokensProvider = nil
       vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
       vim.diagnostic.disable(event.buf)
     end
   end,
   group = buf_large_lsp,
 })
+
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufEnter" }, {
   callback = function(event)
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))

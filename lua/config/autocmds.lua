@@ -46,13 +46,6 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "yaml",
-  callback = function(event)
-    vim.diagnostic.disable(event.buf)
-  end,
-})
-
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
@@ -60,22 +53,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
-  pattern = { "*.tpl", "*.yaml", "*.yml" },
+  pattern = { "*.tpl", "*.yaml", "*.yml", "*.txt" },
   callback = function(event)
-    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
-    vim.diagnostic.disable(event.buf)
-
-    vim.cmd([[ if search('{{.*end.*}}', 'nw') | setlocal filetype=gotmpl | endif]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
-  pattern = "*.txt",
-  callback = function(event)
-    vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
-    vim.diagnostic.disable(event.buf)
-
-    vim.cmd([[ if search('{"version"', 'nw') | setlocal filetype=json | endif]])
+    local ft = ""
+    if vim.fn.search("{{.*end.*}}", "nw") ~= 0 then
+      print("Go tmpl found")
+      ft = "gotmpl"
+    elseif (vim.fn.search('{"version"', "nw") or vim.fn.search('{"message"', "nw")) ~= 0 then
+      print("ADP Log file found")
+      ft = "json"
+    end
+    if ft ~= "" then
+      vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
+      vim.diagnostic.disable(event.buf)
+      vim.opt_local.filetype = ft
+    end
   end,
 })
 
@@ -91,12 +83,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
     vim.b.miniindentscope_disable = true
-  end,
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*",
-  callback = function()
     local dir = require("util.init").get_project_root(".git")
     if dir ~= nil then
       vim.cmd("cd " .. dir)
@@ -109,14 +95,4 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
   group = vim.api.nvim_create_augroup("AutoOpenQuickfix", { clear = true }),
   pattern = { "[^l]*" },
   command = "cwindow",
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local bufnr = vim.api.nvim_get_current_buf()
-    if vim.api.nvim_buf_line_count(bufnr) > 5000 then
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      client.server_capabilities.semanticTokensProvider = nil
-    end
-  end,
 })
