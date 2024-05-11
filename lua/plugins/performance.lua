@@ -1,41 +1,36 @@
-local aug = vim.api.nvim_create_augroup("buf_large", { clear = true })
+local buf_large_lsp = vim.api.nvim_create_augroup("buf_large", { clear = true })
+local buf_large_common = vim.api.nvim_create_augroup("buf_large_file", { clear = true })
 
-vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter", "BufReadPost" }, {
+vim.api.nvim_create_autocmd({ "LspAttach", "BufReadPost" }, {
   callback = function(event)
-    local bufnr = vim.api.nvim_get_current_buf()
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
 
     if ok and stats and (stats.size > 400000) then
+      print("Buffer too big, disabling LSP and Diagnostics...")
       vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
-      vim.diagnostic.disable(bufnr)
-      vim.opt_local.spell = false
+      vim.diagnostic.disable(event.buf)
     end
   end,
-  group = aug,
-  pattern = "*",
+  group = buf_large_lsp,
 })
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufEnter" }, {
+  callback = function(event)
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
 
-vim.cmd([[
-augroup LargeFile
-let g:large_file = 10485760 " 10MB
-
-" Set options:
-"   eventignore+=FileType (no syntax highlighting etc
-"   assumes FileType always on)
-"   noswapfile (save copy of file)
-"   bufhidden=unload (save memory when other file is viewed)
-"   buftype=nowritefile (is read-only)
-"   undolevels=-1 (no undo possible)
-au BufReadPre *
-  \ let f=expand("<afile>") |
-  \ if getfsize(f) > g:large_file |
-    \ set eventignore+=FileType |
-    \ setlocal noswapfile bufhidden=unload buftype=nowrite undolevels=-1 |
-  \ else |
-    \ set eventignore-=FileType |
-  \ endif
-augroup END
-]])
+    if ok and stats and (stats.size > 10485760) then
+      print("Buffer too big, performance focus!")
+      vim.opt_local.spell = false
+      vim.opt_local.swapfile = false
+      vim.opt_local.bufhidden = "unload"
+      vim.opt_local.buftype = "nowrite"
+      vim.opt_local.undolevels = -1
+      vim.cmd([[set eventignore+=FileType]])
+    else
+      vim.cmd([[set eventignore-=FileType]])
+    end
+  end,
+  group = buf_large_common,
+})
 
 return {
   "LunarVim/bigfile.nvim",
