@@ -94,6 +94,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    local dir = require("util.init").get_project_root(".git")
+    if dir ~= nil then
+      vim.cmd("cd " .. dir)
+    end
+  end,
+})
+
 -- always open quickfix window automatically.
 vim.api.nvim_create_autocmd("QuickFixCmdPost", {
   group = vim.api.nvim_create_augroup("AutoOpenQuickfix", { clear = true }),

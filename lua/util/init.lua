@@ -1,5 +1,5 @@
 local M = {}
-M.root_patterns = { ".git", "lua" }
+M.root_patterns = { ".git", "lua", "bob" }
 
 function M.map(mode, lhs, rhs, opts)
   opts = opts or {}
