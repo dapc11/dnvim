@@ -99,16 +99,12 @@ function M.fzf_projectionist()
   fzf.fzf_exec("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname", {
     actions = {
       ["default"] = function(selected, _)
-        vim.cmd("cd " .. selected[1])
-        fzf.git_files()
+        fzf.git_files({ cwd = selected[1] })
       end,
       ["ctrl-f"] = function(selected, _)
-        vim.cmd("cd " .. selected[1])
-        fzf.grep_project()
-        -- TODO: Need to finish cd before grepping. ctrl+p -> main -> ctrl+f def pytestconfig ends up in cwd + target path
+        fzf.grep_project({ cwd = selected[1] })
       end,
       ["ctrl-r"] = function(selected, _)
-        vim.cmd("cd " .. selected[1])
         fzf.oldfiles({ cwd = selected[1] })
       end,
       ["ctrl-g"] = function(selected, _)
