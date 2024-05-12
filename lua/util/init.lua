@@ -59,9 +59,9 @@ function M.bt(...)
 end
 
 -- stylua: ignore
-function M.lsp_keymaps(bufnr)
+function M.lsp_keymaps()
   local function opts(desc)
-    return { buffer = bufnr, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
+    return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
   end
   local fzf = require("fzf-lua")
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
@@ -69,12 +69,12 @@ function M.lsp_keymaps(bufnr)
   vim.keymap.set("n", "<leader>cs", fzf.lsp_document_symbols , opts("Workspace Symbols"))
   vim.keymap.set("n", "<leader>cc", function() require("conform").format() end, opts("Format"))
   vim.keymap.set("n", "<leader>cf", fzf.lsp_finder, opts("Finder"))
-  vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, opts("Code Action"))
+  vim.keymap.set({"n", "v"}, "<leader>ca", fzf.lsp_code_actions, opts("Code Action"))
   vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
   vim.keymap.set("n", "<leader>cd",  fzf.diagnostics_document, opts("Document Diagnostics"))
   vim.keymap.set("n", "<leader>cD",  fzf.diagnostics_workspace, opts("Workspace Diagnostics"))
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Goto Next Diagnostic"))
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Goto Prev Diagnostic"))
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 end

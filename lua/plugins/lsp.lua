@@ -116,8 +116,8 @@ return {
           })
           local lsp_zero = require("lsp-zero")
 
-          lsp_zero.on_attach(function(_, bufnr)
-            require("util").lsp_keymaps(bufnr)
+          lsp_zero.on_attach(function()
+            require("util").lsp_keymaps()
           end)
 
           require("mason").setup({})

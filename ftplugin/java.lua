@@ -163,11 +163,11 @@ local config = {
   },
 }
 
-config["on_attach"] = function(_, bufnr)
+config["on_attach"] = function()
   local _, _ = pcall(vim.lsp.codelens.refresh)
   require("jdtls.dap").setup_dap_main_class_configs()
   jdtls.setup_dap({ hotcodereplace = "auto" })
-  require("util").lsp_keymaps(bufnr)
+  require("util").lsp_keymaps()
 end
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -186,7 +186,7 @@ vim.keymap.set("n", "<leader>cc", jdtls.extract_constant, { desc = "Extract Cons
 vim.keymap.set("v", "<leader>cv", function() jdtls.extract_variable({visual = true}) end, { desc = "Extract Variable", buffer = true })
 vim.keymap.set("v", "<leader>cc", function() jdtls.extract_constant({visual = true}) end, { desc = "Extract Constant", buffer = true })
 vim.keymap.set("v", "<leader>cm", function() jdtls.method({visual = true}) end, { desc = "Extract Method", buffer = true })
-vim.keymap.set("n", "<leader>cu", function() jdtls.update_project_config() end, { desc = "Update Config", buffer = true })
-vim.keymap.set("n", "<leader>cd", function() jdtls.test_nearest_method()  end, { desc = "Run Nearest", buffer = true })
-vim.keymap.set("n", "<leader>ct", function() jdtls.test_class()  end, { desc = "Run File", buffer = true })
+vim.keymap.set("n", "<leader>cu", jdtls.update_project_config, { desc = "Update Config", buffer = true })
+vim.keymap.set("n", "<leader>cd", jdtls.test_nearest_method, { desc = "Run Nearest", buffer = true })
+vim.keymap.set("n", "<leader>ct", jdtls.test_class, { desc = "Run File", buffer = true })
 -- stylua: ignore end
