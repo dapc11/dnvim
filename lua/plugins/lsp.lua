@@ -71,7 +71,6 @@ return {
               { name = "buffer" },
               { name = "path" },
             },
-
             mapping = cmp.mapping.preset.insert({
               ["<CR>"] = cmp.mapping.confirm({ select = false }),
               ["<C-Space>"] = cmp.mapping.complete(),
@@ -110,7 +109,7 @@ return {
             },
             snippet = {
               expand = function(args)
-                require("luasnip").lsp_expand(args.body)
+                luasnip.lsp_expand(args.body)
               end,
             },
           })
@@ -119,20 +118,23 @@ return {
           lsp_zero.on_attach(function()
             require("util").lsp_keymaps()
           end)
-
+          local lsp = require("lspconfig")
           require("mason").setup({})
           require("mason-lspconfig").setup({
-            ensure_installed = { "gopls", "lua_ls", "pylsp" },
+            ensure_installed = { "gopls", "lua_ls", "pylsp", "dockerls" },
             handlers = {
               pylsp = function()
-                require("lspconfig").pylsp.setup(require("plugins.language_servers.pylsp"))
+                lsp.pylsp.setup(require("plugins.language_servers.pylsp"))
               end,
               gopls = function()
-                require("lspconfig").gopls.setup(require("plugins.language_servers.gopls"))
+                lsp.gopls.setup(require("plugins.language_servers.gopls"))
               end,
               lua_ls = function()
                 require("neodev").setup()
-                require("lspconfig").lua_ls.setup(require("plugins.language_servers.lua_ls"))
+                lsp.lua_ls.setup(require("plugins.language_servers.lua_ls"))
+              end,
+              dockerls = function()
+                lsp.dockerls.setup(require("plugins.language_servers.dockerls"))
               end,
             },
           })
