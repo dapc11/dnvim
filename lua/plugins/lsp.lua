@@ -50,6 +50,7 @@ return {
           { "L3MON4D3/LuaSnip", events = lazylsp },
           { "saadparwaiz1/cmp_luasnip", events = lazylsp },
           { "hrsh7th/cmp-nvim-lsp", events = lazylsp },
+          { "hrsh7th/cmp-nvim-lsp-signature-help", events = lazylsp },
           { "hrsh7th/cmp-buffer", events = lazylsp },
           { "hrsh7th/cmp-path", events = lazylsp },
           { "hrsh7th/nvim-cmp", events = lazylsp },
@@ -64,6 +65,7 @@ return {
           require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
           cmp.setup({
             sources = {
+              { name = "nvim_lsp_signature_help" },
               { name = "nvim_lsp" },
               { name = "luasnip" },
               { name = "buffer" },
