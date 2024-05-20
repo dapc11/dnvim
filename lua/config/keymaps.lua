@@ -5,19 +5,15 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsea
 
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
-map("n", "n", "nzz")
-map("n", "N", "Nzz")
+map("n", "n", "nzzzv")
+map("n", "N", "Nzzzv")
 map("n", "*", "*Nzz")
 map("n", "#", "#nzz")
 map("n", "g*", "g*zz")
 
-map("n", "==", "gg=G")
-
 -- Note to self: c is for usage in motion dö, dä
 map({ "n", "v", "c" }, "ö", "{")
 map({ "n", "v", "c" }, "ä", "}")
-
-map("n", "gw", "*N", { desc = "Search word under cursor" })
 
 map("n", "Y", "y$")
 map("v", "p", [["_dP]])
