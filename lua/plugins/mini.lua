@@ -60,7 +60,7 @@ return {
         end
 
         local buf_client_names = {}
-        for _, client in pairs(vim.lsp.buf_get_clients()) do
+        for _, client in pairs(vim.lsp.get_clients({ buffer = vim.api.nvim_get_current_buf() })) do
           table.insert(buf_client_names, client.name or "")
         end
         local lsp = table.concat(buf_client_names, ", ")

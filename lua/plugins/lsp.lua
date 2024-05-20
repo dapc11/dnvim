@@ -50,7 +50,6 @@ return {
           { "L3MON4D3/LuaSnip", events = lazylsp },
           { "saadparwaiz1/cmp_luasnip", events = lazylsp },
           { "hrsh7th/cmp-nvim-lsp", events = lazylsp },
-          { "hrsh7th/cmp-nvim-lua", events = lazylsp },
           { "hrsh7th/cmp-buffer", events = lazylsp },
           { "hrsh7th/cmp-path", events = lazylsp },
           { "hrsh7th/nvim-cmp", events = lazylsp },
@@ -66,7 +65,6 @@ return {
           cmp.setup({
             sources = {
               { name = "nvim_lsp" },
-              { name = "nvim_lua" },
               { name = "luasnip" },
               { name = "buffer" },
               { name = "path" },

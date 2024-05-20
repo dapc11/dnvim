@@ -14,7 +14,7 @@ end
 ---@param opts? {loc:string, bt?:boolean}
 function M._dump(value, opts)
   opts = opts or {}
-  opts.loc = opts.loc or M.get_loc()
+  opts.loc = opts.loc or ""
   if vim.in_fast_event() then
     return vim.schedule(function()
       M._dump(value, opts)
@@ -73,8 +73,6 @@ function M.lsp_keymaps()
   vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
   vim.keymap.set("n", "<leader>cd",  fzf.diagnostics_document, opts("Document Diagnostics"))
   vim.keymap.set("n", "<leader>cD",  fzf.diagnostics_workspace, opts("Workspace Diagnostics"))
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 end
