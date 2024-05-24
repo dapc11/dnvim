@@ -163,6 +163,9 @@ return {
           MiniStatuslineModeOther = { fg = u.bg, bg = p.lotusCyan, bold = true },
           MiniStatuslineModeReplace = { fg = u.bg, bg = p.lotusRed2, bold = true },
           MiniStatuslineModeVisual = { fg = u.bg, bg = p.lotusViolet2, bold = true },
+          IlluminatedWordRead = { bg = u.bg_visual },
+          IlluminatedWordText = { bg = u.bg_visual },
+          IlluminatedWordWrite = { bg = u.bg_visual },
 
           ["Constant"] = { fg = p.carpYellow },
           ["Number"] = { fg = p.lotusBlue3 },
