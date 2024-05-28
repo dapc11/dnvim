@@ -141,6 +141,10 @@ return {
           PmenuThumb = { bg = u.bg_p2 },
           WhichKeyFloat = { bg = p.sumiInk4 },
           FloatBorder = { bg = u.bg, fg = u.fg },
+          FloatTitle = { bg = u.bg, fg = u.fg },
+          FloatFooter = { bg = u.bg, fg = u.fg },
+          TabLine = { bg = u.bg, fg = u.fg },
+          NormalFloat = { bg = u.bg, fg = u.fg },
           WinSeparator = { bg = u.bg, fg = u.fg, bold = true },
 
           MiniStarterCurrent = { fg = u.fg, bold = true },
