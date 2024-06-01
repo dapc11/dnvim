@@ -94,6 +94,9 @@ function M.toggle_format_on_save()
   end
 end
 
+function M.starts(String, Start)
+  return string.sub(String, 1, string.len(Start)) == Start
+end
 function M.fzf_projectionist()
   local fzf = require("fzf-lua")
   fzf.fzf_exec("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname", {
