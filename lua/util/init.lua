@@ -73,6 +73,8 @@ function M.lsp_keymaps()
   vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
   vim.keymap.set("n", "<leader>cd",  fzf.diagnostics_document, opts("Document Diagnostics"))
   vim.keymap.set("n", "<leader>cD",  fzf.diagnostics_workspace, opts("Workspace Diagnostics"))
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 end
@@ -89,6 +91,9 @@ local function parent_dir(dir)
   return vim.fn.fnamemodify(dir, ":h")
 end
 
+---Return project root of project_root_indicator
+---@param project_root_indicator string
+---@return string
 function M.get_project_root(project_root_indicator)
   local current = vim.api.nvim_buf_get_name(0)
   local parent = parent_dir(current)
@@ -103,7 +108,7 @@ function M.get_project_root(project_root_indicator)
       break
     end
   end
-  return nil
+  return ""
 end
 
 return M

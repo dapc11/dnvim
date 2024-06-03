@@ -3,14 +3,15 @@ local buf_large_common = vim.api.nvim_create_augroup("buf_large_file", { clear =
 
 vim.api.nvim_create_autocmd({ "LspAttach", "BufReadPost" }, {
   callback = function(event)
-    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
+    local buf_name = vim.api.nvim_buf_get_name(event.buf)
+    local ok, stats = pcall(vim.loop.fs_stat, buf_name)
 
     if ok and stats and (stats.size > 400000) then
-      print("Buffer too big, disabling LSP and Diagnostics...")
+      print("Buffer " .. buf_name .. " too big, disabling LSP and Diagnostics...")
       -- local client = vim.lsp.get_client_by_id(event.data.client_id)
       -- client.server_capabilities.semanticTokensProvider = nil
-      vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
-      vim.diagnostic.disable(event.buf)
+      vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = event.buf }))
+      vim.diagnostic.enable(false, event.buf)
     end
   end,
   group = buf_large_lsp,
@@ -18,10 +19,11 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufReadPost" }, {
 
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufEnter" }, {
   callback = function(event)
-    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(event.buf))
+    local buf_name = vim.api.nvim_buf_get_name(event.buf)
+    local ok, stats = pcall(vim.loop.fs_stat, buf_name)
 
     if ok and stats and (stats.size > 10485760) then
-      print("Buffer too big, performance focus!")
+      print("Buffer " .. buf_name .. " too big, performance focus!")
       vim.opt_local.spell = false
       vim.opt_local.swapfile = false
       vim.opt_local.bufhidden = "unload"
@@ -41,11 +43,9 @@ return {
   {
     "zeioth/garbage-day.nvim",
     dependencies = "neovim/nvim-lspconfig",
-    event = "VeryLazy",
   },
   {
     "chrisgrieser/nvim-early-retirement",
     config = true,
-    event = "VeryLazy",
   },
 }
