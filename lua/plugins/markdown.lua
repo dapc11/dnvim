@@ -7,7 +7,7 @@ return {
     end,
   },
   {
-    "mickael-menu/zk-nvim",
+    "zk-org/zk-nvim",
     opts = {
       picker = "fzf_lua",
     },

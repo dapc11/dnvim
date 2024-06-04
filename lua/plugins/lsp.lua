@@ -121,7 +121,7 @@ return {
           local lsp = require("lspconfig")
           require("mason").setup({})
           require("mason-lspconfig").setup({
-            ensure_installed = { "gopls", "lua_ls", "pylsp", "dockerls" },
+            ensure_installed = { "gopls", "lua_ls", "pylsp", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
             handlers = {
               pylsp = function()
                 lsp.pylsp.setup(require("plugins.language_servers.pylsp"))

@@ -50,5 +50,5 @@
   "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" },
   "vim-unimpaired": { "branch": "master", "commit": "6d44a6dc2ec34607c41ec78acf81657248580bf1" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
-  "zk-nvim": { "branch": "main", "commit": "66b9b490e930fb77f93a2a0c64e0da9a5144fd0a" }
+  "zk-nvim": { "branch": "main", "commit": "1f331d994d90f1dc93d023508951be437d19813e" }
 }
