@@ -6,3 +6,8 @@ vim.keymap.set({ "v", "n" }, "<leader>zl", vim.cmd.ZkLinks, { desc = "Open Notes
 vim.opt_local.wrap = true
 vim.opt_local.spell = true
 vim.opt_local.spelllang = "en_us"
+
+vim.cmd([[
+au FileType markdown setl comments=b:*,b:-,b:+,n:>
+au FileType markdown setl formatoptions+=r
+]])

@@ -136,6 +136,9 @@ return {
               dockerls = function()
                 lsp.dockerls.setup(require("plugins.language_servers.dockerls"))
               end,
+              yamlls = function()
+                lsp.yamlls.setup({})
+              end,
             },
           })
 
