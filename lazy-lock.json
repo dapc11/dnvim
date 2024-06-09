@@ -13,6 +13,7 @@
   "fzf-lua": { "branch": "main", "commit": "b92220ec838c195eb1c711daa69c905b1d7b8d8c" },
   "garbage-day.nvim": { "branch": "main", "commit": "942e3e4e0eac4e628491b76b201c5d0d092dd311" },
   "gitsigns.nvim": { "branch": "main", "commit": "75dc649106827183547d3bedd4602442340d2f7f" },
+  "grapple.nvim": { "branch": "main", "commit": "7aedc261b05a6c030397c4bc26416efbe746ebf1" },
   "harpoon": { "branch": "master", "commit": "ccae1b9bec717ae284906b0bf83d720e59d12b91" },
   "kanagawa.nvim": { "branch": "master", "commit": "08ed29989834f5f2606cb1ef9d5b24c5ea7b8fa5" },
   "lazy.nvim": { "branch": "main", "commit": "0fc34a0cf5f5f6f998a0897119a7d846b47eaa9d" },
