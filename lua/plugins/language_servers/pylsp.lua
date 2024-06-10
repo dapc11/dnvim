@@ -2,9 +2,9 @@ return {
   settings = {
     pylsp = {
       -- "flake8", "pylint", "pycodestyle", "pylsp_mypy", "pyls_isort"
-      configurationSources = { "black" },
+      configurationSources = { "" },
       plugins = {
-        black = { enabled = true },
+        black = { enabled = false },
         flake8 = {
           enabled = false,
           maxLineLength = 200,
