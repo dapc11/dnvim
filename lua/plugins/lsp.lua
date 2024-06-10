@@ -41,7 +41,9 @@ return {
           local luasnip = require("luasnip")
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-          require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+          require("luasnip.loaders.from_vscode").lazy_load({
+            paths = "~/.config/nvim/snippets",
+          })
           cmp.setup({
             sources = {
               { name = "nvim_lsp_signature_help" },
