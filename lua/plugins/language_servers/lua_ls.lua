@@ -7,6 +7,7 @@ return {
       checkThirdParty = "Disable",
     },
     Lua = {
+      format = { enable = false },
       completion = {
         callSnippet = "Replace",
       },

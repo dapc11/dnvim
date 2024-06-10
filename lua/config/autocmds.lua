@@ -90,3 +90,38 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = vim.api.nvim_create_augroup("PyFormat", { clear = true }),
+  pattern = "*.py",
+  callback = function()
+    if _G.python_format then
+      vim.cmd("silent !black %")
+      vim.cmd("silent !isort %")
+      vim.cmd("silent edit")
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = vim.api.nvim_create_augroup("LuaFormat", { clear = true }),
+  pattern = "*.lua",
+  callback = function()
+    if _G.lua_format then
+      vim.cmd("silent !stylua --search-parent-directories %")
+      vim.cmd("silent edit")
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = vim.api.nvim_create_augroup("GoFormat", { clear = true }),
+  pattern = "*.go",
+  callback = function()
+    if _G.go_format then
+      vim.cmd("silent !gofmt -s -w %")
+      vim.cmd("silent !goimports -w %")
+      vim.cmd("edit")
+    end
+  end,
+})

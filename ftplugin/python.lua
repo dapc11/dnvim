@@ -94,3 +94,7 @@ end, { desc = "Goto Fixture", buffer = true })
 vim.keymap.set("n", "gR", function()
   require("fzf-lua").grep_project({ search = vim.fn.expand("<cword>"), path_shorten = true })
 end, { desc = "Find Usages Under Cursor", buffer = true })
+
+vim.keymap.set("n", "<leader>cF", function()
+  require("util").toggle_format("python_format")
+end, { desc = "Toggle Formatting", buffer = true })

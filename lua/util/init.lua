@@ -10,6 +10,20 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
+---Set _G.<var> to either true or false based on previous value
+---@param var string
+function M.toggle_format(var)
+  local action = ""
+  if _G[var] then
+    action = "disabled"
+    _G[var] = false
+  else
+    action = "enabled"
+    _G[var] = true
+  end
+  print("Toggled formatting: " .. action)
+end
+
 ---@param value any
 ---@param opts? {loc:string, bt?:boolean}
 function M._dump(value, opts)
@@ -67,7 +81,7 @@ function M.lsp_keymaps()
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
   vim.keymap.set("n", "<leader>cs", fzf.lsp_document_symbols , opts("Workspace Symbols"))
-  vim.keymap.set("n", "<leader>cc", function() require("conform").format() end, opts("Format"))
+  vim.keymap.set("n", "<leader>cc", vim.lsp.buf.format, opts("Format"))
   vim.keymap.set("n", "<leader>cf", fzf.lsp_finder, opts("Finder"))
   vim.keymap.set({"n", "v"}, "<leader>ca", fzf.lsp_code_actions, opts("Code Action"))
   vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))

@@ -5,6 +5,10 @@ _G.bt = function(...)
   require("util").bt(...)
 end
 
+_G.python_format = true
+_G.lua_format = true
+_G.go_format = true
+
 vim.print = _G.dd
 vim.dump = function(tbl, indent)
   if not indent then
