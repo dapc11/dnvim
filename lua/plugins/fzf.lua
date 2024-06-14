@@ -106,7 +106,6 @@ return {
         },
         buffers = {
           ["default"] = actions.buf_edit,
-          ["ctrl--"] = actions.buf_split,
           ["ctrl-v"] = actions.buf_vsplit,
           ["ctrl-t"] = actions.buf_tabedit,
         },
