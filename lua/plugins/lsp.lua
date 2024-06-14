@@ -1,19 +1,5 @@
 local lazylsp = { "BufReadPre", "BufNewFile" }
 return {
-  {
-    "williamboman/mason.nvim",
-    events = lazylsp,
-    opts = {
-      ui = {
-        border = "rounded",
-      },
-      ensure_installed = {
-        "stylua",
-        "black",
-        "goimports",
-      },
-    },
-  },
   { "mfussenegger/nvim-jdtls", ft = "java" },
   {
     "VonHeikemen/lsp-zero.nvim",
@@ -102,10 +88,14 @@ return {
           local lsp = require("lspconfig")
           require("mason").setup({})
           require("mason-lspconfig").setup({
-            ensure_installed = { "gopls", "lua_ls", "pylsp", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
+            ensure_installed = { "gopls", "lua_ls", "pyright", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
             handlers = {
-              pylsp = function()
-                lsp.pylsp.setup(require("plugins.language_servers.pylsp"))
+              pyright = function()
+                lsp.pyright.setup({
+                  on_init = function(client)
+                    client.server_capabilities.semanticTokensProvider = nil
+                  end,
+                })
               end,
               gopls = function()
                 lsp.gopls.setup(require("plugins.language_servers.gopls"))
