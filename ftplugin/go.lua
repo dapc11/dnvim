@@ -18,7 +18,3 @@ function Cf(testCurrentFunction)
 end
 
 vim.keymap.set("n", "<leader>ccb", Cf, { silent = true, buffer = true, desc = "Coverage in Browser" })
-
-vim.keymap.set("n", "<leader>cF", function()
-  require("util").toggle_format("go_format")
-end, { desc = "Toggle Formatting", buffer = true })

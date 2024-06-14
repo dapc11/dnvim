@@ -3,6 +3,7 @@ local map = require("util").map
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 
+map("n", "<C-z>", "<cmd>set wrap!<cr>")
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
@@ -21,6 +22,7 @@ map({ "n", "v" }, "<leader>y", '"+y')
 map("n", "<leader>Y", '"+Y')
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
 map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
+map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
 
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
@@ -54,7 +56,6 @@ map("i", "<S-Down>", "<esc><cmd>m .+1<CR>==gi", { desc = "Move down" })
 map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
 map("v", "<S-Down>", ":m '>+1<CR>gv=gv", { desc = "Move down" })
 map("v", "<S-Up>", ":m '<-2<CR>gv=gv", { desc = "Move up" })
-map("n", "Q", ":tabclose<CR>", { desc = "Close tab" })
 
 map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 map("n", "<leader>ll", "<cmd>Lazy<CR>", { desc = "Lazy" })

@@ -24,10 +24,12 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "diff",
-  callback = function(_)
-    vim.diagnostic.disable()
-    vim.keymap.set("n", "o", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
-    vim.keymap.set("n", "t", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
+  callback = function(event)
+    if event.new_mode == "diff" then
+      vim.diagnostic.disable()
+      vim.keymap.set("n", "<leader>gm2", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
+      vim.keymap.set("n", "<leader>gm3", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
+    end
   end,
 })
 
@@ -42,10 +44,8 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
   callback = function(event)
     local ft = ""
     if vim.fn.search("{{.*end.*}}", "nw") ~= 0 then
-      print("Go tmpl found")
       ft = "gotmpl"
     elseif (vim.fn.search('{"version"', "nw") or vim.fn.search('{"message"', "nw")) ~= 0 then
-      print("ADP Log file found")
       ft = "json"
     end
     if ft ~= "" then
@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
-    vim.b.miniindentscope_disable = true
+    -- vim.b.miniindentscope_disable = true
     local dir = require("util.init").get_project_root(".git")
     if dir ~= nil then
       vim.cmd("cd " .. dir)

@@ -92,7 +92,7 @@ return {
         desc = "Show New Commits",
       },
       {
-        "<leader>gm",
+        "<leader>gN",
         "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit HEAD..origin/master<CR><CR>",
         desc = "Show Missing Commits",
       },

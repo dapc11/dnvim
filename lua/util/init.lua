@@ -10,20 +10,6 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
----Set _G.<var> to either true or false based on previous value
----@param var string
-function M.toggle_format(var)
-  local action = ""
-  if _G[var] then
-    action = "disabled"
-    _G[var] = false
-  else
-    action = "enabled"
-    _G[var] = true
-  end
-  print("Toggled formatting: " .. action)
-end
-
 ---@param value any
 ---@param opts? {loc:string, bt?:boolean}
 function M._dump(value, opts)
