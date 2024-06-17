@@ -65,7 +65,8 @@ return {
     keys = {
       { "<leader>ge", "<cmd>Gedit<CR>", desc = "Edit" },
       { "<C-g>", "<cmd>Git<CR>" },
-      { "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Diff" },
+      { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
+      { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
       { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
       { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push" },
       { "<leader>gpf", "<cmd>Git fetch<CR>", desc = "Fetch" },

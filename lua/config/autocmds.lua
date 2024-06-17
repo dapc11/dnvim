@@ -22,13 +22,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "diff",
+vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
-    if event.new_mode == "diff" then
-      vim.diagnostic.disable()
-      vim.keymap.set("n", "<leader>gm2", "<cmd>diffget //2<CR>", { expr = true, silent = true, buffer = true })
-      vim.keymap.set("n", "<leader>gm3", "<cmd>diffget //3<CR>", { expr = true, silent = true, buffer = true })
+    if vim.fn.search("<<<<<<< Updated upstream", "nw") ~= 0 then
+      vim.diagnostic.disable(event.buf)
+      vim.cmd([[
+nnoremap <buffer> <silent> <leader>h2 :diffget //2<Bar>diffupdate<CR>
+nnoremap <buffer> <silent> <leader>h3 :diffget //3<Bar>diffupdate<CR>
+      ]])
     end
   end,
 })
