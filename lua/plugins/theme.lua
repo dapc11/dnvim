@@ -37,6 +37,7 @@ return {
           variables = "none",
         },
         colors = {
+          bg0 = "#24292e",
           fg = "#b6bdca",
         },
         highlights = {
