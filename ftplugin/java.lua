@@ -170,13 +170,6 @@ config["on_attach"] = function()
   require("util").lsp_keymaps()
 end
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  pattern = { "*.java" },
-  callback = function()
-    local _, _ = pcall(vim.lsp.codelens.refresh)
-  end,
-})
-
 require("jdtls").start_or_attach(config)
 
 -- stylua: ignore start
