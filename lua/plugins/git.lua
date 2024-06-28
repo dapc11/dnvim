@@ -74,14 +74,14 @@ return {
       { "<leader>gps", "<cmd>Git submodule update --init --recursive<CR>", desc = "Update Submodules" },
       { "<leader>gC", ":Git fetch | Git checkout origin/master -b ", desc = "New Feature Branch" },
       {
-        "<leader>gg",
+        "<leader>f",
         function()
           vim.cmd.Ggrep({ "-q " .. GetVisualSelection() })
         end,
         mode = "v",
         desc = "Git Grep",
       },
-      { "<leader>gg", ":Git grep -q ", desc = "Git Grep" },
+      { "<leader>f", ":Git grep -q ", desc = "Git Grep" },
       {
         "<leader>gl",
         "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<CR><CR>",

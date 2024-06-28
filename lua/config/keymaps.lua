@@ -18,7 +18,7 @@ map({ "n", "v", "c" }, "ä", "}")
 
 map("n", "Y", "y$")
 map("v", "p", [["_dP]])
-map({ "n", "v" }, "<leader>y", '"+y')
+map({ "n", "v" }, "<leader>y", '"*y')
 map("n", "<leader>Y", '"+Y')
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
 map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
@@ -105,8 +105,6 @@ vim.cmd([[
   cnoremap <C-D>  <Del>
   " end of line
   cnoremap <C-E>  <End>
-  " forward one character
-  cnoremap <C-F>  <Right>
   " back one word
   cnoremap <Esc><C-B> <S-Left>
   " forward one word

@@ -12,6 +12,23 @@ return {
     end
     fzf.setup({
       "max-perf",
+      -- ignore all '.lua' and '.vim' files
+      files = {
+        fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
+      },
+      grep = {
+        prompt = "Rg❯ ",
+        input_prompt = "Grep For❯ ",
+        multiprocess = false, -- run command in a separate process
+        git_icons = false, -- show git icons?
+        file_icons = false, -- show file icons?
+        color_icons = false, -- colorize file|git icons
+        rg_opts = " -g '!vendor' --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+        -- rg_glob = true, -- default to glob parsing?
+        actions = {
+          ["ctrl-h"] = { actions.toggle_ignore },
+        },
+      },
       hls = {
         normal = hl_validate("TelescopeNormal"),
         border = hl_validate("TelescopeBorder"),
@@ -108,14 +125,6 @@ return {
           ["default"] = actions.buf_edit,
           ["ctrl-v"] = actions.buf_vsplit,
           ["ctrl-t"] = actions.buf_tabedit,
-        },
-      },
-      grep = {
-        rg_glob = false, -- default to glob parsing?
-        glob_flag = "--iglob", -- for case sensitive globs use '--glob'
-        glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
-        actions = {
-          ["ctrl-h"] = { actions.toggle_ignore },
         },
       },
     })
