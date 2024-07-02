@@ -67,11 +67,32 @@ function M.fzf_projectionist()
         for _, v in pairs(windows) do
           local status, _ = pcall(vim.api.nvim_win_get_var, v, "fugitive_status")
           if status then
-            vim.api.nvim_win_close(v, false)
+            pcall(vim.api.nvim_win_close, v, false)
           end
         end
-        vim.cmd("Gcd " .. selected[1])
-        vim.cmd.Git()
+
+        vim.cmd(string.format(
+          [[
+        function! GitDir()
+        return "%s/.git"
+        endfunction
+
+        function! GCWDComplete(A, L, P) abort
+        return fugitive#Complete(a:A, a:L, a:P, {'git_dir': GitDir() })
+        endfunction
+
+        command! -bang -nargs=? -range=-1 -complete=customlist,GCWDComplete GCWD exe fugitive#Command(<line1>, <count>, +"<range>", <bang>0, "<mods>", <q-args>,   { 'git_dir': GitDir()})
+        ]],
+          selected[1]
+        ))
+
+        vim.cmd.GCWD()
+        local current_buf = vim.api.nvim_get_current_buf()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if buf ~= current_buf then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+        end
       end,
     },
   })
