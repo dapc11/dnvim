@@ -93,6 +93,7 @@ function M.fzf_projectionist()
             vim.api.nvim_buf_delete(buf, { force = true })
           end
         end
+        vim.fn.chdir(selected[1])
       end,
     },
   })
