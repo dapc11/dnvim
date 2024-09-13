@@ -40,23 +40,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "LspAttach", "BufNewFile", "BufRead" }, {
-  pattern = { "*.tpl", "*.yaml", "*.yml", "*.txt" },
-  callback = function(event)
-    local ft = ""
-    if vim.fn.search("{{.*end.*}}", "nw") ~= 0 then
-      ft = "gotmpl"
-    elseif (vim.fn.search('{"version"', "nw") or vim.fn.search('{"message"', "nw")) ~= 0 then
-      ft = "json"
-    end
-    if ft ~= "" then
-      vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = event.buf }))
-      vim.diagnostic.disable(event.buf)
-      vim.opt_local.filetype = ft
-    end
-  end,
-})
-
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "COMMIT_EDITMSG",
   callback = function()

@@ -40,14 +40,12 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
 map("n", "<leader>v", "<C-W>v", { desc = "Split window right", remap = true })
 
 -- Move to window using the <ctrl> arrow keys
--- map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
--- map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
--- map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
--- map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
-map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
+map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
+map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
+map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
+map("n", "<C-Down>", "}")
+map("n", "<C-Up>", "{")
 
 -- Move Lines
 map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })

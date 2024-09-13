@@ -14,11 +14,11 @@ return {
           { "williamboman/mason-lspconfig.nvim", events = lazylsp },
           { "L3MON4D3/LuaSnip", events = lazylsp },
           { "saadparwaiz1/cmp_luasnip", events = lazylsp },
-          { "hrsh7th/cmp-nvim-lsp", events = lazylsp },
-          { "hrsh7th/cmp-nvim-lsp-signature-help", events = lazylsp },
-          { "hrsh7th/cmp-buffer", events = lazylsp },
-          { "hrsh7th/cmp-path", events = lazylsp },
-          { "hrsh7th/nvim-cmp", events = lazylsp },
+          { "hrsh7th/cmp-nvim-lsp", events =  { "InsertEnter", "CmdlineEnter" } },
+          { "hrsh7th/cmp-nvim-lsp-signature-help", events =  { "InsertEnter", "CmdlineEnter" } },
+          { "hrsh7th/cmp-buffer", events =  { "InsertEnter", "CmdlineEnter" } },
+          { "hrsh7th/cmp-path", events =  { "InsertEnter", "CmdlineEnter" } },
+          { "hrsh7th/nvim-cmp", events =  { "InsertEnter", "CmdlineEnter" } },
         },
         events = lazylsp,
         config = function()
@@ -30,6 +30,7 @@ return {
           require("luasnip.loaders.from_vscode").lazy_load({
             paths = "~/.config/nvim/snippets",
           })
+
           cmp.setup({
             sources = {
               { name = "nvim_lsp_signature_help" },
@@ -49,6 +50,24 @@ return {
               ["<C-h>"] = cmp.mapping(function()
                 if luasnip.locally_jumpable(-1) then
                   luasnip.jump(-1)
+                end
+              end, { "i", "s" }),
+              ["<Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                      cmp.select_next_item()
+                    elseif luasnip.locally_jumpable(1) then
+                      luasnip.jump(1)
+                    else
+                      fallback()
+                    end
+                  end, { "i", "s" }),
+              ["<S-Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif luasnip.locally_jumpable(-1) then
+                  luasnip.jump(-1)
+                else
+                  fallback()
                 end
               end, { "i", "s" }),
               ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -85,10 +104,13 @@ return {
           lsp_zero.on_attach(function()
             require("util").lsp_keymaps()
           end)
+
           local lsp = require("lspconfig")
+
           require("mason").setup({})
+
           require("mason-lspconfig").setup({
-            ensure_installed = { "gopls", "lua_ls", "pyright", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
+            ensure_installed = {"helm_ls", "gopls", "lua_ls", "pyright", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
             handlers = {
               pyright = function()
                 lsp.pyright.setup({
@@ -106,6 +128,9 @@ return {
               end,
               dockerls = function()
                 lsp.dockerls.setup(require("plugins.language_servers.dockerls"))
+              end,
+              helm_ls = function ()
+                lsp.helm_ls.setup(require("plugins.language_servers.helm_ls"))
               end,
               yamlls = function()
                 lsp.yamlls.setup({})

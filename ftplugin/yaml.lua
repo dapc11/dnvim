@@ -1,5 +1,3 @@
-local bufnr = vim.api.nvim_get_current_buf()
-
 local function split(str, delimiter)
   local parts = {}
   for part in string.gmatch(str, "[^" .. delimiter .. "]+") do
@@ -34,5 +32,3 @@ local function fzf_yaml()
   })
 end
 vim.keymap.set("n", "<leader>fk", fzf_yaml, { desc = "YAML key", buffer = true })
-
-vim.diagnostic.disable(bufnr)
