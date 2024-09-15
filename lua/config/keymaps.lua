@@ -146,3 +146,15 @@ end
 for key, dir in pairs(nav) do
   vim.keymap.set("n", "<M-" .. dir .. ">", navigate(key))
 end
+
+map('n', '<leader>zf', function()
+  require("fzf-lua").grep_project({ cwd="~/notes/", path_shorten = true })
+end, { noremap = true, silent = true, desc = "Search in Notes" })
+map('n', '<leader>zb', function ()
+  require("fzf-lua").files({ cwd="~/notes/", path_shorten = true })
+end, { noremap = true, silent = true, desc = "Browse Notes" })
+map('n', '<leader>zn', function()
+        require("util").create_note()
+end, { noremap = true, silent = true, desc = "New Note" })
+
+

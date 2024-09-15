@@ -112,4 +112,52 @@ function M.get_project_root(project_root_indicator)
   return ""
 end
 
+
+-- Utility function to convert a string to snake_case
+local function snake_case(str)
+  return str:gsub("%s+", "_"):gsub("[^%w_]", ""):lower()
+end
+
+-- Function to prompt for title, create the note, and populate it
+function M.create_note()
+  -- Prompt the user for a title
+  local title = vim.fn.input("Note title: ")
+  
+  -- If the user cancels the input, return early
+  if title == "" then return end
+
+  -- Convert the title to snake_case for the file name
+  local file_name = snake_case(title) .. ".md"
+
+  -- Define the path to the notes directory
+  local notes_dir = vim.fn.expand("~/notes/")
+
+  -- Create the notes directory if it doesn't exist
+  if vim.fn.isdirectory(notes_dir) == 0 then
+    vim.fn.mkdir(notes_dir, "p")
+  end
+
+  -- Define the full path to the new file
+  local file_path = notes_dir .. file_name
+
+  -- Check if the file already exists, to avoid overwriting
+  if vim.fn.filereadable(file_path) == 1 then
+    print("File already exists: " .. file_path)
+    return
+  end
+
+  -- Create and write to the new markdown file
+  local file = io.open(file_path, "w")
+  if file then
+    -- Write the title as a markdown header
+    file:write("# " .. title .. "\n\n")
+    file:close()
+    print("Note created: " .. file_path)
+    -- Open the file in a new buffer
+    vim.cmd("edit " .. file_path)
+  else
+    print("Error creating note: " .. file_path)
+  end
+end
+
 return M
