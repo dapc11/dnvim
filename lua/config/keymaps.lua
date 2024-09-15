@@ -109,8 +109,14 @@ vim.cmd([[
   cnoremap <Esc><C-F> <S-Right>
 ]])
 
-map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix item" })
-map("n", "[q", vim.cmd.cprev, { desc = "Prev Quickfix item" })
+map("n", "]q", function()
+  vim.cmd.cnext()
+  vim.cmd("norm! zz")
+end, { desc = "Next Quickfix item" })
+map("n", "[q", function()
+  vim.cmd.cprev()
+  vim.cmd("norm! zz")
+end, { desc = "Prev Quickfix item" })
 
 local function open_CVE_in_browser()
   local cve = string.match(vim.fn.getline("."), "CVE%-%d+%-%d+")
@@ -157,4 +163,111 @@ map('n', '<leader>zn', function()
         require("util").create_note()
 end, { noremap = true, silent = true, desc = "New Note" })
 
+local function toggle_sub_magic()
+  local cmdline = vim.fn.getcmdline()
+  local cmdpos = vim.fn.getcmdpos()
+  local pattern = "^(%%s/)(.*)$"
+  local before, after = cmdline:match(pattern)
+  if before and after then
+    local search_end = after:find("/")
+    if not search_end then
+      return
+    end
+    local search_term = after:sub(1, search_end- 1)
+    local replace_and_flags = after:sub(search_end)
 
+    if search_term:sub(1, 2) == "\\v" then
+      search_term = after:sub(2, search_end- 1)
+      search_term = search_term:sub(3, -2)
+      cmdpos = cmdpos - 4
+    else
+      search_term = "\\v(" .. search_term .. ")"
+      cmdpos = cmdpos + 4
+    end
+
+    local new_cmdline = before .. search_term .. replace_and_flags
+    vim.fn.setcmdline(new_cmdline, cmdpos)
+    vim.schedule(function()
+      vim.api.nvim_input("<space><BS>")
+    end)
+  end
+end
+
+local function toggle_sub_flag(flag_to_toggle)
+  local cmdline = vim.fn.getcmdline()
+  local cmdpos = vim.fn.getcmdpos()
+  local pattern = "^(%%s/.-/)(.*)(/[gci]*)$"
+  local before, middle, flags = cmdline:match(pattern)
+
+  if before and middle then
+    local new_flags = ""
+    local flag_set = {}
+
+    for flag in (flags or ""):gmatch("%a") do
+      flag_set[flag] = true
+    end
+
+    flag_set[flag_to_toggle] = not flag_set[flag_to_toggle]
+
+    for _, flag in ipairs({ "g", "c", "i" }) do
+      if flag_set[flag] then
+        new_flags = new_flags .. flag
+      end
+    end
+
+    local new_cmdline = before .. middle .. (new_flags ~= "" and "/" .. new_flags or "")
+    vim.fn.setcmdline(new_cmdline, cmdpos)
+
+    vim.schedule(function()
+      vim.api.nvim_input("<space><BS>")
+    end)
+  end
+end
+
+vim.keymap.set("v", "<leader>xr", function()
+  local temp_keymaps = {
+    { lhs = "<S-CR>", rhs = "<CR>a" },
+    {
+      lhs = "<A-m>",
+      rhs = toggle_sub_magic,
+    },
+    {
+      lhs = "<A-g>",
+      rhs = function()
+        toggle_sub_flag("g")
+      end,
+    },
+    {
+      lhs = "<A-c>",
+      rhs = function()
+        toggle_sub_flag("c")
+      end,
+    },
+    {
+      lhs = "<A-i>",
+      rhs = function()
+        toggle_sub_flag("i")
+      end,
+    },
+  }
+  vim.cmd('normal! "vy')
+  local text = vim.fn.getreg("v")
+
+  for _, keymap in ipairs(temp_keymaps) do
+    vim.keymap.set("c", keymap.lhs, keymap.rhs, opts)
+  end
+
+  vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. text .. ")//gci<Left><Left><Left><Left>")
+
+  local augroup = vim.api.nvim_create_augroup("substitute", { clear = true })
+  vim.api.nvim_create_autocmd("CmdlineLeave", {
+    group = augroup,
+    pattern = "*",
+    once = true,
+    callback = function()
+      for _, keymap in ipairs(temp_keymaps) do
+        vim.api.nvim_del_keymap("c", keymap.lhs)
+      end
+    end,
+  })
+end, { noremap = true, silent = true, desc = "substitute with visual selection" })
