@@ -1,4 +1,4 @@
-vim.o.guifont = "JetBrains Mono:h11"
+vim.o.guifont = "Fira Code:h13"
 vim.g.neovide_scale_factor = 1
 vim.g.neovide_confirm_quit = true
 vim.g.neovide_cursor_trail_size = 0

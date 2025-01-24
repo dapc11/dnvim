@@ -23,11 +23,14 @@ return {
         git_icons = false, -- show git icons?
         file_icons = false, -- show file icons?
         color_icons = false, -- colorize file|git icons
-        rg_opts = " -g '!vendor' --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+        rg_opts = " -g '!vendor' --column --line-number --no-heading --smart-case --max-columns=4096 -e",
         -- rg_glob = true, -- default to glob parsing?
         actions = {
           ["ctrl-h"] = { actions.toggle_ignore },
         },
+      },
+      fzf_opts = {
+          ['--ansi'] = true,
       },
       hls = {
         normal = hl_validate("TelescopeNormal"),

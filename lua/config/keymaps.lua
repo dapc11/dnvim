@@ -78,6 +78,7 @@ map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
 map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
 map("n", "<leader>lL", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
 
+map("n", "<leader>j", "*``cgn", { desc = "Change under cursor" })
 map("n", "<leader>.", [['<esc>' . repeat('.', v:count1)]], { desc = "Repeat cgn", expr = true })
 map("c", "<C-v>", "<C-r>*")
 map("i", "<C-v>", "<C-r>+")
@@ -107,6 +108,8 @@ vim.cmd([[
   cnoremap <Esc><C-B> <S-Left>
   " forward one word
   cnoremap <Esc><C-F> <S-Right>
+
+  cnoremap <F2> \(.*\)
 ]])
 
 map("n", "]q", function()
