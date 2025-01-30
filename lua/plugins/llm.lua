@@ -53,10 +53,6 @@ return {
           -- call GpChatNew command in range mode on whole buffer
           vim.api.nvim_command("%" .. gp.config.cmd_prefix .. "ChatNew")
         end,
-        Git = function(gp, _)
-          -- call GpChatNew command in range mode on whole buffer
-          vim.api.nvim_command("%" .. gp.config.cmd_prefix .. "CommitMessage")
-        end,
         -- -- example of adding command which writes unit tests for the selected code
         UnitTests = function(gp, params)
           local template = "I have the following code from {{filename}}:\n\n"
@@ -74,20 +70,15 @@ return {
           local agent = gp.get_chat_agent()
           gp.Prompt(params, gp.Target.popup, agent, template)
         end,
-        CommitMessage = function(gp, params)
-          local template = "Please write a commit message based on the Git diff in this file {{selection}}:"
-          local agent = gp.get_chat_agent()
-          gp.Prompt(params, gp.Target.preppend, agent, template)
-        end,
         CodeReview = function(gp, params)
-              local template = "I have the following code from {{filename}}:\n\n"
-                  .. "```{{filetype}}\n{{selection}}\n```\n\n"
-                  .. "Please analyze for code smells and suggest improvements."
-              local agent = gp.get_chat_agent()
-            gp.Prompt(params, gp.Target.enew("markdown"), agent, template)
+          local template = "I have the following code from {{filename}}:\n\n"
+            .. "```{{filetype}}\n{{selection}}\n```\n\n"
+            .. "Please analyze for code smells and suggest improvements."
+          local agent = gp.get_chat_agent()
+          gp.Prompt(params, gp.Target.enew("markdown"), agent, template)
         end,
       },
     }
     require("gp").setup(conf)
-    end,
+  end,
 }
