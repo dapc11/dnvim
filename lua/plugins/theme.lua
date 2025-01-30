@@ -89,4 +89,19 @@ return {
       },
     },
   },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function()
+      require("rose-pine").setup({
+        palette = {
+          moon = {
+            base = "#24292E",
+            surface = "#31373F",
+            overlay = "#363738",
+          },
+        },
+      })
+    end,
+  },
 }

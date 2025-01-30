@@ -206,5 +206,5 @@
       "\t${3:pass}"
     ],
     "description": "Code snippet for a with statement"
-  },
+  }
 }

@@ -27,6 +27,8 @@ map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", s
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
 -- better indenting
+map("n", "<tab>", "==")
+map("v", "<tab>", "==")
 map("i", "<tab>", "<c-t>")
 map("i", "<s-tab>", "<c-d>")
 map("v", "<", "<gv")
