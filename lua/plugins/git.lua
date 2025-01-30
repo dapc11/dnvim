@@ -1,5 +1,6 @@
 GetVisualSelection = require("util.common").get_visual_selection
 
+-- Function to search for commits in the Git log.
 function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({ cmd = "Gclog", args = {
@@ -7,6 +8,7 @@ function Gsearch()
   } })
 end
 
+-- Searches for a commit containing the current buffer's contents in the Git log.
 function GsearchCurrent()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({ cmd = "Gclog", args = {
@@ -64,7 +66,7 @@ return {
     lazy = false,
     keys = {
       { "<leader>ge", "<cmd>Gedit<CR>", desc = "Edit" },
-      { "<C-g>", "<cmd>Git<CR>" },
+      { "<leader>gg", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
       { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
       { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
