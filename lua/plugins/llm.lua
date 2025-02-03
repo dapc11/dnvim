@@ -61,8 +61,6 @@ return {
           local agent = gp.get_command_agent()
           gp.Prompt(params, gp.Target.enew, agent, template)
         end,
-
-        -- -- example of adding command which explains the selected code
         Explain = function(gp, params)
           local template = "I have the following code from {{filename}}:\n\n"
             .. "```{{filetype}}\n{{selection}}\n```\n\n"
