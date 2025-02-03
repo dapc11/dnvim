@@ -94,11 +94,14 @@ return {
     name = "rose-pine",
     config = function()
       require("rose-pine").setup({
+        highlight_groups = {
+          FloatBorder = { fg = "base", bg = "base" },
+        },
         palette = {
           moon = {
             base = "#24292E",
             surface = "#31373F",
-            overlay = "#363738",
+            overlay = "#31373F",
           },
         },
       })
