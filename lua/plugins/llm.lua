@@ -19,7 +19,8 @@ return {
       openai_api_key = require("secret").OPENAI_API_TOKEN,
       whisper = { disable = true },
       image = { disable = true },
-      chat_assistant_prefix = { "🗨:" },
+      chat_user_prefix = "## QUESTION --------------- 💬",
+      chat_assistant_prefix = "## RESPONSE --------------- 🗨",
       log_file = "",
       providers = {
         openai = {
