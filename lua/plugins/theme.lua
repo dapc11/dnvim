@@ -96,6 +96,8 @@ return {
       require("rose-pine").setup({
         highlight_groups = {
           FloatBorder = { fg = "base", bg = "base" },
+          LazyNormal = { bg = "base" },
+          NormalFloat = { bg = "base" },
         },
         palette = {
           moon = {

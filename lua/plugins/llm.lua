@@ -3,6 +3,9 @@ local PROMPT =
 return {
   "robitx/gp.nvim",
   config = function()
+    --- Merges multiple tables into one.
+    --- @param ... table[] Tables to be merged.
+    --- @return table Merged result of input tables.
     function MERGE_TABLE(...)
       return vim.tbl_deep_extend("force", ...)
     end
@@ -13,14 +16,14 @@ return {
       stream = true,
     }
     local conf = {
+      openai_api_key = require("secret").OPENAI_API_TOKEN,
       whisper = { disable = true },
       image = { disable = true },
       chat_assistant_prefix = { "🗨:" },
       log_file = "",
       providers = {
         openai = {
-          endpoint = require("secret").OPEN_AI_URL,
-          secret = require("secret").OPEN_API_TOKEN,
+          endpoint = require("secret").OPENAI_URL,
         },
       },
       default_chat_agent = "coder-chat",
@@ -43,17 +46,20 @@ return {
         },
       },
       hooks = {
-
-        -- your own functions can go here, see README for more examples like
-        -- :GpExplain, :GpUnitTests.., :GpTranslator etc.
-
-        -- -- example of making :%GpChatNew a dedicated command which
-        -- -- opens new chat with the entire current buffer as a context
         BufferChatNew = function(gp, _)
           -- call GpChatNew command in range mode on whole buffer
           vim.api.nvim_command("%" .. gp.config.cmd_prefix .. "ChatNew")
         end,
         -- -- example of adding command which writes unit tests for the selected code
+        GenerateCommitMessage = function(gp, params)
+
+          local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+          local template = "I have the following git diff:\n\n"
+            .. "```diff\n" .. buffer .. "\n```\n\n"
+            .. "Please generate a Git commit message with a subject of max 50 chars and a body where lines are max 72 chars. If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
+          local agent = gp.get_chat_agent()
+          gp.Prompt(params, gp.Target.prepend, agent, template)
+        end,
         UnitTests = function(gp, params)
           local template = "I have the following code from {{filename}}:\n\n"
             .. "```{{filetype}}\n{{selection}}\n```\n\n"
