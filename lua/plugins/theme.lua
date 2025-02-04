@@ -98,6 +98,10 @@ return {
           FloatBorder = { fg = "base", bg = "base" },
           LazyNormal = { bg = "base" },
           NormalFloat = { bg = "base" },
+          BlinkCmpLabelMatch = { fg = "rose" },
+          BlinkCmpLabel = { fg = "text" },
+          BlinkCmpMenuSelection = { fg = "text", bg = "highlight_med" },
+          Pmenu = { bg = "base" },
         },
         palette = {
           moon = {
