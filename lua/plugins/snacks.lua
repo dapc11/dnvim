@@ -6,6 +6,7 @@ return {
     Snacks.toggle.profiler_highlights():map("<leader>ph")
 
     return {
+      scratch = {},
       profiler = {},
       dashboard = {
         sections = {
@@ -40,6 +41,8 @@ return {
     }
   end,
   keys = {
+    { "<leader>xs",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+    { "<leader>xS",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     { "<leader>ps",       function() Snacks.profiler.scratch() end,                                               desc = "Profiler Scratch Bufer" },
     { "<C-f>",            function() Snacks.picker.lines() end,                                                   desc = "Buffer Lines" },
     { "<leader><space>",  function() Snacks.picker.grep() end,                                                    desc = "Grep" },

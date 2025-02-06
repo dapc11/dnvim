@@ -18,9 +18,9 @@ map({ "n", "v", "c" }, "ä", "}")
 
 map("n", "Y", "y$")
 map("v", "p", [["_dP]])
-map("n", "<leader>xs", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
-map("v", "<leader>xs", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
-map("v", "<leader>xS", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
+map("n", "<leader>xr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
+map("v", "<leader>xr", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
+map("v", "<leader>xR", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
 
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
