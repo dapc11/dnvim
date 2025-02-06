@@ -18,9 +18,9 @@ map({ "n", "v", "c" }, "ä", "}")
 
 map("n", "Y", "y$")
 map("v", "p", [["_dP]])
-map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
-map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
-map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
+map("n", "<leader>xs", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
+map("v", "<leader>xs", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
+map("v", "<leader>xS", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
 
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
@@ -157,10 +157,10 @@ for key, dir in pairs(nav) do
 end
 
 map('n', '<leader>zf', function()
-  require("fzf-lua").grep_project({ cwd="~/notes/", path_shorten = true })
+  Snacks.picker.grep({ cwd="~/notes/", path_shorten = true })
 end, { noremap = true, silent = true, desc = "Search in Notes" })
 map('n', '<leader>zb', function ()
-  require("fzf-lua").files({ cwd="~/notes/", path_shorten = true })
+  Snacks.picker.files({ cwd="~/notes/", path_shorten = true })
 end, { noremap = true, silent = true, desc = "Browse Notes" })
 map('n', '<leader>zn', function()
         require("util").create_note()

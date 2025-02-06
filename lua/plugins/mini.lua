@@ -1,6 +1,9 @@
 return {
   {
     "echasnovski/mini.nvim",
+    dependencies = {
+      "folke/snacks.nvim",
+    },
     config = function()
       -- Around Inside textobjects
       -- Better Around/Inside textobjects
@@ -78,20 +81,16 @@ return {
       end
 
       local starter = require("mini.starter")
-      local fzf = require("fzf-lua")
       local starter_config = {
         evaluate_single = true,
         items = {
-          new_section("Find file", fzf.files, "Finders"),
-          new_section("Recent files", fzf.oldfiles, "Finders"),
-          new_section("Grep text", fzf.live_grep, "Finders"),
-          new_section("Projects", function()
-            require("util.common").fzf_projectionist()
-          end, "Finders"),
+          new_section("Find file", Snacks.picker.files, "Finders"),
+          new_section("Recent files", Snacks.picker.recent, "Finders"),
+          new_section("Grep text", Snacks.picker.grep, "Finders"),
+          new_section("Projects", Snacks.picker.projects, "Finders"),
+          new_section("Git", "Git", "Git"),
           new_section("Lazy", "Lazy", "Config"),
-          new_section("Config", function()
-            fzf.files({ cwd = "~/.config/nvim/" })
-          end, "Config"),
+          new_section("Config",  function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, "Config"),
           new_section("New file", "ene | startinsert", "Built-in"),
           new_section("Quit", "qa", "Built-in"),
           new_section("Session restore", function()

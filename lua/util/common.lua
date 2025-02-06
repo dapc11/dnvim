@@ -11,7 +11,6 @@ M.ignored_filetypes = {
   "dapui_scopes",
   "fugitive",
   "fugitiveblame",
-  "fzf",
   "git",
   "harpoon",
   "help",
@@ -47,56 +46,6 @@ end
 
 function M.starts(String, Start)
   return string.sub(String, 1, string.len(Start)) == Start
-end
-
-function M.fzf_projectionist()
-  local fzf = require("fzf-lua")
-  fzf.fzf_exec("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname", {
-    actions = {
-      ["default"] = function(selected, _)
-        fzf.git_files({ cwd = selected[1] })
-      end,
-      ["ctrl-f"] = function(selected, _)
-        fzf.grep_project({ cwd = selected[1] })
-      end,
-      ["ctrl-r"] = function(selected, _)
-        fzf.oldfiles({ cwd = selected[1] })
-      end,
-      ["ctrl-g"] = function(selected, _)
-        local windows = vim.api.nvim_list_wins()
-        for _, v in pairs(windows) do
-          local status, _ = pcall(vim.api.nvim_win_get_var, v, "fugitive_status")
-          if status then
-            pcall(vim.api.nvim_win_close, v, false)
-          end
-        end
-
-        vim.cmd(string.format(
-          [[
-        function! GitDir()
-        return "%s/.git"
-        endfunction
-
-        function! GCWDComplete(A, L, P) abort
-        return fugitive#Complete(a:A, a:L, a:P, {'git_dir': GitDir() })
-        endfunction
-
-        command! -bang -nargs=? -range=-1 -complete=customlist,GCWDComplete GCWD exe fugitive#Command(<line1>, <count>, +"<range>", <bang>0, "<mods>", <q-args>,   { 'git_dir': GitDir()})
-        ]],
-          selected[1]
-        ))
-
-        vim.cmd.GCWD()
-        local current_buf = vim.api.nvim_get_current_buf()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-          if buf ~= current_buf then
-            vim.api.nvim_buf_delete(buf, { force = true })
-          end
-        end
-        vim.fn.chdir(selected[1])
-      end,
-    },
-  })
 end
 
 function M.split(string, delimiter)

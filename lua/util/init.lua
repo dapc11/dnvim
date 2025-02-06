@@ -63,16 +63,11 @@ function M.lsp_keymaps()
   local function opts(desc)
     return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
   end
-  local fzf = require("fzf-lua")
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
-  vim.keymap.set("n", "<leader>cs", fzf.lsp_document_symbols , opts("Workspace Symbols"))
   vim.keymap.set("n", "<leader>cc", vim.lsp.buf.format, opts("Format"))
-  vim.keymap.set("n", "<leader>cf", fzf.lsp_finder, opts("Finder"))
-  vim.keymap.set({"n", "v"}, "<leader>ca", fzf.lsp_code_actions, opts("Code Action"))
+  vim.keymap.set({"n", "v"}, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
   vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
-  vim.keymap.set("n", "<leader>cd",  fzf.diagnostics_document, opts("Document Diagnostics"))
-  vim.keymap.set("n", "<leader>cD",  fzf.diagnostics_workspace, opts("Workspace Diagnostics"))
   vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts("Show Diagnostic"))
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
@@ -122,7 +117,7 @@ end
 function M.create_note()
   -- Prompt the user for a title
   local title = vim.fn.input("Note title: ")
-  
+
   -- If the user cancels the input, return early
   if title == "" then return end
 
