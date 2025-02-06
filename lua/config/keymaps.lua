@@ -18,8 +18,6 @@ map({ "n", "v", "c" }, "ä", "}")
 
 map("n", "Y", "y$")
 map("v", "p", [["_dP]])
-map({ "n", "v" }, "<leader>y", '"*y')
-map("n", "<leader>Y", '"+Y')
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
 map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
 map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
