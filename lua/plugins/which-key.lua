@@ -11,7 +11,6 @@ return {
     local wk = require("which-key")
     wk.setup(opts)
     wk.add({
-      { "<leader>f", group = "file" }, -- group
       -- { "<leader>f1", hidden = true }, -- hide this keymap
       { "<leader>w", proxy = "<c-w>", group = "windows" }, -- proxy to window mappings
       { "<leader><tab>", group = "tabs" },
