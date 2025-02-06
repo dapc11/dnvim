@@ -11,7 +11,7 @@ return {
       -- Supports the same keys passed to .configure
       -- If nil, vim-illuminate will be disabled for large files.
       large_file_overrides = nil,
-      min_count_to_highlight = 1,
+      min_count_to_highlight = 2,
     })
   end,
 }
