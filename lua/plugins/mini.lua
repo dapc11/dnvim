@@ -74,45 +74,6 @@ return {
       statusline.section_location = function()
         return "%2l:%-2v"
       end
-
-      -- Starter
-      local new_section = function(name, action, section)
-        return { name = name, action = action, section = section }
-      end
-
-      local starter = require("mini.starter")
-      local starter_config = {
-        evaluate_single = true,
-        items = {
-          new_section("Find file", Snacks.picker.files, "Finders"),
-          new_section("Recent files", Snacks.picker.recent, "Finders"),
-          new_section("Grep text", Snacks.picker.grep, "Finders"),
-          new_section("Projects", Snacks.picker.projects, "Finders"),
-          new_section("Git", "Git", "Git"),
-          new_section("Lazy", "Lazy", "Config"),
-          new_section("Config",  function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, "Config"),
-          new_section("New file", "ene | startinsert", "Built-in"),
-          new_section("Quit", "qa", "Built-in"),
-          new_section("Session restore", function()
-            require("persistence").load({ last = true })
-          end, "Session"),
-        },
-        content_hooks = {
-          starter.gen_hook.aligning("center", "center"),
-        },
-      }
-
-      if vim.o.filetype == "lazy" then
-        vim.cmd.close()
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "MiniStarterOpened",
-          callback = function()
-            require("lazy").show()
-          end,
-        })
-      end
-
-      starter.setup(starter_config)
     end,
   },
 }
