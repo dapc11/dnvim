@@ -47,6 +47,7 @@ return {
         unusedLocalExclude = { "_*" },
         globals = {
           "vim",
+          "Snacks",
           -- Awesomewm related globals
           "client",
           "awesome",
