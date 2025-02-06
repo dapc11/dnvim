@@ -107,7 +107,6 @@ function M.get_project_root(project_root_indicator)
   return ""
 end
 
-
 -- Utility function to convert a string to snake_case
 local function snake_case(str)
   return str:gsub("%s+", "_"):gsub("[^%w_]", ""):lower()
@@ -119,7 +118,9 @@ function M.create_note()
   local title = vim.fn.input("Note title: ")
 
   -- If the user cancels the input, return early
-  if title == "" then return end
+  if title == "" then
+    return
+  end
 
   -- Convert the title to snake_case for the file name
   local file_name = snake_case(title) .. ".md"

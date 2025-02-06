@@ -158,14 +158,14 @@ for key, dir in pairs(nav) do
   vim.keymap.set("n", "<M-" .. dir .. ">", navigate(key))
 end
 
-map('n', '<leader>zf', function()
-  Snacks.picker.grep({ cwd="~/notes/", path_shorten = true })
+map("n", "<leader>zf", function()
+  Snacks.picker.grep({ cwd = "~/notes/", path_shorten = true })
 end, { noremap = true, silent = true, desc = "Search in Notes" })
-map('n', '<leader>zb', function ()
-  Snacks.picker.files({ cwd="~/notes/", path_shorten = true })
+map("n", "<leader>zb", function()
+  Snacks.picker.files({ cwd = "~/notes/", path_shorten = true })
 end, { noremap = true, silent = true, desc = "Browse Notes" })
-map('n', '<leader>zn', function()
-        require("util").create_note()
+map("n", "<leader>zn", function()
+  require("util").create_note()
 end, { noremap = true, silent = true, desc = "New Note" })
 
 local function toggle_sub_magic()
@@ -178,11 +178,11 @@ local function toggle_sub_magic()
     if not search_end then
       return
     end
-    local search_term = after:sub(1, search_end- 1)
+    local search_term = after:sub(1, search_end - 1)
     local replace_and_flags = after:sub(search_end)
 
     if search_term:sub(1, 2) == "\\v" then
-      search_term = after:sub(2, search_end- 1)
+      search_term = after:sub(2, search_end - 1)
       search_term = search_term:sub(3, -2)
       cmdpos = cmdpos - 4
     else

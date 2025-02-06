@@ -1,7 +1,7 @@
 return {
-    ['helm-ls'] = {
-      yamlls = {
-        path = "yaml-language-server",
-      }
-    }
-  }
+  ["helm-ls"] = {
+    yamlls = {
+      path = "yaml-language-server",
+    },
+  },
+}

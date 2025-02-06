@@ -1,3 +1,3 @@
 return {
-  { 'towolf/vim-helm',       ft = 'helm' },
+  { "towolf/vim-helm", ft = "helm" },
 }

@@ -4,7 +4,9 @@ if not success then
   print('"secret.lua" is missing, please create it. Will not load gp.nvim.')
 elseif type(secret) ~= "table" then
   success = false
-  print('"secret.lua" is empty or invalid. Return a table with keys "OPENAI_API_TOKEN" and "OPENAI_URL" set. Will not load gp.nvim.')
+  print(
+    '"secret.lua" is empty or invalid. Return a table with keys "OPENAI_API_TOKEN" and "OPENAI_URL" set. Will not load gp.nvim.'
+  )
 end
 
 local PROMPT =
@@ -66,10 +68,11 @@ return {
         end,
         -- -- example of adding command which writes unit tests for the selected code
         GenerateCommitMessage = function(gp, params)
-
           local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
           local template = "I have the following git diff:\n\n"
-            .. "```diff\n" .. buffer .. "\n```\n\n"
+            .. "```diff\n"
+            .. buffer
+            .. "\n```\n\n"
             .. "Please generate a Git commit message with a subject of max 50 chars and a body where lines are max 72 chars. If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
           local agent = gp.get_chat_agent()
           gp.Prompt(params, gp.Target.prepend, agent, template)

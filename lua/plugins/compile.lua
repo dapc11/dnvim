@@ -13,8 +13,8 @@ return {
   config = function()
     ---@type CompileModeOpts
     vim.g.compile_mode = {
-        -- to add ANSI escape code support, add:
-        -- baleia_setup = true,
+      -- to add ANSI escape code support, add:
+      -- baleia_setup = true,
     }
-  end
+  end,
 }
