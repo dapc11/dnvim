@@ -1,7 +1,17 @@
+local success, secret = pcall(require, "secret")
+
+if not success then
+  print('"secret.lua" is missing, please create it. Will not load gp.nvim.')
+elseif type(secret) ~= "table" then
+  success = false
+  print('"secret.lua" is empty or invalid. Return a table with keys "OPENAI_API_TOKEN" and "OPENAI_URL" set. Will not load gp.nvim.')
+end
+
 local PROMPT =
   "You are a professional programming tutor and programming expert designed to help and guide me in learning programming. Your main goal is to help me learn programming concepts, best practices while writing code"
 return {
   "robitx/gp.nvim",
+  enabled = success,
   config = function()
     --- Merges multiple tables into one.
     --- @param ... table[] Tables to be merged.
@@ -16,7 +26,7 @@ return {
       stream = true,
     }
     local conf = {
-      openai_api_key = require("secret").OPENAI_API_TOKEN,
+      openai_api_key = secret.OPENAI_API_TOKEN,
       whisper = { disable = true },
       image = { disable = true },
       chat_user_prefix = "## QUESTION --------------- 💬",
@@ -24,7 +34,7 @@ return {
       log_file = "",
       providers = {
         openai = {
-          endpoint = require("secret").OPENAI_URL,
+          endpoint = secret.OPENAI_URL,
         },
       },
       default_chat_agent = "coder-chat",
