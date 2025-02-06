@@ -110,6 +110,8 @@ vim.cmd([[
   cnoremap <Esc><C-F> <S-Right>
 
   cnoremap <F2> \(.*\)
+  inoremap <M-BS> <C-W>
+  cnoremap <M-BS> <C-W>
 ]])
 
 map("n", "]q", function()
