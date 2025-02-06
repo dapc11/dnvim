@@ -1,38 +1,46 @@
 return {
   "folke/snacks.nvim",
-  opts = {
-    dashboard = {
-      sections = {
-        { section = "keys", gap = 1, padding = 1 },
-        { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-        { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
-        {
-          pane = 2,
-          icon = " ",
-          title = "Git Status",
-          section = "terminal",
-          enabled = function()
-            return Snacks.git.get_root() ~= nil
-          end,
-          cmd = "git status --short --branch --renames",
-          height = 5,
-          padding = 1,
-          ttl = 5 * 60,
-          indent = 3,
+  opts = function()
+    Snacks.toggle.profiler():map("<leader>pp")
+    -- Toggle the profiler highlights
+    Snacks.toggle.profiler_highlights():map("<leader>ph")
+
+    return {
+      profiler = {},
+      dashboard = {
+        sections = {
+          { section = "keys", gap = 1, padding = 1 },
+          { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+          { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+          {
+            pane = 2,
+            icon = " ",
+            title = "Git Status",
+            section = "terminal",
+            enabled = function()
+              return Snacks.git.get_root() ~= nil
+            end,
+            cmd = "git status --short --branch --renames",
+            height = 5,
+            padding = 1,
+            ttl = 5 * 60,
+            indent = 3,
+          },
+          { section = "startup" },
         },
-        { section = "startup" },
       },
-    },
-    picker = {
-      projects ={
-        finder = "recent_projects",
-        format = "file",
-        dev = { "~/repos", "~/.config", "~/repos_personal" },
-        patterns = { ".bob", "git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
-      }
-    },
-  },
+      picker = {
+        projects ={
+          finder = "recent_projects",
+          format = "file",
+          dev = { "~/repos", "~/.config", "~/repos_personal" },
+          patterns = { ".bob", "git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
+        }
+      },
+    }
+  end,
   keys = {
+    { "<leader>ps", function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Bufer" },
     { "<C-f>", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
     { "<leader><space>", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
