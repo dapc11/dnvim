@@ -95,13 +95,11 @@ return {
     config = function()
       require("rose-pine").setup({
         highlight_groups = {
-          FloatBorder = { fg = "base", bg = "base" },
-          LazyNormal = { bg = "base" },
-          NormalFloat = { bg = "base" },
+          FloatBorder = { fg = "surface", bg = "surface" },
           BlinkCmpLabelMatch = { fg = "rose" },
           BlinkCmpLabel = { fg = "text" },
           BlinkCmpMenuSelection = { fg = "text", bg = "highlight_med" },
-          Pmenu = { bg = "base" },
+          Pmenu = { bg = "surface" },
         },
         palette = {
           moon = {
