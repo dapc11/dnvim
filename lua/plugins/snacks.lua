@@ -140,7 +140,7 @@ return {
       desc = "Recent",
     },
     {
-      "<leader>gb",
+      "<leader>gc",
       function()
         Snacks.picker.git_branches()
       end,
