@@ -1,6 +1,6 @@
 local function close_buffer()
   if vim.fn.winnr("$") == 1 then
-    require("mini.starter").open()
+    Snacks.dashboard()
   else
     vim.cmd.close()
   end

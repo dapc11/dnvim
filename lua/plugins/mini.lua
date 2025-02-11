@@ -13,9 +13,6 @@ return {
       --  - ci'  - [C]hange [I]nside [']quote
       require("mini.ai").setup({ n_lines = 500 })
 
-      -- Comment
-      require("mini.comment").setup()
-
       -- Surround
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
@@ -35,7 +32,7 @@ return {
         },
       })
 
-      -- Indentscope
+      require('mini.pairs').setup()
       require("mini.indentscope").setup()
 
       -- Statusline

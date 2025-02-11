@@ -33,6 +33,9 @@ return {
       ["<C-p>"] = "actions.preview",
       ["<C-c>"] = close,
       ["q"] = close,
+      ["<C-f>"] = function()
+        vim.fn.feedkeys("/")
+      end,
       ["f"] = function()
         vim.fn.feedkeys("/")
       end,
