@@ -41,8 +41,9 @@ return {
           require("mason").setup({})
 
           require("mason-lspconfig").setup({
-            ensure_installed = { "helm_ls", "gopls", "lua_ls", "pyright", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
+            ensure_installed = { "jdtls", "helm_ls", "gopls", "lua_ls", "pyright", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
             handlers = {
+              jdtls = noop,
               pyright = function()
                 lsp.pyright.setup({
                   on_init = function(client)

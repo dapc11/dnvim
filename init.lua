@@ -50,6 +50,7 @@ require("config.lazy")()
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
+require("config.jdtls")
 if vim.g.neovide then
   require("config.neovide")
 end
