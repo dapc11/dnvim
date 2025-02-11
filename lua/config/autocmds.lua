@@ -36,7 +36,7 @@ nnoremap <buffer> <silent> <leader>h3 :diffget //3<Bar>diffupdate<CR>
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank()
+    vim.highlight.on_yank({timeout = 50})
   end,
 })
 
@@ -51,7 +51,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
-    -- vim.b.miniindentscope_disable = true
     local dir = require("util.init").get_project_root(".git")
     if dir ~= nil then
       vim.cmd("cd " .. dir)
