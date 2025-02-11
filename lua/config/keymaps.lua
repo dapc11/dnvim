@@ -69,9 +69,8 @@ map("n", "<leader>xl", "<cmd>chi<CR>", { desc = "List Quickfix Lists" })
 map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
 
 map("n", "<leader>ls", function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = bufnr }))
-  pcall(vim.diagnostic.disable, bufnr)
+  vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = 0 }))
+  vim.diagnostic.enable(false, {bufnr = 0})
   vim.opt_local.spell = false
 end, { desc = "Stop all heavy lifting" })
 map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
