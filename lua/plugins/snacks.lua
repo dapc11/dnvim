@@ -4,25 +4,16 @@ return {
     Snacks.toggle.profiler():map("<leader>pp")
     -- Toggle the profiler highlights
     Snacks.toggle.profiler_highlights():map("<leader>ph")
-
     return {
       scratch = {},
       profiler = {},
+      picker = {},
       dashboard = {
         sections = {
           { section = "keys", gap = 1, padding = 1 },
           { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
           { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
           { section = "startup" },
-        },
-      },
-      picker = {
-        projects = {
-          finder = "recent_projects",
-          format = "file",
-          dev = { "~/repos", "~/.config", "~/repos_personal" },
-          patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
-
         },
       },
     }
@@ -113,9 +104,14 @@ return {
       desc = "Find Untracked Git Files",
     },
     {
-      "<leader>sp",
+      "<C-p>",
       function()
-        Snacks.picker.projects()
+        Snacks.picker.projects({
+          finder = "recent_projects",
+          format = "file",
+          dev = { "~/repos", "~/.config", "~/repos_personal" },
+          patterns = { "ruleset2.0.yaml", ".git", ".gitignore", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
+        })
       end,
       desc = "Projects",
     },
