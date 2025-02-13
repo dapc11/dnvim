@@ -1,0 +1,7 @@
+{
+  "Condition": {
+    "prefix": "cond",
+    "body": "- task: $1\n      cmd: test $2",
+    "description": "Add condition"
+  }
+}

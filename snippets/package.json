@@ -29,6 +29,10 @@
       {
         "language": "sh",
         "path": "./sh.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./yaml.json"
       }
     ]
   }
