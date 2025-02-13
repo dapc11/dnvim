@@ -86,7 +86,7 @@ return {
       { "<leader>f", ":Git grep -q ", desc = "Git Grep" },
       {
         "<leader>gl",
-        "<cmd>Git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit<CR><CR>",
+        "<cmd>Git log --graph --pretty=format:'%h %cs %s <%an>%d' --abbrev-commit<CR><CR>",
         desc = "Git log",
       },
       {

@@ -36,14 +36,6 @@ vim.cmd([[
   omap < ]
   xmap > [
   xmap < ]
-
-setglobal grepformat=%f:%l:%c:%m,%f:%l:%m,%f:%l%m,%f\ \ %l%m
-if executable('ag')
-  setglobal grepprg=ag\ -s\ --vimgrep
-elseif has('unix')
-  setglobal grepprg=grep\ -rn\ $*\ /dev/null
-endif
-
 ]])
 
 require("config.lazy")()
