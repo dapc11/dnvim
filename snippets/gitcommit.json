@@ -90,8 +90,8 @@
   "vulnerability": {
     "prefix": "vuln",
     "body": [
-      "Vulnerability: ${2:shortname}",
       "Jira: ${1:longname}",
+      "Vulnerability: ${2:shortname}",
       "",
       "$0"
     ]
@@ -107,8 +107,8 @@
   "requirement": {
     "prefix": "req",
     "body": [
-      "Requirement: ${1: shortname}",
-      "Jira: ${2:longname}",
+      "Jira: ${1:longname}",
+      "Requirement: ${2: shortname}",
       "",
       "$0"
     ]
@@ -132,8 +132,8 @@
   "troublereport": {
     "prefix": "tr",
     "body": [
-      "Jira: ${1: shortname}",
-      "Troublereport: ${2:longname}",
+      "Jira: ${1:longname}",
+      "Troublereport: ${2: shortname}",
       "",
       "$0"
     ]
