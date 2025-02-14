@@ -148,5 +148,5 @@
     "prefix": "json",
     "body": "`json:\"$1\"`",
     "description": "Snippet for struct json tag"
-  },
+  }
 }

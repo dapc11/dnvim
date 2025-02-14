@@ -8,6 +8,7 @@ return {
       scratch = {},
       profiler = {},
       picker = {},
+      bigfile = {},
       dashboard = {
         width = 60,
         row = nil, -- dashboard position. nil for center
@@ -28,6 +29,43 @@ return {
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
             { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = "p", desc = "Projects", action = function ()
+              Snacks.picker.projects({
+                finder = "recent_projects",
+                format = "file",
+                dev = { "~/repos", "~/.config", "~/repos_personal" },
+                patterns = { "ruleset2.0.yaml", ".git", ".gitignore", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
+                confirm = "load_session",
+                recent = true,
+                matcher = {
+                  frecency = true, -- use frecency boosting
+                  sort_empty = true, -- sort even when the filter is empty
+                  cwd_bonus = false,
+                },
+                sort = { fields = { "score:desc", "idx" } },
+                win = {
+                  preview = { minimal = true },
+                  input = {
+                    keys = {
+                      ["<c-f>"] = { { "tcd", "picker_files" }, mode = { "n", "i" } },
+                      ["<CR>"] = { { "tcd", "picker_files" }, mode = { "n", "i" } },
+                      ["<c-g>"] = { { "tcd", "picker_grep" }, mode = { "n", "i" } },
+                      ["<c-r>"] = { { "tcd", "picker_recent" }, mode = { "n", "i" } },
+                      ["<c-w>"] = { { "tcd" }, mode = { "n", "i" } },
+                      ["<c-t>"] = {
+                        function(picker)
+                          vim.cmd("tabnew")
+                          Snacks.notify("New tab opened")
+                          picker:close()
+                          Snacks.picker.projects()
+                        end,
+                        mode = { "n", "i" },
+                      },
+                    },
+                  },
+                },
+              })
+            end },
             { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
             { icon = " ", key = "s", desc = "Restore Session", action = ":lua require('persistence').load({ last = true }) " },
             { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },

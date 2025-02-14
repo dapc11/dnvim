@@ -1,4 +1,15 @@
 local lazylsp = { "BufReadPre", "BufNewFile" }
+
+local function extend(...)
+  local result = {}
+  for _, t in ipairs({ ... }) do
+    for _, v in ipairs(t) do
+      table.insert(result, v)
+    end
+  end
+  return result
+end
+
 return {
   { "mfussenegger/nvim-jdtls", ft = "java" },
   {
@@ -27,9 +38,11 @@ return {
         dependencies = {
           { "williamboman/mason.nvim", events = lazylsp },
           { "williamboman/mason-lspconfig.nvim", events = lazylsp },
+          { "saghen/blink.cmp", events = lazylsp },
         },
         events = lazylsp,
         config = function()
+          local capabilities = require("blink.cmp").get_lsp_capabilities()
           local lsp_zero = require("lsp-zero")
 
           lsp_zero.on_attach(function()
@@ -46,26 +59,27 @@ return {
               jdtls = noop,
               pyright = function()
                 lsp.pyright.setup({
+                  capabilities = capabilities,
                   on_init = function(client)
                     client.server_capabilities.semanticTokensProvider = nil
                   end,
                 })
               end,
               gopls = function()
-                lsp.gopls.setup(require("plugins.language_servers.gopls"))
+                lsp.gopls.setup(extend(require("plugins.language_servers.gopls"), { capabilities = capabilities }))
               end,
               lua_ls = function()
                 require("lazydev").setup({})
-                lsp.lua_ls.setup(require("plugins.language_servers.lua_ls"))
+                lsp.lua_ls.setup(extend(require("plugins.language_servers.lua_ls"), { capabilities = capabilities }))
               end,
               dockerls = function()
-                lsp.dockerls.setup(require("plugins.language_servers.dockerls"))
+                lsp.dockerls.setup(extend(require("plugins.language_servers.dockerls"), { capabilities = capabilities }))
               end,
               helm_ls = function()
-                lsp.helm_ls.setup(require("plugins.language_servers.helm_ls"))
+                lsp.helm_ls.setup(extend(require("plugins.language_servers.helm_ls"), { capabilities = capabilities }))
               end,
               yamlls = function()
-                lsp.yamlls.setup({})
+                lsp.yamlls.setup({ capabilities = capabilities })
               end,
             },
           })

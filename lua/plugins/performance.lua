@@ -39,14 +39,15 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufEnter" }, {
 })
 
 return {
-  "LunarVim/bigfile.nvim",
   "stevearc/profile.nvim",
   {
     "zeioth/garbage-day.nvim",
     dependencies = "neovim/nvim-lspconfig",
+    event = "VeryLazy",
   },
   {
     "chrisgrieser/nvim-early-retirement",
     config = true,
+    event = "VeryLazy",
   },
 }
