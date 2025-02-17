@@ -59,7 +59,6 @@ return {
           local capabilities = require("blink.cmp").get_lsp_capabilities()
           local lsp_zero = require("lsp-zero")
 
-
           local lsp = require("lspconfig")
 
           require("mason").setup({})
@@ -72,17 +71,13 @@ return {
               pyright = function()
                 lsp.pyright.setup({
                   capabilities = capabilities,
-                  on_init = function(client)
-                    client.server_capabilities.semanticTokensProvider = nil
-                  end,
                 })
               end,
               gopls = function()
                 lsp.gopls.setup(extend(require("plugins.language_servers.gopls"), { capabilities = capabilities }))
               end,
               lua_ls = function()
-                require("lazydev").setup({})
-                lsp.lua_ls.setup(extend(require("plugins.language_servers.lua_ls"), { capabilities = capabilities }))
+                lsp.lua_ls.setup({settings = require("plugins.language_servers.lua_ls"), capabilities = capabilities})
               end,
               dockerls = function()
                 lsp.dockerls.setup(
@@ -115,7 +110,6 @@ return {
 
           lsp_zero.set_server_config({
             on_init = function(client)
-
               client.server_capabilities.semanticTokensProvider = nil
             end,
           })

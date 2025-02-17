@@ -12,7 +12,9 @@ map("n", "*", "*Nzz")
 map("n", "#", "#nzz")
 map("n", "g*", "g*zz")
 
-map("n", "<leader>xd", function () vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end)
+map("n", "<leader>xd", function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end)
 
 -- Note to self: c is for usage in motion dö, dä
 map({ "n", "v", "c" }, "ö", "{")
