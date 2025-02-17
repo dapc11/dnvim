@@ -21,6 +21,13 @@ return {
       appearance = {
         use_nvim_cmp_as_default = true,
       },
+      completion = {
+        menu = {
+          draw = {
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", gap = 1, "kind" } },
+          },
+        },
+      },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
       },
