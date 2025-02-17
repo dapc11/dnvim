@@ -80,7 +80,9 @@ return {
                 lsp.lua_ls.setup(extend(require("plugins.language_servers.lua_ls"), { capabilities = capabilities }))
               end,
               dockerls = function()
-                lsp.dockerls.setup(extend(require("plugins.language_servers.dockerls"), { capabilities = capabilities }))
+                lsp.dockerls.setup(
+                  extend(require("plugins.language_servers.dockerls"), { capabilities = capabilities })
+                )
               end,
               helm_ls = function()
                 lsp.helm_ls.setup(extend(require("plugins.language_servers.helm_ls"), { capabilities = capabilities }))

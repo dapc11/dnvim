@@ -32,7 +32,7 @@ return {
         },
       })
 
-      require('mini.pairs').setup()
+      require("mini.pairs").setup()
       require("mini.indentscope").setup()
 
       -- Statusline
