@@ -68,7 +68,7 @@ return {
           require("mason").setup({})
 
           require("mason-lspconfig").setup({
-            ensure_installed = { "jdtls", "helm_ls", "gopls", "lua_ls", "pyright", "dockerls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
+            ensure_installed = { "jdtls", "helm_ls", "gopls", "lua_ls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
             automatic_installation = false,
             handlers = {
               jdtls = noop,
