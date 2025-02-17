@@ -179,7 +179,7 @@ return {
       desc = "Find Plugin File",
     },
     {
-      "<leader>ld",
+      "<leader>lD",
       function()
         Snacks.picker.files({ cwd = "~/Downloads/" })
       end,
