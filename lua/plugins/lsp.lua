@@ -109,6 +109,10 @@ return {
             info = icons.diagnostics.Info,
           })
 
+          lsp_zero.on_attach(function(client, bufnr)
+            lsp_zero.highlight_symbol(client, bufnr)
+          end)
+
           lsp_zero.set_server_config({
             on_init = function(client)
               client.server_capabilities.semanticTokensProvider = nil
