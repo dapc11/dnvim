@@ -59,9 +59,6 @@ return {
           local capabilities = require("blink.cmp").get_lsp_capabilities()
           local lsp_zero = require("lsp-zero")
 
-          lsp_zero.on_attach(function()
-            require("util").lsp_keymaps()
-          end)
 
           local lsp = require("lspconfig")
 
@@ -110,12 +107,15 @@ return {
             info = icons.diagnostics.Info,
           })
 
+          local keymaps = require("util").lsp_keymaps
           lsp_zero.on_attach(function(client, bufnr)
             lsp_zero.highlight_symbol(client, bufnr)
+            keymaps()
           end)
 
           lsp_zero.set_server_config({
             on_init = function(client)
+
               client.server_capabilities.semanticTokensProvider = nil
             end,
           })

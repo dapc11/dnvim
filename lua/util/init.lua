@@ -43,7 +43,7 @@ function M.dump(...)
   if vim.tbl_isempty(value) then
     value = nil
   else
-    value = vim.tbl_islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
+    value = vim.islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
   end
   M._dump(value)
 end
@@ -53,7 +53,7 @@ function M.bt(...)
   if vim.tbl_isempty(value) then
     value = nil
   else
-    value = vim.tbl_islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
+    value = vim.islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
   end
   M._dump(value, { bt = true })
 end
@@ -61,7 +61,7 @@ end
 -- stylua: ignore
 function M.lsp_keymaps()
   local function opts(desc)
-    return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. desc or "" }
+    return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
   end
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
