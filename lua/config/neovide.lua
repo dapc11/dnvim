@@ -16,14 +16,12 @@ vim.g.neovide_scroll_animation_length = 0.2
 -- vim.api.nvim_set_keymap('t', '<sc-v>', '<C-\\><C-n>"+Pi', {noremap = true})
 --
 
-if vim.g.neovide then
-  vim.keymap.set("n", "<SC-s>", ":w<CR>") -- Save
-  vim.keymap.set("v", "<SC-c>", '"+y') -- Copy
-  vim.keymap.set("n", "<SC-v>", '"+P') -- Paste normal mode
-  vim.keymap.set("v", "<SC-v>", '"+P') -- Paste visual mode
-  vim.keymap.set("c", "<SC-v>", "<C-R>+") -- Paste command mode
-  vim.keymap.set("i", "<SC-v>", '<ESC>l"+Pli') -- Paste insert mode
-end
+vim.keymap.set("n", "<SC-s>", ":w<CR>") -- Save
+vim.keymap.set("v", "<SC-c>", '"+y') -- Copy
+vim.keymap.set("n", "<SC-v>", '"+P') -- Paste normal mode
+vim.keymap.set("v", "<SC-v>", '"+P') -- Paste visual mode
+vim.keymap.set("c", "<SC-v>", '<C-R>0') -- Paste command mode
+vim.keymap.set("i", "<SC-v>", '<ESC>l"+Pli') -- Paste insert mode
 
 -- Allow clipboard copy paste in neovim
 vim.api.nvim_set_keymap("", "<SC-v>", "+p<CR>", { noremap = true, silent = true })
