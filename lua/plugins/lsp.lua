@@ -77,7 +77,7 @@ return {
                 lsp.gopls.setup(extend(require("plugins.language_servers.gopls"), { capabilities = capabilities }))
               end,
               lua_ls = function()
-                lsp.lua_ls.setup({settings = require("plugins.language_servers.lua_ls"), capabilities = capabilities})
+                lsp.lua_ls.setup({ settings = require("plugins.language_servers.lua_ls"), capabilities = capabilities })
               end,
               dockerls = function()
                 lsp.dockerls.setup(

@@ -14,7 +14,7 @@ map("n", "g*", "g*zz")
 
 map("n", "<leader>xd", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end)
+end, { desc = "Toggle diagnostics" })
 
 -- Note to self: c is for usage in motion dö, dä
 map({ "n", "v", "c" }, "ö", "{")
