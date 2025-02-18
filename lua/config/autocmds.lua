@@ -2,7 +2,7 @@ local function close_buffer()
   if vim.fn.winnr("$") == 1 then
     Snacks.dashboard()
   else
-    vim.cmd.close()
+    pcall(vim.cmd.close)
   end
 end
 
