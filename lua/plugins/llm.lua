@@ -26,7 +26,8 @@ return {
     end
     local model = {
       model = "llama3.1-8b",
-      max_tokens = 8192,
+      input = 0.9,
+      max_tokens = 16000,
       num_ctx = 131072,
       stream = true,
     }
@@ -42,7 +43,7 @@ return {
           endpoint = secret.OPENAI_URL,
         },
       },
-      default_chat_agent = "coder-chat",
+      default_chat_agent = "chat",
       agents = {
         {
           provider = "openai",
