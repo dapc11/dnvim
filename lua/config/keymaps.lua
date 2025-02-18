@@ -92,6 +92,8 @@ map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]]
 map("n", ",", "@q")
 
 vim.cmd([[
+
+  nnoremap <C-x> :
   set wildcharm=<C-Z>
   cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"
   cnoremap <expr> <down> wildmenumode() ? "\<right>" : "\<down>"
