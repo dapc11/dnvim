@@ -19,34 +19,7 @@ return function(opts)
       { "MunifTanjim/nui.nvim", lazy = true },
       { import = "plugins" },
     },
-    defaults = {
-      lazy = false,
-    },
-    checker = { enabled = false },
-    change_detection = {
-      enabled = true,
-      notify = false,
-    },
-    performance = {
-      rtp = {
-        disabled_plugins = {
-          "gzip",
-          "tarPlugin",
-          "tohtml",
-          "rplugin",
-          "tutor",
-          "editorconfig",
-          "netrwPlugin",
-          "zipPlugin",
-        },
-      },
-    },
     icons = require("config.icons"),
-    ui = {
-      size = { width = 0.8, height = 0.8 },
-      wrap = true,
-      border = "rounded",
-    },
   })
   require("lazy").setup(opts)
 end

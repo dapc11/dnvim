@@ -1,3 +1,5 @@
+local map = require("util").map
+
 local function close_buffer()
   if vim.fn.winnr("$") == 1 then
     Snacks.dashboard()
@@ -11,14 +13,14 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(event)
     local buf_ft = vim.bo.filetype
     if buf_ft ~= "oil" then
-      vim.keymap.set("n", "q", close_buffer, { silent = true, buffer = true })
-      vim.keymap.set("n", "<esc>", close_buffer, { silent = true, buffer = true })
-      vim.keymap.set("n", "<c-c>", close_buffer, { silent = true, buffer = true })
+      map("n", "q", close_buffer, { silent = true, buffer = true })
+      map("n", "<esc>", close_buffer, { silent = true, buffer = true })
+      map("n", "<c-c>", close_buffer, { silent = true, buffer = true })
     end
     vim.bo[event.buf].buflisted = false
     vim.opt.colorcolumn = "0"
-    vim.keymap.set("n", "<c-j>", "j<CR>", { silent = true, buffer = true })
-    vim.keymap.set("n", "<c-k>", "k<CR>", { silent = true, buffer = true })
+    map("n", "<c-j>", "j<CR>", { silent = true, buffer = true })
+    map("n", "<c-k>", "k<CR>", { silent = true, buffer = true })
   end,
 })
 
@@ -26,10 +28,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
     if vim.fn.search("<<<<<<< Updated upstream", "nw") ~= 0 then
       vim.diagnostic.disable(event.buf)
-      vim.cmd([[
-nnoremap <buffer> <silent> <leader>h2 :diffget //2<Bar>diffupdate<CR>
-nnoremap <buffer> <silent> <leader>h3 :diffget //3<Bar>diffupdate<CR>
-      ]])
+      map("n", "<leader>h2", "<cmd>diffget //2<bar>diffuppdate<cr>", { buffer = true, silent = true })
+      map("n", "<leader>h3", "<cmd>diffget //3<bar>diffuppdate<cr>", { buffer = true, silent = true })
     end
   end,
 })
@@ -43,8 +43,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "COMMIT_EDITMSG",
   callback = function()
-    vim.keymap.set("n", "<c-g><c-g>", "<cmd>wq<CR>", { noremap = true, buffer = true })
-    vim.keymap.set("i", "<c-g><c-g>", "<C-c><cmd>wq<CR>", { noremap = true, buffer = true })
+    map("n", "<c-g><c-g>", "<cmd>wq<CR>", { noremap = true, buffer = true })
+    map("i", "<c-g><c-g>", "<C-c><cmd>wq<CR>", { noremap = true, buffer = true })
   end,
 })
 

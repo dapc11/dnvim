@@ -2,7 +2,7 @@ return {
   {
     "navarasu/onedark.nvim",
     enabled = true,
-    priority = 1000,
+    priority = 1001,
     config = function()
       local winsep = "$fg"
       require("onedark").setup({
@@ -67,6 +67,8 @@ return {
         },
       })
       require("onedark").load()
+
+      vim.cmd("colorscheme onedark")
     end,
   },
   {
@@ -92,6 +94,7 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       require("rose-pine").setup({
         highlight_groups = {
@@ -109,6 +112,7 @@ return {
           },
         },
       })
+      vim.cmd("colorscheme rose-pine-moon")
     end,
   },
 }

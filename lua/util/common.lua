@@ -67,7 +67,6 @@ function M.split(string, delimiter)
   return Table
 end
 
-
 function M.jira_finder()
   local jira_id = string.match(vim.fn.getline("."), require("secret").JIRA_PATTERN)
   if jira_id then

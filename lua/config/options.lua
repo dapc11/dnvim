@@ -1,4 +1,5 @@
 local opt = vim.opt
+local global = vim.g
 
 opt.autowrite = true -- Enable auto write
 opt.clipboard = "unnamedplus" -- Sync with system clipboard
@@ -44,6 +45,4 @@ opt.statuscolumn = "" -- Disable costly statuscolumn calculations
 opt.colorcolumn = "80"
 opt.hlsearch = true
 opt.incsearch = true
-
-vim.cmd("colorscheme rose-pine-moon")
-vim.g.markdown_recommended_style = 0
+global.markdown_recommended_style = 0

@@ -41,7 +41,7 @@ end
 function M.dump(...)
   local value = { ... }
   if vim.tbl_isempty(value) then
-    value = nil
+    value = {}
   else
     value = vim.islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
   end
@@ -51,28 +51,27 @@ end
 function M.bt(...)
   local value = { ... }
   if vim.tbl_isempty(value) then
-    value = nil
+    value = {}
   else
     value = vim.islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
   end
   M._dump(value, { bt = true })
 end
 
--- stylua: ignore
 function M.lsp_keymaps()
   local function opts(desc)
     return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
   end
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Goto References"))
-  vim.keymap.set("n", "<leader>cc", vim.lsp.buf.format, opts("Format"))
-  vim.keymap.set({"n", "v"}, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-  vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
-  vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts("Show Diagnostic"))
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
-  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
+  M.map("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
+  M.map("n", "gr", vim.lsp.buf.references, opts("Goto References"))
+  M.map("n", "<leader>cc", vim.lsp.buf.format, opts("Format"))
+  M.map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
+  M.map("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
+  M.map("n", "<leader>d", vim.diagnostic.open_float, opts("Show Diagnostic"))
+  M.map("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
+  M.map("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
+  M.map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
+  M.map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 end
 
 local function match(dir, pattern)

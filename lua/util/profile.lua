@@ -1,15 +1,15 @@
 local should_profile = os.getenv("NVIM_PROFILE")
+local prof = require("profile")
 if should_profile then
-  require("profile").instrument_autocmds()
+  prof.instrument_autocmds()
   if should_profile:lower():match("^start") then
-    require("profile").start("*")
+    prof.start("*")
   else
-    require("profile").instrument("*")
+    prof.instrument("*")
   end
 end
 
 local function toggle_profile()
-  local prof = require("profile")
   if prof.is_recording() then
     prof.stop()
     vim.ui.input({ prompt = "Save profile to:", completion = "file", default = "/tmp/profile.json" }, function(filename)
