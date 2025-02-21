@@ -15,6 +15,7 @@ return {
         augend.constant.alias.bool,
         augend.semver.alias.semver,
         augend.constant.new({ elements = { "let", "const" } }),
+        augend.constant.new({ elements = { "True", "False" } }),
         augend.constant.new({
           word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
           elements = { "and", "or" },

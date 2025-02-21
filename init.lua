@@ -1,15 +1,3 @@
-_G.dd = function(...)
-  require("util").dump(...)
-end
-_G.bt = function(...)
-  require("util").bt(...)
-end
-
-_G.python_format = true
-_G.lua_format = true
-_G.go_format = true
-
-vim.print = _G.dd
 vim.dump = function(tbl, indent)
   if not indent then
     indent = 2
@@ -26,17 +14,10 @@ vim.dump = function(tbl, indent)
     end
   end
 end
+
 _G.lazyfile = { "BufReadPost", "BufNewFile", "BufWritePre" }
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
-vim.cmd([[
-  nmap > [
-  nmap < ]
-  omap > [
-  omap < ]
-  xmap > [
-  xmap < ]
-]])
 
 require("config.lazy")()
 require("config.options")

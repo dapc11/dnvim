@@ -1,5 +1,8 @@
 local map = require("util").map
 
+map({ "n", "v", "o", "x" }, ">", "[", { remap = true })
+map({ "n", "v", "o", "x" }, "<", "]", { remap = true })
+
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 map("n", "<C-z>", "<cmd>set wrap!<cr>")
 map("n", "<C-d>", "<C-d>zz")
@@ -91,12 +94,18 @@ vim.cmd([[
 ]])
 
 map("n", "]q", function()
-  vim.cmd("cnext")
-  vim.cmd("norm! zz")
+  local qf = vim.fn.getqflist()
+  if #qf > 0 then
+    vim.cmd("cnext")
+    vim.cmd("norm! zz")
+  end
 end, { desc = "Next Quickfix item" })
 map("n", "[q", function()
-  vim.cmd("cprev")
-  vim.cmd("norm! zz")
+  local qf = vim.fn.getqflist()
+  if #qf > 0 then
+    vim.cmd("cprev")
+    vim.cmd("norm! zz")
+  end
 end, { desc = "Prev Quickfix item" })
 map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
 
