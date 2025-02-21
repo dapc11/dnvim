@@ -4,11 +4,21 @@ end
 return {
   {
     "ThePrimeagen/refactoring.nvim",
+    event = _G.lazyfile,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    lazy = false,
+    keys = {
+
+      {"<leader>ce", ":Refactor extract ", mode = "x", },
+      {"<leader>cf", ":Refactor extract_to_file ", mode = "x"},
+      {"<leader>cv", ":Refactor extract_var ", mode = "x"},
+      {"<leader>ci", ":Refactor inline_var", mode = {"n", "x"}},
+      {"<leader>cI", ":Refactor inline_func"},
+      {"<leader>cb", ":Refactor extract_block"},
+      {"<leader>cbf", ":Refactor extract_block_to_file"},
+    },
     config = function()
       require("refactoring").setup({})
     end,
@@ -17,11 +27,12 @@ return {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
+    event = _G.lazyfile,
     cmd = "TSUpdateSync",
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
+        event = _G.lazyfile,
         config = function()
           -- When in diff mode, we want to use the default
           -- vim text objects c & C instead of the treesitter ones.

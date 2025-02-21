@@ -15,7 +15,7 @@ vim.dump = function(tbl, indent)
   end
 end
 
-_G.lazyfile = { "BufReadPost", "BufNewFile", "BufWritePre" }
+_G.lazyfile = { "BufReadPost", "BufNewFile" }
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 

@@ -1,5 +1,3 @@
-local lazylsp = { "BufReadPre", "BufNewFile" }
-
 local function extend(...)
   local result = {}
   for _, t in ipairs({ ... }) do
@@ -47,17 +45,17 @@ return {
   {
     "VonHeikemen/lsp-zero.nvim",
     lazy = true,
-    events = lazylsp,
+    events = _G.lazyfile,
     branch = "v3.x",
     dependencies = {
       {
         "neovim/nvim-lspconfig",
         dependencies = {
-          { "williamboman/mason.nvim", events = lazylsp },
-          { "williamboman/mason-lspconfig.nvim", events = lazylsp },
-          { "saghen/blink.cmp", events = lazylsp },
+          { "williamboman/mason.nvim", events = _G.lazyfile },
+          { "williamboman/mason-lspconfig.nvim", events = _G.lazyfile },
+          { "saghen/blink.cmp", events = _G.lazyfile },
         },
-        events = lazylsp,
+        events = _G.lazyfile,
         config = function()
           local capabilities = require("blink.cmp").get_lsp_capabilities()
           local lsp_zero = require("lsp-zero")
@@ -127,7 +125,7 @@ return {
   },
   {
     "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
+    ft = "lua",
     opts = {
       library = {
         { path = "luvit-meta/library", words = { "vim%.uv" } },

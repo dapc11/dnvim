@@ -1,7 +1,7 @@
 local map = require("util").map
 
-map({ "n", "v", "o", "x" }, ">", "[", { remap = true })
-map({ "n", "v", "o", "x" }, "<", "]", { remap = true })
+map({ "n", "o", "x" }, ">", "[", { remap = true })
+map({ "n", "o", "x" }, "<", "]", { remap = true })
 
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 map("n", "<C-z>", "<cmd>set wrap!<cr>")

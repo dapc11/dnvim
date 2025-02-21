@@ -1,7 +1,7 @@
 return {
   {
     "navarasu/onedark.nvim",
-    enabled = true,
+    enabled = false,
     priority = 1001,
     config = function()
       local winsep = "$fg"
