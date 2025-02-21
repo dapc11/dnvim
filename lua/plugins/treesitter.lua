@@ -1,7 +1,17 @@
 local function large_file(_, bufnr)
   return vim.api.nvim_buf_line_count(bufnr) > 5000
 end
-return {
+return {{
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    lazy = false,
+    config = function()
+      require("refactoring").setup()
+    end,
+  },{
   "nvim-treesitter/nvim-treesitter",
   version = false,
   build = ":TSUpdate",
@@ -56,6 +66,15 @@ return {
     },
     playground = { enable = true },
     textobjects = {
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<C-l>"] = "@parameter.inner",
+        },
+        swap_previous = {
+          ["<C-h>"] = "@parameter.inner",
+        },
+      },
       move = {
         enable = true,
         goto_next_start = { ["<f"] = "@function.outer", ["<c"] = "@class.outer" },
@@ -106,4 +125,4 @@ return {
 
     require("nvim-treesitter.configs").setup(opts)
   end,
-}
+}}
