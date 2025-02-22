@@ -11,13 +11,13 @@ return {
     },
     keys = {
 
-      {"<leader>ce", ":Refactor extract ", mode = "x", },
-      {"<leader>cf", ":Refactor extract_to_file ", mode = "x"},
-      {"<leader>cv", ":Refactor extract_var ", mode = "x"},
-      {"<leader>ci", ":Refactor inline_var", mode = {"n", "x"}},
-      {"<leader>cI", ":Refactor inline_func"},
-      {"<leader>cb", ":Refactor extract_block"},
-      {"<leader>cbf", ":Refactor extract_block_to_file"},
+      { "<leader>ce", ":Refactor extract ", mode = "x" },
+      { "<leader>cf", ":Refactor extract_to_file ", mode = "x" },
+      { "<leader>cv", ":Refactor extract_var ", mode = "x" },
+      { "<leader>ci", ":Refactor inline_var", mode = { "n", "x" } },
+      { "<leader>cI", ":Refactor inline_func" },
+      { "<leader>cb", ":Refactor extract_block" },
+      { "<leader>cbf", ":Refactor extract_block_to_file" },
     },
     config = function()
       require("refactoring").setup({})

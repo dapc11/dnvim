@@ -31,3 +31,7 @@ else
 end
 
 vim.cmd("hi link @string.documentation.python SpecialComment")
+
+vim.keymap.set("n", "<Leader>cd", function()
+  vim.cmd.PyDoc()
+end, { silent = true, buffer = true, desc = "Docs" })

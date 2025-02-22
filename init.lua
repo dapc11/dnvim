@@ -28,3 +28,4 @@ if vim.g.neovide then
   require("config.neovide")
 end
 require("util.profile")
+require("util.pydoc").setup({})

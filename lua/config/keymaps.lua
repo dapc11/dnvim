@@ -136,3 +136,15 @@ map("v", "<leader>xR", function()
   local text = vim.fn.getreg("v")
   vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. text .. ")//gci<Left><Left><Left><Left>")
 end, { noremap = true, silent = true, desc = "Replace with visual selection" })
+
+map("n", "<leader>qo", function()
+  local visible = {}
+  for _, win in pairs(vim.api.nvim_list_wins()) do
+    visible[vim.api.nvim_win_get_buf(win)] = true
+  end
+  for _, buf in pairs(vim.api.nvim_list_bufs()) do
+    if not visible[buf] then
+      vim.api.nvim_buf_delete(buf, {})
+    end
+  end
+end, { desc = "Close all other buffers" })

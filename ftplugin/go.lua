@@ -1,5 +1,8 @@
 local goc = require("nvim-goc")
 
+vim.keymap.set("n", "<Leader>cd", function()
+  vim.cmd.GoDoc()
+end, { silent = true, buffer = true, desc = "Docs" })
 vim.keymap.set("n", "<Leader>ccc", goc.Coverage, { silent = true, buffer = true, desc = "Go Coverage" })
 vim.keymap.set("n", "<Leader>ccx", goc.ClearCoverage, { silent = true, buffer = true, desc = "Go Clear Coverage" })
 
