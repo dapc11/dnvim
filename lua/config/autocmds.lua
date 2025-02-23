@@ -28,8 +28,18 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
     if vim.fn.search("<<<<<<< Updated upstream", "nw") ~= 0 then
       vim.diagnostic.disable(event.buf)
-      map("n", "<leader>h2", "<cmd>diffget //2<bar>diffuppdate<cr>", { buffer = true, silent = true })
-      map("n", "<leader>h3", "<cmd>diffget //3<bar>diffuppdate<cr>", { buffer = true, silent = true })
+      map(
+        "n",
+        "<leader>h2",
+        "<cmd>diffget //2<bar>diffuppdate<cr>",
+        { buffer = true, silent = true }
+      )
+      map(
+        "n",
+        "<leader>h3",
+        "<cmd>diffget //3<bar>diffuppdate<cr>",
+        { buffer = true, silent = true }
+      )
     end
   end,
 })

@@ -25,7 +25,10 @@ return {
             return ctx.mode ~= "cmdline"
           end,
           draw = {
-            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", gap = 1, "kind" } },
+            columns = {
+              { "label", "label_description", gap = 1 },
+              { "kind_icon", gap = 1, "kind" },
+            },
           },
         },
       },
@@ -75,18 +78,31 @@ return {
                 })
               end,
               gopls = function()
-                lsp.gopls.setup(extend(require("plugins.language_servers.gopls"), { capabilities = capabilities }))
+                lsp.gopls.setup(
+                  extend(require("plugins.language_servers.gopls"), { capabilities = capabilities })
+                )
               end,
               lua_ls = function()
-                lsp.lua_ls.setup({ settings = require("plugins.language_servers.lua_ls"), capabilities = capabilities })
+                lsp.lua_ls.setup({
+                  settings = require("plugins.language_servers.lua_ls"),
+                  capabilities = capabilities,
+                })
               end,
               dockerls = function()
                 lsp.dockerls.setup(
-                  extend(require("plugins.language_servers.dockerls"), { capabilities = capabilities })
+                  extend(
+                    require("plugins.language_servers.dockerls"),
+                    { capabilities = capabilities }
+                  )
                 )
               end,
               helm_ls = function()
-                lsp.helm_ls.setup(extend(require("plugins.language_servers.helm_ls"), { capabilities = capabilities }))
+                lsp.helm_ls.setup(
+                  extend(
+                    require("plugins.language_servers.helm_ls"),
+                    { capabilities = capabilities }
+                  )
+                )
               end,
               yamlls = function()
                 lsp.yamlls.setup({ capabilities = capabilities })

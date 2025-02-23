@@ -25,10 +25,25 @@ return {
           -- When using a function, the `items` argument are the default keymaps.
           ---@type snacks.dashboard.Item[]
           keys = {
-            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            {
+              icon = " ",
+              key = "f",
+              desc = "Find File",
+              action = ":lua Snacks.dashboard.pick('files')",
+            },
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            {
+              icon = " ",
+              key = "g",
+              desc = "Find Text",
+              action = ":lua Snacks.dashboard.pick('live_grep')",
+            },
+            {
+              icon = " ",
+              key = "r",
+              desc = "Recent Files",
+              action = ":lua Snacks.dashboard.pick('oldfiles')",
+            },
             {
               icon = " ",
               key = "p",
@@ -92,7 +107,13 @@ return {
               desc = "Restore Session",
               action = ":lua require('persistence').load({ last = true }) ",
             },
-            { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+            {
+              icon = "󰒲 ",
+              key = "L",
+              desc = "Lazy",
+              action = ":Lazy",
+              enabled = package.loaded.lazy ~= nil,
+            },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
           -- Used by the `header` section
@@ -107,8 +128,22 @@ return {
         -- item field formatters
         sections = {
           { section = "keys", gap = 1, padding = 1 },
-          { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-          { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+          {
+            pane = 2,
+            icon = " ",
+            title = "Recent Files",
+            section = "recent_files",
+            indent = 2,
+            padding = 1,
+          },
+          {
+            pane = 2,
+            icon = " ",
+            title = "Projects",
+            section = "projects",
+            indent = 2,
+            padding = 1,
+          },
           { section = "startup" },
         },
       },
@@ -206,7 +241,16 @@ return {
           finder = "recent_projects",
           format = "file",
           dev = { "~/repos", "~/.config", "~/repos_personal" },
-          patterns = { "ruleset2.0.yaml", ".git", ".gitignore", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
+          patterns = {
+            "ruleset2.0.yaml",
+            ".git",
+            ".gitignore",
+            ".hg",
+            ".bzr",
+            ".svn",
+            "package.json",
+            "Makefile",
+          },
           confirm = "load_session",
           recent = true,
           matcher = {

@@ -129,8 +129,18 @@ map("n", "<leader>zn", function()
   require("util").create_note()
 end, { noremap = true, silent = true, desc = "New Note" })
 
-map("n", "<leader>xr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
-map("v", "<leader>xr", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
+map(
+  "n",
+  "<leader>xr",
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = "Replace", silent = false }
+)
+map(
+  "v",
+  "<leader>xr",
+  [["hy:%s#<C-r>h##gc<left><left><left>]],
+  { desc = "Replace", silent = false }
+)
 map("v", "<leader>xR", function()
   vim.cmd('normal! "vy')
   local text = vim.fn.getreg("v")
