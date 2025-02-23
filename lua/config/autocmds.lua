@@ -40,6 +40,24 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+local matches = {}
+vim.api.nvim_create_autocmd("User", {
+  callback = function(event)
+    local ident = vim.fn.win_getid()
+    local match = matches[ident]
+    if vim.tbl_contains(require("util.common").ignored_filetypes, vim.bo[event.buf].filetype) then
+      if match ~= nil then
+        pcall(vim.fn.matchdelete, match)
+        matches[ident] = nil
+      end
+    else
+      if match == nil then
+        matches[ident] = vim.fn.matchadd("@diff.minus", "\\v((.*%#)@!|%#)\\s+$")
+      end
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "COMMIT_EDITMSG",
   callback = function()

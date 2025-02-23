@@ -26,6 +26,7 @@ M.ignored_filetypes = {
   "notify",
   "oil",
   "qf",
+  "snacks_dashboard",
   "spectre_panel",
   "startuptime",
   "tsplayground",
