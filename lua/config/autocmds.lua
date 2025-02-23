@@ -26,19 +26,25 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
-    if vim.fn.search("<<<<<<< Updated upstream", "nw") ~= 0 then
+    if vim.fn.search("<<<<<<< HEAD", "nw") ~= 0 then
       vim.diagnostic.disable(event.buf)
       map(
         "n",
-        "<leader>h2",
-        "<cmd>diffget //2<bar>diffuppdate<cr>",
-        { buffer = true, silent = true }
+        "<leader><left>",
+        function ()
+          vim.cmd.diffget("//2")
+          vim.cmd("diffupdate")
+        end,
+        { buffer = true, silent = true, desc = "Ours" }
       )
       map(
         "n",
-        "<leader>h3",
-        "<cmd>diffget //3<bar>diffuppdate<cr>",
-        { buffer = true, silent = true }
+        "<leader><right>",
+        function ()
+          vim.cmd.diffget("//3")
+          vim.cmd("diffupdate")
+        end,
+        { buffer = true, silent = true, desc = "Theirs" }
       )
     end
   end,
