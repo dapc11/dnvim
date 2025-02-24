@@ -1,19 +1,45 @@
-local success, secret = pcall(require, "secret")
+local secretLoadedSuccessfully, secret = pcall(require, "secret")
 
-if not success then
-  print('"secret.lua" is missing, please create it. Will not load gp.nvim.')
-elseif type(secret) ~= "table" then
-  success = false
-  print(
-    '"secret.lua" is empty or invalid. Return a table with keys "OPENAI_API_TOKEN" and "OPENAI_URL" set. Will not load gp.nvim.'
-  )
+if not secretLoadedSuccessfully then
+  print("Error loading 'secret.lua': File not found. Please create it and try again.")
+elseif type(secret) ~= "table" or not (secret.OPENAI_API_TOKEN and secret.OPENAI_URL) then
+  print("Invalid 'secret.lua' file: Return a table with keys 'OPENAI_API_TOKEN' and 'OPENAI_URL' set.")
 end
 
-local PROMPT =
-  "You are a professional programming tutor and programming expert designed to help and guide me in learning programming. Your main goal is to help me learn programming concepts, best practices while writing code"
+local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming. Your main goal is to help me learn programming concepts, best practices while writing code. "
+
+local REVIEW_PROMPT = "Please review the following code." ..
+"Consider:" ..
+"1. Code quality and adherence to best practices" ..
+"2. Potential bugs or edge cases" ..
+"3. Performance optimizations" ..
+"4. Readability and maintainability" ..
+"5. Any security concerns" ..
+"Suggest improvements and explain your reasoning for each suggestion."
+
+local UNIT_TEST_PROMPT = "Generate unit tests for the following function:" ..
+"Include tests for:" ..
+"1. Normal expected inputs" ..
+"2. Edge cases" ..
+"3. Invalid inputs" ..
+"Use [preferred testing framework] syntax."
+
+local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:" ..
+"- The first line should be a short summary of the changes and shall be max 50 chars"..
+"- Body lines shall be max 72 chars or else split the line on multiple lines." ..
+"- Be short and concise." ..
+"- Remember to mention the files that were changed, and what was changed" ..
+"- Explain the 'why' behind changes" ..
+"- Use bullet points for multiple changes" ..
+"- If there are no changes, or the input is blank - then return a blank string" ..
+"" ..
+"Think carefully before you write your commit message." ..
+"" ..
+"What you write will be passed directly to git commit -m '[message]'"
+
 return {
   "robitx/gp.nvim",
-  enabled = success,
+  enabled = secretLoadedSuccessfully,
   keys = {
     { "<C-g><C-t>", ":<C-u>'<,'>GpChatNew tabnew<cr>", desc = "ChatNew tabnew", mode = "v" },
     { "<C-g><C-v>", ":<C-u>'<,'>GpChatNew vsplit<cr>", desc = "ChatNew vsplit", mode = "v" },
@@ -74,12 +100,6 @@ return {
     { "<C-g>x", "<cmd>GpContext<cr>", desc = "Toggle GpContext", mode = "i" },
   },
   config = function()
-    --- Merges multiple tables into one.
-    --- @param ... table[] Tables to be merged.
-    --- @return table Merged result of input tables.
-    function MERGE_TABLE(...)
-      return vim.tbl_deep_extend("force", ...)
-    end
     local model = {
       model = "llama3.1-8b",
       input = 0.9,
@@ -87,6 +107,18 @@ return {
       num_ctx = 131072,
       stream = true,
     }
+
+    local function get_agent(name, chat, command, prompt, temperature)
+      temperature = temperature or 0
+      return{
+          provider = "openai",
+          name = name,
+          chat = chat,
+          command = command,
+          model = vim.tbl_deep_extend("force",model, { temperature = temperature }),
+          system_prompt = prompt,
+        }
+    end
     local conf = {
       openai_api_key = secret.OPENAI_API_TOKEN,
       whisper = { disable = true },
@@ -101,28 +133,13 @@ return {
       },
       default_chat_agent = "chat",
       agents = {
-        {
-          provider = "openai",
-          name = "chat",
-          chat = true,
-          command = false,
-          model = MERGE_TABLE(model, { temperature = 0.7 }),
-          system_prompt = PROMPT,
-        },
-        {
-          provider = "openai",
-          name = "coder",
-          chat = false,
-          command = true,
-          model = MERGE_TABLE(model, { temperature = 0 }),
-          system_prompt = PROMPT,
-        },
+        get_agent("chat", true, false, PROMPT, 0.5),
+        get_agent("coder", false, true, PROMPT),
+        get_agent("ut", false, true, UNIT_TEST_PROMPT),
+        get_agent("review", true, false, REVIEW_PROMPT),
+        get_agent("git", true, true, GIT_COMMIT_MESSAGE_PROMPT),
       },
       hooks = {
-        BufferChatNew = function(gp, _)
-          -- call GpChatNew command in range mode on whole buffer
-          vim.api.nvim_command("%" .. gp.config.cmd_prefix .. "ChatNew")
-        end,
         -- -- example of adding command which writes unit tests for the selected code
         GenerateCommitMessage = function(gp, params)
           local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
@@ -138,7 +155,7 @@ return {
           local template = "I have the following code from {{filename}}:\n\n"
             .. "```{{filetype}}\n{{selection}}\n```\n\n"
             .. "Please respond by writing table driven unit tests for the code above."
-          local agent = gp.get_command_agent()
+          local agent = gp.get_command_agent("ut")
           gp.Prompt(params, gp.Target.enew, agent, template)
         end,
         Explain = function(gp, params)
@@ -148,11 +165,11 @@ return {
           local agent = gp.get_chat_agent()
           gp.Prompt(params, gp.Target.popup, agent, template)
         end,
-        CodeReview = function(gp, params)
+        Review = function(gp, params)
           local template = "I have the following code from {{filename}}:\n\n"
             .. "```{{filetype}}\n{{selection}}\n```\n\n"
             .. "Please analyze for code smells and suggest improvements."
-          local agent = gp.get_chat_agent()
+          local agent = gp.get_chat_agent("review")
           gp.Prompt(params, gp.Target.enew("markdown"), agent, template)
         end,
       },
