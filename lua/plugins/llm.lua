@@ -6,40 +6,52 @@ elseif type(secret) ~= "table" or not (secret.OPENAI_API_TOKEN and secret.OPENAI
   print("Invalid 'secret.lua' file: Return a table with keys 'OPENAI_API_TOKEN' and 'OPENAI_URL' set.")
 end
 
-local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming. Your main goal is to help me learn programming concepts, best practices while writing code. "
+local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
+.. "Your main goal is to help me learn programming concepts, best practices while writing code."
+.. "Please consider:"
+.. "- Readability"
+.. "- Clean code"
+.. "- Error handling"
+.. "- Edge cases"
+.. "- Security"
+.. "- Performance optimization"
+.. "- Best practices for the language currently used."
+.. "Please do not unnecessarily remove any comments or code."
+.. "Generate the code with clear comments explaining the logic."
 
-local REVIEW_PROMPT = "Please review the following code." ..
-"Consider:" ..
-"1. Code quality and adherence to best practices" ..
-"2. Potential bugs or edge cases" ..
-"3. Performance optimizations" ..
-"4. Readability and maintainability" ..
-"5. Any security concerns" ..
-"Suggest improvements and explain your reasoning for each suggestion."
+local REVIEW_PROMPT = "Please review the following code."
+.. "Consider:"
+.. "1. Code quality and adherence to best practices"
+.. "2. Potential bugs or edge cases"
+.. "3. Performance optimizations"
+.. "4. Readability and maintainability"
+.. "5. Any security concerns"
+.. "Suggest improvements and explain your reasoning for each suggestion."
 
-local UNIT_TEST_PROMPT = "Generate unit tests for the following function:" ..
-"Include tests for:" ..
-"1. Normal expected inputs" ..
-"2. Edge cases" ..
-"3. Invalid inputs" ..
-"Use [preferred testing framework] syntax."
+local UNIT_TEST_PROMPT = "Generate unit tests for the following function:"
+.. "Include tests for:"
+.. "1. Normal expected inputs"
+.. "2. Edge cases"
+.. "3. Invalid inputs"
+.. "Use [preferred testing framework] syntax."
 
-local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:" ..
-"- The first line should be a short summary of the changes and shall be max 50 chars"..
-"- Body lines shall be max 72 chars or else split the line on multiple lines." ..
-"- Be short and concise." ..
-"- Remember to mention the files that were changed, and what was changed" ..
-"- Explain the 'why' behind changes" ..
-"- Use bullet points for multiple changes" ..
-"- If there are no changes, or the input is blank - then return a blank string" ..
-"" ..
-"Think carefully before you write your commit message." ..
-"" ..
-"What you write will be passed directly to git commit -m '[message]'"
+local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
+.. "- The first line should be a short summary of the changes and shall be max 50 chars"
+.. "- Body lines shall be max 72 chars or else split the line on multiple lines."
+.. "- Be short and concise."
+.. "- Remember to mention the files that were changed, and what was changed"
+.. "- Explain the 'why' behind changes"
+.. "- Use bullet points for multiple changes"
+.. "- If there are no changes, or the input is blank - then return a blank string"
+.. ""
+.. "Think carefully before you write your commit message."
+.. ""
+.. "What you write will be passed directly to git commit -m '[message]'"
 
 return {
   "robitx/gp.nvim",
   enabled = secretLoadedSuccessfully,
+  lazy = false,
   keys = {
     { "<C-g><C-t>", ":<C-u>'<,'>GpChatNew tabnew<cr>", desc = "ChatNew tabnew", mode = "v" },
     { "<C-g><C-v>", ":<C-u>'<,'>GpChatNew vsplit<cr>", desc = "ChatNew vsplit", mode = "v" },
@@ -148,7 +160,7 @@ return {
             .. buffer
             .. "\n```\n\n"
             .. "Please generate a Git commit message with a subject of max 50 chars and a body where lines are max 72 chars. If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
-          local agent = gp.get_chat_agent()
+          local agent = gp.get_chat_agent("git")
           gp.Prompt(params, gp.Target.prepend, agent, template)
         end,
         UnitTests = function(gp, params)
