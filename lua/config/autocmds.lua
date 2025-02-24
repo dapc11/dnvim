@@ -28,24 +28,14 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
     if vim.fn.search("<<<<<<< HEAD", "nw") ~= 0 then
       vim.diagnostic.disable(event.buf)
-      map(
-        "n",
-        "<leader><left>",
-        function ()
-          vim.cmd.diffget("//2")
-          vim.cmd("diffupdate")
-        end,
-        { buffer = true, silent = true, desc = "Ours" }
-      )
-      map(
-        "n",
-        "<leader><right>",
-        function ()
-          vim.cmd.diffget("//3")
-          vim.cmd("diffupdate")
-        end,
-        { buffer = true, silent = true, desc = "Theirs" }
-      )
+      map("n", "<leader><left>", function()
+        vim.cmd.diffget("//2")
+        vim.cmd("diffupdate")
+      end, { buffer = true, silent = true, desc = "Ours" })
+      map("n", "<leader><right>", function()
+        vim.cmd.diffget("//3")
+        vim.cmd("diffupdate")
+      end, { buffer = true, silent = true, desc = "Theirs" })
     end
   end,
 })

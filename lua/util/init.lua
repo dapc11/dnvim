@@ -13,7 +13,7 @@ function M.lsp_keymaps()
   end
   M.map("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
   M.map("n", "gr", vim.lsp.buf.references, opts("Goto References"))
-  M.map("n", "<leader>cc", vim.lsp.buf.format, opts("Format"))
+  M.map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
   M.map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
   M.map("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
   M.map("n", "<leader>d", vim.diagnostic.open_float, opts("Show Diagnostic"))
