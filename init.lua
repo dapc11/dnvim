@@ -1,7 +1,5 @@
 vim.dump = function(tbl, indent)
-  if not indent then
-    indent = 2
-  end
+  indent = indent or 2
   for k, v in pairs(tbl) do
     local formatting = string.rep("  ", indent) .. k .. ": "
     if type(v) == "table" then

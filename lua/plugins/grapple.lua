@@ -2,9 +2,9 @@ return {
   {
     "cbochs/grapple.nvim",
     opts = {
-      scope = "global", -- also try out "git_branch"
+      scope = "global",
     },
-    event = { "BufReadPost", "BufNewFile" },
+    event = _G.lazyfile,
     cmd = "Grapple",
     keys = {
       { "<leader>m", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
