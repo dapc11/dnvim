@@ -8,6 +8,8 @@ local function extend(...)
   return result
 end
 
+local filtered_packages = {}
+
 return {
   { "mfussenegger/nvim-jdtls", ft = "java" },
   {
@@ -159,18 +161,55 @@ return {
   },
   {
     "fredrikaverpil/godoc.nvim",
-    version = "*",
+    version = "2.x",
     dependencies = {
-      { "folke/snacks.nvim" }, -- optional
+      { "folke/snacks.nvim" },
       {
         "nvim-treesitter/nvim-treesitter",
         opts = {
-          ensure_installed = { "go" },
+          ensure_installed = { "go", "python" },
         },
       },
     },
-    build = "go install github.com/lotusirous/gostdsym/stdsym@latest",
-    cmd = { "GoDoc" },
-    opts = {},
+    opts = {
+      adapters = {
+        {
+          command = "PyDoc",
+          get_items = function()
+            if #filtered_packages ~= 0 then
+              return filtered_packages
+            end
+
+            local function split(input_str)
+              local result = {}
+              for word in input_str:gmatch("%S+") do
+                table.insert(result, word)
+              end
+              return result
+            end
+
+            local std_packages = vim.fn.systemlist("python3 -c 'help(\"modules\")'")
+            for index, value in ipairs(std_packages) do
+              if index > 11 and index < #std_packages - 2 then
+                for _, va in ipairs(split(value)) do
+                  table.insert(filtered_packages, va)
+                end
+              end
+            end
+            table.sort(filtered_packages)
+            return filtered_packages
+          end,
+          get_content = function(choice)
+            return vim.fn.systemlist("python3 -m pydoc " .. choice)
+          end,
+          get_syntax_info = function()
+            return {
+              filetype = "pydoc",
+              language = "python",
+            }
+          end,
+        },
+      },
+    },
   },
 }
