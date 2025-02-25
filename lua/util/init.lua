@@ -55,12 +55,10 @@ function M.get_project_root(project_root_indicator)
   return ""
 end
 
--- Utility function to convert a string to snake_case
 local function snake_case(str)
   return str:gsub("%s+", "_"):gsub("[^%w_]", ""):lower()
 end
 
--- Function to prompt for title, create the note, and populate it
 function M.create_note()
   local title = vim.fn.input("Note title: ")
   if title == "" then
