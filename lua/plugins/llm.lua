@@ -153,7 +153,7 @@ return {
       },
       hooks = {
         -- -- example of adding command which writes unit tests for the selected code
-        GenerateCommitMessage = function(gp, params)
+        Git = function(gp, params)
           local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
           local template = "I have the following git diff:\n\n"
             .. "```diff\n"
