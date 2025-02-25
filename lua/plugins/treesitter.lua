@@ -58,6 +58,14 @@ return {
       },
     },
     opts = {
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<A-right>",
+          node_incremental = "<A-right>",
+          node_decremental = "<A-left>",
+        },
+      },
       highlight = {
         enable = true,
         disable = large_file,
