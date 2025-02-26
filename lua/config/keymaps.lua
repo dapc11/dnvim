@@ -25,13 +25,14 @@ map("v", "p", [["_dP]])
 -- better indenting
 map("n", "<tab>", "==")
 map("v", "<tab>", "==")
-map("i", "<tab>", "<c-t>")
-map("i", "<s-tab>", "<c-d>")
+map("i", "<tab>", "<c-t>", { remap = true })
+map("i", "<s-tab>", "<c-d>", { remap = true })
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- save file
 map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
+map("n", "s", "<cmd>w<CR><esc>", { desc = "Save file" })
 map("n", "W", "<cmd>noautocmd w<CR>")
 
 map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
@@ -43,8 +44,8 @@ map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
 map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
 map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
 map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
-map("n", "<C-Down>", "}")
-map("n", "<C-Up>", "{")
+map("n", "<C-Down>", "}", { remap = true })
+map("n", "<C-Up>", "{", { remap = true })
 
 -- Move Lines
 map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
@@ -133,19 +134,13 @@ map(
   "n",
   "<leader>xr",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-  { desc = "Replace", silent = false }
+  { desc = "Replace word under cursor", silent = false }
 )
-map(
-  "v",
-  "<leader>xr",
-  [["hy:%s#<C-r>h##gc<left><left><left>]],
-  { desc = "Replace", silent = false }
-)
-map("v", "<leader>xR", function()
+map("v", "<leader>xr", function()
   vim.cmd('normal! "vy')
   local text = vim.fn.getreg("v")
   vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. text .. ")//gci<Left><Left><Left><Left>")
-end, { noremap = true, silent = true, desc = "Replace with visual selection" })
+end, { noremap = true, silent = true, desc = "Interactive Replace" })
 
 map("n", "<leader>qo", function()
   local visible = {}
@@ -159,8 +154,8 @@ map("n", "<leader>qo", function()
   end
 end, { desc = "Close all other buffers" })
 
-vim.api.nvim_create_user_command("Dump", function (x)
+vim.api.nvim_create_user_command("Dump", function(x)
   vim.cmd(string.format("put =execute('%s')", x.args))
-end, {nargs = "+", desc = "Dump output of a command at the cursor position"})
+end, { nargs = "+", desc = "Dump output of a command at the cursor position" })
 
-map("n", "gV", "`[v`]", {desc = "Select last paste"})
+map("n", "gV", "`[v`]", { desc = "Select last paste" })

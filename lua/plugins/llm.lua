@@ -3,50 +3,52 @@ local secretLoadedSuccessfully, secret = pcall(require, "secret")
 if not secretLoadedSuccessfully then
   print("Error loading 'secret.lua': File not found. Please create it and try again.")
 elseif type(secret) ~= "table" or not (secret.OPENAI_API_TOKEN and secret.OPENAI_URL) then
-  print("Invalid 'secret.lua' file: Return a table with keys 'OPENAI_API_TOKEN' and 'OPENAI_URL' set.")
+  print(
+    "Invalid 'secret.lua' file: Return a table with keys 'OPENAI_API_TOKEN' and 'OPENAI_URL' set."
+  )
 end
 
 local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
-.. "Your main goal is to help me learn programming concepts, best practices while writing code."
-.. "Please consider:"
-.. "- Readability"
-.. "- Clean code"
-.. "- Error handling"
-.. "- Edge cases"
-.. "- Security"
-.. "- Performance optimization"
-.. "- Best practices for the language currently used."
-.. "Please do not unnecessarily remove any comments or code."
-.. "Generate the code with clear comments explaining the logic."
+  .. "Your main goal is to help me learn programming concepts, best practices while writing code."
+  .. "Please consider:"
+  .. "- Readability"
+  .. "- Clean code"
+  .. "- Error handling"
+  .. "- Edge cases"
+  .. "- Security"
+  .. "- Performance optimization"
+  .. "- Best practices for the language currently used."
+  .. "Please do not unnecessarily remove any comments or code."
+  .. "Generate the code with clear comments explaining the logic."
 
 local REVIEW_PROMPT = "Please review the following code."
-.. "Consider:"
-.. "1. Code quality and adherence to best practices"
-.. "2. Potential bugs or edge cases"
-.. "3. Performance optimizations"
-.. "4. Readability and maintainability"
-.. "5. Any security concerns"
-.. "Suggest improvements and explain your reasoning for each suggestion."
+  .. "Consider:"
+  .. "1. Code quality and adherence to best practices"
+  .. "2. Potential bugs or edge cases"
+  .. "3. Performance optimizations"
+  .. "4. Readability and maintainability"
+  .. "5. Any security concerns"
+  .. "Suggest improvements and explain your reasoning for each suggestion."
 
 local UNIT_TEST_PROMPT = "Generate unit tests for the following function:"
-.. "Include tests for:"
-.. "1. Normal expected inputs"
-.. "2. Edge cases"
-.. "3. Invalid inputs"
-.. "Use [preferred testing framework] syntax."
+  .. "Include tests for:"
+  .. "1. Normal expected inputs"
+  .. "2. Edge cases"
+  .. "3. Invalid inputs"
+  .. "Use [preferred testing framework] syntax."
 
 local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
-.. "- The first line should be a short summary of the changes and shall be max 50 chars"
-.. "- Body lines shall be max 72 chars or else split the line on multiple lines."
-.. "- Be short and concise."
-.. "- Remember to mention the files that were changed, and what was changed"
-.. "- Explain the 'why' behind changes"
-.. "- Use bullet points for multiple changes"
-.. "- If there are no changes, or the input is blank - then return a blank string"
-.. ""
-.. "Think carefully before you write your commit message."
-.. ""
-.. "What you write will be passed directly to git commit -m '[message]'"
+  .. "- The first line should be a short summary of the changes and shall be max 50 chars"
+  .. "- Body lines shall be max 72 chars or else split the line on multiple lines."
+  .. "- Be short and concise."
+  .. "- Remember to mention the files that were changed, and what was changed"
+  .. "- Explain the 'why' behind changes"
+  .. "- Use bullet points for multiple changes"
+  .. "- If there are no changes, or the input is blank - then return a blank string"
+  .. ""
+  .. "Think carefully before you write your commit message."
+  .. ""
+  .. "What you write will be passed directly to git commit -m '[message]'"
 
 return {
   "robitx/gp.nvim",
@@ -99,14 +101,14 @@ return {
 
     local function get_agent(name, chat, command, prompt, temperature)
       temperature = temperature or 0
-      return{
-          provider = "openai",
-          name = name,
-          chat = chat,
-          command = command,
-          model = vim.tbl_deep_extend("force",model, { temperature = temperature }),
-          system_prompt = prompt,
-        }
+      return {
+        provider = "openai",
+        name = name,
+        chat = chat,
+        command = command,
+        model = vim.tbl_deep_extend("force", model, { temperature = temperature }),
+        system_prompt = prompt,
+      }
     end
     local conf = {
       openai_api_key = secret.OPENAI_API_TOKEN,
