@@ -158,3 +158,9 @@ map("n", "<leader>qo", function()
     end
   end
 end, { desc = "Close all other buffers" })
+
+vim.api.nvim_create_user_command("Dump", function (x)
+  vim.cmd(string.format("put =execute('%s')", x.args))
+end, {nargs = "+", desc = "Dump output of a command at the cursor position"})
+
+map("n", "gV", "`[v`]", {desc = "Select last paste"})
