@@ -20,6 +20,10 @@ return function(opts)
       { import = "plugins" },
     },
     icons = require("config.icons"),
+    change_detection = {
+      enabled = false,
+      notify = false,
+    },
   })
   require("lazy").setup(opts)
 end

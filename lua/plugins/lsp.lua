@@ -1,14 +1,29 @@
-local function extend(...)
-  local result = {}
-  for _, t in ipairs({ ... }) do
-    for _, v in ipairs(t) do
-      table.insert(result, v)
-    end
+local function readlines(path)
+  local file = io.open(path, "rb")
+  if not file then
+    return nil
   end
-  return result
+
+  local lines = {}
+
+  for line in io.lines(path) do
+    table.insert(lines, line)
+  end
+
+  file:close()
+  return lines
 end
 
-local filtered_packages = {}
+local function writeLines(packages, file)
+  local file = io.open(file, "w")
+  if not file then
+    return nil
+  end
+  for _, package in ipairs(packages) do
+    file:write(package .. "\n")
+  end
+  file:close()
+end
 
 return {
   { "mfussenegger/nvim-jdtls", ft = "java" },
@@ -62,53 +77,34 @@ return {
         },
         events = _G.lazyfile,
         config = function()
-          local capabilities = require("blink.cmp").get_lsp_capabilities()
           local lsp_zero = require("lsp-zero")
-
           local lsp = require("lspconfig")
+          local capabilities = require("blink.cmp").get_lsp_capabilities()
+          local function setup(lsp_name)
+            -- Argument shuld be same as handler key.
+            local success, conf = pcall(require, "plugins.language_servers." .. lsp_name)
+            if not success then
+              conf = {}
+            end
+            return function()
+              lsp[lsp_name].setup(
+                vim.tbl_deep_extend("force", conf, { capabilities = capabilities })
+              )
+            end
+          end
 
           require("mason").setup({})
-
           require("mason-lspconfig").setup({
             ensure_installed = { "jdtls", "helm_ls", "gopls", "lua_ls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
             automatic_installation = false,
             handlers = {
               jdtls = noop,
-              pyright = function()
-                lsp.pyright.setup({
-                  capabilities = capabilities,
-                })
-              end,
-              gopls = function()
-                lsp.gopls.setup(
-                  extend(require("plugins.language_servers.gopls"), { capabilities = capabilities })
-                )
-              end,
-              lua_ls = function()
-                lsp.lua_ls.setup({
-                  settings = require("plugins.language_servers.lua_ls"),
-                  capabilities = capabilities,
-                })
-              end,
-              dockerls = function()
-                lsp.dockerls.setup(
-                  extend(
-                    require("plugins.language_servers.dockerls"),
-                    { capabilities = capabilities }
-                  )
-                )
-              end,
-              helm_ls = function()
-                lsp.helm_ls.setup(
-                  extend(
-                    require("plugins.language_servers.helm_ls"),
-                    { capabilities = capabilities }
-                  )
-                )
-              end,
-              yamlls = function()
-                lsp.yamlls.setup({ capabilities = capabilities })
-              end,
+              pyright = setup("pyright"),
+              gopls = setup("gopls"),
+              lua_ls = setup("lua_ls"),
+              dockerls = setup("dockerls"),
+              helm_ls = setup("helm_ls"),
+              yamlls = setup("yamlls"),
             },
           })
 
@@ -121,10 +117,9 @@ return {
             info = icons.diagnostics.Info,
           })
 
-          local keymaps = require("util").lsp_keymaps
           lsp_zero.on_attach(function(client, bufnr)
             lsp_zero.highlight_symbol(client, bufnr)
-            keymaps()
+            require("util").lsp_keymaps()
           end)
 
           lsp_zero.set_server_config({
@@ -174,30 +169,40 @@ return {
     opts = {
       adapters = {
         {
+
           command = "PyDoc",
           get_items = function()
-            if #filtered_packages ~= 0 then
-              return filtered_packages
-            end
-
-            local function split(input_str)
+            local function split_by_whitespace(input_str)
               local result = {}
-              for word in input_str:gmatch("%S+") do
-                table.insert(result, word)
+              for match in input_str:gmatch("%S+") do
+                table.insert(result, match)
               end
               return result
             end
 
+            local packages = {}
+            local cache_file = vim.fn.stdpath("data") .. "/pydoc_cache.txt"
+
+            -- Check if the cache_file already exists, if exists, return cached packages
+            if vim.loop.fs_stat(cache_file) then
+              return readlines(cache_file)
+            end
+
             local std_packages = vim.fn.systemlist("python3 -c 'help(\"modules\")'")
+            -- Filter out the first few lines which are not actual package names.
             for index, value in ipairs(std_packages) do
               if index > 11 and index < #std_packages - 2 then
-                for _, va in ipairs(split(value)) do
-                  table.insert(filtered_packages, va)
+                for _, package in ipairs(split_by_whitespace(value)) do
+                  table.insert(packages, package)
                 end
               end
             end
-            table.sort(filtered_packages)
-            return filtered_packages
+
+            table.sort(packages)
+
+            -- Cache packages list
+            writeLines(packages, cache_file)
+            return packages
           end,
           get_content = function(choice)
             return vim.fn.systemlist("python3 -m pydoc " .. choice)

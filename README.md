@@ -22,4 +22,5 @@ Neovim setup for Java, Kubernetes, Python and Golang development
 
 - spell: Spelling-related files.
 
-This directory structure helps organize your Neovim configuration for efficient and customized usage. You can modify individual Lua files to fine-tune your editor's behavior, add or remove plugins in the plugins directory, and maintain language-specific settings in the ftplugin directory.
+This directory structure helps organize your Neovim configuration for efficient and customized usage. you can modify individual lua files to fine-tune your editor's behavior, add or remove plugins in the plugins directory, and maintain language-specific settings in the ftplugin directory.
+

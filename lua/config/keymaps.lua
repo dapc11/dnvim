@@ -35,17 +35,17 @@ map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
 map("n", "s", "<cmd>w<CR><esc>", { desc = "Save file" })
 map("n", "W", "<cmd>noautocmd w<CR>")
 
-map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
-map("n", "<leader>v", "<C-W>v", { desc = "Split window right", remap = true })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+map("n", "<leader>-", "<C-W>s", { desc = "Split window below" })
+map("n", "<leader>v", "<C-W>v", { desc = "Split window right" })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
 
 -- Move to window using the <ctrl> arrow keys
-map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window", remap = true })
-map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window", remap = true })
-map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window", remap = true })
-map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window", remap = true })
-map("n", "<C-Down>", "}", { remap = true })
-map("n", "<C-Up>", "{", { remap = true })
+map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window" })
+map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window" })
+map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window" })
+map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window" })
+map("n", "<C-Down>", "}")
+map("n", "<C-Up>", "{")
 
 -- Move Lines
 map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
@@ -71,8 +71,8 @@ map("c", "<C-v>", "<C-r>*")
 map("i", "<C-v>", "<C-r>+")
 map("n", "<C-c>", '"+y')
 map("v", "<C-c>", '"+y')
-map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]], { silent = true })
-map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]], { silent = true })
+map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]])
+map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]])
 map("n", ",", "@q")
 
 map("n", "<M-x>", ":", { noremap = true, silent = false })
@@ -115,20 +115,18 @@ map("n", "gv", function()
   local cve = string.match(vim.fn.getline("."), "CVE%-%d+%-%d+")
   if cve then
     vim.fn.jobstart({ "xdg-open", "https://nvd.nist.gov/vuln/detail/" .. cve }, { detach = true })
-  else
-    print("No CVE found in the current line.")
   end
 end, { desc = "Goto CVE Definition" })
 
 map("n", "<leader>zf", function()
   Snacks.picker.grep({ cwd = "~/notes/", path_shorten = true })
-end, { noremap = true, silent = true, desc = "Search in Notes" })
+end, { desc = "Search in Notes" })
 map("n", "<leader>zb", function()
   Snacks.picker.files({ cwd = "~/notes/", path_shorten = true })
-end, { noremap = true, silent = true, desc = "Browse Notes" })
+end, { desc = "Browse Notes" })
 map("n", "<leader>zn", function()
   require("util").create_note()
-end, { noremap = true, silent = true, desc = "New Note" })
+end, { desc = "New Note" })
 
 map(
   "n",

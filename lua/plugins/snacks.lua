@@ -204,21 +204,21 @@ return {
       function()
         Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
       end,
-      desc = "Find Config File",
+      desc = "Find in Config",
     },
     {
       "<leader>lC",
       function()
         Snacks.picker.files({ cwd = require("lazy.core.config").options.root })
       end,
-      desc = "Find Plugin File",
+      desc = "Find in Plugnss",
     },
     {
-      "<leader>lD",
+      "<leader>ld",
       function()
         Snacks.picker.files({ cwd = "~/Downloads/" })
       end,
-      desc = "Find Plugin File",
+      desc = "Find in Downloads",
     },
     {
       "<leader>n",
