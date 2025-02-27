@@ -41,6 +41,9 @@ return {
           DiffAdd = { fg = "$green", bg = "$bg0" },
           DiffDelete = { fg = "$red", bg = "$bg0" },
           DiffChange = { fg = "$blue", bg = "$bg0" },
+          FlashMatch = { bg = "$bg0", fg = "" },
+          FlashCurrent = { bg = "$bg0", fg = "" },
+          FlashLabel = { bg = "$bg0", fg = "$orange", bold = true },
 
           ["@field"] = { fg = "$fg", fmt = "none" },
           ["@function"] = { fg = "$blue", fmt = "none" },
@@ -103,6 +106,9 @@ return {
           BlinkCmpLabel = { fg = "text" },
           BlinkCmpMenuSelection = { fg = "text", bg = "highlight_med" },
           Pmenu = { bg = "surface" },
+          FlashMatch = { bg = "base", fg = "comment" },
+          FlashCurrent = { bg = "base", fg = "comment" },
+          FlashLabel = { bg = "base", fg = "gold", bold = true },
         },
         palette = {
           moon = {

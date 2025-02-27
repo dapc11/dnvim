@@ -32,7 +32,6 @@ map("v", ">", ">gv")
 
 -- save file
 map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
-map("n", "s", "<cmd>w<CR><esc>", { desc = "Save file" })
 map("n", "W", "<cmd>noautocmd w<CR>")
 
 map("n", "<leader>-", "<C-W>s", { desc = "Split window below" })
