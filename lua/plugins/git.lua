@@ -43,7 +43,7 @@ return {
             return "]czz"
           end
           vim.schedule(function()
-            gs.next_hunk()
+            gs.nav_hunk("next")
             vim.fn.feedkeys("zz")
           end)
           return "<Ignore>"
@@ -53,7 +53,7 @@ return {
             return "[czz"
           end
           vim.schedule(function()
-            gs.prev_hunk()
+            gs.nav_hunk("prev")
             vim.fn.feedkeys("zz")
           end)
           return "<Ignore>"
@@ -75,7 +75,7 @@ return {
       { "<leader>gg", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
       { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
-      { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
+      { "<leader>gb", "<cmd>Git blame --date=short<CR>", desc = "Blame" },
       { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push" },
       { "<leader>gpf", "<cmd>Git fetch<CR>", desc = "Fetch" },
       { "<leader>gpr", "<cmd>Git fetch | Git rebase origin/master<CR>", desc = "Pull" },
