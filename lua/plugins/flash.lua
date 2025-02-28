@@ -1,6 +1,6 @@
 return {
   "folke/flash.nvim",
-  event = _G.lazyfile,
+  event = lazyfile,
   opts = {
     modes = { char = { enabled = false } },
   },

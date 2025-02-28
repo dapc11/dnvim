@@ -4,7 +4,7 @@ return {
     opts = {
       scope = "global",
     },
-    event = _G.lazyfile,
+    event = lazyfile,
     cmd = "Grapple",
     keys = {
       { "<leader>m", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },

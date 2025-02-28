@@ -4,7 +4,7 @@ end
 return {
   {
     "ThePrimeagen/refactoring.nvim",
-    event = _G.lazyfile,
+    event = lazyfile,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -26,12 +26,12 @@ return {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     build = ":TSUpdate",
-    event = _G.lazyfile,
+    event = lazyfile,
     cmd = "TSUpdateSync",
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        event = _G.lazyfile,
+        event = lazyfile,
         config = function()
           -- When in diff mode, we want to use the default
           -- vim text objects c & C instead of the treesitter ones.
