@@ -157,12 +157,7 @@ return {
     version = "2.x",
     dependencies = {
       { "folke/snacks.nvim" },
-      {
-        "nvim-treesitter/nvim-treesitter",
-        opts = {
-          ensure_installed = { "go", "python" },
-        },
-      },
+      { "nvim-treesitter/nvim-treesitter" },
     },
     opts = {
       adapters = {

@@ -97,12 +97,12 @@ space_around_assign_operator = true
 
 align_call_args = false
 
-align_function_params = true
+align_function_params = false
 
 # true/false or always
-align_continuous_assign_statement = true
+align_continuous_assign_statement = false
 
-align_continuous_rect_table_field = true
+align_continuous_rect_table_field = false
 
 align_continuous_line_space = 2
 
