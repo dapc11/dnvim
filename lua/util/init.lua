@@ -7,22 +7,6 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-function M.lsp_keymaps()
-  local function opts(desc)
-    return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
-  end
-  M.map("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
-  M.map("n", "gr", vim.lsp.buf.references, opts("Goto References"))
-  M.map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
-  M.map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-  M.map("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
-  M.map("n", "<leader>cd", vim.diagnostic.open_float, opts("Show Diagnostic"))
-  M.map("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
-  M.map("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
-  M.map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
-  M.map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
-end
-
 local function match(dir, pattern)
   if string.sub(pattern, 1, 1) == "=" then
     return vim.fn.fnamemodify(dir, ":t") == string.sub(pattern, 2, #pattern)

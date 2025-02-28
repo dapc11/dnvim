@@ -128,3 +128,26 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local function opts(desc)
+      return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
+    end
+
+    map("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
+    map("n", "gr", vim.lsp.buf.references, opts("Goto References"))
+    map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
+    map("n", "<leader>cd", vim.diagnostic.open_float, opts("Show Diagnostic"))
+    map("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
+    map("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
+    map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
+    map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
+
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.supports_method("textDocument/rename") then
+      map("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
+    end
+  end,
+})
