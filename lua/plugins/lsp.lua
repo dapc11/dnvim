@@ -87,9 +87,7 @@ return {
               conf = {}
             end
             return function()
-              lsp[lsp_name].setup(
-                vim.tbl_deep_extend("force", conf, { capabilities = capabilities })
-              )
+              lsp[lsp_name].setup(vim.tbl_deep_extend("force", conf, { capabilities = capabilities }))
             end
           end
 

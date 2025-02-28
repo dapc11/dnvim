@@ -8,3 +8,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.lsp.buf.format({ bufnr = bufnr })
   end,
 })
+
+vim.opt_local.colorcolumn = "120"

@@ -40,3 +40,5 @@ end, { silent = true, buffer = true, desc = "Docs" })
 vim.keymap.set("n", "<Leader>dn", function()
   require("dap-python").test_method()
 end, { desc = "Run nearest" })
+
+vim.opt_local.colorcolumn = "99"

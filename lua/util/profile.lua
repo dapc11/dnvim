@@ -12,15 +12,12 @@ end
 local function toggle_profile()
   if prof.is_recording() then
     prof.stop()
-    vim.ui.input(
-      { prompt = "Save profile to:", completion = "file", default = "/tmp/profile.json" },
-      function(filename)
-        if filename then
-          prof.export(filename)
-          vim.notify(string.format("Wrote %s", filename))
-        end
+    vim.ui.input({ prompt = "Save profile to:", completion = "file", default = "/tmp/profile.json" }, function(filename)
+      if filename then
+        prof.export(filename)
+        vim.notify(string.format("Wrote %s", filename))
       end
-    )
+    end)
   else
     prof.start("*")
   end
