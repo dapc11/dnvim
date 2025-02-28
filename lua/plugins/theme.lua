@@ -69,6 +69,7 @@ return {
   },
   {
     "NvChad/nvim-colorizer.lua",
+    events = lazyfile,
     opts = {
       filetypes = {
         "*",

@@ -3,17 +3,23 @@ GetVisualSelection = require("util.common").get_visual_selection
 -- Function to search for commits in the Git log.
 function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")
-  vim.cmd({ cmd = "Gclog", args = {
-    "-G" .. input .. " --",
-  } })
+  vim.cmd({
+    cmd = "Gclog",
+    args = {
+      "-G" .. input .. " --",
+    }
+  })
 end
 
 -- Searches for a commit containing the current buffer's contents in the Git log.
 function GsearchCurrent()
   local input = vim.fn.input("Search phrase> ", "")
-  vim.cmd({ cmd = "Gclog", args = {
-    "-G" .. input .. " -- %",
-  } })
+  vim.cmd({
+    cmd = "Gclog",
+    args = {
+      "-G" .. input .. " -- %",
+    }
+  })
 end
 
 local map = require("util").map
@@ -108,5 +114,8 @@ return {
       { "<leader>gs", GsearchCurrent, desc = "Search Current File History" },
     },
   },
-  { "sindrets/diffview.nvim" },
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewRefresh", "DiffviewLog", "DiffviewFileHistory", "DiffviewFocusFiles" },
+  },
 }

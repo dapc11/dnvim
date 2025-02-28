@@ -28,6 +28,7 @@ end
 return {
   {
     "neovim/nvim-lspconfig",
+    event = lazyfile,
     dependencies = {
       { "williamboman/mason.nvim", opts = {} },
       "williamboman/mason-lspconfig.nvim",
@@ -78,6 +79,7 @@ return {
   { "mfussenegger/nvim-jdtls", ft = "java" },
   {
     "saghen/blink.cmp",
+    event = lazyfile,
     dependencies = "rafamadriz/friendly-snippets",
     version = "*",
     opts = {
@@ -121,6 +123,7 @@ return {
   },
   {
     "fredrikaverpil/godoc.nvim",
+    event = lazyfile,
     version = "2.x",
     dependencies = {
       "folke/snacks.nvim",

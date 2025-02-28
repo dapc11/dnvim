@@ -71,6 +71,7 @@ end
 return {
   "robitx/gp.nvim",
   enabled = secretLoadedSuccessfully,
+  event = lazyfile,
   lazy = false,
   keys = {
     { "<C-g>-", ":<C-u>'<,'>GpChatNew split<cr>", desc = "ChatNew split", mode = "v" },
