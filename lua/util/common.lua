@@ -26,6 +26,8 @@ M.ignored_filetypes = {
   "notify",
   "oil",
   "qf",
+  "pydoc",
+  "godoc",
   "snacks_dashboard",
   "spectre_panel",
   "startuptime",
