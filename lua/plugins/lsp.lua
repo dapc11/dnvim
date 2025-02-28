@@ -14,8 +14,8 @@ local function readlines(path)
   return lines
 end
 
-local function writeLines(packages, file)
-  local file = io.open(file, "w")
+local function writeLines(packages, path)
+  local file = io.open(path, "w")
   if not file then
     return nil
   end
