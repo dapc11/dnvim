@@ -57,6 +57,7 @@ return {
                     "ruleset2.0.yaml",
                     ".git",
                     ".gitignore",
+                    "build.xml",
                     ".hg",
                     ".bzr",
                     ".svn",
