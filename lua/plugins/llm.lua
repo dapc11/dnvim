@@ -6,7 +6,8 @@ elseif type(secret) ~= "table" or not (secret.OPENAI_API_TOKEN and secret.OPENAI
   print("Invalid 'secret.lua' file: Return a table with keys 'OPENAI_API_TOKEN' and 'OPENAI_URL' set.")
 end
 
-local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
+local PROMPT =
+  "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
   .. "Your main goal is to help me learn programming concepts, best practices while writing code."
   .. "Please consider:"
   .. "- Readability"
@@ -48,6 +49,25 @@ local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
   .. ""
   .. "What you write will be passed directly to git commit -m '[message]'"
 
+local model = {
+  model = "llama3.1-8b",
+  input = 0.9,
+  max_tokens = 16000,
+  num_ctx = 131072,
+  stream = true,
+}
+
+local function get_agent(name, chat, command, prompt, temperature)
+  temperature = temperature or 0
+  return {
+    provider = "openai",
+    name = name,
+    chat = chat,
+    command = command,
+    model = vim.tbl_deep_extend("force", model, { temperature = temperature }),
+    system_prompt = prompt,
+  }
+end
 return {
   "robitx/gp.nvim",
   enabled = secretLoadedSuccessfully,
@@ -88,81 +108,60 @@ return {
     { "<C-g>x", ":<C-u>'<,'>GpContext<cr>", desc = "Visual GpContext", mode = "v" },
     { "<C-g>x", "<cmd>GpContext<cr>", desc = "Toggle GpContext" },
   },
-  config = function()
-    local model = {
-      model = "llama3.1-8b",
-      input = 0.9,
-      max_tokens = 16000,
-      num_ctx = 131072,
-      stream = true,
-    }
-
-    local function get_agent(name, chat, command, prompt, temperature)
-      temperature = temperature or 0
-      return {
-        provider = "openai",
-        name = name,
-        chat = chat,
-        command = command,
-        model = vim.tbl_deep_extend("force", model, { temperature = temperature }),
-        system_prompt = prompt,
-      }
-    end
-    local conf = {
-      openai_api_key = secret.OPENAI_API_TOKEN,
-      whisper = { disable = true },
-      image = { disable = true },
-      chat_user_prefix = "## QUESTION --------------- 💬",
-      chat_assistant_prefix = "## RESPONSE --------------- 🗨",
-      log_file = "",
-      providers = {
-        openai = {
-          endpoint = secret.OPENAI_URL,
-        },
+  opts = {
+    openai_api_key = secret.OPENAI_API_TOKEN,
+    whisper = { disable = true },
+    image = { disable = true },
+    chat_user_prefix = "## QUESTION --------------- 💬",
+    chat_assistant_prefix = "## RESPONSE --------------- 🗨",
+    log_file = "",
+    providers = {
+      openai = {
+        endpoint = secret.OPENAI_URL,
       },
-      default_chat_agent = "chat",
-      agents = {
-        get_agent("chat", true, false, PROMPT, 0.5),
-        get_agent("coder", false, true, PROMPT),
-        get_agent("ut", false, true, UNIT_TEST_PROMPT),
-        get_agent("review", true, false, REVIEW_PROMPT),
-        get_agent("git", true, true, GIT_COMMIT_MESSAGE_PROMPT),
-      },
-      hooks = {
-        -- -- example of adding command which writes unit tests for the selected code
-        Git = function(gp, params)
-          local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
-          local template = "I have the following git diff:\n\n"
-            .. "```diff\n"
-            .. buffer
-            .. "\n```\n\n"
-            .. "Please generate a Git commit message with a subject of max 50 chars and a body where lines are max 72 chars. If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
-          local agent = gp.get_chat_agent("git")
-          gp.Prompt(params, gp.Target.prepend, agent, template)
-        end,
-        UnitTests = function(gp, params)
-          local template = "I have the following code from {{filename}}:\n\n"
-            .. "```{{filetype}}\n{{selection}}\n```\n\n"
-            .. "Please respond by writing table driven unit tests for the code above."
-          local agent = gp.get_command_agent("ut")
-          gp.Prompt(params, gp.Target.enew, agent, template)
-        end,
-        Explain = function(gp, params)
-          local template = "I have the following code from {{filename}}:\n\n"
-            .. "```{{filetype}}\n{{selection}}\n```\n\n"
-            .. "Please respond by explaining the code above."
-          local agent = gp.get_chat_agent()
-          gp.Prompt(params, gp.Target.popup, agent, template)
-        end,
-        Review = function(gp, params)
-          local template = "I have the following code from {{filename}}:\n\n"
-            .. "```{{filetype}}\n{{selection}}\n```\n\n"
-            .. "Please analyze for code smells and suggest improvements."
-          local agent = gp.get_chat_agent("review")
-          gp.Prompt(params, gp.Target.vnew("markdown"), agent, template)
-        end,
-      },
-    }
-    require("gp").setup(conf)
-  end,
+    },
+    default_chat_agent = "chat",
+    agents = {
+      get_agent("chat", true, false, PROMPT, 0.5),
+      get_agent("coder", false, true, PROMPT),
+      get_agent("ut", false, true, UNIT_TEST_PROMPT),
+      get_agent("review", true, false, REVIEW_PROMPT),
+      get_agent("git", true, true, GIT_COMMIT_MESSAGE_PROMPT),
+    },
+    hooks = {
+      Git = function(gp, params)
+        local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+        local template = "I have the following git diff:\n\n"
+          .. "```diff\n"
+          .. buffer
+          .. "\n```\n\n"
+          ..
+          "Please generate a Git commit message with a subject of max 50 chars and a body where lines are max 72 chars." ..
+          "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
+        local agent = gp.get_chat_agent("git")
+        gp.Prompt(params, gp.Target.prepend, agent, template)
+      end,
+      UnitTests = function(gp, params)
+        local template = "I have the following code from {{filename}}:\n\n"
+          .. "```{{filetype}}\n{{selection}}\n```\n\n"
+          .. "Please respond by writing table driven unit tests for the code above."
+        local agent = gp.get_command_agent("ut")
+        gp.Prompt(params, gp.Target.enew, agent, template)
+      end,
+      Explain = function(gp, params)
+        local template = "I have the following code from {{filename}}:\n\n"
+          .. "```{{filetype}}\n{{selection}}\n```\n\n"
+          .. "Please respond by explaining the code above."
+        local agent = gp.get_chat_agent()
+        gp.Prompt(params, gp.Target.popup, agent, template)
+      end,
+      Review = function(gp, params)
+        local template = "I have the following code from {{filename}}:\n\n"
+          .. "```{{filetype}}\n{{selection}}\n```\n\n"
+          .. "Please analyze for code smells and suggest improvements."
+        local agent = gp.get_chat_agent("review")
+        gp.Prompt(params, gp.Target.vnew("markdown"), agent, template)
+      end,
+    },
+  },
 }
