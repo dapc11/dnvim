@@ -23,8 +23,8 @@ map("n", "Y", "y$")
 map("v", "p", [["_dP]])
 
 -- better indenting
-map("n", "<tab>", "==", {remap = true})
-map("n", "<c-i>", "<tab>", {remap = false})
+map("n", "<tab>", "==", { remap = true })
+map("n", "<c-i>", "<tab>", { remap = false })
 map("v", "<tab>", "==")
 map("i", "<tab>", "<c-t>", { remap = true })
 map("i", "<s-tab>", "<c-d>", { remap = true })
