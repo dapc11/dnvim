@@ -36,3 +36,6 @@ vim.keymap.set(
   Cf,
   { silent = true, buffer = true, desc = "Coverage in Browser" }
 )
+vim.keymap.set("n", "<Leader>dn", function()
+  require("dap-go").debug_test()
+end, { desc = "Run nearest" })

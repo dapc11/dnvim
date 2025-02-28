@@ -10,7 +10,6 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     keys = {
-
       { "<leader>ce", ":Refactor extract ", mode = "x" },
       { "<leader>cf", ":Refactor extract_to_file ", mode = "x" },
       { "<leader>cv", ":Refactor extract_var ", mode = "x" },
@@ -79,6 +78,7 @@ return {
         "json",
         "java",
         "lua",
+        "go",
         "markdown",
         "markdown_inline",
         "python",

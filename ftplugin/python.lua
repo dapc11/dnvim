@@ -11,6 +11,7 @@ local root = get_root(pythonpath_file)
 function string.starts(String, Start)
   return string.sub(String, 1, string.len(Start)) == Start
 end
+
 if root == nil then
   vim.env.PYTHONPATH = nil
 else
@@ -35,3 +36,7 @@ vim.cmd("hi link @string.documentation.python SpecialComment")
 vim.keymap.set("n", "<Leader>cd", function()
   vim.cmd.PyDoc()
 end, { silent = true, buffer = true, desc = "Docs" })
+
+vim.keymap.set("n", "<Leader>dn", function()
+  require("dap-python").test_method()
+end, { desc = "Run nearest" })
