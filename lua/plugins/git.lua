@@ -108,4 +108,5 @@ return {
       { "<leader>gs", GsearchCurrent, desc = "Search Current File History" },
     },
   },
+  { "sindrets/diffview.nvim" },
 }
