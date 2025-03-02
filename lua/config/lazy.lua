@@ -24,6 +24,12 @@ return function(opts)
       enabled = false,
       notify = false,
     },
+    git = {
+      -- defaults for the `Lazy log` command
+      -- log = { "--since=3 days ago" }, -- show commits from the last 3 days
+      log = { "-8" }, -- show the last 8 commits
+      timeout = 2120, -- kill processes that take more than 2 minutes
+    }
   })
   require("lazy").setup(opts)
 end
