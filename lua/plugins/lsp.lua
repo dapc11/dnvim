@@ -48,7 +48,7 @@ return {
         end
       end
       require("mason-lspconfig").setup({
-        ensure_installed = { "jdtls", "helm_ls", "gopls", "lua_ls", "zk@v0.13.0" }, -- zk 0.13.0 due to depenency of glibc version > 2.31.0
+        ensure_installed = { "jdtls", "helm_ls", "gopls", "lua_ls", "zk" }, -- zk@v0.13.0 due to depenency of glibc version > 2.31.0
         automatic_installation = false,
         handlers = {
           jdtls = noop,
@@ -80,10 +80,15 @@ return {
   {
     "saghen/blink.cmp",
     event = lazyfile,
-    dependencies = "rafamadriz/friendly-snippets",
-    version = "*",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "mikavilpas/blink-ripgrep.nvim",
+      "Kaiser-Yang/blink-cmp-dictionary",
+    },
+    version = "0.13.1",
     opts = {
       keymap = { preset = "super-tab" },
+      fuzzy = { implementation = "rust" },
       appearance = {
         use_nvim_cmp_as_default = true,
       },
@@ -101,15 +106,55 @@ return {
         },
       },
       sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+        per_filetype = {
+          lua = { "lazydev", "lsp", "path", "snippets", "buffer", "ripgrep" },
+          gitcommit = { "dictionary", "path", "snippets", "buffer", "ripgrep" },
+          markdown = { "dictionary", "path", "snippets", "buffer", "ripgrep" },
+        },
         providers = {
+          ripgrep = {
+            module = "blink-ripgrep",
+            name = "Ripgrep",
+          },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
           },
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+            enabled = true,         -- Whether or not to enable the provider
+            async = false,          -- Whether we should wait for the provider to return before showing the completions
+            timeout_ms = 2000,      -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+            min_keyword_length = 2, -- Minimum number of characters in the keyword to trigger the provider
+          },
+          dictionary = {
+            module = "blink-cmp-dictionary",
+            name = "Dict",
+            min_keyword_length = 3,
+            max_items = 5,
+            opts = {
+              dictionary_files = nil,
+              dictionary_directories = nil,
+              get_command = "rg",
+              get_command_args = function(prefix, _)
+                return {
+                  "--color=never",
+                  "--no-line-number",
+                  "--no-messages",
+                  "--no-filename",
+                  "--smart-case",
+                  "--",
+                  prefix,
+                  vim.fn.stdpath("config") .. "/words.txt",
+                }
+              end
+            },
+          }
         },
-      },
+      }
     },
     opts_extend = { "sources.default" },
   },
