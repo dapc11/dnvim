@@ -151,3 +151,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
+
+vim.cmd([[
+"Delete all Git conflict markers
+"Creates the command :GremoveConflictMarkers
+function! RemoveConflictMarkers() range
+  echom a:firstline.'-'.a:lastline
+  execute a:firstline.','.a:lastline . ' g/^<\{7}\|^|\{7}\|^=\{7}\|^>\{7}/d'
+endfunction
+"-range=% default is whole file
+command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
+]])

@@ -108,7 +108,7 @@ return {
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
         per_filetype = {
-          lua = { "lazydev", "lsp", "path", "snippets", "buffer", "ripgrep" },
+          lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
           gitcommit = { "dictionary", "path", "snippets", "buffer", "ripgrep" },
           markdown = { "dictionary", "path", "snippets", "buffer", "ripgrep" },
         },
