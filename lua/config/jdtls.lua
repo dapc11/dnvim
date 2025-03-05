@@ -149,7 +149,7 @@ local function jdtls_setup(_event)
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   local cmd = {
-    os.getenv("HOME") .. "/.sdkman/candidates/java/17.0.12-tem/bin/java",
+    os.getenv("HOME") .. "/.sdkman/candidates/java/21.0.6-zulu/bin/java",
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
