@@ -1,9 +1,7 @@
 local secretLoadedSuccessfully, secret = pcall(require, "secret")
 
 if not secretLoadedSuccessfully then
-  print("Error loading 'secret.lua': File not found. Please create it and try again.")
-elseif type(secret) ~= "table" or not (secret.OPENAI_API_TOKEN and secret.OPENAI_URL) then
-  print("Invalid 'secret.lua' file: Return a table with keys 'OPENAI_API_TOKEN' and 'OPENAI_URL' set.")
+  secret = { OPENAI_API_TOKEN = "", OPENAI_URL = "" }
 end
 
 local PROMPT =
@@ -68,6 +66,7 @@ local function get_agent(name, chat, command, prompt, temperature)
     system_prompt = prompt,
   }
 end
+
 return {
   "robitx/gp.nvim",
   enabled = secretLoadedSuccessfully,

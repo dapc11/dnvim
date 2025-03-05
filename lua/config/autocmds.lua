@@ -149,6 +149,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.supports_method("textDocument/rename") then
       map("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
     end
+
+    if client:supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
+
+    if client:supports_method("textDocument/documentHighlight") then
+      local autocmd = vim.api.nvim_create_autocmd
+      local augroup = vim.api.nvim_create_augroup("lsp_highlight", { clear = false })
+
+      vim.api.nvim_clear_autocmds({ buffer = bufnr, group = augroup })
+
+      autocmd({ "CursorHold" }, {
+        group = augroup,
+        buffer = args.buf,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      autocmd({ "CursorMoved" }, {
+        group = augroup,
+        buffer = args.buf,
+        callback = vim.lsp.buf.clear_references,
+      })
+    end
   end,
 })
 
