@@ -18,6 +18,7 @@ _G.lazyfile = { "BufReadPost", "BufNewFile" }
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 require("config.lazy")()
+require("config.theme")
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
