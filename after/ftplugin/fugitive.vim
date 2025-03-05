@@ -1,3 +1,4 @@
+setlocal colorcolumn=0
 nmap <silent><buffer> q :tabclose<CR>
 nmap <silent><buffer> <Tab> =
 nmap <silent><buffer> o gO
@@ -11,7 +12,6 @@ nmap <buffer> >f [m
 nmap <buffer> <f ]m
 nmap <buffer> >> [[
 nmap <buffer> << ]]
-
 nnoremap <buffer> R :!git fetch && git rebase origin/$(git rev-parse --abbrev-ref HEAD)<CR>
 nmap <buffer> F :Git fetch<CR>
 nmap <buffer> S :Git submodule update --init --recursive<CR>

@@ -9,7 +9,6 @@ M.ignored_filetypes = {
   "checkhealth",
   "dap-repl",
   "dapui_scopes",
-  "fugitive",
   "fugitiveblame",
   "git",
   "harpoon",
