@@ -157,3 +157,8 @@ vim.api.nvim_create_user_command("Dump", function(x)
 end, { nargs = "+", desc = "Dump output of a command at the cursor position" })
 
 map("n", "gV", "`[v`]", { desc = "Select last paste" })
+
+vim.keymap.set("n", "dd", function()
+  if vim.fn.getline(".") == "" then return '"_dd' end
+  return "dd"
+end, { expr = true })
