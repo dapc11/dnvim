@@ -38,18 +38,15 @@ local groups = {
 }
 
 local function dim(hex, percentage)
-  -- Convert hex color to RGB
   local r = tonumber(hex:sub(2, 3), 16)
   local g = tonumber(hex:sub(4, 5), 16)
   local b = tonumber(hex:sub(6, 7), 16)
 
-  -- Calculate the blend with white based on the percentage
   local blendFactor = percentage / 100
   r = math.floor(r + (255 - r) * blendFactor)
   g = math.floor(g + (255 - g) * blendFactor)
   b = math.floor(b + (255 - b) * blendFactor)
 
-  -- Convert the blended RGB back to hexadecimal
   return string.format("#%02X%02X%02X", r, g, b)
 end
 
@@ -90,7 +87,7 @@ local highlights = {
   FoldColumn = { fg = palette.color7 },
   Folded = { fg = palette.foreground, bg = groups.panel },
   IncSearch = { link = "CurSearch" },
-  LineNr = { fg = palette.color7, bg = palette.color0 },
+  LineNr = { fg = dim(palette.color8, 25), bg = palette.color0 },
   MatchParen = { bg = palette.color16, bold = true },
   ModeMsg = { fg = palette.color15 },
   MoreMsg = { fg = palette.color14 },
