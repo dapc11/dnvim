@@ -106,11 +106,11 @@ return {
         },
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+        default = { "lsp", "path", "snippets", "buffer" },
         per_filetype = {
           lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
-          gitcommit = { "dictionary", "path", "snippets", "buffer", "ripgrep" },
-          markdown = { "dictionary", "path", "snippets", "buffer", "ripgrep" },
+          gitcommit = { "path", "snippets", "buffer", "dictionary", "ripgrep" },
+          markdown = { "path", "snippets", "buffer" },
         },
         providers = {
           ripgrep = {
