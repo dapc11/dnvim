@@ -37,6 +37,22 @@ local groups = {
   git_delete = palette.color1,
 }
 
+local function dim(hex, percentage)
+  -- Convert hex color to RGB
+  local r = tonumber(hex:sub(2, 3), 16)
+  local g = tonumber(hex:sub(4, 5), 16)
+  local b = tonumber(hex:sub(6, 7), 16)
+
+  -- Calculate the blend with white based on the percentage
+  local blendFactor = percentage / 100
+  r = math.floor(r + (255 - r) * blendFactor)
+  g = math.floor(g + (255 - g) * blendFactor)
+  b = math.floor(b + (255 - b) * blendFactor)
+
+  -- Convert the blended RGB back to hexadecimal
+  return string.format("#%02X%02X%02X", r, g, b)
+end
+
 vim.g.terminal_color_0 = palette.color0   -- black
 vim.g.terminal_color_1 = palette.color1   -- red
 vim.g.terminal_color_2 = palette.color2   -- green
@@ -80,7 +96,7 @@ local highlights = {
   MoreMsg = { fg = palette.color14 },
   NonText = { fg = palette.color7 },
   Normal = { fg = palette.foreground, bg = palette.color0 },
-  NormalNC = { fg = palette.color7, bg = palette.color0 },
+  NormalNC = { link = "Normal" },
   NvimInternalError = { link = "ErrorMsg" },
   Pmenu = { fg = palette.color15, bg = groups.panel },
   PmenuExtra = { fg = palette.color7, bg = groups.panel },
@@ -166,7 +182,7 @@ local highlights = {
   Label = { fg = palette.color10 },
   LspCodeLens = { fg = palette.color15 },
   LspCodeLensSeparator = { fg = palette.color7 },
-  LspInlayHint = { fg = palette.color7, bg = palette.color7 },
+  LspInlayHint = { fg = dim(palette.color16, 20) },
   LspReferenceRead = { bg = palette.color16 },
   LspReferenceText = {},
   LspReferenceWrite = {},
@@ -186,6 +202,7 @@ local highlights = {
   Tag = { fg = palette.color10 },
   Todo = { fg = palette.color2, bg = palette.color1 },
   Type = { fg = palette.color10 },
+  Whitespace = { fg = dim(palette.color8, 10) },
   TypeDef = { link = "Type" },
   Underlined = { fg = palette.color14, underline = true },
 
@@ -194,12 +211,13 @@ local highlights = {
   healthWarning = { fg = groups.warning },
 
   SnacksPickerMatch = { bg = palette.color13, fg = palette.foreground },
-  SnacksPickerBorder = { fg = palette.foreground },
+  SnacksPickerBorder = { fg = palette.color8 },
+  SnacksPicker = { fg = palette.foreground },
   SnacksPickerFile = { fg = palette.foreground },
   SnacksPickerDir = { fg = palette.color7 },
   FloatBorder = { fg = groups.border, bg = "NONE" },
   FloatTitle = { fg = palette.color10, bg = "NONE", bold = true },
-  NormalFloat = { bg = palette.color0, fg = palette.foreground },
+  NormalFloat = { bg = palette.color8, fg = palette.foreground },
   SignColumn = { fg = palette.foreground, bg = "NONE" },
 
   GitSignsAdd = { fg = groups.git_add, bg = "NONE" },
@@ -220,14 +238,14 @@ local highlights = {
   ["@parameter"] = { fg = palette.foreground, bold = true },
   ["@parameter.bash"] = { fg = palette.foreground },
   ["@string.escape"] = { fg = palette.color10 },
-  ["@keyword"] = { fg = palette.color9 },
-  ["@keyword.function"] = { fg = palette.color9 },
-  ["@keyword.repeat"] = { fg = palette.color9 },
-  ["@keyword.import"] = { fg = palette.color9 },
-  ["@keyword.directive"] = { fg = palette.color9 },
-  ["@keyword.operator"] = { fg = palette.color9 },
-  ["@keyword.conditional"] = { fg = palette.color9 },
-  ["@keyword.exception"] = { fg = palette.color9 },
+  -- ["@keyword"] = { fg = palette.color9 },
+  -- ["@keyword.function"] = { fg = palette.color9 },
+  -- ["@keyword.repeat"] = { fg = palette.color9 },
+  -- ["@keyword.import"] = { fg = palette.color9 },
+  -- ["@keyword.directive"] = { fg = palette.color9 },
+  -- ["@keyword.operator"] = { fg = palette.color9 },
+  -- ["@keyword.conditional"] = { fg = palette.color9 },
+  -- ["@keyword.exception"] = { fg = palette.color9 },
   ["@constructor"] = { fg = palette.color4 },
   ["@attribute"] = { fg = palette.foreground },
   ["@variable"] = { fg = palette.foreground },
