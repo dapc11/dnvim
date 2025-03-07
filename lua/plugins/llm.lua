@@ -16,7 +16,6 @@ local PROMPT =
   .. "- Performance optimization"
   .. "- Best practices for the language currently used."
   .. "Please do not unnecessarily remove any comments or code."
-  .. "Generate the code with clear comments explaining the logic."
 
 local REVIEW_PROMPT = "Please review the following code."
   .. "Consider:"
