@@ -1,4 +1,4 @@
-local palette = {
+local p = {
   foreground = "#d8dadf",
   cursor = "#cccccc",
   color0 = "#282c34",
@@ -18,26 +18,39 @@ local palette = {
   color14 = "#56b6c2",
   color15 = "#abb2bf",
   color16 = "#3d424c",
-  selection_foreground = "#282c34",
   selection_background = "#979eab",
 }
 
 local groups = {
-  border = palette.color16,
-  error = palette.color1,
-  hint = palette.color4,
-  info = palette.color2,
-  ok = palette.color2,
-  panel = palette.color8,
-  success = palette.color2,
-  warning = palette.color3,
+  border = p.color16,
+  error = p.color1,
+  hint = p.color4,
+  info = p.color2,
+  ok = p.color2,
+  panel = p.color8,
+  success = p.color2,
+  warning = p.color3,
 
-  git_change = palette.color3,
-  git_add = palette.color2,
-  git_delete = palette.color1,
+  git_change = p.color3,
+  git_add = p.color2,
+  git_delete = p.color1,
 }
 
 local function dim(hex, percentage)
+  local r = tonumber(hex:sub(2, 3), 16)
+  local g = tonumber(hex:sub(4, 5), 16)
+  local b = tonumber(hex:sub(6, 7), 16)
+
+  -- Convert percentage into a darkening factor
+  local dimFactor = 1 - (percentage / 100)
+  r = math.floor(r * dimFactor)
+  g = math.floor(g * dimFactor)
+  b = math.floor(b * dimFactor)
+
+  return string.format("#%02X%02X%02X", r, g, b)
+end
+
+local function brighten(hex, percentage)
   local r = tonumber(hex:sub(2, 3), 16)
   local g = tonumber(hex:sub(4, 5), 16)
   local b = tonumber(hex:sub(6, 7), 16)
@@ -50,84 +63,84 @@ local function dim(hex, percentage)
   return string.format("#%02X%02X%02X", r, g, b)
 end
 
-vim.g.terminal_color_0 = palette.color0   -- black
-vim.g.terminal_color_1 = palette.color1   -- red
-vim.g.terminal_color_2 = palette.color2   -- green
-vim.g.terminal_color_3 = palette.color3   -- yellow
-vim.g.terminal_color_4 = palette.color4   -- blue
-vim.g.terminal_color_5 = palette.color5   -- magenta
-vim.g.terminal_color_6 = palette.color6   -- cyan
-vim.g.terminal_color_7 = palette.color7   -- white
-vim.g.terminal_color_8 = palette.color8   -- bright black
-vim.g.terminal_color_9 = palette.color9   -- bright red
-vim.g.terminal_color_10 = palette.color10 -- bright green
-vim.g.terminal_color_11 = palette.color11 -- bright yellow
-vim.g.terminal_color_12 = palette.color12 -- bright blue
-vim.g.terminal_color_13 = palette.color13 -- bright magenta
-vim.g.terminal_color_14 = palette.color14 -- bright cyan
-vim.g.terminal_color_15 = palette.color15 -- bright white
+vim.g.terminal_color_0 = p.color0   -- black
+vim.g.terminal_color_1 = p.color1   -- red
+vim.g.terminal_color_2 = p.color2   -- green
+vim.g.terminal_color_3 = p.color3   -- yellow
+vim.g.terminal_color_4 = p.color4   -- blue
+vim.g.terminal_color_5 = p.color5   -- magenta
+vim.g.terminal_color_6 = p.color6   -- cyan
+vim.g.terminal_color_7 = p.color7   -- white
+vim.g.terminal_color_8 = p.color8   -- bright black
+vim.g.terminal_color_9 = p.color9   -- bright red
+vim.g.terminal_color_10 = p.color10 -- bright green
+vim.g.terminal_color_11 = p.color11 -- bright yellow
+vim.g.terminal_color_12 = p.color12 -- bright blue
+vim.g.terminal_color_13 = p.color13 -- bright magenta
+vim.g.terminal_color_14 = p.color14 -- bright cyan
+vim.g.terminal_color_15 = p.color15 -- bright white
 
 local highlights = {
-  ColorColumn = { bg = dim(palette.color0, 3) },
+  ColorColumn = { bg = brighten(p.color0, 3) },
   Conceal = { bg = "NONE" },
-  CurSearch = { fg = palette.color0, bg = palette.color3, bold = true },
-  Cursor = { fg = palette.cursor, bg = palette.highlight_high },
-  CursorColumn = { bg = palette.color0 },
-  CursorLine = { bg = dim(palette.color0, 3) },
-  CursorLineNr = { fg = palette.foreground, bg = palette.color8, bold = true },
+  CurSearch = { fg = p.color0, bg = p.color3, bold = true },
+  Cursor = { fg = p.cursor, bg = p.highlight_high },
+  CursorColumn = { bg = p.color0 },
+  CursorLine = { bg = brighten(p.color0, 3) },
+  CursorLineNr = { fg = p.foreground, bg = p.color8, bold = true },
   DiffAdd = { fg = groups.git_add },
   DiffChange = { fg = groups.git_change },
   DiffDelete = { fg = groups.git_delete },
-  DiffText = { fg = palette.foreground },
+  DiffText = { fg = p.foreground },
   diffAdded = { link = "DiffAdd" },
   diffChanged = { link = "DiffChange" },
   diffRemoved = { link = "DiffDelete" },
-  Directory = { fg = palette.color10, bold = true },
-  ErrorMsg = { fg = palette.color1, bold = true },
-  FoldColumn = { fg = palette.color7 },
-  Folded = { fg = palette.foreground, bg = groups.panel },
+  Directory = { fg = p.color10, bold = true },
+  ErrorMsg = { fg = p.color1, bold = true },
+  FoldColumn = { fg = p.color7 },
+  Folded = { fg = p.foreground, bg = groups.panel },
   IncSearch = { link = "CurSearch" },
-  LineNr = { fg = dim(palette.color8, 25) },
-  MatchParen = { bg = palette.color3, fg = palette.color8, bold = true },
-  ModeMsg = { fg = palette.color15 },
-  MoreMsg = { fg = palette.color14 },
-  NonText = { fg = palette.color7 },
-  Normal = { fg = palette.foreground, bg = palette.color0 },
+  LineNr = { fg = brighten(p.color8, 25) },
+  MatchParen = { bg = dim(p.color3, 10), fg = p.color8, bold = true },
+  ModeMsg = { fg = p.color15 },
+  MoreMsg = { fg = p.color14 },
+  NonText = { fg = p.color7 },
+  Normal = { fg = p.foreground, bg = p.color0 },
   NormalNC = { link = "Normal" },
   NvimInternalError = { link = "ErrorMsg" },
-  Pmenu = { fg = palette.color15, bg = groups.panel },
-  PmenuExtra = { fg = palette.color7, bg = groups.panel },
-  PmenuExtraSel = { fg = palette.color15, bg = palette.color0 },
-  PmenuKind = { fg = palette.color10, bg = groups.panel },
-  PmenuKindSel = { fg = palette.color15, bg = palette.color0 },
+  Pmenu = { fg = p.color15, bg = groups.panel },
+  PmenuExtra = { fg = p.color7, bg = groups.panel },
+  PmenuExtraSel = { fg = p.color15, bg = p.color0 },
+  PmenuKind = { fg = p.color10, bg = groups.panel },
+  PmenuKindSel = { fg = p.color15, bg = p.color0 },
   PmenuSbar = { bg = groups.panel },
-  PmenuSel = { fg = palette.color4, bg = palette.color16 },
-  PmenuThumb = { bg = palette.color7 },
-  Question = { fg = palette.color3 },
-  RedrawDebugClear = { fg = palette.color0, bg = palette.color3 },
-  RedrawDebugComposed = { fg = palette.color0, bg = palette.color4 },
-  RedrawDebugRecompose = { fg = palette.color0, bg = palette.love },
-  Search = { bg = palette.color13 },
-  SpecialKey = { fg = palette.color10 },
-  SpellBad = { sp = palette.color15, undercurl = true },
-  SpellCap = { sp = palette.color15, undercurl = true },
-  SpellLocal = { sp = palette.color15, undercurl = true },
-  SpellRare = { sp = palette.color15, undercurl = true },
-  StatusLine = { fg = palette.color15, bg = groups.panel },
-  StatusLineNC = { fg = palette.color7, bg = groups.panel },
-  StatusLineTerm = { fg = palette.color0, bg = palette.color4 },
-  StatusLineTermNC = { fg = palette.color0, bg = palette.color4 },
+  PmenuSel = { fg = p.color4, bg = p.color16 },
+  PmenuThumb = { bg = p.color7 },
+  Question = { fg = p.color3 },
+  RedrawDebugClear = { fg = p.color0, bg = p.color3 },
+  RedrawDebugComposed = { fg = p.color0, bg = p.color4 },
+  RedrawDebugRecompose = { fg = p.color0, bg = p.love },
+  Search = { bg = brighten(p.color3, 40), fg = p.color0 },
+  SpecialKey = { fg = p.color10 },
+  SpellBad = { sp = p.color15, undercurl = true },
+  SpellCap = { sp = p.color15, undercurl = true },
+  SpellLocal = { sp = p.color15, undercurl = true },
+  SpellRare = { sp = p.color15, undercurl = true },
+  StatusLine = { fg = p.color15, bg = groups.panel },
+  StatusLineNC = { fg = p.color7, bg = groups.panel },
+  StatusLineTerm = { fg = p.color0, bg = p.color4 },
+  StatusLineTermNC = { fg = p.color0, bg = p.color4 },
   Substitute = { link = "IncSearch" },
-  TabLine = { fg = palette.color15, bg = groups.panel },
+  TabLine = { fg = p.color15, bg = groups.panel },
   TabLineFill = { bg = groups.panel },
-  TabLineSel = { fg = palette.foreground, bg = palette.color0, bold = true },
-  Title = { fg = palette.color10, bold = true },
+  TabLineSel = { fg = p.foreground, bg = p.color0, bold = true },
+  Title = { fg = p.color10, bold = true },
   VertSplit = { fg = groups.border },
-  Visual = { bg = palette.color8 },
+  Visual = { bg = p.color8 },
   WarningMsg = { fg = groups.warning, bold = true },
   WildMenu = { link = "IncSearch" },
-  WinBar = { fg = palette.color15, bg = groups.panel },
-  WinBarNC = { fg = palette.color7, bg = groups.panel },
+  WinBar = { fg = p.color15, bg = groups.panel },
+  WinBarNC = { fg = p.color7, bg = groups.panel },
   WinSeparator = { fg = groups.border },
 
   DiagnosticError = { fg = groups.error },
@@ -161,66 +174,66 @@ local highlights = {
   DiagnosticVirtualTextOk = { fg = groups.ok },
   DiagnosticVirtualTextWarn = { fg = groups.warning },
 
-  Boolean = { fg = palette.color4 },
-  Character = { fg = palette.color3 },
-  Comment = { fg = palette.color9, italic = true },
-  Conditional = { fg = palette.color4 },
-  Constant = { fg = palette.color3 },
-  Debug = { fg = palette.color4 },
-  Define = { fg = palette.color14 },
-  Delimiter = { fg = palette.color15 },
-  Error = { fg = palette.love },
-  Exception = { fg = palette.color4 },
-  Float = { fg = palette.color3 },
-  Function = { fg = palette.color1 },
-  Identifier = { fg = palette.foreground },
-  Include = { fg = palette.color4 },
-  Keyword = { fg = palette.color4 },
-  Label = { fg = palette.color10 },
-  LspCodeLens = { fg = palette.color15 },
-  LspCodeLensSeparator = { fg = palette.color7 },
-  LspInlayHint = { fg = dim(palette.color16, 20) },
-  LspReferenceRead = { bg = palette.color16 },
+  Boolean = { fg = p.color4 },
+  Character = { fg = p.color3 },
+  Comment = { fg = p.color9, italic = true },
+  Conditional = { fg = p.color4 },
+  Constant = { fg = p.color3 },
+  Debug = { fg = p.color4 },
+  Define = { fg = p.color14 },
+  Delimiter = { fg = p.color15 },
+  Error = { fg = p.love },
+  Exception = { fg = p.color4 },
+  Float = { fg = p.color3 },
+  Function = { fg = p.color1, bold = true },
+  Identifier = { fg = p.foreground },
+  Include = { fg = p.color4 },
+  Keyword = { fg = p.color4 },
+  Label = { fg = p.color10 },
+  LspCodeLens = { fg = p.color15 },
+  LspCodeLensSeparator = { fg = p.color7 },
+  LspInlayHint = { fg = brighten(p.color16, 20) },
+  LspReferenceRead = { bg = p.color16, bold = true },
   LspReferenceText = {},
   LspReferenceWrite = {},
-  Macro = { fg = palette.color14 },
-  Number = { fg = palette.color3 },
-  Operator = { fg = palette.color15 },
-  PreCondit = { fg = palette.color14 },
+  Macro = { fg = p.color14 },
+  Number = { fg = p.color3 },
+  Operator = { fg = p.color15 },
+  PreCondit = { fg = p.color14 },
   PreProc = { link = "PreCondit" },
-  Repeat = { fg = palette.color4 },
-  Special = { fg = palette.color10 },
+  Repeat = { fg = p.color4 },
+  Special = { fg = p.color10 },
   SpecialChar = { link = "Special" },
-  SpecialComment = { fg = palette.color9, italic = true },
-  Statement = { fg = palette.color4, bold = true },
-  StorageClass = { fg = palette.color10 },
-  String = { fg = palette.color2 },
-  Structure = { fg = palette.color10 },
-  Tag = { fg = palette.color10 },
-  Todo = { fg = palette.color2, bg = palette.color1 },
-  Type = { fg = palette.color10 },
-  Whitespace = { fg = dim(palette.color8, 10) },
+  SpecialComment = { fg = p.color9, italic = true },
+  Statement = { fg = p.color4, bold = true },
+  StorageClass = { fg = p.color10 },
+  String = { fg = p.color2 },
+  Structure = { fg = p.color10 },
+  Tag = { fg = p.color10 },
+  Todo = { fg = p.color2, bg = p.color1 },
+  Type = { fg = p.color10 },
+  Whitespace = { fg = brighten(p.color8, 10) },
   TypeDef = { link = "Type" },
-  Underlined = { fg = palette.color14, underline = true },
+  Underlined = { fg = p.color14, underline = true },
 
   healthError = { fg = groups.error },
   healthSuccess = { fg = groups.success },
   healthWarning = { fg = groups.warning },
 
-  SnacksPickerCol = { fg = palette.foreground, bg = palette.color8, bold = true },
-  SnacksPickerTitle = { fg = palette.foreground, bg = palette.color8, bold = true },
-  SnacksPickerListCursorLine = { bg = dim(palette.color0, 3) },
-  SnacksPickerMatch = { bg = palette.color13, fg = palette.foreground },
-  SnacksPickerBorder = { fg = palette.color8, bg = palette.color8 },
+  SnacksPickerCol = { fg = p.foreground, bg = p.color8, bold = true },
+  SnacksPickerTitle = { fg = p.foreground, bg = p.color8, bold = true },
+  SnacksPickerListCursorLine = { bg = brighten(p.color0, 3) },
+  SnacksPickerMatch = { bg = dim(p.color13, 30), fg = p.foreground },
+  SnacksPickerBorder = { fg = p.color8, bg = p.color8 },
 
   SnacksPicker = { link = "NormalFloat" },
-  SnacksPickerPreview = { bg = dim(palette.color0, 3) },
-  SnacksPickerFile = { fg = palette.foreground },
-  SnacksPickerDir = { fg = palette.color7 },
+  SnacksPickerPreview = { bg = brighten(p.color0, 3) },
+  SnacksPickerFile = { fg = p.foreground },
+  SnacksPickerDir = { fg = p.color7 },
   FloatBorder = { fg = groups.border, bg = "NONE" },
-  FloatTitle = { fg = palette.color10, bg = "NONE", bold = true },
-  NormalFloat = { bg = palette.color8, fg = palette.foreground },
-  SignColumn = { fg = palette.foreground, bg = "NONE" },
+  FloatTitle = { fg = p.color10, bg = "NONE", bold = true },
+  NormalFloat = { bg = p.color8, fg = p.foreground },
+  SignColumn = { fg = p.foreground, bg = "NONE" },
 
   GitSignsAdd = { fg = groups.git_add, bg = "NONE" },
   GitSignsChange = { fg = groups.git_change, bg = "NONE" },
@@ -229,25 +242,25 @@ local highlights = {
   SignChange = { fg = groups.git_change, bg = "NONE" },
   SignDelete = { fg = groups.git_delete, bg = "NONE" },
 
-  FlashBackdrop = { bg = palette.color0, fg = palette.color7 },
-  FlashMatch = { bg = palette.color0, fg = palette.color9 },
-  FlashCurrent = { bg = palette.color0, fg = palette.color9, },
-  FlashLabel = { bg = palette.color0, fg = palette.color2, bold = true },
+  FlashBackdrop = { bg = p.color0, fg = p.color7 },
+  FlashMatch = { bg = p.color0, fg = p.color9 },
+  FlashCurrent = { bg = p.color0, fg = p.color9, },
+  FlashLabel = { bg = p.color0, fg = p.color2, bold = true },
 
-  ["@field"] = { fg = palette.foreground },
-  ["@function"] = { fg = palette.foreground },
-  ["@method"] = { fg = palette.color4 },
-  ["@parameter"] = { fg = palette.foreground, bold = true },
-  ["@parameter.bash"] = { fg = palette.foreground },
-  ["@string.escape"] = { fg = palette.color10 },
-  ["@constructor"] = { fg = palette.foreground },
-  ["@attribute"] = { fg = palette.foreground },
-  ["@variable"] = { fg = palette.foreground },
-  ["@variable.builtin"] = { fg = palette.foreground },
-  ["@variable.member"] = { fg = palette.foreground },
-  ["@variable.parameter"] = { fg = palette.foreground },
-  ["@punctuation.special"] = { fg = palette.foreground },
-  ["@property.yaml"] = { fg = palette.foreground },
+  ["@field"] = { fg = p.foreground },
+  ["@function"] = { fg = p.foreground },
+  ["@method"] = { fg = p.color4 },
+  ["@parameter"] = { fg = p.foreground, bold = true },
+  ["@parameter.bash"] = { fg = p.foreground },
+  ["@string.escape"] = { fg = p.color10 },
+  ["@constructor"] = { fg = p.foreground },
+  ["@attribute"] = { fg = p.foreground },
+  ["@variable"] = { fg = p.foreground },
+  ["@variable.builtin"] = { fg = p.foreground },
+  ["@variable.member"] = { fg = p.foreground },
+  ["@variable.parameter"] = { fg = p.foreground },
+  ["@punctuation.special"] = { fg = p.foreground },
+  ["@property.yaml"] = { fg = p.foreground },
 }
 
 for group, highlight in pairs(highlights) do
