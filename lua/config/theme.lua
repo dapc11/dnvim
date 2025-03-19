@@ -223,7 +223,7 @@ local highlights = {
   SnacksPickerCol = { fg = p.foreground, bg = p.color8, bold = true },
   SnacksPickerTitle = { fg = p.foreground, bg = p.color8, bold = true },
   SnacksPickerListCursorLine = { bg = brighten(p.color8, 6) },
-  SnacksPickerMatch = { bg = dim(p.color13, 30), fg = p.foreground },
+  SnacksPickerMatch = { bg = p.color3, fg = p.color0 },
   SnacksPickerBorder = { fg = p.color8, bg = p.color8 },
 
   SnacksPicker = { link = "NormalFloat" },
