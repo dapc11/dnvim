@@ -47,21 +47,39 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 local matches = {}
-vim.api.nvim_create_autocmd("User", {
-  callback = function(event)
-    local ident = vim.fn.win_getid()
-    local match = matches[ident]
-    if vim.tbl_contains(require("util.common").ignored_filetypes, vim.bo[event.buf].filetype) then
-      if match ~= nil then
-        pcall(vim.fn.matchdelete, match)
-        matches[ident] = nil
-      end
-    else
-      if match == nil then
-        matches[ident] = vim.fn.matchadd("@diff.minus", "\\v((.*%#)@!|%#)\\s+$")
-      end
+local ignored_filetypes = require("util.common").ignored_filetypes -- Cache for performance
+
+-- Define a custom highlight group with a background color
+vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
+
+local function update_match(event)
+  local buf = event.buf
+  local win_id = vim.api.nvim_get_current_win() -- Get current window ID
+
+  -- Ensure buffer is valid
+  if not vim.api.nvim_buf_is_valid(buf) then return end
+
+  local filetype = vim.bo[buf].filetype
+  local match = matches[win_id]
+
+  -- Remove match if filetype is ignored
+  if vim.tbl_contains(ignored_filetypes, filetype) then
+    if match then
+      pcall(vim.fn.matchdelete, match)
+      matches[win_id] = nil
     end
-  end,
+    return
+  end
+
+  -- Add match only if it doesn't exist
+  if not match then
+    matches[win_id] = vim.fn.matchadd("TrailingWhitespace", "\\v\\s+$")
+  end
+end
+
+-- Run when switching windows or exiting Insert mode
+vim.api.nvim_create_autocmd({ "WinEnter", "InsertLeave", "BufReadPost" }, {
+  callback = update_match,
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
