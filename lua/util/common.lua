@@ -30,6 +30,7 @@ M.ignored_filetypes = {
   "snacks_dashboard",
   "spectre_panel",
   "startuptime",
+  "toggleterm",
   "tsplayground",
 }
 
