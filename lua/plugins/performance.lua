@@ -29,7 +29,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       set nofoldenable
       set conceallevel=0
       set updatetime=100
-      syntax off
       set lazyredraw
       ]])
     end
