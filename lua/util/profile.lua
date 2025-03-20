@@ -15,7 +15,7 @@ local function toggle_profile()
     vim.ui.input({ prompt = "Save profile to:", completion = "file", default = "/tmp/profile.json" }, function(filename)
       if filename then
         prof.export(filename)
-        vim.notify(string.format("Wrote %s", filename))
+        vim.notify(string.format("Wrote '%s'. You can view the traces in `chrome://tracing` or at https://ui.perfetto.dev/", filename))
       end
     end)
   else
