@@ -140,6 +140,10 @@ map("v", "<leader>xr", function()
   vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. text .. ")//gci<Left><Left><Left><Left>")
 end, { noremap = true, silent = true, desc = "Interactive Replace" })
 
+map("n", "<leader>xf", function()
+  vim.api.nvim_input(":g//d<Left><Left>")
+end, { noremap = true, silent = true, desc = "Filter lines by regex" })
+
 map("n", "<leader>qo", function()
   local visible = {}
   for _, win in pairs(vim.api.nvim_list_wins()) do
