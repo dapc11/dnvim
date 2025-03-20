@@ -11,9 +11,9 @@ return {
       bigfile = {},
       dashboard = {
         width = 60,
-        row = nil, -- dashboard position. nil for center
-        col = nil, -- dashboard position. nil for center
-        pane_gap = 4, -- empty columns between vertical panes
+        row = nil,                                                                   -- dashboard position. nil for center
+        col = nil,                                                                   -- dashboard position. nil for center
+        pane_gap = 4,                                                                -- empty columns between vertical panes
         autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
         -- These settings are used by some built-in sections
         preset = {
@@ -67,7 +67,7 @@ return {
                   confirm = "load_session",
                   recent = true,
                   matcher = {
-                    frecency = true, -- use frecency boosting
+                    frecency = true,   -- use frecency boosting
                     sort_empty = true, -- sort even when the filter is empty
                     cwd_bonus = false,
                   },
@@ -255,7 +255,7 @@ return {
           confirm = "load_session",
           recent = true,
           matcher = {
-            frecency = true, -- use frecency boosting
+            frecency = true,   -- use frecency boosting
             sort_empty = true, -- sort even when the filter is empty
             cwd_bonus = false,
           },

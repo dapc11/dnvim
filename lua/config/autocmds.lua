@@ -78,7 +78,7 @@ local function update_match(event)
 end
 
 -- Run when switching windows or exiting Insert mode
-vim.api.nvim_create_autocmd({ "WinEnter", "InsertLeave", "BufReadPost" }, {
+vim.api.nvim_create_autocmd({ "TermEnter", "WinEnter", "InsertLeave", "BufReadPost" }, {
   callback = update_match,
 })
 

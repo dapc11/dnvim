@@ -36,7 +36,7 @@ local groups = {
   git_delete = p.color1,
 }
 
-local function dim(hex, percentage)
+local function darken(hex, percentage)
   local r = tonumber(hex:sub(2, 3), 16)
   local g = tonumber(hex:sub(4, 5), 16)
   local b = tonumber(hex:sub(6, 7), 16)
@@ -101,10 +101,11 @@ local highlights = {
   Folded = { fg = p.foreground, bg = groups.panel },
   IncSearch = { link = "CurSearch" },
   LineNr = { fg = brighten(p.color8, 25) },
-  MatchParen = { bg = dim(p.color3, 10), fg = p.color8, bold = true },
+  MatchParen = { bg = darken(p.color3, 10), fg = p.color8, bold = true },
   ModeMsg = { fg = p.color15 },
   MoreMsg = { fg = p.color14 },
   NonText = { fg = p.color7 },
+
   Normal = { fg = p.foreground, bg = p.color0 },
   NormalNC = { link = "Normal" },
   NvimInternalError = { link = "ErrorMsg" },
