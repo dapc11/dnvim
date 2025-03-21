@@ -63,7 +63,7 @@ local function update_match(event)
   local match = matches[win_id]
 
   -- Remove match if filetype is ignored
-  if vim.tbl_contains(ignored_filetypes, filetype) then
+  if vim.tbl_contains(vim.tbl_extend("force", ignored_filetypes, { "toggleterm" }), filetype) then
     if match then
       pcall(vim.fn.matchdelete, match)
       matches[win_id] = nil
