@@ -30,6 +30,14 @@ map("i", "<tab>", "<c-t>", { remap = true })
 map("i", "<s-tab>", "<c-d>", { remap = true })
 map("v", "<", "<gv")
 map("v", ">", ">gv")
+map("n", "<C-S-d>", "<c-u>", { remap = true })
+
+map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
+map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
+map("i", "<S-Down>", "<esc><cmd>m .+1<CR>==gi", { desc = "Move down" })
+map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
+map("v", "<S-Down>", "<cmd>m '>+1<CR>gv=gv", { desc = "Move down" })
+map("v", "<S-Up>", "<cmd>m '<-2<CR>gv=gv", { desc = "Move up" })
 
 -- save file
 map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
@@ -39,21 +47,8 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split window below" })
 map("n", "<leader>v", "<C-W>v", { desc = "Split window right" })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
 
--- Move to window using the <ctrl> arrow keys
-map("n", "<C-Left>", "<C-w>h", { desc = "Go to left window" })
-map("n", "<C-Down>", "<C-w>j", { desc = "Go to lower window" })
-map("n", "<C-Up>", "<C-w>k", { desc = "Go to upper window" })
-map("n", "<C-Right>", "<C-w>l", { desc = "Go to right window" })
-map("n", "<C-Down>", "}")
-map("n", "<C-Up>", "{")
-
--- Move Lines
-map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
-map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
-map("i", "<S-Down>", "<esc><cmd>m .+1<CR>==gi", { desc = "Move down" })
-map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
-map("v", "<S-Down>", "<cmd>m '>+1<CR>gv=gv", { desc = "Move down" })
-map("v", "<S-Up>", "<cmd>m '<-2<CR>gv=gv", { desc = "Move up" })
+map("n", "<A-Down>", "}")
+map("n", "<A-Up>", "{")
 
 map("n", "<leader>ll", "<cmd>Lazy<CR>", { desc = "Lazy" })
 map("n", "<leader>ls", function()

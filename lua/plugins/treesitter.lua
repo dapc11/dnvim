@@ -23,6 +23,22 @@ return {
     end,
   },
   {
+    "aaronik/treewalker.nvim",
+    opts = {
+      highlight = true,
+      highlight_duration = 250,
+      highlight_group = "CursorLine",
+    },
+    config = function(_, opts)
+      require("treewalker").setup(opts)
+
+      vim.keymap.set({ "n", "v" }, "<C-up>", "<cmd>Treewalker Up<cr>", { silent = true })
+      vim.keymap.set({ "n", "v" }, "<C-down>", "<cmd>Treewalker Down<cr>", { silent = true })
+      vim.keymap.set("n", "<C-S-up>", "<cmd>Treewalker SwapUp<cr>", { silent = true })
+      vim.keymap.set("n", "<C-S-down>", "<cmd>Treewalker SwapDown<cr>", { silent = true })
+    end
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     build = ":TSUpdate",
@@ -60,9 +76,9 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<A-right>",
-          node_incremental = "<A-right>",
-          node_decremental = "<A-left>",
+          init_selection = "<C-S-A-right>",
+          node_incremental = "<C-S-A-right>",
+          node_decremental = "<C-S-A-left>",
         },
       },
       highlight = {

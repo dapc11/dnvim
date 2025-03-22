@@ -42,6 +42,7 @@
   "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
   "todo-comments.nvim": { "branch": "main", "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" },
+  "treewalker.nvim": { "branch": "main", "commit": "b9e6520a08dc8e62891dcb759fce29f988e68da9" },
   "vim-easy-align": { "branch": "master", "commit": "9815a55dbcd817784458df7a18acacc6f82b1241" },
   "vim-fugitive": { "branch": "master", "commit": "4a745ea72fa93bb15dd077109afbb3d1809383f2" },
   "vim-helm": { "branch": "master", "commit": "ae1ebc160d2b9b90108477ab10df7a4fc501e358" },
