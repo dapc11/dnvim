@@ -1,5 +1,3 @@
-GetVisualSelection = require("util.common").get_visual_selection
-
 -- Function to search for commits in the Git log.
 function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")
@@ -88,7 +86,7 @@ return {
       {
         "<leader>f",
         function()
-          vim.cmd.Ggrep({ "-q " .. GetVisualSelection() })
+          vim.cmd.Ggrep({ "-q " .. require("util").get_visual_selection() })
         end,
         mode = "v",
         desc = "Git Grep",

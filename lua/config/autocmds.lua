@@ -9,7 +9,7 @@ local function close_buffer()
 end
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = require("util.common").ignored_filetypes,
+  pattern = require("util").ignored_filetypes,
   callback = function(event)
     local buf_ft = vim.bo.filetype
     if buf_ft ~= "oil" then
@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 local matches = {}
-local ignored_filetypes = require("util.common").ignored_filetypes -- Cache for performance
+local ignored_filetypes = require("util").ignored_filetypes -- Cache for performance
 
 -- Define a custom highlight group with a background color
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
