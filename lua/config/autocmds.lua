@@ -19,8 +19,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end
     vim.bo[event.buf].buflisted = false
     vim.opt.colorcolumn = "0"
-    map("n", "<c-j>", "j<CR>", { silent = true, buffer = true })
-    map("n", "<c-k>", "k<CR>", { silent = true, buffer = true })
   end,
 })
 
