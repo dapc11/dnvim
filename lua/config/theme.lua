@@ -87,7 +87,7 @@ local highlights = {
   Cursor = { fg = p.cursor, bg = p.highlight_high },
   CursorColumn = { bg = p.color0 },
   CursorLine = { bg = brighten(p.color0, 3) },
-  CursorLineNr = { fg = p.foreground, bg = p.color8, bold = true },
+  CursorLineNr = { bg = p.color8 },
   DiffAdd = { fg = groups.git_add },
   DiffChange = { fg = groups.git_change },
   DiffDelete = { fg = groups.git_delete },

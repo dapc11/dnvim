@@ -27,7 +27,7 @@ return {
     opts = {
       highlight = true,
       highlight_duration = 250,
-      highlight_group = "CursorLine",
+      highlight_group = "CursorLineNr",
     },
     config = function(_, opts)
       require("treewalker").setup(opts)
