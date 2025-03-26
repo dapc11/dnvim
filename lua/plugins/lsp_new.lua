@@ -19,8 +19,12 @@ vim.lsp.config("*", {
 vim.lsp.config["luals"] = {
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
+  root_markers = { ".editorconfig" },
   settings = {
     Lua = {
+      runtime = {
+        version = "LuaJIT",
+      },
       format = { enable = true },
       completion = {
         callSnippet = "Replace",
