@@ -42,11 +42,6 @@ return {
     event = "VeryLazy",
   },
   {
-    "zeioth/garbage-day.nvim",
-    dependencies = "neovim/nvim-lspconfig",
-    event = lazyfile,
-  },
-  {
     "chrisgrieser/nvim-early-retirement",
     config = true,
     lazy = false, -- always load to make sure than old LSPs are shutdown

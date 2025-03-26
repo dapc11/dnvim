@@ -27,7 +27,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(event)
     if vim.fn.search("<<<<<<< HEAD", "nw") ~= 0 then
-      vim.diagnostic.disable(event.buf)
       map("n", "<leader><left>", function()
         vim.cmd.diffget("//2")
         vim.cmd("diffupdate")
@@ -140,52 +139,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end
     local file = vim.uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-  end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local function opts(desc)
-      return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
-    end
-
-    map("n", "gd", vim.lsp.buf.definition, opts("Goto Definition"))
-    map("n", "gr", vim.lsp.buf.references, opts("Goto References"))
-    map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
-    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-    map("n", "<leader>cd", vim.diagnostic.open_float, opts("Show Diagnostic"))
-    map("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
-    map("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
-    map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
-    map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
-
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client.supports_method("textDocument/rename") then
-      map("n", "<leader>cn", vim.lsp.buf.rename, opts("Rename"))
-    end
-
-    if client.supports_method("textDocument/inlayHint") then
-      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-    end
-
-    if client.supports_method("textDocument/documentHighlight") then
-      local autocmd = vim.api.nvim_create_autocmd
-      local augroup = vim.api.nvim_create_augroup("lsp_highlight", { clear = false })
-
-      vim.api.nvim_clear_autocmds({ buffer = bufnr, group = augroup })
-
-      autocmd({ "CursorHold" }, {
-        group = augroup,
-        buffer = args.buf,
-        callback = vim.lsp.buf.document_highlight,
-      })
-
-      autocmd({ "CursorMoved" }, {
-        group = augroup,
-        buffer = args.buf,
-        callback = vim.lsp.buf.clear_references,
-      })
-    end
   end,
 })
 
