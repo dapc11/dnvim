@@ -3,9 +3,19 @@ local function opts(desc)
   return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
 end
 
+local icons = require("config.icons")
 vim.diagnostic.config({
   underline = false,
   virtual_lines = false,
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = icons.icons.diagnostics.Error,
+      [vim.diagnostic.severity.WARN] = icons.icons.diagnostics.Warn,
+      [vim.diagnostic.severity.HINT] = icons.icons.diagnostics.Hint,
+      [vim.diagnostic.severity.INFO] = icons.icons.diagnostics.Info,
+    },
+  },
 })
 
 -- for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
