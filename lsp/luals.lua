@@ -7,7 +7,28 @@ return {
       runtime = {
         version = "LuaJIT",
       },
-      format = { enable = true },
+      format = {
+        enable = true,
+        defaultConfig = {
+          align_array_table = "false",
+          align_call_args = "false",
+          align_chain_expr = "none",
+          align_continuous_assign_statement = "false",
+          align_continuous_inline_comment = "false",
+          align_continuous_line_space = "2",
+          align_continuous_rect_table_field = "false",
+          align_continuous_similar_call_args = "false",
+          align_function_params = "false",
+          align_if_branch = "false",
+          call_arg_parentheses = "keep",
+          indent_size = "2",
+          indent_style = "space",
+          insert_final_newline = "true",
+          max_line_length = "120",
+          quote_style = "double",
+          trailing_table_separator = "smart",
+        },
+      },
       completion = {
         callSnippet = "Replace",
       },
@@ -45,6 +66,7 @@ return {
           "noop",
           "vim",
           "Snacks",
+          "MiniStarter",
           -- Awesomewm related globals
           "client",
           "awesome",
@@ -60,5 +82,5 @@ return {
         },
       },
     },
-  }
+  },
 }

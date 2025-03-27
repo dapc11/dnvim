@@ -4,7 +4,7 @@ local map = require("util").map
 
 local function close_buffer()
   if vim.fn.winnr("$") == 1 then
-    Snacks.dashboard()
+    MiniStarter.open()
   else
     pcall(vim.cmd.close)
   end
@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-  callback = function(event)
+  callback = function(_)
     if vim.fn.search("<<<<<<< HEAD", "nw") ~= 0 then
       map("n", "<leader><left>", function()
         vim.cmd.diffget("//2")

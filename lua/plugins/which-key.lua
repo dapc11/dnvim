@@ -15,6 +15,7 @@ return {
       { "<leader>w", proxy = "<c-w>", group = "windows" }, -- proxy to window mappings
       { "<leader><tab>", group = "tabs" },
       { "<leader><tab>_", hidden = true },
+      { "<leader>d", group = "debug" },
       { "<leader>p", group = "profiling" },
       { "<leader>s", group = "pickers" },
       { "<leader>c", group = "code" },
