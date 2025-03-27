@@ -8,9 +8,9 @@ vim.diagnostic.config({
   virtual_lines = false
 })
 
-for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
-  vim.api.nvim_set_hl(0, group, {})
-end
+-- for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+--   vim.api.nvim_set_hl(0, group, {})
+-- end
 
 vim.lsp.config("*", {
   root_markers = { ".git" },
@@ -22,6 +22,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
+    map("n", "grs", function() Snacks.picker.lsp_symbols() end, opts("Find Symbols"))
+    map("n", "grr", function() Snacks.picker.lsp_references() end, opts("Find References"))
     map("n", "gd", function() Snacks.picker.lsp_definitions() end, opts("Goto Definition"))
     map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))

@@ -20,7 +20,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       vim.opt_local.swapfile = false
       vim.opt_local.bufhidden = "unload"
       vim.opt_local.buftype = "nowrite"
-      vim.opt_local.undolevels = -1
       vim.cmd([[
       autocmd WinEnter <buffer> set eventignore+=CursorHoldI,CursorMovedI,CursorMoved,FileType
       autocmd WinLeave <buffer> set eventignore-=CursorHoldI,CursorMovedI,CursorMoved,FileType

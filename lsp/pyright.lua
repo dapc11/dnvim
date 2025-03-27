@@ -10,21 +10,21 @@ return {
         useLibraryCodeForTypes = true,
         diagnosticMode = "openFilesOnly",
         diagnosticSeverityOverrides = {
-          reportImplicitRelativeImport = "none",
-          reportMissingParameterType = "none",
-          reportMissingTypeStubs = "none",
-          reportOptionalSubscript = "none",
-          reportUnannotatedClassAttribute = "none",
-          reportUnknownArgumentType = "none",
-          reportUnknownLambdaType = "none",
-          reportUnknownMemberType = "none",
-          reportUnknownParameterType = "none",
-          reportUnknownVariableType = "none"
+          reportUnknownParameterType = false,
+          reportImplicitRelativeImport = false,
+          reportMissingParameterType = false,
+          reportMissingTypeStubs = false,
+          reportOptionalSubscript = false,
+          reportUnannotatedClassAttribute = false,
+          reportUnknownArgumentType = false,
+          reportUnknownLambdaType = false,
+          reportUnknownMemberType = false,
+          reportUnknownVariableType = false
         },
         inlayHints = {
-          functionReturnTypes = false,
-          callArgumentNames = false,
-          variableTypes = false
+          functionReturnTypes = true,
+          callArgumentNames = true,
+          variableTypes = true
         }
       },
     },
