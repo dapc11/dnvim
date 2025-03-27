@@ -1,8 +1,7 @@
 return {
-  on_init = function(client)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
-  filetypes = { "go" },
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  single_file_support = true,
   settings = {
     gopls = {
       gofumpt = false,
@@ -36,7 +35,6 @@ return {
         "-.vscode-test",
         "-node_modules",
       },
-      semanticTokens = true,
     },
-  },
+  }
 }

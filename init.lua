@@ -22,6 +22,7 @@ require("config.theme")
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
+require("config.lsp")
 require("config.jdtls")
 if vim.g.neovide then
   require("config.neovide")

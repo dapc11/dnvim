@@ -26,6 +26,7 @@ local function writeLines(packages, path)
 end
 
 return {
+  { "williamboman/mason.nvim", opts = {} },
   { "mfussenegger/nvim-jdtls", ft = "java" },
   {
     "rafaelsq/nvim-goc.lua",
