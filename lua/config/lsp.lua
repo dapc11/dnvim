@@ -5,7 +5,7 @@ end
 
 vim.diagnostic.config({
   underline = false,
-  virtual_lines = false
+  virtual_lines = false,
 })
 
 -- for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
@@ -57,7 +57,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if not client:supports_method("textDocument/willSaveWaitUntil")
-      and client:supports_method("textDocument/formatting") then
+        and client:supports_method("textDocument/formatting") then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
         buffer = args.buf,

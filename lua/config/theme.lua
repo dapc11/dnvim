@@ -63,16 +63,16 @@ local function brighten(hex, percentage)
   return string.format("#%02X%02X%02X", r, g, b)
 end
 
-vim.g.terminal_color_0 = p.color0   -- black
-vim.g.terminal_color_1 = p.color1   -- red
-vim.g.terminal_color_2 = p.color2   -- green
-vim.g.terminal_color_3 = p.color3   -- yellow
-vim.g.terminal_color_4 = p.color4   -- blue
-vim.g.terminal_color_5 = p.color5   -- magenta
-vim.g.terminal_color_6 = p.color6   -- cyan
-vim.g.terminal_color_7 = p.color7   -- white
-vim.g.terminal_color_8 = p.color8   -- bright black
-vim.g.terminal_color_9 = p.color9   -- bright red
+vim.g.terminal_color_0 = p.color0 -- black
+vim.g.terminal_color_1 = p.color1 -- red
+vim.g.terminal_color_2 = p.color2 -- green
+vim.g.terminal_color_3 = p.color3 -- yellow
+vim.g.terminal_color_4 = p.color4 -- blue
+vim.g.terminal_color_5 = p.color5 -- magenta
+vim.g.terminal_color_6 = p.color6 -- cyan
+vim.g.terminal_color_7 = p.color7 -- white
+vim.g.terminal_color_8 = p.color8 -- bright black
+vim.g.terminal_color_9 = p.color9 -- bright red
 vim.g.terminal_color_10 = p.color10 -- bright green
 vim.g.terminal_color_11 = p.color11 -- bright yellow
 vim.g.terminal_color_12 = p.color12 -- bright blue
@@ -245,7 +245,7 @@ local highlights = {
 
   FlashBackdrop = { bg = p.color0, fg = p.color7 },
   FlashMatch = { bg = p.color0, fg = p.color9 },
-  FlashCurrent = { bg = p.color0, fg = p.color9, },
+  FlashCurrent = { bg = p.color0, fg = p.color9 },
   FlashLabel = { bg = p.color0, fg = p.color2, bold = true },
 
   ["@field"] = { fg = p.foreground },
