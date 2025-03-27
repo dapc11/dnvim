@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
     local buf_name = vim.api.nvim_buf_get_name(bufnr)
     local ok, stats = pcall(vim.loop.fs_stat, buf_name)
 
-    if ok and stats and (stats.size > 400000) then
+    if ok and stats and (stats.size > 700000) then
       print("Buffer " .. buf_name .. " too big, disabling features for performance...")
       -- local client = vim.lsp.get_client_by_id(event.data.client_id)
       -- client.server_capabilities.semanticTokensProvider = nil
