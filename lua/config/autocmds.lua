@@ -78,14 +78,6 @@ vim.api.nvim_create_autocmd({ "TermEnter", "WinEnter", "InsertLeave", "BufReadPo
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "COMMIT_EDITMSG",
-  callback = function()
-    map("n", "<c-g><c-g>", "<cmd>wq<CR>", { noremap = true, buffer = true })
-    map("i", "<c-g><c-g>", "<C-c><cmd>wq<CR>", { noremap = true, buffer = true })
-  end,
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
     local dir = require("util.init").get_project_root(".git")
