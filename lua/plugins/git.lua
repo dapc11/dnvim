@@ -20,11 +20,30 @@ function GsearchCurrent()
   })
 end
 
+-- Cache table to store git repository checks keyed by directory path
+local git_repo_cache = {}
+
+local function is_git_repo(path)
+  if git_repo_cache[path] ~= nil then
+    return git_repo_cache[path]
+  end
+  -- This searches upward for a .git directory from the given path
+  local git_dir = vim.fn.finddir(".git", path .. ";")
+  local is_repo = git_dir ~= ""
+  git_repo_cache[path] = is_repo
+  return is_repo
+end
+
+
 local map = require("util").map
 return {
   {
     "lewis6991/gitsigns.nvim",
-    events = lazyfile,
+    event = "BufReadPost",
+    cond = function()
+      local cwd = vim.fn.expand("%:p:h")
+      return is_git_repo(cwd)
+    end,
     opts = {
       signs = {
         add = { text = "▎" },

@@ -11,6 +11,7 @@ M.ignored_filetypes = {
   "dap-repl",
   "dapui_scopes",
   "fugitiveblame",
+  "fugitive",
   "git",
   "godoc",
   "harpoon",
