@@ -83,7 +83,7 @@ vim.g.terminal_color_15 = p.color15 -- bright white
 local highlights = {
   ColorColumn = { bg = brighten(p.color0, 3) },
   Conceal = { bg = "NONE" },
-  CurSearch = { fg = p.color0, bg = p.color3, bold = true },
+  CurSearch = { fg = p.color0, bg = p.color9, bold = true },
   Cursor = { fg = p.cursor, bg = p.highlight_high },
   CursorColumn = { bg = p.color0 },
   CursorLine = { bg = brighten(p.color0, 3) },
@@ -121,7 +121,7 @@ local highlights = {
   RedrawDebugClear = { fg = p.color0, bg = p.color3 },
   RedrawDebugComposed = { fg = p.color0, bg = p.color4 },
   RedrawDebugRecompose = { fg = p.color0, bg = p.love },
-  Search = { bg = brighten(p.color3, 20), fg = p.color0 },
+  Search = { bg = brighten(p.color11, 20), fg = p.color0 },
   SpecialKey = { fg = p.color10 },
   SpellBad = { sp = p.color15, undercurl = true },
   SpellCap = { sp = p.color15, undercurl = true },
@@ -224,7 +224,7 @@ local highlights = {
   SnacksPickerCol = { fg = p.foreground, bg = p.color8, bold = true },
   SnacksPickerTitle = { fg = p.foreground, bg = p.color8, bold = true },
   SnacksPickerListCursorLine = { bg = brighten(p.color8, 6) },
-  SnacksPickerMatch = { bg = p.color3, fg = p.color0 },
+  SnacksPickerMatch = { link = "Search" },
   SnacksPickerBorder = { fg = p.color8, bg = p.color8 },
 
   SnacksPicker = { link = "NormalFloat" },
