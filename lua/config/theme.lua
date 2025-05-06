@@ -137,7 +137,7 @@ local highlights = {
   TabLineSel = { fg = p.foreground, bg = p.color0, bold = true },
   Title = { fg = p.color10, bold = true },
   VertSplit = { fg = groups.border },
-  Visual = { bg = p.color8 },
+  Visual = { bg = p.color16 },
   WarningMsg = { fg = groups.warning, bold = true },
   WildMenu = { link = "IncSearch" },
   WinBar = { fg = p.color15, bg = groups.panel },
