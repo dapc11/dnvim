@@ -23,9 +23,9 @@ return {
         lsp = {
           name = "LSP",
           module = "blink.cmp.sources.lsp",
-          enabled = true,         -- Whether or not to enable the provider
-          async = false,          -- Whether we should wait for the provider to return before showing the completions
-          timeout_ms = 2000,      -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+          enabled = true, -- Whether or not to enable the provider
+          async = false, -- Whether we should wait for the provider to return before showing the completions
+          timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
           min_keyword_length = 2, -- Minimum number of characters in the keyword to trigger the provider
         },
       },
@@ -36,5 +36,5 @@ return {
     vim.lsp.config("*", {
       capabilities = require("blink.cmp").get_lsp_capabilities(),
     })
-  end
+  end,
 }

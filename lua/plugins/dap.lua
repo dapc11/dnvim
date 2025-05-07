@@ -13,7 +13,7 @@ return {
       { "<leader>de", function() require("dap").step_out() end, desc = "Step out" },
       { "<leader>dq", function() require("dap").step_over() end, desc = "Step over" },
       { "<leader>dw", function() require("dap").step_into() end, desc = "Step in" },
-    }
+    },
   },
   {
     "rcarriga/nvim-dap-ui",

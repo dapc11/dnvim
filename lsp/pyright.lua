@@ -19,13 +19,13 @@ return {
           reportUnknownArgumentType = false,
           reportUnknownLambdaType = false,
           reportUnknownMemberType = false,
-          reportUnknownVariableType = false
+          reportUnknownVariableType = false,
         },
         inlayHints = {
-          functionReturnTypes = true,
-          callArgumentNames = true,
-          variableTypes = true
-        }
+          functionReturnTypes = false,
+          callArgumentNames = false,
+          variableTypes = false,
+        },
       },
     },
   },

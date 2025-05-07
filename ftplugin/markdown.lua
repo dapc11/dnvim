@@ -11,3 +11,5 @@ vim.cmd([[
 au FileType markdown setl comments=b:*,b:-,b:+,n:>
 au FileType markdown setl formatoptions+=r
 ]])
+
+vim.opt_local.colorcolumn = "100"
