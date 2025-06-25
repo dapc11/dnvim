@@ -101,7 +101,7 @@ local highlights = {
   Folded = { fg = p.foreground, bg = groups.panel },
   IncSearch = { link = "CurSearch" },
   LineNr = { fg = brighten(p.color8, 25) },
-  MatchParen = { bg = darken(p.color3, 10), fg = p.color8, bold = true },
+  MatchParen = { bg = darken(p.color3, 10), fg = p.foreground, bold = true },
   ModeMsg = { fg = p.color15 },
   MoreMsg = { fg = p.color14 },
   NonText = { fg = p.color7 },
