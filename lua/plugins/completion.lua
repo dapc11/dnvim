@@ -6,10 +6,16 @@ return {
   },
   version = "1.0.0",
   opts = {
-    keymap = { preset = "default" },
+    keymap = { preset = "none" }, -- We'll handle keymaps with super tab
     fuzzy = { implementation = "rust" },
     completion = {
+      accept = {
+        auto_brackets = {
+          enabled = true,
+        },
+      },
       menu = {
+        auto_show = false, -- We'll control when to show via super tab
         draw = {
           columns = {
             { "label", "label_description", gap = 1 },
@@ -17,16 +23,38 @@ return {
           },
         },
       },
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 200,
+      },
     },
     sources = {
       providers = {
         lsp = {
           name = "LSP",
           module = "blink.cmp.sources.lsp",
-          enabled = true, -- Whether or not to enable the provider
-          async = false, -- Whether we should wait for the provider to return before showing the completions
-          timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
-          min_keyword_length = 2, -- Minimum number of characters in the keyword to trigger the provider
+          enabled = true,
+          async = false,
+          timeout_ms = 2000,
+          min_keyword_length = 1, -- Reduced for better super tab experience
+        },
+        path = {
+          name = "Path",
+          module = "blink.cmp.sources.path",
+          enabled = true,
+          min_keyword_length = 1,
+        },
+        snippets = {
+          name = "Snippets",
+          module = "blink.cmp.sources.snippets",
+          enabled = true,
+          min_keyword_length = 1,
+        },
+        buffer = {
+          name = "Buffer",
+          module = "blink.cmp.sources.buffer",
+          enabled = true,
+          min_keyword_length = 2,
         },
       },
     },

@@ -24,6 +24,7 @@ require("config.autocmds")
 require("config.keymaps")
 require("config.lsp")
 require("config.jdtls")
+require("config.supertab").setup()
 if vim.g.neovide then
   require("config.neovide")
 end
