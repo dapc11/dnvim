@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
     local ok, stats = pcall(vim.loop.fs_stat, buf_name)
 
     local MAX_FILE_SIZE_BYTES = 700000 -- 700KB threshold for performance optimization
-    
+
     if ok and stats and (stats.size > MAX_FILE_SIZE_BYTES) then
       print("Buffer " .. buf_name .. " too big, disabling features for performance...")
       -- local client = vim.lsp.get_client_by_id(event.data.client_id)

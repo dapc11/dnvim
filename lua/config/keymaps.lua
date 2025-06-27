@@ -34,8 +34,8 @@ map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
 map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
 map("i", "<S-Down>", "<esc><cmd>m .+1<CR>==gi", { desc = "Move down" })
 map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
-map("v", "<S-Down>", "<cmd>m \">+1<CR>gv=gv", { desc = "Move down" })
-map("v", "<S-Up>", "<cmd>m \"<-2<CR>gv=gv", { desc = "Move up" })
+map("v", "<S-Down>", '<cmd>m ">+1<CR>gv=gv', { desc = "Move down" })
+map("v", "<S-Up>", '<cmd>m "<-2<CR>gv=gv', { desc = "Move up" })
 
 -- save file
 map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
@@ -62,8 +62,8 @@ map("n", "<leader>j", "*``cgn", { desc = "Change under cursor" })
 map("n", "<leader>.", [["<esc>" . repeat(".", v:count1)]], { desc = "Repeat cgn", expr = true })
 map("c", "<C-v>", "<C-r>*")
 map("i", "<C-v>", "<C-r>+")
-map("n", "<C-c>", "\"+y")
-map("v", "<C-c>", "\"+y")
+map("n", "<C-c>", '"+y')
+map("v", "<C-c>", '"+y')
 map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]])
 map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]])
 map("n", ",", "@q")
@@ -128,7 +128,7 @@ map(
   { desc = "Replace word under cursor", silent = false }
 )
 map("v", "<leader>xr", function()
-  vim.cmd("normal! \"vy")
+  vim.cmd('normal! "vy')
   local text = vim.fn.getreg("v")
   vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. text .. ")//gci<Left><Left><Left><Left>")
 end, { noremap = true, silent = true, desc = "Interactive Replace" })
@@ -150,12 +150,14 @@ map("n", "<leader>qo", function()
 end, { desc = "Close all other buffers" })
 
 vim.api.nvim_create_user_command("Dump", function(x)
-  vim.cmd(string.format("put =execute(\"%s\")", x.args))
+  vim.cmd(string.format('put =execute("%s")', x.args))
 end, { nargs = "+", desc = "Dump output of a command at the cursor position" })
 
 map("n", "gV", "`[v`]", { desc = "Select last paste" })
 
 vim.keymap.set("n", "dd", function()
-  if vim.fn.getline(".") == "" then return "\"_dd" end
+  if vim.fn.getline(".") == "" then
+    return '"_dd'
+  end
   return "dd"
 end, { expr = true })

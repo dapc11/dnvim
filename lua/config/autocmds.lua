@@ -52,7 +52,9 @@ local function update_match(event)
   local win_id = vim.api.nvim_get_current_win() -- Get current window ID
 
   -- Ensure buffer is valid
-  if not vim.api.nvim_buf_is_valid(buf) then return end
+  if not vim.api.nvim_buf_is_valid(buf) then
+    return
+  end
 
   local filetype = vim.bo[buf].filetype
   local match = matches[win_id]
@@ -144,7 +146,6 @@ endfunction
 "-range=% default is whole file
 command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
 ]])
-
 
 local cursorPreYank
 vim.keymap.set({ "n", "x" }, "y", function()

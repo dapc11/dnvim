@@ -32,9 +32,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
-    map("n", "grs", function() Snacks.picker.lsp_symbols() end, opts("Find Symbols"))
-    map("n", "grr", function() Snacks.picker.lsp_references() end, opts("Find References"))
-    map("n", "gd", function() Snacks.picker.lsp_definitions() end, opts("Goto Definition"))
+    map("n", "grs", function()
+      Snacks.picker.lsp_symbols()
+    end, opts("Find Symbols"))
+    map("n", "grr", function()
+      Snacks.picker.lsp_references()
+    end, opts("Find References"))
+    map("n", "gd", function()
+      Snacks.picker.lsp_definitions()
+    end, opts("Goto Definition"))
     map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
     map("n", "<leader>cd", vim.diagnostic.open_float, opts("Show Diagnostic"))
@@ -66,8 +72,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    if not client:supports_method("textDocument/willSaveWaitUntil")
-        and client:supports_method("textDocument/formatting") then
+    if
+      not client:supports_method("textDocument/willSaveWaitUntil")
+      and client:supports_method("textDocument/formatting")
+    then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
         buffer = args.buf,

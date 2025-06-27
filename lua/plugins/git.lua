@@ -5,7 +5,7 @@ function Gsearch()
     cmd = "Gclog",
     args = {
       "-G" .. input .. " --",
-    }
+    },
   })
 end
 
@@ -16,7 +16,7 @@ function GsearchCurrent()
     cmd = "Gclog",
     args = {
       "-G" .. input .. " -- %",
-    }
+    },
   })
 end
 
@@ -33,7 +33,6 @@ local function is_git_repo(path)
   git_repo_cache[path] = is_repo
   return is_repo
 end
-
 
 local map = require("util").map
 return {
@@ -133,6 +132,13 @@ return {
   },
   {
     "sindrets/diffview.nvim",
-    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewRefresh", "DiffviewLog", "DiffviewFileHistory", "DiffviewFocusFiles" },
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewRefresh",
+      "DiffviewLog",
+      "DiffviewFileHistory",
+      "DiffviewFocusFiles",
+    },
   },
 }

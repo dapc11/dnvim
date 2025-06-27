@@ -64,7 +64,7 @@ end
 
 function M.setup()
   local SETUP_DELAY_MS = 100
-  
+
   vim.defer_fn(function()
     local blink = safe_require.require("blink.cmp", { silent = true })
     if not blink then

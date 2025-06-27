@@ -37,7 +37,7 @@ return {
       vim.keymap.set({ "n", "v" }, "<C-down>", "<cmd>Treewalker Down<cr>", { silent = true })
       vim.keymap.set("n", "<C-S-up>", "<cmd>Treewalker SwapUp<cr>", { silent = true })
       vim.keymap.set("n", "<C-S-down>", "<cmd>Treewalker SwapDown<cr>", { silent = true })
-    end
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",

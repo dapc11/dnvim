@@ -2,7 +2,7 @@ return {
   "akinsho/toggleterm.nvim",
   version = "*",
   opts = {
-    shade_terminals = false
+    shade_terminals = false,
   },
   config = function(_, opts)
     require("toggleterm").setup(opts)
@@ -21,6 +21,6 @@ return {
   end,
   keys = {
     { "<leader>t", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
-    { "<leader>t", "<cmd>ToggleTermSendVisualSelection<cr>", desc = "Toggle terminal", mode = "v" }
-  }
+    { "<leader>t", "<cmd>ToggleTermSendVisualSelection<cr>", desc = "Toggle terminal", mode = "v" },
+  },
 }

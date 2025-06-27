@@ -1,8 +1,7 @@
 local OPENAI_API_TOKEN = os.getenv("OPENAI_API_TOKEN") or ""
 local OPENAI_URL = os.getenv("OPENAI_URL") or ""
 
-local PROMPT =
-  "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
+local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
   .. "Your main goal is to help me learn programming concepts, best practices while writing code."
   .. "Please consider:"
   .. "- Readability"
@@ -34,8 +33,12 @@ local GIT_COMMIT_SUBJECT_MAX_CHARS = 50
 local GIT_COMMIT_BODY_MAX_CHARS = 72
 
 local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
-  .. "- The first line should be a short summary of the changes and shall be max " .. GIT_COMMIT_SUBJECT_MAX_CHARS .. " chars"
-  .. "- Body lines shall be max " .. GIT_COMMIT_BODY_MAX_CHARS .. " chars or else split the line on multiple lines."
+  .. "- The first line should be a short summary of the changes and shall be max "
+  .. GIT_COMMIT_SUBJECT_MAX_CHARS
+  .. " chars"
+  .. "- Body lines shall be max "
+  .. GIT_COMMIT_BODY_MAX_CHARS
+  .. " chars or else split the line on multiple lines."
   .. "- Be short and concise."
   .. "- Remember to mention the files that were changed, and what was changed"
   .. "- Explain the 'why' behind changes"
@@ -137,9 +140,12 @@ return {
           .. "```diff\n"
           .. buffer
           .. "\n```\n\n"
-          ..
-          "Please generate a Git commit message with a subject of max " .. GIT_COMMIT_SUBJECT_MAX_CHARS .. " chars and a body where lines are max " .. GIT_COMMIT_BODY_MAX_CHARS .. " chars." ..
-          "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
+          .. "Please generate a Git commit message with a subject of max "
+          .. GIT_COMMIT_SUBJECT_MAX_CHARS
+          .. " chars and a body where lines are max "
+          .. GIT_COMMIT_BODY_MAX_CHARS
+          .. " chars."
+          .. "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
         local agent = gp.get_chat_agent("git")
         gp.Prompt(params, gp.Target.prepend, agent, template)
       end,
