@@ -131,7 +131,7 @@ return {
           new_section("Lazy", "Lazy", "Config"),
           new_section("Config", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, "Config"),
           new_section("New file", "ene | startinsert", "Built-in"),
-          new_section("Quit", "qa", "Built-in"),
+          -- new_section("Quit", "qa", "Built-in"),
           new_section("Session restore", function()
             require("persistence").load({ last = true })
           end, "Session"),

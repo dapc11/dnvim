@@ -6,7 +6,12 @@ return {
   },
   version = "1.0.0",
   opts = {
-    keymap = { preset = "none" }, -- We'll handle keymaps with super tab
+    keymap = { 
+      preset = "none",
+      ['<CR>'] = { 'accept', 'fallback' },
+      ['<C-e>'] = { 'hide', 'fallback' },
+      ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+    },
     fuzzy = { implementation = "rust" },
     completion = {
       accept = {
@@ -15,7 +20,7 @@ return {
         },
       },
       menu = {
-        auto_show = false, -- We'll control when to show via super tab
+        auto_show = false,
         draw = {
           columns = {
             { "label", "label_description", gap = 1 },
@@ -36,7 +41,7 @@ return {
           enabled = true,
           async = false,
           timeout_ms = 2000,
-          min_keyword_length = 1, -- Reduced for better super tab experience
+          min_keyword_length = 1,
         },
         path = {
           name = "Path",
