@@ -6,7 +6,9 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
     local buf_name = vim.api.nvim_buf_get_name(bufnr)
     local ok, stats = pcall(vim.loop.fs_stat, buf_name)
 
-    if ok and stats and (stats.size > 700000) then
+    local MAX_FILE_SIZE_BYTES = 700000 -- 700KB threshold for performance optimization
+    
+    if ok and stats and (stats.size > MAX_FILE_SIZE_BYTES) then
       print("Buffer " .. buf_name .. " too big, disabling features for performance...")
       -- local client = vim.lsp.get_client_by_id(event.data.client_id)
       -- client.server_capabilities.semanticTokensProvider = nil
@@ -27,13 +29,15 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       set nocursorcolumn nocursorline
       set nofoldenable
       set conceallevel=0
-      set updatetime=100
+      set updatetime=]] .. FAST_UPDATE_TIME_MS .. [[
       set lazyredraw
       ]])
     end
   end,
   group = buf_large_lsp,
 })
+
+local FAST_UPDATE_TIME_MS = 100 -- Faster update time for large files
 
 return {
   {

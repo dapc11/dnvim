@@ -11,7 +11,8 @@ return {
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [']quote
       --  - ci'  - [C]hange [I]nside [']quote
-      require("mini.ai").setup({ n_lines = 500 })
+      local MAX_LINES_FOR_AI_SEARCH = 500 -- Maximum lines to search for text objects
+      require("mini.ai").setup({ n_lines = MAX_LINES_FOR_AI_SEARCH })
 
       -- Surround
       -- Add/delete/replace surroundings (brackets, quotes, etc.)

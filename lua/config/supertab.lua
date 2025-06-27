@@ -1,8 +1,9 @@
 local M = {}
+local safe_require = require("util.safe_require")
 
 local function is_completion_visible()
-  local ok, blink = pcall(require, "blink.cmp")
-  if not ok then
+  local blink = safe_require.require("blink.cmp", { silent = true })
+  if not blink then
     return false
   end
   return blink.is_visible()
@@ -27,7 +28,11 @@ local function should_complete()
 end
 
 function M.super_tab()
-  local blink = require("blink.cmp")
+  local blink = safe_require.require("blink.cmp", { silent = true })
+  if not blink then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-t>", true, false, true), "n", false)
+    return
+  end
 
   if is_completion_visible() then
     blink.select_next()
@@ -43,7 +48,11 @@ function M.super_tab()
 end
 
 function M.super_shift_tab()
-  local blink = require("blink.cmp")
+  local blink = safe_require.require("blink.cmp", { silent = true })
+  if not blink then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-d>", true, false, true), "n", false)
+    return
+  end
 
   if is_completion_visible() then
     blink.select_prev()
@@ -54,9 +63,11 @@ function M.super_shift_tab()
 end
 
 function M.setup()
+  local SETUP_DELAY_MS = 100
+  
   vim.defer_fn(function()
-    local ok, blink = pcall(require, "blink.cmp")
-    if not ok then
+    local blink = safe_require.require("blink.cmp", { silent = true })
+    if not blink then
       return
     end
 
@@ -72,7 +83,10 @@ function M.setup()
 
     vim.keymap.set("i", "<Esc>", function()
       if is_completion_visible() then
-        blink.hide()
+        local blink = safe_require.require("blink.cmp", { silent = true })
+        if blink then
+          blink.hide()
+        end
       else
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
       end
@@ -80,7 +94,7 @@ function M.setup()
       silent = true,
       noremap = true,
     })
-  end, 100)
+  end, SETUP_DELAY_MS)
 end
 
 return M

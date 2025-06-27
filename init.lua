@@ -1,19 +1,5 @@
-vim.dump = function(tbl, indent)
-  indent = indent or 2
-  for k, v in pairs(tbl) do
-    local formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
-      print(formatting)
-      vim.dump(v, indent + 1)
-    elseif type(v) == "boolean" then
-      print(formatting .. tostring(v))
-    else
-      print(formatting .. v)
-    end
-  end
-end
-
-_G.lazyfile = { "BufReadPost", "BufNewFile" }
+local events = require("config.events")
+_G.lazyfile = events.lazy_file_events
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 

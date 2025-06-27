@@ -30,7 +30,7 @@ return {
       },
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 200,
+        auto_show_delay_ms = 200, -- Delay before showing documentation popup
       },
     },
     sources = {
@@ -40,7 +40,7 @@ return {
           module = "blink.cmp.sources.lsp",
           enabled = true,
           async = false,
-          timeout_ms = 2000,
+          timeout_ms = 2000, -- LSP completion timeout
           min_keyword_length = 1,
         },
         path = {

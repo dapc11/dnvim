@@ -1,5 +1,6 @@
 local function large_file(_, bufnr)
-  return vim.api.nvim_buf_line_count(bufnr) > 5000
+  local MAX_LINES_FOR_TREESITTER = 5000 -- Disable treesitter for large files
+  return vim.api.nvim_buf_line_count(bufnr) > MAX_LINES_FOR_TREESITTER
 end
 return {
   {
@@ -26,7 +27,7 @@ return {
     "aaronik/treewalker.nvim",
     opts = {
       highlight = true,
-      highlight_duration = 250,
+      highlight_duration = 250, -- Highlight duration in milliseconds
       highlight_group = "CursorLineNr",
     },
     config = function(_, opts)

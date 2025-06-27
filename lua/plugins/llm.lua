@@ -30,9 +30,12 @@ local UNIT_TEST_PROMPT = "Generate unit tests for the following function:"
   .. "- Invalid inputs"
   .. "Use [preferred testing framework] syntax."
 
+local GIT_COMMIT_SUBJECT_MAX_CHARS = 50
+local GIT_COMMIT_BODY_MAX_CHARS = 72
+
 local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
-  .. "- The first line should be a short summary of the changes and shall be max 50 chars"
-  .. "- Body lines shall be max 72 chars or else split the line on multiple lines."
+  .. "- The first line should be a short summary of the changes and shall be max " .. GIT_COMMIT_SUBJECT_MAX_CHARS .. " chars"
+  .. "- Body lines shall be max " .. GIT_COMMIT_BODY_MAX_CHARS .. " chars or else split the line on multiple lines."
   .. "- Be short and concise."
   .. "- Remember to mention the files that were changed, and what was changed"
   .. "- Explain the 'why' behind changes"
@@ -43,11 +46,14 @@ local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
   .. ""
   .. "What you write will be passed directly to git commit -m '[message]'"
 
+local DEFAULT_MAX_TOKENS = 16000 -- Maximum tokens for LLM response
+local DEFAULT_CONTEXT_SIZE = 131072 -- Context window size
+
 local model = {
   model = "llama3.1-8b",
   input = 0.9,
-  max_tokens = 16000,
-  num_ctx = 131072,
+  max_tokens = DEFAULT_MAX_TOKENS,
+  num_ctx = DEFAULT_CONTEXT_SIZE,
   stream = true,
 }
 
@@ -132,7 +138,7 @@ return {
           .. buffer
           .. "\n```\n\n"
           ..
-          "Please generate a Git commit message with a subject of max 50 chars and a body where lines are max 72 chars." ..
+          "Please generate a Git commit message with a subject of max " .. GIT_COMMIT_SUBJECT_MAX_CHARS .. " chars and a body where lines are max " .. GIT_COMMIT_BODY_MAX_CHARS .. " chars." ..
           "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
         local agent = gp.get_chat_agent("git")
         gp.Prompt(params, gp.Target.prepend, agent, template)
