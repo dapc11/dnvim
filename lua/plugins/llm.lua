@@ -1,4 +1,4 @@
-local OPENAI_API_TOKEN = os.getenv("OPENAI_API_TOKEN") or ""
+local OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") or ""
 local OPENAI_URL = os.getenv("OPENAI_URL") or ""
 
 local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
@@ -74,7 +74,7 @@ end
 
 return {
   "robitx/gp.nvim",
-  enabled = OPENAI_API_TOKEN ~= "",
+  enabled = OPENAI_API_KEY ~= "",
   event = lazyfile,
   lazy = false,
   keys = {
@@ -114,7 +114,7 @@ return {
     { "<C-g>x", "<cmd>GpContext<cr>", desc = "Toggle GpContext" },
   },
   opts = {
-    openai_api_key = OPENAI_API_TOKEN,
+    openai_api_key = OPENAI_API_KEY,
     whisper = { disable = true },
     image = { disable = true },
     chat_user_prefix = "## QUESTION --------------- 💬",
