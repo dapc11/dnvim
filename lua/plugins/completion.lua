@@ -6,11 +6,11 @@ return {
   },
   version = "1.0.0",
   opts = {
-    keymap = { 
+    keymap = {
       preset = "none",
-      ['<CR>'] = { 'accept', 'fallback' },
-      ['<C-e>'] = { 'hide', 'fallback' },
-      ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      ["<CR>"] = { "accept", "fallback" },
+      ["<C-e>"] = { "hide", "fallback" },
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
     },
     fuzzy = { implementation = "rust" },
     completion = {

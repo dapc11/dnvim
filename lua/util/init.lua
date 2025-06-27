@@ -143,10 +143,18 @@ function M.split(string, delimiter)
 end
 
 function M.jira_finder()
-  local jira_id = string.match(vim.fn.getline("."), require("secret").JIRA_PATTERN)
+  local JIRA_PATTERN = os.getenv("JIRA_PATTERN") or ""
+  local JIRA_URL = os.getenv("JIRA_URL") or ""
+  
+  if JIRA_PATTERN == "" or JIRA_URL == "" then
+    print("JIRA configuration not found in environment variables.")
+    return
+  end
+  
+  local jira_id = string.match(vim.fn.getline("."), JIRA_PATTERN)
   if jira_id then
     print(jira_id)
-    vim.fn.jobstart({ "xdg-open", require("secret").JIRA_URL .. jira_id }, { detach = true })
+    vim.fn.jobstart({ "xdg-open", JIRA_URL .. jira_id }, { detach = true })
   else
     print("No Jira ID found in the current line.")
   end

@@ -1,8 +1,5 @@
-local secretLoadedSuccessfully, secret = pcall(require, "secret")
-
-if not secretLoadedSuccessfully then
-  secret = { OPENAI_API_TOKEN = "", OPENAI_URL = "" }
-end
+local OPENAI_API_TOKEN = os.getenv("OPENAI_API_TOKEN") or ""
+local OPENAI_URL = os.getenv("OPENAI_URL") or ""
 
 local PROMPT =
   "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
@@ -68,7 +65,7 @@ end
 
 return {
   "robitx/gp.nvim",
-  enabled = secretLoadedSuccessfully,
+  enabled = OPENAI_API_TOKEN ~= "",
   event = lazyfile,
   lazy = false,
   keys = {
@@ -108,7 +105,7 @@ return {
     { "<C-g>x", "<cmd>GpContext<cr>", desc = "Toggle GpContext" },
   },
   opts = {
-    openai_api_key = secret.OPENAI_API_TOKEN,
+    openai_api_key = OPENAI_API_TOKEN,
     whisper = { disable = true },
     image = { disable = true },
     chat_user_prefix = "## QUESTION --------------- 💬",
@@ -116,7 +113,7 @@ return {
     log_file = "",
     providers = {
       openai = {
-        endpoint = secret.OPENAI_URL,
+        endpoint = OPENAI_URL,
       },
     },
     default_chat_agent = "chat",

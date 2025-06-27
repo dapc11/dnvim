@@ -116,7 +116,7 @@ return {
           confirm = "load_session",
           recent = true,
           matcher = {
-            frecency = true,   -- use frecency boosting
+            frecency = true, -- use frecency boosting
             sort_empty = true, -- sort even when the filter is empty
             cwd_bonus = false,
           },
