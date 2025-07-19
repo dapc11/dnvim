@@ -4,7 +4,7 @@ local close = {
     local oilbuf = vim.api.nvim_get_current_buf()
     local ok = pcall(vim.cmd.bprev)
     if not ok then
-      Snacks.picker.files()
+      vim.cmd("FzfLua files")
     end
     vim.api.nvim_buf_delete(oilbuf, { force = true })
   end,

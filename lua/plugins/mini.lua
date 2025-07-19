@@ -1,9 +1,6 @@
 return {
   {
     "echasnovski/mini.nvim",
-    dependencies = {
-      "folke/snacks.nvim",
-    },
     config = function()
       -- Around Inside textobjects
       -- Better Around/Inside textobjects
@@ -76,62 +73,20 @@ return {
       end
 
       local starter = require("mini.starter")
+      local fzf = require("fzf-lua")
       local starter_config = {
         evaluate_single = true,
         items = {
-          new_section("Find file", Snacks.picker.files, "Finders"),
-          new_section("Recent files", Snacks.picker.recent, "Finders"),
-          new_section("Grep text", Snacks.picker.grep, "Finders"),
+          new_section("Find file", fzf.files, "Finders"),
+          new_section("Recent files", fzf.oldfiles, "Finders"),
+          new_section("Grep text", fzf.live_grep, "Finders"),
           new_section("Projects", function()
-            Snacks.picker.projects({
-              finder = "recent_projects",
-              format = "file",
-              dev = { "~/repos", "~/.config", "~/repos_personal" },
-              patterns = {
-                "ruleset2.0.yaml",
-                ".git",
-                ".gitignore",
-                ".hg",
-                ".bzr",
-                ".svn",
-                "package.json",
-                "Makefile",
-              },
-              confirm = "load_session",
-              recent = true,
-              matcher = {
-                frecency = true, -- use frecency boosting
-                sort_empty = true, -- sort even when the filter is empty
-                cwd_bonus = false,
-              },
-              sort = { fields = { "score:desc", "idx" } },
-              win = {
-                preview = { minimal = true },
-                input = {
-                  keys = {
-                    ["<c-f>"] = { { "tcd", "picker_files" }, mode = { "n", "i" } },
-                    ["<CR>"] = { { "tcd", "picker_files" }, mode = { "n", "i" } },
-                    ["<c-g>"] = { { "tcd", "picker_grep" }, mode = { "n", "i" } },
-                    ["<c-r>"] = { { "tcd", "picker_recent" }, mode = { "n", "i" } },
-                    ["<c-w>"] = { { "tcd" }, mode = { "n", "i" } },
-                    ["<c-t>"] = {
-                      function(picker)
-                        vim.cmd("tabnew")
-                        Snacks.notify("New tab opened")
-                        picker:close()
-                        Snacks.picker.projects()
-                      end,
-                      mode = { "n", "i" },
-                    },
-                  },
-                },
-              },
-            })
+            require("util.common").fzf_projectionist()
           end, "Finders"),
           new_section("Git", "Git", "Git"),
           new_section("Lazy", "Lazy", "Config"),
           new_section("Config", function()
-            Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+            fzf.files({ cwd = "~/.config/nvim/" })
           end, "Config"),
           new_section("New file", "ene | startinsert", "Built-in"),
           -- new_section("Quit", "qa", "Built-in"),

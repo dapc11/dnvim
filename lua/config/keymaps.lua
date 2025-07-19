@@ -21,6 +21,11 @@ map({ "n", "v", "o" }, "ä", "}")
 
 map("n", "Y", "y$")
 map("v", "p", [["_dP]])
+map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
+map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
+map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
+
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
 -- better indenting
 map("n", "<tab>", "==", { remap = true })
@@ -109,29 +114,7 @@ map("n", "gv", function()
   if cve then
     vim.fn.jobstart({ "xdg-open", "https://nvd.nist.gov/vuln/detail/" .. cve }, { detach = true })
   end
-end, { desc = "Goto CVE Definition" })
-
-map("n", "<leader>zf", function()
-  Snacks.picker.grep({ cwd = "~/notes/", path_shorten = true })
-end, { desc = "Search in Notes" })
-map("n", "<leader>zb", function()
-  Snacks.picker.files({ cwd = "~/notes/", path_shorten = true })
-end, { desc = "Browse Notes" })
-map("n", "<leader>zn", function()
-  require("util").create_note()
-end, { desc = "New Note" })
-
-map(
-  "n",
-  "<leader>xr",
-  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-  { desc = "Replace word under cursor", silent = false }
-)
-map("v", "<leader>xr", function()
-  vim.cmd('normal! "vy')
-  local text = vim.fn.getreg("v")
-  vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. text .. ")//gci<Left><Left><Left><Left>")
-end, { noremap = true, silent = true, desc = "Interactive Replace" })
+end)
 
 map("n", "<leader>xf", function()
   vim.api.nvim_input(":g//d<Left><Left>")

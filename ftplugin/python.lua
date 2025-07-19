@@ -33,12 +33,14 @@ end
 
 vim.cmd("hi link @string.documentation.python SpecialComment")
 
-vim.keymap.set("n", "<Leader>cd", function()
-  vim.cmd.PyDoc()
-end, { silent = true, buffer = true, desc = "Docs" })
+vim.keymap.set("n", "gf", function()
+  vim.cmd('noau normal! "vyiw')
+  require("fzf-lua").grep_project({
+    search = "def " .. vim.fn.getreg("v") .. "(",
+    path_shorten = true,
+  })
+end, { desc = "Goto Fixture", buffer = true })
 
-vim.keymap.set("n", "<Leader>dn", function()
-  require("dap-python").test_method()
-end, { desc = "Run nearest" })
-
-vim.opt_local.colorcolumn = "99"
+vim.keymap.set("n", "gR", function()
+  require("fzf-lua").grep_project({ search = vim.fn.expand("<cword>"), path_shorten = true })
+end, { desc = "Find Usages Under Cursor", buffer = true })
