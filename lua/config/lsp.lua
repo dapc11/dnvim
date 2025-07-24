@@ -18,29 +18,18 @@ vim.diagnostic.config({
   },
 })
 
--- for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
---   vim.api.nvim_set_hl(0, group, {})
--- end
-
 vim.lsp.config("*", {
   root_markers = { ".git" },
 })
 
 vim.lsp.enable({ "luals", "pyright", "gopls" })
-
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-
-    map("n", "grs", function()
-      Snacks.picker.lsp_symbols()
-    end, opts("Find Symbols"))
-    map("n", "grr", function()
-      Snacks.picker.lsp_references()
-    end, opts("Find References"))
-    map("n", "gd", function()
-      Snacks.picker.lsp_definitions()
-    end, opts("Goto Definition"))
+    local fzf = require("fzf-lua")
+    map("n", "grs", fzf.lsp_document_symbols, opts("Find Symbols"))
+    map("n", "grr", fzf.lsp_references, opts("Find References"))
+    map("n", "gd", fzf.lsp_definitions, opts("Goto Definition"))
     map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
     map("n", "<leader>cd", vim.diagnostic.open_float, opts("Show Diagnostic"))

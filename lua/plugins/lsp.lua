@@ -41,7 +41,6 @@ return {
     event = lazyfile,
     version = "2.x",
     dependencies = {
-      "folke/snacks.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
