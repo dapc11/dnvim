@@ -17,7 +17,6 @@ return {
       { "<leader>ci", ":Refactor inline_var", mode = { "n", "x" } },
       { "<leader>cI", ":Refactor inline_func" },
       { "<leader>cb", ":Refactor extract_block" },
-      { "<leader>cbf", ":Refactor extract_block_to_file" },
     },
     config = function()
       require("refactoring").setup({})
