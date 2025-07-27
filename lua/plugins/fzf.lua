@@ -120,15 +120,17 @@ return {
       { "<leader>b", fzf.buffers, desc = "Find Open Buffers" },
       { "<leader>n", fzf.files, desc = "Find Tracked Files" },
       { "<leader>N", fzf.git_status, desc = "Find Untracked Files" },
+      { "<leader>fc", fzf.command_history, desc = "Find in Command History" },
+      { "<leader>fC", fzf.commands, desc = "Find Commands" },
       {
-        "<leader>fc",
+        "<leader>fä",
         function()
           fzf.files({ cwd = "~/.config" })
         end,
         desc = "Find in Dotfiles",
       },
       {
-        "<leader>fC",
+        "<leader>fÄ",
         function()
           fzf.files({ cwd = require("lazy.core.config").options.root })
         end,

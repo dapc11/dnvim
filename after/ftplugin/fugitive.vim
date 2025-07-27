@@ -3,7 +3,6 @@ nmap <silent><buffer> q :tabclose<CR>
 nmap <silent><buffer> <Tab> =
 nmap <silent><buffer> o gO
 nmap <silent><buffer> k X
-nmap <buffer> gpg :Git push origin HEAD:refs/for/master
 nmap <buffer> >c [c
 nmap <buffer> <c ]c
 nmap <buffer> >/ [/
