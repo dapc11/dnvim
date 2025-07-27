@@ -43,54 +43,5 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
-    opts = {
-      adapters = {
-        {
-          command = "PyDoc",
-          get_items = function()
-            local function split_by_whitespace(input_str)
-              local result = {}
-              for match in input_str:gmatch("%S+") do
-                table.insert(result, match)
-              end
-              return result
-            end
-
-            local packages = {}
-            local cache_file = vim.fn.stdpath("data") .. "/pydoc_cache.txt"
-
-            -- Check if the cache_file already exists, if exists, return cached packages
-            if vim.loop.fs_stat(cache_file) then
-              return readlines(cache_file)
-            end
-
-            local std_packages = vim.fn.systemlist("python3 -c 'help(\"modules\")'")
-            -- Filter out the first few lines which are not actual package names.
-            for index, value in ipairs(std_packages) do
-              if index > 11 and index < #std_packages - 2 then
-                for _, package in ipairs(split_by_whitespace(value)) do
-                  table.insert(packages, package)
-                end
-              end
-            end
-
-            table.sort(packages)
-
-            -- Cache packages list
-            writeLines(packages, cache_file)
-            return packages
-          end,
-          get_content = function(choice)
-            return vim.fn.systemlist("python3 -m pydoc " .. choice)
-          end,
-          get_syntax_info = function()
-            return {
-              filetype = "pydoc",
-              language = "python",
-            }
-          end,
-        },
-      },
-    },
   },
 }

@@ -63,9 +63,9 @@ return {
         },
         unusedLocalExclude = { "_*" },
         globals = {
+          "lazyfile",
           "noop",
           "vim",
-          "Snacks",
           "MiniStarter",
           -- Awesomewm related globals
           "client",

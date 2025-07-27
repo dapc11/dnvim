@@ -1,4 +1,3 @@
--- Function to search for commits in the Git log.
 function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({
@@ -9,8 +8,7 @@ function Gsearch()
   })
 end
 
--- Searches for a commit containing the current buffer's contents in the Git log.
-function GsearchCurrent()
+function GitSearchCurrentFileHistory()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({
     cmd = "Gclog",
@@ -20,29 +18,11 @@ function GsearchCurrent()
   })
 end
 
--- Cache table to store git repository checks keyed by directory path
-local git_repo_cache = {}
-
-local function is_git_repo(path)
-  if git_repo_cache[path] ~= nil then
-    return git_repo_cache[path]
-  end
-  -- This searches upward for a .git directory from the given path
-  local git_dir = vim.fn.finddir(".git", path .. ";")
-  local is_repo = git_dir ~= ""
-  git_repo_cache[path] = is_repo
-  return is_repo
-end
-
 local map = require("util").map
 return {
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
-    cond = function()
-      local cwd = vim.fn.expand("%:p:h")
-      return is_git_repo(cwd)
-    end,
     opts = {
       signs = {
         add = { text = "▎" },
@@ -92,24 +72,15 @@ return {
       { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
       { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
       { "<leader>gb", "<cmd>Git blame --date=short<CR>", desc = "Blame" },
-      { "<leader>gpp", "<cmd>Git push<CR>", desc = "Push" },
-      { "<leader>gpf", "<cmd>Git fetch<CR>", desc = "Fetch" },
-      { "<leader>gpr", "<cmd>Git fetch | Git rebase origin/master<CR>", desc = "Pull" },
       {
-        "<leader>gps",
-        "<cmd>Git submodule update --init --recursive<CR>",
-        desc = "Update Submodules",
-      },
-      { "<leader>gC", ":Git fetch | Git checkout origin/master -b ", desc = "New Feature Branch" },
-      {
-        "<leader>f",
+        "<leader>ff",
         function()
           vim.cmd.Ggrep({ "-q " .. require("util").get_visual_selection() })
         end,
         mode = "v",
         desc = "Git Grep",
       },
-      { "<leader>f", ":Git grep -q ", desc = "Git Grep" },
+      { "<leader>ff", ":Git grep -q ", desc = "Git Grep" },
       {
         "<leader>gl",
         "<cmd>Git log --graph --pretty=format:'%h %cs %s <%an>%d' --abbrev-commit<CR><CR>",
@@ -126,8 +97,8 @@ return {
         desc = "Show Missing Commits",
       },
       { "<leader>gh", "<cmd>0Gclog<cr>", desc = "View File History" },
+      { "<leader>gs", GitSearchCurrentFileHistory, desc = "Search Current File History" },
       { "<leader>gS", Gsearch, desc = "Search History" },
-      { "<leader>gs", GsearchCurrent, desc = "Search Current File History" },
     },
   },
   {

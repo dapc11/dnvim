@@ -27,13 +27,8 @@ map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", s
 
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
--- better indenting
-map("n", "<tab>", "==", { remap = true })
-map("n", "<c-i>", "<tab>", { remap = false })
-map("v", "<tab>", "==")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
-map("n", "<C-S-d>", "<c-u>", { remap = true })
 
 map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
 map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
@@ -42,8 +37,11 @@ map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
 map("v", "<S-Down>", '<cmd>m ">+1<CR>gv=gv', { desc = "Move down" })
 map("v", "<S-Up>", '<cmd>m "<-2<CR>gv=gv', { desc = "Move up" })
 
--- save file
-map({ "i", "n" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
+vim.keymap.set("n", "<C-s>", "/")
+vim.keymap.set("c", "<C-s>", "<C-g>")
+vim.keymap.set("n", "<A-s>", "?")
+vim.keymap.set("c", "<A-s>", "<C-t>")
+
 map("n", "W", "<cmd>noautocmd w<CR>")
 
 map("n", "<leader>-", "<C-W>s", { desc = "Split window below" })
@@ -52,17 +50,11 @@ map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
 
 map("n", "<A-Down>", "}")
 map("n", "<A-Up>", "{")
-
-map("n", "<leader>ll", "<cmd>Lazy<CR>", { desc = "Lazy" })
 map("n", "<leader>ls", function()
   vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = 0 }))
   vim.diagnostic.enable(false, { bufnr = 0 })
   vim.opt_local.spell = false
 end, { desc = "Stop all heavy lifting" })
-map("n", "<leader>li", "<cmd>LspInfo<CR>", { desc = "Lsp Info" })
-map("n", "<leader>lr", "<cmd>LspRestart<CR>", { desc = "Lsp Restart" })
-map("n", "<leader>lL", "<cmd>LspLog<CR>", { desc = "Lsp Log" })
-
 map("n", "<leader>j", "*``cgn", { desc = "Change under cursor" })
 map("n", "<leader>.", [["<esc>" . repeat(".", v:count1)]], { desc = "Repeat cgn", expr = true })
 map("c", "<C-v>", "<C-r>*")

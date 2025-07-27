@@ -1,5 +1,4 @@
 local buf_large_lsp = vim.api.nvim_create_augroup("buf_large", { clear = true })
-
 vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
   callback = function(_)
     local bufnr = vim.api.nvim_get_current_buf()
@@ -21,7 +20,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       vim.opt_local.spell = false
       vim.opt_local.swapfile = false
       vim.opt_local.bufhidden = "unload"
-      vim.opt_local.buftype = "nowrite"
       vim.cmd([[
       autocmd WinEnter <buffer> set eventignore+=CursorHoldI,CursorMovedI,CursorMoved,FileType
       autocmd WinLeave <buffer> set eventignore-=CursorHoldI,CursorMovedI,CursorMoved,FileType
@@ -29,15 +27,13 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       set nocursorcolumn nocursorline
       set nofoldenable
       set conceallevel=0
-      set updatetime=]] .. FAST_UPDATE_TIME_MS .. [[
+      set updatetime=100
       set lazyredraw
       ]])
     end
   end,
   group = buf_large_lsp,
 })
-
-local FAST_UPDATE_TIME_MS = 100 -- Faster update time for large files
 
 return {
   {

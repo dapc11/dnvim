@@ -1,6 +1,4 @@
-local M = {}
-
-M.icons = {
+return {
   dap = {
     Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
     Breakpoint = " ",
@@ -57,5 +55,3 @@ M.icons = {
     Variable = " ",
   },
 }
-
-return M

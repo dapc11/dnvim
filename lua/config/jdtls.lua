@@ -31,25 +31,19 @@ local function get_jdtls_paths()
 
   path.data_dir = vim.fn.stdpath("cache") .. "/nvim-jdtls"
 
-  local jdtls_install = require("mason-registry").get_package("jdtls"):get_install_path()
+  -- TODO: get jdtls install path
+  local jdtls_install = ""
 
   path.java_agent = jdtls_install .. "/lombok.jar"
   path.launcher_jar = vim.fn.glob(jdtls_install .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-
-  if vim.fn.has("mac") == 1 then
-    path.platform_config = jdtls_install .. "/config_mac"
-  elseif vim.fn.has("unix") == 1 then
-    path.platform_config = jdtls_install .. "/config_linux"
-  elseif vim.fn.has("win32") == 1 then
-    path.platform_config = jdtls_install .. "/config_win"
-  end
-
+  path.platform_config = jdtls_install .. "/config_linux"
   path.bundles = {}
 
   ---
   -- Include java-test bundle if present
   ---
-  local java_test_path = require("mason-registry").get_package("java-test"):get_install_path()
+  -- TODO: get jdtls install path
+  local java_test_path = ""
 
   local java_test_bundle = vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar"), "\n")
 
@@ -63,7 +57,7 @@ local function get_jdtls_paths()
   local java_debug_path = require("mason-registry").get_package("java-debug-adapter"):get_install_path()
 
   local java_debug_bundle =
-    vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
+      vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
 
   if java_debug_bundle[1] ~= "" then
     vim.list_extend(path.bundles, java_debug_bundle)
@@ -93,11 +87,11 @@ local function get_jdtls_paths()
   return path
 end
 
-local function enable_codelens(bufnr)
+local function enable_codelens()
   pcall(vim.lsp.codelens.refresh)
 
   vim.api.nvim_create_autocmd("BufWritePost", {
-    buffer = bufnr,
+    buffer = true,
     group = java_cmds,
     desc = "refresh codelens",
     callback = function()
@@ -106,34 +100,32 @@ local function enable_codelens(bufnr)
   })
 end
 
-local function enable_debugger(bufnr)
-  require("jdtls").setup_dap({ hotcodereplace = "auto" })
+local opts = { buffer = true }
+local function enable_debugger()
+  local jdtls = require("jdtls")
+  jdtls.setup_dap({ hotcodereplace = "auto" })
   require("jdtls.dap").setup_dap_main_class_configs()
 
-  local opts = { buffer = bufnr }
-  vim.keymap.set("n", "<leader>df", "<cmd>lua require('jdtls').test_class()<cr>", opts)
-  vim.keymap.set("n", "<leader>dn", "<cmd>lua require('jdtls').test_nearest_method()<cr>", opts)
+  vim.keymap.set("n", "<leader>df", jdtls.test_class, opts)
+  vim.keymap.set("n", "<leader>dn", jdtls.test_nearest_method, opts)
 end
 
-local function jdtls_on_attach(_client, bufnr)
+local function jdtls_on_attach()
+  local jdtls = require("jdtls")
   if features.debugger then
-    enable_debugger(bufnr)
+    enable_debugger()
   end
 
   if features.codelens then
-    enable_codelens(bufnr)
+    enable_codelens()
   end
 
-  -- The following mappings are based on the suggested usage of nvim-jdtls
-  -- https://github.com/mfussenegger/nvim-jdtls#usage
-
-  local opts = { buffer = bufnr }
-  vim.keymap.set("n", "<A-o>", "<cmd>lua require('jdtls').organize_imports()<cr>", opts)
-  vim.keymap.set("n", "crv", "<cmd>lua require('jdtls').extract_variable()<cr>", opts)
-  vim.keymap.set("x", "crv", "<esc><cmd>lua require('jdtls').extract_variable(true)<cr>", opts)
-  vim.keymap.set("n", "crc", "<cmd>lua require('jdtls').extract_constant()<cr>", opts)
-  vim.keymap.set("x", "crc", "<esc><cmd>lua require('jdtls').extract_constant(true)<cr>", opts)
-  vim.keymap.set("x", "crm", "<esc><Cmd>lua require('jdtls').extract_method(true)<cr>", opts)
+  vim.keymap.set("n", "<A-o>", jdtls.organize_imports, opts)
+  vim.keymap.set("n", "crv", jdtls.extract_variable, opts)
+  vim.keymap.set("x", "crv", function() jdtls.extract_variable(true) end, opts)
+  vim.keymap.set("n", "crc", jdtls.extract_constant, opts)
+  vim.keymap.set("x", "crc", function() jdtls.extract_constant(true) end, opts)
+  vim.keymap.set("x", "crm", function() jdtls.extract_method(true) end, opts)
 end
 
 local function jdtls_setup(_event)

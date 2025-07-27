@@ -4,15 +4,14 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
   },
-  version = "1.0.0",
+  version = "1.*",
   opts = {
     keymap = {
-      preset = "none",
-      ["<CR>"] = { "accept", "fallback" },
-      ["<C-e>"] = { "hide", "fallback" },
-      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+      preset = "super-tab",
     },
-    fuzzy = { implementation = "rust" },
+    fuzzy = {
+      implementation = "rust",
+    },
     completion = {
       accept = {
         auto_brackets = {
@@ -28,46 +27,13 @@ return {
           },
         },
       },
-      documentation = {
-        auto_show = true,
-        auto_show_delay_ms = 200, -- Delay before showing documentation popup
-      },
-    },
-    sources = {
-      providers = {
-        lsp = {
-          name = "LSP",
-          module = "blink.cmp.sources.lsp",
-          enabled = true,
-          async = false,
-          timeout_ms = 2000, -- LSP completion timeout
-          min_keyword_length = 1,
-        },
-        path = {
-          name = "Path",
-          module = "blink.cmp.sources.path",
-          enabled = true,
-          min_keyword_length = 1,
-        },
-        snippets = {
-          name = "Snippets",
-          module = "blink.cmp.sources.snippets",
-          enabled = true,
-          min_keyword_length = 1,
-        },
-        buffer = {
-          name = "Buffer",
-          module = "blink.cmp.sources.buffer",
-          enabled = true,
-          min_keyword_length = 2,
-        },
-      },
     },
   },
   config = function(_, opts)
-    require("blink.cmp").setup(opts)
+    local cmp = require("blink.cmp")
+    cmp.setup(opts)
     vim.lsp.config("*", {
-      capabilities = require("blink.cmp").get_lsp_capabilities(),
+      capabilities = cmp.get_lsp_capabilities(),
     })
   end,
 }

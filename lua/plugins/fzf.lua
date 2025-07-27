@@ -30,38 +30,18 @@ return {
         },
       },
       fzf_opts = {
-        ['--ansi'] = true,
+        ["--ansi"] = true,
       },
       hls = {
-      --   normal = hl_validate("TelescopeNormal"),
         border = hl_validate("Normal"),
-      --   title = hl_validate("TelescopePromptTitle"),
-      --   help_normal = hl_validate("TelescopeNormal"),
-      --   help_border = hl_validate("TelescopeBorder"),
-      --   preview_normal = hl_validate("TelescopeNormal"),
-      --   preview_border = hl_validate("TelescopeBorder"),
-      --   preview_title = hl_validate("TelescopePreviewTitle"),
-      --   -- builtin preview only
-      --   cursor = hl_validate("Cursor"),
         cursorline = hl_validate("TelescopeSelection"),
-      --   cursorlinenr = hl_validate("TelescopeSelection"),
-      --   search = hl_validate("IncSearch"),
       },
       fzf_colors = {
-      --   ["fg"] = { "fg", "Normal" },
         ["bg"] = { "bg", "Normal" },
         ["hl"] = { "fg", "TelescopeMatching" },
-        -- ["fg+"] = { "bg", "Cursor" },
         ["bg+"] = { "bg", "CursorLine" },
-        -- ["hl+"] = { "fg", "TelescopeMatching" },
-      --   ["info"] = { "fg", "TelescopeMultiSelection" },
-        ["border"] = { "bg", "Normal"},
-        ["gutter"] = { "bg", "Normal"},
-        -- ["query"] = { "fg", "TelescopePromptNormal" },
-      --   ["prompt"] = { "fg", "TelescopePromptPrefix" },
-      --   ["pointer"] = { "fg", "TelescopeSelectionCaret" },
-      --   ["marker"] = { "fg", "TelescopeSelectionCaret" },
-      --   ["header"] = { "fg", "TelescopeTitle" },
+        ["border"] = { "bg", "Normal" },
+        ["gutter"] = { "bg", "Normal" },
       },
       winopts = {
         border = "rounded",
@@ -142,28 +122,28 @@ return {
       { "<leader>n", fzf.files, desc = "Find Tracked Files" },
       { "<leader>N", fzf.git_status, desc = "Find Untracked Files" },
       {
-        "<leader>lc",
+        "<leader>fc",
         function()
           fzf.files({ cwd = "~/.config" })
         end,
         desc = "Find in Dotfiles",
       },
       {
-        "<leader>lC",
+        "<leader>fC",
         function()
           fzf.files({ cwd = require("lazy.core.config").options.root })
         end,
         desc = "Find in Plugin Files",
       },
       {
-        "<leader>ld",
+        "<leader>fx",
         function()
           fzf.files({ cwd = "~/Downloads/" })
         end,
         desc = "Find in Downloads",
       },
-      { "<leader>lh", fzf.helptags, desc = "Find Help" },
-      { "<leader>lH", fzf.highlights, desc = "Find Highlights" },
+      { "<leader>fh", fzf.helptags, desc = "Find Help" },
+      { "<leader>fH", fzf.highlights, desc = "Find Highlights" },
       { "<leader><leader>", fzf.grep_project, desc = "Grep" },
       { "<leader>R", fzf.resume, desc = "Resume" },
       { "<leader><leader>", fzf.grep_visual, desc = "Live Grep Selection", mode = "v" },
@@ -177,7 +157,7 @@ return {
       },
       { "<C-f>", fzf.lgrep_curbuf, desc = "Find in Current Buffer" },
       {
-        "<leader>xt",
+        "<leader>ft",
         function()
           fzf.grep_project({ search = "TODO", path_shorten = true })
         end,

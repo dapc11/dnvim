@@ -6,14 +6,14 @@ end
 local icons = require("config.icons")
 vim.diagnostic.config({
   underline = false,
-  virtual_lines = false,
+  virtual_lines = true,
   severity_sort = true,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = icons.icons.diagnostics.Error,
-      [vim.diagnostic.severity.WARN] = icons.icons.diagnostics.Warn,
-      [vim.diagnostic.severity.HINT] = icons.icons.diagnostics.Hint,
-      [vim.diagnostic.severity.INFO] = icons.icons.diagnostics.Info,
+      [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+      [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+      [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+      [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
     },
   },
 })
@@ -25,45 +25,27 @@ vim.lsp.config("*", {
 vim.lsp.enable({ "luals", "pyright", "gopls" })
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     local fzf = require("fzf-lua")
     map("n", "grs", fzf.lsp_document_symbols, opts("Find Symbols"))
     map("n", "grr", fzf.lsp_references, opts("Find References"))
     map("n", "gd", fzf.lsp_definitions, opts("Goto Definition"))
     map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-    map("n", "<leader>cd", vim.diagnostic.open_float, opts("Show Diagnostic"))
-    map("n", "]d", vim.diagnostic.goto_next, opts("Next Diagnostic"))
-    map("n", "[d", vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
+    map("n", "<leader>fd", vim.diagnostic.open_float, opts("Find Diagnostic"))
+    map("n", "<leader>fD", fzf.diagnostics_workspace, opts("Find Workspace Diagnostic"))
+    map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts("Next Diagnostic"))
+    map("n", "[d", function() vim.diagnostic.jump { count = -1, float = true } () end, opts("Prev Diagnostic"))
     map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
     map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     if client.supports_method("textDocument/inlayHint") then
       vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
     end
 
-    if client.supports_method("textDocument/documentHighlight") then
-      local autocmd = vim.api.nvim_create_autocmd
-      local augroup = vim.api.nvim_create_augroup("lsp_highlight", { clear = false })
-
-      vim.api.nvim_clear_autocmds({ buffer = args.buf, group = augroup })
-
-      autocmd({ "CursorHold" }, {
-        group = augroup,
-        buffer = args.buf,
-        callback = vim.lsp.buf.document_highlight,
-      })
-
-      autocmd({ "CursorMoved" }, {
-        group = augroup,
-        buffer = args.buf,
-        callback = vim.lsp.buf.clear_references,
-      })
-    end
-
     if
-      not client:supports_method("textDocument/willSaveWaitUntil")
-      and client:supports_method("textDocument/formatting")
+        not client:supports_method("textDocument/willSaveWaitUntil")
+        and client:supports_method("textDocument/formatting")
     then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),

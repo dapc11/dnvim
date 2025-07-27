@@ -1,37 +1,5 @@
 local M = {}
 
-M.ignored_filetypes = {
-  "DressingSelect",
-  "Jaq",
-  "Markdown",
-  "PlenaryTestPopup",
-  "blame",
-  "checkhealth",
-  "dap-repl",
-  "dapui_scopes",
-  "fugitive",
-  "fugitiveblame",
-  "fzf",
-  "git",
-  "harpoon",
-  "help",
-  "lazy",
-  "lspinfo",
-  "man",
-  "mason",
-  "neo-tree",
-  "neotest-output",
-  "neotest-output-panel",
-  "neotest-summary",
-  "netrw",
-  "notify",
-  "oil",
-  "qf",
-  "spectre_panel",
-  "startuptime",
-  "tsplayground",
-}
-
 function M.get_visual_selection()
   vim.cmd('noau normal! "vy"')
   local text = vim.fn.getreg("v")
