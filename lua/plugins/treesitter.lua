@@ -104,6 +104,15 @@ return {
       },
       playground = { enable = true },
       textobjects = {
+        lsp_interop = {
+          enable = true,
+          border = "none",
+          floating_preview_opts = {},
+          peek_definition_code = {
+            ["<leader>cm"] = "@function.outer",
+            ["<leader>cM"] = "@class.outer",
+          },
+        },
         swap = {
           enable = true,
           swap_next = {
