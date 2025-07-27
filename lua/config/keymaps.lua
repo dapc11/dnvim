@@ -19,7 +19,6 @@ end, { desc = "Toggle diagnostics" })
 map({ "n", "v", "o" }, "ö", "{")
 map({ "n", "v", "o" }, "ä", "}")
 
-map("n", "Y", "y$")
 map("v", "p", [["_dP]])
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace", silent = false })
 map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })

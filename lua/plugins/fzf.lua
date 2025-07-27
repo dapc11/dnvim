@@ -116,7 +116,6 @@ return {
   keys = function()
     local fzf = require("fzf-lua")
     return {
-      { "<leader>gc", fzf.git_branches, desc = "Checkout Branch" },
       { "<leader>r", fzf.oldfiles, desc = "Find Recent Files" },
       { "<leader>b", fzf.buffers, desc = "Find Open Buffers" },
       { "<leader>n", fzf.files, desc = "Find Tracked Files" },

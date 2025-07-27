@@ -77,9 +77,9 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-S-A-right>",
-          node_incremental = "<C-S-A-right>",
-          node_decremental = "<C-S-A-left>",
+          init_selection = "<S-A-right>",
+          node_incremental = "<S-A-right>",
+          node_decremental = "<S-A-left>",
         },
       },
       highlight = {
