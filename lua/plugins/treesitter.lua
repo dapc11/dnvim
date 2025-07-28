@@ -4,25 +4,6 @@ local function large_file(_, bufnr)
 end
 return {
   {
-    "ThePrimeagen/refactoring.nvim",
-    event = lazyfile,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    keys = {
-      { "<leader>ce", ":Refactor extract ", mode = "x" },
-      { "<leader>cf", ":Refactor extract_to_file ", mode = "x" },
-      { "<leader>cv", ":Refactor extract_var ", mode = "x" },
-      { "<leader>ci", ":Refactor inline_var", mode = { "n", "x" } },
-      { "<leader>cI", ":Refactor inline_func" },
-      { "<leader>cb", ":Refactor extract_block" },
-    },
-    config = function()
-      require("refactoring").setup({})
-    end,
-  },
-  {
     "aaronik/treewalker.nvim",
     opts = {
       highlight = true,
