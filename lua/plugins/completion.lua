@@ -12,6 +12,36 @@ return {
     fuzzy = {
       implementation = "rust",
     },
+    sources = {
+      providers = {
+        lsp = {
+          name = "LSP",
+          module = "blink.cmp.sources.lsp",
+          enabled = true,
+          async = false,
+          timeout_ms = 2000, -- LSP completion timeout
+          min_keyword_length = 1,
+        },
+        path = {
+          name = "Path",
+          module = "blink.cmp.sources.path",
+          enabled = true,
+          min_keyword_length = 1,
+        },
+        snippets = {
+          name = "Snippets",
+          module = "blink.cmp.sources.snippets",
+          enabled = true,
+          min_keyword_length = 1,
+        },
+        buffer = {
+          name = "Buffer",
+          module = "blink.cmp.sources.buffer",
+          enabled = true,
+          min_keyword_length = 2,
+        },
+      },
+    },
     completion = {
       accept = {
         auto_brackets = {
