@@ -12,7 +12,6 @@ return {
     end
     fzf.setup({
       "max-perf",
-      -- ignore all '.lua' and '.vim' files
       files = {
         fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
       },
@@ -23,8 +22,7 @@ return {
         git_icons = false, -- show git icons?
         file_icons = false, -- show file icons?
         color_icons = false, -- colorize file|git icons
-        rg_opts = " -g '!vendor' --column --line-number --no-heading --smart-case --max-columns=4096 -e",
-        -- rg_glob = true, -- default to glob parsing?
+        rg_opts = " --glob '!vendor' --column --line-number --no-heading --smart-case --max-columns=4096 --regexp",
         actions = {
           ["ctrl-h"] = { actions.toggle_ignore },
         },
@@ -49,18 +47,13 @@ return {
         },
       },
       keymap = {
-        -- These override the default tables completely
-        -- no need to set to `false` to disable a bind
-        -- delete or modify is sufficient
         builtin = {
-          -- neovim `:tmap` mappings for the fzf win
           ["<C-?>"] = "toggle-help",
           ["<S-down>"] = "preview-page-down",
           ["<S-up>"] = "preview-page-up",
           ["<S-left>"] = "preview-page-reset",
         },
         fzf = {
-          -- fzf '--bind=' options
           ["ctrl-z"] = "abort",
           ["ctrl-u"] = "unix-line-discard",
           ["ctrl-f"] = "half-page-down",
@@ -68,7 +61,6 @@ return {
           ["ctrl-a"] = "beginning-of-line",
           ["ctrl-e"] = "end-of-line",
           ["alt-a"] = "toggle-all",
-          -- Only valid with fzf previewers (bat/cat/git/etc)
           ["f3"] = "toggle-preview-wrap",
           ["f4"] = "toggle-preview",
           ["shift-down"] = "preview-page-down",
@@ -156,13 +148,6 @@ return {
         mode = "v",
       },
       { "<C-f>", fzf.lgrep_curbuf, desc = "Find in Current Buffer" },
-      {
-        "<leader>ft",
-        function()
-          fzf.grep_project({ search = "TODO", path_shorten = true })
-        end,
-        desc = "Find in TODOs in project",
-      },
       {
         "<C-p>",
         function()
