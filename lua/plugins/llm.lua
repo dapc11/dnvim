@@ -45,22 +45,22 @@ local UNIT_TEST_PROMPT = "Generate unit tests for the following function."
 local GIT_COMMIT_SUBJECT_MAX_CHARS = 50
 local GIT_COMMIT_BODY_MAX_CHARS = 72
 
-local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
+local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:\n"
     .. "- The first line should be a short summary of the changes and shall be max "
     .. GIT_COMMIT_SUBJECT_MAX_CHARS
-    .. " chars"
+    .. " chars\n"
     .. "- Body lines shall be max "
     .. GIT_COMMIT_BODY_MAX_CHARS
-    .. " chars or else split the line on multiple lines."
-    .. "- Be short and concise."
-    .. "- Remember to mention the files that were changed, and what was changed"
-    .. "- Explain the 'why' behind changes"
-    .. "- Use bullet points for multiple changes"
-    .. "- If there are no changes, or the input is blank - then return a blank string"
-    .. ""
+    .. " chars or else split the line on multiple lines.\n"
+    .. "- Be short and concise.\n"
+    .. "- Remember to mention the files that were changed, and what was changed\n"
+    .. "- Explain the 'why' behind changes\n"
+    .. "- Use bullet points for multiple changes\n"
+    .. "- If there are no changes, or the input is blank - then return a blank string\n"
+    ..
+    "- The output should be paste-able directoy to command line `git commit -m 'message' and the newlinews needs to be taken into account\n"
+    .. "\n"
     .. "Think carefully before you write your commit message."
-    .. ""
-    .. "What you write will be passed directly to git commit -m '[message]'"
 
 local DEFAULT_MAX_TOKENS = 16000 -- Maximum tokens for LLM response
 local DEFAULT_CONTEXT_SIZE = 131072 -- Context window size
