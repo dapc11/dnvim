@@ -6,6 +6,9 @@ return {
   },
   opts = {
     ring = { storage = "sqlite" },
+    highlight = {
+      timer = 100,
+    },
   },
   keys = {
     {
