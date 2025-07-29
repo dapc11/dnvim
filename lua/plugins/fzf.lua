@@ -44,7 +44,6 @@ return {
         ["gutter"] = { "bg", "Normal" },
       },
       winopts = {
-        border = "rounded",
         preview = {
           hidden = "hidden",
         },
