@@ -36,10 +36,10 @@ map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
 map("v", "<S-Down>", '<cmd>m ">+1<CR>gv=gv', { desc = "Move down" })
 map("v", "<S-Up>", '<cmd>m "<-2<CR>gv=gv', { desc = "Move up" })
 
-vim.keymap.set("n", "<C-s>", "/")
-vim.keymap.set("c", "<C-s>", "<C-g>")
-vim.keymap.set("n", "<A-s>", "?")
-vim.keymap.set("c", "<A-s>", "<C-t>")
+map("n", "<C-s>", "/")
+map("c", "<C-s>", "<C-g>")
+map("n", "<A-s>", "?")
+map("c", "<A-s>", "<C-t>")
 
 map("n", "W", "<cmd>noautocmd w<CR>")
 
@@ -64,7 +64,6 @@ map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]]
 map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]])
 map("n", ",", "@q")
 
-map("n", "<M-x>", ":", { noremap = true, silent = false })
 vim.cmd([[
   set wildcharm=<C-Z>
   cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"

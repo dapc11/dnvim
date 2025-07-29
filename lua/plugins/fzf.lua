@@ -121,7 +121,7 @@ return {
       { "<leader>n", fzf.files, desc = "Find Tracked Files" },
       { "<leader>N", fzf.git_status, desc = "Find Untracked Files" },
       { "<leader>fc", fzf.command_history, desc = "Find in Command History" },
-      { "<leader>fC", fzf.commands, desc = "Find Commands" },
+      { "<M-x>", fzf.commands, desc = "Find Commands" },
       {
         "<leader>fä",
         function()
