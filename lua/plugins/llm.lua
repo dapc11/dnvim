@@ -1,53 +1,66 @@
 local OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") or ""
 local OPENAI_URL = os.getenv("OPENAI_URL") or ""
 
-local PROMPT = "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
-  .. "Your main goal is to help me learn programming concepts, best practices while writing code."
-  .. "Please consider:"
-  .. "- Readability"
-  .. "- Clean code"
-  .. "- Error handling"
-  .. "- Edge cases"
-  .. "- Security"
-  .. "- Performance optimization"
-  .. "- Best practices for the language currently used."
-  .. "Please do not unnecessarily remove any comments or code."
+local PROMPT =
+    "You are a professional senior programmer."
+    .. "Response should be short and concise, and no yapping."
+    .. "Your main goal is to solve any given programming issue according to below considerations."
+    .. "Please consider:"
+    .. "- Readability"
+    .. "- Clean code"
+    .. "- Error handling"
+    .. "- Edge cases"
+    .. "- Security"
+    .. "- Performance optimization"
+    .. "- Best practices for the language currently used."
+
+local LEARNING_PROMPT =
+    "You are a professional programming tutor and programming expert designed to help and guide me in learning programming."
+    .. "Your main goal is to help me learn programming concepts, best practices while writing code."
+    .. "Please consider:"
+    .. "- Readability"
+    .. "- Clean code"
+    .. "- Error handling"
+    .. "- Edge cases"
+    .. "- Security"
+    .. "- Performance optimization"
+    .. "- Best practices for the language currently used."
 
 local REVIEW_PROMPT = "Please review the following code."
-  .. "Consider:"
-  .. "- Code quality and adherence to best practices"
-  .. "- Potential bugs or edge cases"
-  .. "- Performance optimizations"
-  .. "- Readability and maintainability"
-  .. "- Any security concerns"
-  .. "Suggest improvements and explain your reasoning for each suggestion."
+    .. "Consider:"
+    .. "- Code quality and adherence to best practices"
+    .. "- Potential bugs or edge cases"
+    .. "- Performance optimizations"
+    .. "- Readability and maintainability"
+    .. "- Any security concerns"
+    .. "Suggest improvements and explain your reasoning for each suggestion."
 
 local UNIT_TEST_PROMPT = "Generate unit tests for the following function:"
-  .. "Include tests for:"
-  .. "- Normal expected inputs"
-  .. "- Edge cases"
-  .. "- Invalid inputs"
-  .. "Use [preferred testing framework] syntax."
+    .. "Include tests for:"
+    .. "- Normal expected inputs"
+    .. "- Edge cases"
+    .. "- Invalid inputs"
+    .. "Use [preferred testing framework] syntax."
 
 local GIT_COMMIT_SUBJECT_MAX_CHARS = 50
 local GIT_COMMIT_BODY_MAX_CHARS = 72
 
 local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:"
-  .. "- The first line should be a short summary of the changes and shall be max "
-  .. GIT_COMMIT_SUBJECT_MAX_CHARS
-  .. " chars"
-  .. "- Body lines shall be max "
-  .. GIT_COMMIT_BODY_MAX_CHARS
-  .. " chars or else split the line on multiple lines."
-  .. "- Be short and concise."
-  .. "- Remember to mention the files that were changed, and what was changed"
-  .. "- Explain the 'why' behind changes"
-  .. "- Use bullet points for multiple changes"
-  .. "- If there are no changes, or the input is blank - then return a blank string"
-  .. ""
-  .. "Think carefully before you write your commit message."
-  .. ""
-  .. "What you write will be passed directly to git commit -m '[message]'"
+    .. "- The first line should be a short summary of the changes and shall be max "
+    .. GIT_COMMIT_SUBJECT_MAX_CHARS
+    .. " chars"
+    .. "- Body lines shall be max "
+    .. GIT_COMMIT_BODY_MAX_CHARS
+    .. " chars or else split the line on multiple lines."
+    .. "- Be short and concise."
+    .. "- Remember to mention the files that were changed, and what was changed"
+    .. "- Explain the 'why' behind changes"
+    .. "- Use bullet points for multiple changes"
+    .. "- If there are no changes, or the input is blank - then return a blank string"
+    .. ""
+    .. "Think carefully before you write your commit message."
+    .. ""
+    .. "What you write will be passed directly to git commit -m '[message]'"
 
 local DEFAULT_MAX_TOKENS = 16000 -- Maximum tokens for LLM response
 local DEFAULT_CONTEXT_SIZE = 131072 -- Context window size
@@ -127,7 +140,7 @@ return {
     },
     default_chat_agent = "chat",
     agents = {
-      get_agent("chat", true, false, PROMPT, 0.5),
+      get_agent("chat", true, false, LEARNING_PROMPT, 0.5),
       get_agent("coder", false, true, PROMPT),
       get_agent("ut", false, true, UNIT_TEST_PROMPT),
       get_agent("review", true, false, REVIEW_PROMPT),
@@ -137,36 +150,37 @@ return {
       Git = function(gp, params)
         local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
         local template = "I have the following git diff:\n\n"
-          .. "```diff\n"
-          .. buffer
-          .. "\n```\n\n"
-          .. "Please generate a Git commit message with a subject of max "
-          .. GIT_COMMIT_SUBJECT_MAX_CHARS
-          .. " chars and a body where lines are max "
-          .. GIT_COMMIT_BODY_MAX_CHARS
-          .. " chars."
-          .. "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
+            .. "```diff\n"
+            .. buffer
+            .. "\n```\n\n"
+            .. "Please generate a Git commit message with a subject of max "
+            .. GIT_COMMIT_SUBJECT_MAX_CHARS
+            .. " chars and a body where lines are max "
+            .. GIT_COMMIT_BODY_MAX_CHARS
+            .. " chars."
+            ..
+            "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
         local agent = gp.get_chat_agent("git")
         gp.Prompt(params, gp.Target.prepend, agent, template)
       end,
       UnitTests = function(gp, params)
         local template = "I have the following code from {{filename}}:\n\n"
-          .. "```{{filetype}}\n{{selection}}\n```\n\n"
-          .. "Please respond by writing table driven unit tests for the code above."
+            .. "```{{filetype}}\n{{selection}}\n```\n\n"
+            .. "Please respond by writing table driven unit tests for the code above."
         local agent = gp.get_command_agent("ut")
         gp.Prompt(params, gp.Target.enew, agent, template)
       end,
       Explain = function(gp, params)
         local template = "I have the following code from {{filename}}:\n\n"
-          .. "```{{filetype}}\n{{selection}}\n```\n\n"
-          .. "Please respond by explaining the code above."
+            .. "```{{filetype}}\n{{selection}}\n```\n\n"
+            .. "Please respond by explaining the code above."
         local agent = gp.get_chat_agent()
         gp.Prompt(params, gp.Target.popup, agent, template)
       end,
       Review = function(gp, params)
         local template = "I have the following code from {{filename}}:\n\n"
-          .. "```{{filetype}}\n{{selection}}\n```\n\n"
-          .. "Please analyze for code smells and suggest improvements."
+            .. "```{{filetype}}\n{{selection}}\n```\n\n"
+            .. "Please analyze for code smells and suggest improvements."
         local agent = gp.get_chat_agent("review")
         gp.Prompt(params, gp.Target.vnew("markdown"), agent, template)
       end,
