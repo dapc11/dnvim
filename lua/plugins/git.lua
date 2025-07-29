@@ -1,4 +1,4 @@
-function Gsearch()
+local function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({
     cmd = "Gclog",
@@ -8,7 +8,7 @@ function Gsearch()
   })
 end
 
-function GitSearchCurrentFileHistory()
+local function GitSearchCurrentFileHistory()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({
     cmd = "Gclog",
