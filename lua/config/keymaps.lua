@@ -134,3 +134,6 @@ vim.keymap.set("n", "dd", function()
   end
   return "dd"
 end, { expr = true })
+map("n", "<leader>xS", function()
+  vim.lsp.stop_client(vim.lsp.get_clients())
+end, { desc = "Stop Active LSP Clients" })
