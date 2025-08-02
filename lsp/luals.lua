@@ -29,6 +29,12 @@ return {
           trailing_table_separator = "smart",
         },
       },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          unpack(vim.api.nvim_get_runtime_file("", true)),
+        },
+      },
       completion = {
         callSnippet = "Replace",
       },
@@ -42,7 +48,7 @@ return {
         castNumberToInteger = true,
       },
       diagnostics = {
-        disable = { "incomplete-signature-doc", "no-unknown" },
+        disable = { "incomplete-signature-doc" },
         groupSeverity = {
           strong = "Warning",
           strict = "Warning",
@@ -65,9 +71,7 @@ return {
         globals = {
           "MiniStarter",
           "Snacks",
-          "lazyfile",
           "noop",
-          "vim",
           -- Awesomewm related globals
           "client",
           "awesome",
