@@ -22,7 +22,7 @@ vim.lsp.config("*", {
   root_markers = { ".git" },
 })
 
-vim.lsp.enable({ "luals", "pyright", "gopls" })
+vim.lsp.enable({ "luals", "pyright", "gopls", "yamlls" })
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local fzf = require("fzf-lua")
