@@ -4,42 +4,27 @@ return {
   lazy = false,
   config = function()
     local actions = require("fzf-lua.actions")
-    local utils = require("fzf-lua.utils")
     local fzf = require("fzf-lua")
-
-    local function hl_validate(hl)
-      return not utils.is_hl_cleared(hl) and hl or nil
-    end
     fzf.setup({
       "max-perf",
       files = {
         fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
       },
       grep = {
-        prompt = "Rg❯ ",
-        input_prompt = "Grep For❯ ",
-        multiprocess = false, -- run command in a separate process
-        git_icons = false, -- show git icons?
-        file_icons = false, -- show file icons?
-        color_icons = false, -- colorize file|git icons
-        rg_opts = " --glob '!vendor' --column --line-number --no-heading --smart-case --max-columns=4096 --regexp",
         actions = {
           ["ctrl-h"] = { actions.toggle_ignore },
         },
       },
-      fzf_opts = {
-        ["--ansi"] = true,
-      },
-      hls = {
-        border = hl_validate("Normal"),
-        cursorline = hl_validate("TelescopeSelection"),
-      },
       fzf_colors = {
-        ["bg"] = { "bg", "Normal" },
-        ["hl"] = { "fg", "TelescopeMatching" },
         ["bg+"] = { "bg", "CursorLine" },
-        ["border"] = { "bg", "Normal" },
-        ["gutter"] = { "bg", "Normal" },
+        ["gutter"] = { "fg", "NeoTreeStatusLineNC" }, -- Matches background of catppuccin-machiato
+        ["hl+"] = { "fg", "Error" }, -- Current line match
+        ["hl"] = { "fg", "Error" }, -- Other line matches
+        ["separator"] = { "fg", "NeoTreeStatusLineNC" }, -- Matches background of catppuccin-machiato
+        ["scrollbar"] = { "fg", "CursorLine" },
+        ["header"] = { "fg", "CursorLine" },
+        ["spinner"] = { "fg", "CursorLine" },
+        ["pointer"] = { "fg", "Normal" },
       },
       winopts = {
         preview = {
@@ -55,14 +40,12 @@ return {
         },
         fzf = {
           ["ctrl-z"] = "abort",
-          ["ctrl-u"] = "unix-line-discard",
-          ["ctrl-f"] = "half-page-down",
-          ["ctrl-b"] = "half-page-up",
+          ["ctrl-x"] = "unix-line-discard",
+          ["ctrl-d"] = "half-page-down",
+          ["ctrl-u"] = "half-page-up",
           ["ctrl-a"] = "beginning-of-line",
           ["ctrl-e"] = "end-of-line",
           ["alt-a"] = "toggle-all",
-          ["f3"] = "toggle-preview-wrap",
-          ["f4"] = "toggle-preview",
           ["shift-down"] = "preview-page-down",
           ["shift-up"] = "preview-page-up",
           ["ctrl-p"] = "toggle-preview",
