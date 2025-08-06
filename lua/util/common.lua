@@ -22,7 +22,7 @@ function M.fzf_projectionist()
   fzf.fzf_exec("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname", {
     actions = {
       ["default"] = function(selected, _)
-        fzf.git_files({ cwd = selected[1] })
+        fzf.files({ cwd = selected[1] })
       end,
       ["ctrl-f"] = function(selected, _)
         fzf.grep_project({ cwd = selected[1] })

@@ -15,6 +15,11 @@ return {
           ["ctrl-h"] = { actions.toggle_ignore },
         },
       },
+      git = {
+        files = {
+          cmd = "fd --color=never --type f --type l --exclude .git",
+        },
+      },
       fzf_colors = {
         ["bg+"] = { "bg", "CursorLine" },
         ["gutter"] = { "fg", "NeoTreeStatusLineNC" }, -- Matches background of catppuccin-machiato
