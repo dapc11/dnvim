@@ -2,6 +2,9 @@ local ignored_filetypes = require("util").ignored_filetypes
 
 local map = require("util").map
 
+-- Setup projectionist auto-history
+require("util.common").setup_projectionist_auto_history()
+
 local function close_buffer()
   if vim.fn.winnr("$") == 1 then
     MiniStarter.open()

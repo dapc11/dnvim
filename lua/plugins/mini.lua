@@ -74,10 +74,12 @@ return {
 
       local starter = require("mini.starter")
       local fzf = require("fzf-lua")
+      local fzfe = require("fzf-lua-enchanted-files")
+
       local starter_config = {
         evaluate_single = true,
         items = {
-          new_section("Find file", fzf.files, "Finders"),
+          new_section("Find file", fzfe.files, "Finders"),
           new_section("Recent files", fzf.oldfiles, "Finders"),
           new_section("Grep text", fzf.live_grep, "Finders"),
           new_section("Projects", function()
@@ -86,7 +88,7 @@ return {
           new_section("Git", "Git", "Git"),
           new_section("Lazy", "Lazy", "Config"),
           new_section("Config", function()
-            fzf.files({ cwd = "~/.config/nvim/" })
+            fzfe.files({ cwd = "~/.config/nvim/" })
           end, "Config"),
           new_section("New file", "ene | startinsert", "Built-in"),
           -- new_section("Quit", "qa", "Built-in"),
