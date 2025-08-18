@@ -106,8 +106,6 @@ return {
           enable = true,
           lookahead = true,
           keymaps = {
-            ["l"] = "@assignment.lhs",
-            ["r"] = "@assignment.rhs",
             ["aa"] = "@assignment.outer",
             ["ia"] = "@assignment.inner",
             ["af"] = "@function.outer",
