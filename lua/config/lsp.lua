@@ -6,7 +6,7 @@ end
 local icons = require("config.icons")
 vim.diagnostic.config({
   underline = false,
-  virtual_lines = true,
+  virtual_lines = false,
   severity_sort = true,
   signs = {
     text = {
@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>fd", vim.diagnostic.open_float, opts("Find Diagnostic"))
     map("n", "<leader>fD", fzf.diagnostics_workspace, opts("Find Workspace Diagnostic"))
     map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts("Next Diagnostic"))
-    map("n", "[d", function() vim.diagnostic.jump { count = -1, float = true } () end, opts("Prev Diagnostic"))
+    map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev Diagnostic"))
     map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
     map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 
