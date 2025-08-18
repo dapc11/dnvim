@@ -29,18 +29,47 @@ return {
     -- Setup with opts
     multicursor.setup(opts)
     
-    -- Set up a smart Escape handler that works with existing keymaps
-    vim.keymap.set('n', '<Esc>', function()
-      if multicursor.is_enabled() then
-        -- Clear multicursors if enabled
-        multicursor.clear_all_cursors()
-      else
-        -- Execute the original escape behavior (clear search highlights)
-        vim.cmd("noh")
-        -- Send actual Escape key
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+    -- Set up Escape handler with proper override
+    -- Use autocmd to ensure it's set after all other plugins
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        -- Force override any existing Escape keymaps
+        pcall(vim.keymap.del, 'n', '<Esc>')  -- Delete existing global
+        pcall(vim.keymap.del, 'n', '<Esc>', { buffer = 0 })  -- Delete existing buffer-local
+        
+        -- Set our escape keymap with high priority
+        vim.keymap.set('n', '<Esc>', function()
+          if multicursor.is_enabled() then
+            -- Clear multicursors if enabled
+            multicursor.clear_all_cursors()
+          else
+            -- Execute the original escape behavior (clear search highlights)
+            vim.cmd("nohlsearch")
+          end
+        end, { 
+          desc = "Clear multicursors or clear search", 
+          silent = true,
+          buffer = false  -- Global keymap
+        })
       end
-    end, { desc = "Clear multicursors or escape", silent = true })
+    })
+    
+    -- Also set up the keymap immediately for current buffer
+    vim.schedule(function()
+      pcall(vim.keymap.del, 'n', '<Esc>')
+      pcall(vim.keymap.del, 'n', '<Esc>', { buffer = 0 })
+      
+      vim.keymap.set('n', '<Esc>', function()
+        if multicursor.is_enabled() then
+          multicursor.clear_all_cursors()
+        else
+          vim.cmd("nohlsearch")
+        end
+      end, { 
+        desc = "Clear multicursors or clear search", 
+        silent = true 
+      })
+    end)
     
     -- Enhanced MC command with multiple modes
     vim.api.nvim_create_user_command("MC", function(cmd_opts)
