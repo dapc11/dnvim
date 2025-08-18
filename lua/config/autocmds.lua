@@ -19,7 +19,7 @@ vim.api.nvim_create_autocmd("FileType", {
     local buf_ft = vim.bo.filetype
     if buf_ft ~= "oil" then
       map("n", "q", close_buffer, { silent = true, buffer = true })
-      map("n", "<esc>", close_buffer, { silent = true, buffer = true })
+      -- map("n", "<esc>", close_buffer, { silent = true, buffer = true })
       map("n", "<c-c>", close_buffer, { silent = true, buffer = true })
     end
     vim.bo[event.buf].buflisted = false
