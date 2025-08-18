@@ -17,10 +17,21 @@ return {
     { "<M-Right>", function() require("multicursor").mark_next_like_this() end, desc = "Mark next like this" },
     { "<M-Left>", function() require("multicursor").mark_previous_like_this() end, desc = "Mark previous like this" },
     
-    -- Visual selection based
-    { "<leader>ma", function() require("multicursor").add_cursors_to_visual_selection() end, mode = "v", desc = "Add cursors to all visual matches" },
-    { "<leader>mn", function() require("multicursor").add_cursor_to_next_visual() end, mode = "v", desc = "Add cursor to next visual match" },
-    { "<leader>mp", function() require("multicursor").add_cursor_to_prev_visual() end, mode = "v", desc = "Add cursor to prev visual match" },
+    -- Visual selection based - WITH DEBUGGING
+    { "<leader>ma", function() 
+        vim.notify("DEBUG: <leader>ma pressed in visual mode!", vim.log.levels.INFO)
+        local selected = require("multicursor").get_visual_selection()
+        vim.notify(string.format("DEBUG: Selected text: '%s'", selected or "nil"), vim.log.levels.INFO)
+        require("multicursor").add_cursors_to_visual_selection() 
+      end, mode = "v", desc = "Add cursors to all visual matches" },
+    { "<leader>mn", function() 
+        vim.notify("DEBUG: <leader>mn pressed in visual mode!", vim.log.levels.INFO)
+        require("multicursor").add_cursor_to_next_visual() 
+      end, mode = "v", desc = "Add cursor to next visual match" },
+    { "<leader>mp", function() 
+        vim.notify("DEBUG: <leader>mp pressed in visual mode!", vim.log.levels.INFO)
+        require("multicursor").add_cursor_to_prev_visual() 
+      end, mode = "v", desc = "Add cursor to prev visual match" },
   },
   
   config = function(_, opts)
@@ -70,6 +81,14 @@ return {
         silent = true 
       })
     end)
+    
+    -- Add additional debugging keymaps
+    vim.keymap.set('v', '<F2>', function()
+      vim.notify("F2 DEBUG: Testing visual selection", vim.log.levels.INFO)
+      local selected = require("multicursor").get_visual_selection()
+      vim.notify(string.format("F2 DEBUG: Selected: '%s'", selected or "nil"), vim.log.levels.INFO)
+      require("multicursor").add_cursors_to_visual_selection()
+    end, { desc = "Debug visual selection" })
     
     -- Enhanced MC command with multiple modes
     vim.api.nvim_create_user_command("MC", function(cmd_opts)
