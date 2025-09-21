@@ -1,6 +1,5 @@
 return {
   "folke/todo-comments.nvim",
-  event = lazyfile,
   config = true,
   keys = {
     {
