@@ -68,6 +68,7 @@ local function update_match(event)
   -- Add match only if it doesn't exist
   if not match then
     matches[win_id] = vim.fn.matchadd("TrailingWhitespace", "\\v\\s+$")
+    matches[win_id] = vim.fn.matchadd("TrailingWhitespace", "TODO")
   end
 end
 
