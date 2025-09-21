@@ -32,3 +32,4 @@ local function fzf_yaml()
   })
 end
 vim.keymap.set("n", "<leader>fk", fzf_yaml, { desc = "Find YAML key", buffer = true })
+vim.keymap.set("n", "gj", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
