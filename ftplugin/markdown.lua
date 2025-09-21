@@ -13,3 +13,17 @@ au FileType markdown setl formatoptions+=r
 ]])
 
 vim.opt_local.colorcolumn = "100"
+
+
+vim.api.nvim_create_user_command("VALint", function()
+  local file = vim.fn.expand("%")
+  local cmd = "~/repos_personal/va_report_linter/va_linter.py " .. vim.fn.shellescape(file)
+  vim.fn.setqflist({}, "r", { lines = vim.fn.systemlist(cmd) })
+  vim.cmd("copen")
+end, {})
+vim.keymap.set("n",
+  "<leader>cl",
+  VALint, { desc = "Lint", buffer = true })
+
+
+vim.keymap.set("n", "gj", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
