@@ -63,6 +63,8 @@ map("v", "<C-c>", '"+y')
 map("v", "*", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>n]])
 map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]])
 map("n", ",", "@q")
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
 
 vim.cmd([[
   set wildcharm=<C-Z>
