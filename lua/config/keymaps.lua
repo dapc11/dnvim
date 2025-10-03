@@ -106,6 +106,11 @@ map("n", "gv", function()
   end
 end)
 
+-- Jira finder
+map("n", "gj", function()
+  require("util").jira_finder()
+end, { desc = "Open Jira ticket" })
+
 map("n", "<leader>xf", function()
   vim.api.nvim_input(":g//d<Left><Left>")
 end, { noremap = true, silent = true, desc = "Filter lines by regex" })
