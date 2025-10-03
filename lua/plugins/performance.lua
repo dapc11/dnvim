@@ -46,3 +46,4 @@ return {
     lazy = false, -- always load to make sure than old LSPs are shutdown
   },
 }
+

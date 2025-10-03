@@ -28,3 +28,4 @@ vim.keymap.set("n",
 
 vim.keymap.set("n", "gj", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
 vim.keymap.set("n", "gd", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
+

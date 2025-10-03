@@ -9,3 +9,4 @@ return {
     vim.g.any_jump_window_top_offset = 4
   end,
 }
+

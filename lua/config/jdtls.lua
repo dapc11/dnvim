@@ -268,3 +268,4 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Setup jdtls",
   callback = jdtls_setup,
 })
+

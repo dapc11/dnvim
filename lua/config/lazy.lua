@@ -33,3 +33,4 @@ return function(opts)
   })
   require("lazy").setup(opts)
 end
+

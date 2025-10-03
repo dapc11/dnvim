@@ -154,3 +154,4 @@ end, { desc = "Stop Active LSP Clients" })
 map("n", "<leader>zn", function()
   require("util").create_note()
 end, { desc = "New Note" })
+

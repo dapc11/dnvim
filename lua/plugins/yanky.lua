@@ -20,3 +20,4 @@ return {
     { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
   },
 }
+

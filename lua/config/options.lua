@@ -49,3 +49,4 @@ global.markdown_recommended_style = 0
 global.loaded_perl_provider = 0
 global.loaded_node_provider = 0
 global.loaded_python3_provider = 0
+

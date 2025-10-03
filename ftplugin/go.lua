@@ -26,3 +26,4 @@ vim.keymap.set("n", "<Leader>dn", function()
 end, { desc = "Run nearest" })
 
 vim.opt_local.colorcolumn = "99"
+
