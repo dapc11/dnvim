@@ -46,18 +46,19 @@ local matches = {}
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
 local function update_match(event)
   local buf = event.buf
-  local win_id = vim.api.nvim_get_current_win() -- Get current window ID
+  local win_id = vim.api.nvim_get_current_win()
 
-  -- Ensure buffer is valid
   if not vim.api.nvim_buf_is_valid(buf) then
     return
   end
 
+  local buftype = vim.bo[buf].buftype
   local filetype = vim.bo[buf].filetype
   local match = matches[win_id]
 
-  -- Remove match if filetype is ignored
-  if vim.tbl_contains(vim.tbl_extend("force", ignored_filetypes, { "toggleterm", "fzf" }), filetype) then
+  -- Skip all terminal buffers or ignored filetypes
+  if buftype == "terminal" or 
+     vim.tbl_contains(vim.tbl_extend("force", ignored_filetypes, { "toggleterm", "fzf" }), filetype) then
     if match then
       pcall(vim.fn.matchdelete, match)
       matches[win_id] = nil
@@ -65,15 +66,14 @@ local function update_match(event)
     return
   end
 
-  -- Add match only if it doesn't exist
   if not match then
     matches[win_id] = vim.fn.matchadd("TrailingWhitespace", "\\v\\s+$")
-    matches[win_id] = vim.fn.matchadd("TrailingWhitespace", "TODO")
   end
 end
 
+
 -- Run when switching windows or exiting Insert mode
-vim.api.nvim_create_autocmd({ "TermEnter", "WinEnter", "InsertLeave", "BufReadPost" }, {
+vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave", "BufReadPost" }, {
   callback = update_match,
 })
 
@@ -144,3 +144,4 @@ endfunction
 "-range=% default is whole file
 command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
 ]])
+
