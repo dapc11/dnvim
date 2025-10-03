@@ -28,3 +28,4 @@ local function toggle_profile()
   end
 end
 vim.keymap.set("n", "<leader>lp", toggle_profile, { desc = "Toggle Profile" })
+

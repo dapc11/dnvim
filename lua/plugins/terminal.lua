@@ -24,3 +24,4 @@ return {
     { "<leader>t", "<cmd>ToggleTermSendVisualSelection<cr>", desc = "Toggle terminal", mode = "v" },
   },
 }
+

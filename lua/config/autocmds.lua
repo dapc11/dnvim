@@ -57,8 +57,8 @@ local function update_match(event)
   local match = matches[win_id]
 
   -- Skip all terminal buffers or ignored filetypes
-  if buftype == "terminal" or 
-     vim.tbl_contains(vim.tbl_extend("force", ignored_filetypes, { "toggleterm", "fzf" }), filetype) then
+  if buftype == "terminal" or
+      vim.tbl_contains(vim.tbl_extend("force", ignored_filetypes, { "toggleterm", "fzf" }), filetype) then
     if match then
       pcall(vim.fn.matchdelete, match)
       matches[win_id] = nil
@@ -131,6 +131,23 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end
     local file = vim.uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+  end,
+})
+
+-- Ensure file ends with newline after all formatters/LSP
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  group = vim.api.nvim_create_augroup("ensure_final_newline", { clear = true }),
+  callback = function(event)
+    local buf = event.buf
+    if vim.bo[buf].buftype == "terminal" then
+      return
+    end
+
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    if #lines > 0 and lines[#lines] ~= "" then
+      vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "" })
+      vim.cmd("silent! write")
+    end
   end,
 })
 

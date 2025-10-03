@@ -27,3 +27,4 @@ vim.api.nvim_set_keymap("", "<SC-v>", "+p<CR>", { noremap = true, silent = true 
 vim.api.nvim_set_keymap("!", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
+

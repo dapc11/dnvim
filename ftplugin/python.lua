@@ -44,3 +44,4 @@ end, { desc = "Goto Fixture", buffer = true })
 vim.keymap.set("n", "gR", function()
   fzf.grep_project({ search = vim.fn.expand("<cword>"), path_shorten = true })
 end, { desc = "Find Usages Under Cursor", buffer = true })
+

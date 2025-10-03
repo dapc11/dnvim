@@ -91,3 +91,4 @@ end, {
 vim.keymap.set("n", "<leader>qc", M.toggle_chat, { desc = "Toggle Amazon Q chat" })
 
 return M
+
