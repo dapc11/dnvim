@@ -48,7 +48,7 @@ return {
         castNumberToInteger = true,
       },
       diagnostics = {
-        disable = { "incomplete-signature-doc" },
+        disable = { "incomplete-signature-doc", "no-unknown" },
         groupSeverity = {
           strong = "Warning",
           strict = "Warning",
