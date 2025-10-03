@@ -23,7 +23,8 @@ vim.api.nvim_create_user_command("VALint", function()
 end, {})
 vim.keymap.set("n",
   "<leader>cl",
-  VALint, { desc = "Lint", buffer = true })
+  "<cmd>VALint<cr>", { desc = "Lint", buffer = true })
 
 
 vim.keymap.set("n", "gj", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
+vim.keymap.set("n", "gd", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
