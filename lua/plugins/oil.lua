@@ -30,7 +30,7 @@ return {
       ["<C-s>"] = "actions.select_vsplit",
       ["<C-v>"] = "actions.select_split",
       ["<C-t>"] = "actions.select_tab",
-      ["<C-p>"] = "actions.preview",
+      --      ["<C-p>"] = "actions.preview",
       ["<C-c>"] = close,
       ["q"] = close,
       ["<C-f>"] = function()
