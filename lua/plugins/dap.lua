@@ -2,85 +2,17 @@ return {
   {
     "mfussenegger/nvim-dap",
     keys = {
-      {
-        "<Leader>dB",
-        function()
-          require("dap").set_breakpoint()
-        end,
-        desc = "Set breakpoint",
-      },
-      {
-        "<Leader>dP",
-        function()
-          require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-        end,
-        desc = "Log point",
-      },
-      {
-        "<Leader>db",
-        function()
-          require("dap").toggle_breakpoint()
-        end,
-        desc = "Toggle breakpoint",
-      },
-      {
-        "<Leader>dh",
-        function()
-          require("dap.ui.widgets").hover()
-        end,
-        desc = "Hover",
-        mode = { "n", "v" },
-      },
-      {
-        "<Leader>dl",
-        function()
-          require("dap").run_last()
-        end,
-        desc = "Run Last",
-      },
-      {
-        "<Leader>dp",
-        function()
-          require("dap.ui.widgets").preview()
-        end,
-        desc = "Preview",
-        mode = { "n", "v" },
-      },
-      {
-        "<Leader>dr",
-        function()
-          require("dap").repl.open()
-        end,
-        desc = "Repl open",
-      },
-      {
-        "<leader>dc",
-        function()
-          require("dap").continue()
-        end,
-        desc = "Continue",
-      },
-      {
-        "<leader>de",
-        function()
-          require("dap").step_out()
-        end,
-        desc = "Step out",
-      },
-      {
-        "<leader>dq",
-        function()
-          require("dap").step_over()
-        end,
-        desc = "Step over",
-      },
-      {
-        "<leader>dw",
-        function()
-          require("dap").step_into()
-        end,
-        desc = "Step in",
-      },
+      { "<Leader>dB", function() require("dap").set_breakpoint() end, desc = "Set breakpoint" },
+      { "<Leader>dP", function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end, desc = "Log point" },
+      { "<Leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint" },
+      { "<Leader>dh", function() require("dap.ui.widgets").hover() end, desc = "Hover", mode = { "n", "v" } },
+      { "<Leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
+      { "<Leader>dp", function() require("dap.ui.widgets").preview() end, desc = "Preview", mode = { "n", "v" } },
+      { "<Leader>dr", function() require("dap").repl.open() end, desc = "Repl open" },
+      { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
+      { "<leader>de", function() require("dap").step_out() end, desc = "Step out" },
+      { "<leader>dq", function() require("dap").step_over() end, desc = "Step over" },
+      { "<leader>dw", function() require("dap").step_into() end, desc = "Step in" },
     },
   },
   {
