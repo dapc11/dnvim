@@ -20,6 +20,7 @@ return {
           reportUnknownLambdaType = false,
           reportUnknownMemberType = false,
           reportUnknownVariableType = false,
+          reportAny = false,
         },
         inlayHints = {
           functionReturnTypes = false,
