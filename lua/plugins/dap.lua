@@ -108,48 +108,5 @@ return {
       end
     end,
   },
-  {
-    "theHamsta/nvim-dap-virtual-text",
-    event = lazyfile,
-    dependencies = "mfussenegger/nvim-dap",
-    opts = {},
-  },
-  {
-    "mfussenegger/nvim-dap-python",
-    ft = "python",
-    dependencies = "mfussenegger/nvim-dap",
-    opts = {},
-    config = function(_, opts)
-      local dap = require("dap-python")
-      dap.setup("python3", opts)
-      dap.test_runner = "pytest"
-    end,
-  },
-  {
-    "leoluz/nvim-dap-go",
-    ft = "go",
-    dependencies = "mfussenegger/nvim-dap",
-    opts = {
-      dap_configurations = {
-        {
-          type = "go",
-          name = "Attach remote",
-          mode = "remote",
-          request = "attach",
-        },
-      },
-      delve = {
-        path = "dlv",
-        initialize_timeout_sec = 20,
-        port = "${port}",
-        args = {},
-        build_flags = {},
-        detached = vim.fn.has("win32") == 0,
-      },
-      tests = {
-        verbose = false,
-      },
-    },
-  },
 }
 
