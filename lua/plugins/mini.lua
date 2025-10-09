@@ -32,44 +32,8 @@ return {
 
       require("mini.indentscope").setup()
 
-      -- Statusline
-      local statusline = require("mini.statusline")
-      statusline.setup({ use_icons = true })
-
-      statusline.section_fileinfo = function(_)
-        local filetype = vim.bo.filetype
-
-        -- Don't show anything if can't detect file type or not inside a "normal
-        -- buffer"
-        if (filetype == "") or vim.bo.buftype ~= "" then
-          return ""
-        end
-
-        -- Add filetype icon
-        local has_devicons, devicons = pcall(require, "nvim-web-devicons")
-        if has_devicons then
-          local file_name, file_ext = vim.fn.expand("%:t"), vim.fn.expand("%:e")
-          local icon = devicons.get_icon(file_name, file_ext, { default = true })
-
-          if icon ~= "" then
-            filetype = string.format("%s %s", icon, filetype)
-          end
-        end
-
-        local buf_client_names = {}
-        for _, client in pairs(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })) do
-          table.insert(buf_client_names, client.name or "")
-        end
-        local lsp = table.concat(buf_client_names, ", ")
-
-        return string.format("%s [%s]", filetype, lsp)
-      end
       local new_section = function(name, action, section)
         return { name = name, action = action, section = section }
-      end
-
-      statusline.section_location = function()
-        return "%2l:%-2v"
       end
 
       local starter = require("mini.starter")
