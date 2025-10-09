@@ -16,6 +16,7 @@ return { {
       local fzf = require("fzf-lua")
       fzf.setup({
         "max-perf",
+        fzf_args = "--no-header",
         files = {
           fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
         },
