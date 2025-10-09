@@ -14,12 +14,10 @@ return {
     },
     sources = {
       providers = {
-        lsp = {
-          name = "LSP",
-          module = "blink.cmp.sources.lsp",
+        buffer = {
+          name = "Buffer",
+          module = "blink.cmp.sources.buffer",
           enabled = true,
-          async = false,
-          timeout_ms = 2000, -- LSP completion timeout
           min_keyword_length = 1,
         },
         path = {
@@ -34,11 +32,13 @@ return {
           enabled = true,
           min_keyword_length = 1,
         },
-        buffer = {
-          name = "Buffer",
-          module = "blink.cmp.sources.buffer",
+        lsp = {
+          name = "LSP",
+          module = "blink.cmp.sources.lsp",
           enabled = true,
-          min_keyword_length = 2,
+          async = false,
+          timeout_ms = 2000, -- LSP completion timeout
+          min_keyword_length = 1,
         },
       },
     },
