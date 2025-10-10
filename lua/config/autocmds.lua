@@ -134,22 +134,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
--- Ensure file ends with newline after all formatters/LSP
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  group = vim.api.nvim_create_augroup("ensure_final_newline", { clear = true }),
-  callback = function(event)
-    local buf = event.buf
-    if vim.bo[buf].buftype == "terminal" then
-      return
-    end
-
-    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-    if #lines > 0 and lines[#lines] ~= "" then
-      vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "" })
-      vim.cmd("silent! write")
-    end
-  end,
-})
 
 vim.cmd([[
 "Delete all Git conflict markers
