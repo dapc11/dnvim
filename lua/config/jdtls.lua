@@ -262,10 +262,9 @@ local function jdtls_setup(_event)
   })
 end
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = java_cmds,
-  pattern = { "java" },
-  desc = "Setup jdtls",
-  callback = jdtls_setup,
-})
-
+-- vim.api.nvim_create_autocmd("FileType", {
+--   group = java_cmds,
+--   pattern = { "java" },
+--   desc = "Setup jdtls",
+--   callback = jdtls_setup,
+-- })

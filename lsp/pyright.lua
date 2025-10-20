@@ -9,6 +9,24 @@ return {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
         diagnosticMode = "openFilesOnly",
+        exclude = {
+          "**/node_modules",
+          "**/.venv",
+          "**/venv",
+          "**/.git",
+          "**/bob",
+          "**/automation/bob",
+          "**/snap",
+          "/usr",
+          "/sys",
+          "/snap",
+          "/proc",
+          "/opt",
+          "/lib",
+          "/var",
+          "/bin",
+          "/etc",
+        },
         diagnosticSeverityOverrides = {
           reportUnknownParameterType = false,
           reportImplicitRelativeImport = false,
@@ -32,3 +50,4 @@ return {
   },
 }
 
+-- Jetbrains Mono NL  Medium 10
