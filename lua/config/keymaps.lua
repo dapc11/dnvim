@@ -1,7 +1,7 @@
 local map = require("util").map
 
-map({ "n", "o", "x" }, ">", "[", { remap = true })
-map({ "n", "o", "x" }, "<", "]", { remap = true })
+map({ "n", "o" }, ">", "[", { remap = true })
+map({ "n", "o" }, "<", "]", { remap = true })
 
 map({ "i", "n" }, "<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 map("n", "<C-z>", "<cmd>set wrap!<cr>")
@@ -33,8 +33,8 @@ map("n", "<S-Down>", "<cmd>m .+1<CR>==", { desc = "Move down" })
 map("n", "<S-Up>", "<cmd>m .-2<CR>==", { desc = "Move up" })
 map("i", "<S-Down>", "<esc><cmd>m .+1<CR>==gi", { desc = "Move down" })
 map("i", "<S-Up>", "<esc><cmd>m .-2<CR>==gi", { desc = "Move up" })
-map("v", "<S-Down>", '<cmd>m ">+1<CR>gv=gv', { desc = "Move down" })
-map("v", "<S-Up>", '<cmd>m "<-2<CR>gv=gv', { desc = "Move up" })
+map("v", "<S-Down>", ":m '>+1<CR>gv=gv", { desc = "Move down" })
+map("v", "<S-Up>", ":m '<-2<CR>gv=gv", { desc = "Move up" })
 
 map("n", "<C-s>", "/")
 map("c", "<C-s>", "<C-g>")
