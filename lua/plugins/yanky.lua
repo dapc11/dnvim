@@ -14,10 +14,9 @@ return {
     {
       "<leader>p",
       function() Snacks.picker.yanky() end,
-      mode = { "n", "x" },
+      mode = { "n", "x", "v" },
       desc = "Open Yank History",
     },
-    { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
+    { "y", "<Plug>(YankyYank)", mode = { "n", "x", "v" }, desc = "Yank text" },
   },
 }
-
