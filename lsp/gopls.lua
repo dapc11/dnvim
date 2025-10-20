@@ -16,13 +16,13 @@ return {
         vendor = false,
       },
       hints = {
-        assignVariableTypes = false,
-        compositeLiteralFields = false,
-        compositeLiteralTypes = false,
-        constantValues = false,
-        functionTypeParameters = false,
-        parameterNames = false,
-        rangeVariableTypes = false,
+        -- assignVariableTypes = false,
+        -- compositeLiteralFields = false,
+        -- compositeLiteralTypes = false,
+        -- constantValues = false,
+        -- functionTypeParameters = false,
+        -- parameterNames = false,
+        -- rangeVariableTypes = false,
       },
       usePlaceholders = false,
       completeUnimported = true,
@@ -38,4 +38,3 @@ return {
     },
   },
 }
-
