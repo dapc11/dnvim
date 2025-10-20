@@ -3,6 +3,11 @@ return {
   event = lazyfile,
   dependencies = {
     "rafamadriz/friendly-snippets",
+    {
+      "mikavilpas/blink-ripgrep.nvim",
+      version = "*",
+    },
+
   },
   version = "1.*",
   opts = {
@@ -12,25 +17,19 @@ return {
     fuzzy = {
       implementation = "rust",
     },
-    sources = {
+    sources =
+    {
+      default = {
+        "buffer",
+        "ripgrep",
+        "path",
+        "lsp",
+      },
       providers = {
-        buffer = {
-          name = "Buffer",
-          module = "blink.cmp.sources.buffer",
-          enabled = true,
-          min_keyword_length = 1,
-        },
-        path = {
-          name = "Path",
-          module = "blink.cmp.sources.path",
-          enabled = true,
-          min_keyword_length = 1,
-        },
-        snippets = {
-          name = "Snippets",
-          module = "blink.cmp.sources.snippets",
-          enabled = true,
-          min_keyword_length = 1,
+        ripgrep = {
+          module = "blink-ripgrep",
+          name = "Ripgrep",
+          opts = {},
         },
         lsp = {
           name = "LSP",
@@ -38,6 +37,12 @@ return {
           enabled = true,
           async = false,
           timeout_ms = 2000, -- LSP completion timeout
+          min_keyword_length = 1,
+        },
+        path = {
+          name = "Path",
+          module = "blink.cmp.sources.path",
+          enabled = true,
           min_keyword_length = 1,
         },
       },
@@ -51,9 +56,11 @@ return {
       menu = {
         auto_show = true,
         draw = {
-          columns = {
-            { "label", "label_description", gap = 1 },
-            { "kind_icon", gap = 1, "kind" },
+          padding = { 0, 1 }, -- padding only on right side
+          components = {
+            kind_icon = {
+              text = function(ctx) return " " .. ctx.kind_icon .. ctx.icon_gap .. " " end,
+            },
           },
         },
       },
@@ -67,4 +74,3 @@ return {
     })
   end,
 }
-
