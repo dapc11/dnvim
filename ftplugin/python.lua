@@ -31,7 +31,6 @@ else
   end
 end
 
-vim.cmd("hi link @string.documentation.python SpecialComment")
 local fzf = require("fzf-lua")
 vim.keymap.set("n", "gf", function()
   vim.cmd('noau normal! "vyiw')
@@ -44,4 +43,3 @@ end, { desc = "Goto Fixture", buffer = true })
 vim.keymap.set("n", "gR", function()
   fzf.grep_project({ search = vim.fn.expand("<cword>"), path_shorten = true })
 end, { desc = "Find Usages Under Cursor", buffer = true })
-

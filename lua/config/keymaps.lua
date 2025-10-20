@@ -38,8 +38,6 @@ map("v", "<S-Up>", '<cmd>m "<-2<CR>gv=gv', { desc = "Move up" })
 
 map("n", "<C-s>", "/")
 map("c", "<C-s>", "<C-g>")
-map("n", "<A-s>", "?")
-map("c", "<A-s>", "<C-t>")
 
 map("n", "W", "<cmd>noautocmd w<CR>")
 
