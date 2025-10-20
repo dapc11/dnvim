@@ -47,7 +47,7 @@ return {
         },
       },
       highlight = {
-        enable = false,
+        enable = true,
         disable = large_file,
       },
       indent = {
@@ -128,4 +128,3 @@ return {
     end,
   },
 }
-

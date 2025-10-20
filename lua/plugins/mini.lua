@@ -30,8 +30,6 @@ return {
         },
       })
 
-      require("mini.indentscope").setup()
-
       local new_section = function(name, action, section)
         return { name = name, action = action, section = section }
       end
@@ -79,4 +77,3 @@ return {
     end,
   },
 }
-

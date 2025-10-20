@@ -55,6 +55,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end,
       })
     end
+    client.server_capabilities.semanticTokensProvider = nil
   end,
   group = vim.api.nvim_create_augroup("my.lsp", {}),
 })
