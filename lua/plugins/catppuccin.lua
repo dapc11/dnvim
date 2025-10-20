@@ -50,6 +50,8 @@ return {
       },
       highlight_overrides = {
         macchiato = function(colors)
+          local popup_bg = colors[require("config.colors").POPUP_BG_COLOR]
+
           return {
             LineNr = { fg = colors.text },
             CursorLineNr = { fg = colors.text, bg = colors.surface0 },
@@ -85,18 +87,18 @@ return {
             -- Special = { fg = colors.overlay2 },
             -- SpecialChar = { fg = colors.overlay2 },
             -- FZF
-            FzfLuaNormal = { bg = colors.base },
-            FzfLuaBorder = { fg = colors.base, bg = colors.base },
+            FzfLuaNormal = { bg = popup_bg },
+            FzfLuaBorder = { fg = popup_bg, bg = popup_bg },
             FzfluaTitle = { fg = colors.text, bg = colors.overlay0, style = { "bold" } },
             FzfLuaTitleFlags = { fg = colors.text },
-            FzfLuaBackdrop = { bg = colors.surface0 },
-            FzfLuaPreviewNormal = { bg = colors.surface0 },
-            FzfLuaPreviewBorder = { fg = colors.surface0, bg = colors.surface0 },
+            FzfLuaBackdrop = { bg = popup_bg },
+            FzfLuaPreviewNormal = { bg = popup_bg },
+            FzfLuaPreviewBorder = { fg = popup_bg, bg = popup_bg },
             FzfLuaPreviewTitle = { fg = colors.text, bg = colors.overlay0, style = { "bold" } },
-            FzfLuaScrollBorderEmpty = { fg = colors.surface0, bg = colors.surface0 },
-            FzfLuaScrollBorderFull = { fg = colors.subtext1, bg = colors.surface0 },
-            FzfLuaScrollFloatEmpty = { fg = colors.surface0, bg = colors.surface0 },
-            FzfLuaScrollFloatFull = { fg = colors.subtext1, bg = colors.surface0 },
+            FzfLuaScrollBorderEmpty = { fg = popup_bg, bg = popup_bg },
+            FzfLuaScrollBorderFull = { fg = popup_bg, bg = popup_bg },
+            FzfLuaScrollFloatEmpty = { fg = popup_bg, bg = popup_bg },
+            FzfLuaScrollFloatFull = { fg = popup_bg, bg = popup_bg },
             FzfLuaCursorLine = { bg = colors.surface2 },
             FzfLuaLivePrompt = { fg = colors.red },
 
@@ -129,6 +131,22 @@ return {
             Delimiter = { fg = colors.text },
             Ignore = { fg = colors.subtext2 },
             Macro = { fg = colors.teal },
+            -- General floating windows
+            NormalFloat = { fg = colors.text, bg = popup_bg },
+            FloatBorder = { fg = popup_bg, bg = popup_bg },
+
+            -- Completion menu colors
+            Pmenu = { fg = colors.text, bg = popup_bg },
+            PmenuSel = { fg = colors.text, bg = colors.surface2 },
+            PmenuSbar = { bg = colors.surface1 },
+            PmenuThumb = { bg = colors.overlay0 },
+            BlinkCmpMenu = { fg = colors.text, bg = popup_bg },
+            BlinkCmpMenuBorder = { fg = popup_bg, bg = popup_bg },
+            BlinkCmpMenuSelection = { fg = colors.text, bg = colors.surface2 },
+            BlinkCmpLabel = { fg = colors.text },
+            BlinkCmpLabelMatch = { fg = colors.red, style = { "bold" } },
+            BlinkCmpKind = { fg = colors.subtext1 },
+
             DiagnosticUnnecessary = { fg = colors.overlay2 },
             DiagnosticUnderlineWarn = { style = {} },
             DiagnosticUnderlineError = { style = {} },
