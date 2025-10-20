@@ -31,6 +31,7 @@ return { {
           },
         },
         fzf_colors = {
+          ["bg"] = { "bg", "Normal" },
           ["bg+"] = { "bg", "CursorLine" },
           ["gutter"] = { "fg", "NeoTreeStatusLineNC" }, -- Matches background of catppuccin-machiato
           ["hl+"] = { "fg", "Error" }, -- Current line match
@@ -159,4 +160,3 @@ return { {
       }
     end,
   } }
-
