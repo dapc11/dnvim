@@ -31,12 +31,12 @@ return { {
           },
         },
         fzf_colors = {
-          ["bg"] = { "bg", "Normal" },
+          ["bg"] = { "bg", "FzfLuaNormal" },
           ["bg+"] = { "bg", "CursorLine" },
-          ["gutter"] = { "fg", "NeoTreeStatusLineNC" }, -- Matches background of catppuccin-machiato
+          ["gutter"] = { "bg", "FzfLuaNormal" },
           ["hl+"] = { "fg", "Error" }, -- Current line match
           ["hl"] = { "fg", "Error" }, -- Other line matches
-          ["separator"] = { "fg", "NeoTreeStatusLineNC" }, -- Matches background of catppuccin-machiato
+          ["separator"] = { "bg", "FzfLuaNormal" },
           ["scrollbar"] = { "fg", "CursorLine" },
           ["header"] = { "fg", "CursorLine" },
           ["spinner"] = { "fg", "CursorLine" },
