@@ -134,6 +134,13 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
+-- Auto save when losing focus
+vim.api.nvim_create_autocmd("FocusLost", {
+  group = vim.api.nvim_create_augroup("auto_save", { clear = true }),
+  callback = function()
+    vim.cmd("silent! wa")
+  end,
+})
 
 vim.cmd([[
 "Delete all Git conflict markers
@@ -145,4 +152,3 @@ endfunction
 "-range=% default is whole file
 command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
 ]])
-
