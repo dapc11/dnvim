@@ -29,7 +29,16 @@ return {
         ripgrep = {
           module = "blink-ripgrep",
           name = "Ripgrep",
-          opts = {},
+          opts = {
+            prefix_min_len = 4,
+            backend = {
+              use = "gitgrep-or-ripgrep",
+              ripgrep = {
+                max_filesize = "500K",
+                additional_rg_options = { "--max-count=50" },
+              },
+            },
+          },
         },
         lsp = {
           name = "LSP",
