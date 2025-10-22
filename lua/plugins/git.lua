@@ -71,7 +71,6 @@ return {
       { "<leader>gg", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
       { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
-      { "<leader>gb", "<cmd>Git blame --date=short<CR>", desc = "Blame" },
       {
         "<leader>ff",
         function()
