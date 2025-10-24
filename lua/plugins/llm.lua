@@ -45,22 +45,23 @@ local UNIT_TEST_PROMPT = "Generate unit tests for the following function."
 local GIT_COMMIT_SUBJECT_MAX_CHARS = 50
 local GIT_COMMIT_BODY_MAX_CHARS = 72
 
-local GIT_COMMIT_MESSAGE_PROMPT = "Write short commit messages:\n"
-    .. "- The first line should be a short summary of the changes and shall be max "
-    .. GIT_COMMIT_SUBJECT_MAX_CHARS
-    .. " chars\n"
-    .. "- Body lines shall be max "
-    .. GIT_COMMIT_BODY_MAX_CHARS
-    .. " chars or else split the line on multiple lines.\n"
-    .. "- Be short and concise.\n"
-    .. "- Remember to mention the files that were changed, and what was changed\n"
-    .. "- Explain the 'why' behind changes\n"
-    .. "- Use bullet points for multiple changes\n"
-    .. "- If there are no changes, or the input is blank - then return a blank string\n"
-    ..
-    "- The output should be paste-able directoy to command line `git commit -m 'message' and the newlinews needs to be taken into account\n"
-    .. "\n"
-    .. "Think carefully before you write your commit message."
+local GIT_COMMIT_MESSAGE_PROMPT = "You are a git commit message writer. Your job is to analyze code diffs and write commit messages.\n\n"
+    .. "A git commit message has two parts:\n"
+    .. "1. Subject line: A single line that summarizes the change\n"
+    .. "2. Body: Optional detailed explanation\n\n"
+    .. "Subject line:\n"
+    .. "- Start with imperative verb (Add, Fix, Update, Remove, etc.)\n"
+    .. "- Capitalize first word\n"
+    .. "- No period at end\n"
+    .. "- Complete this sentence: 'If applied, this commit will [your subject]'\n\n"
+    .. "Body:\n"
+    .. "- Separate from subject with blank line\n"
+    .. "- Explain WHAT changed and WHY it was necessary\n"
+    .. "- Focus on business impact and user benefit, not code details\n"
+    .. "- Don't describe the diff - explain the reasoning\n"
+    .. "- Skip body if change is simple\n\n"
+    .. "Example: 'Simplify serialize.h exception handling' not 'Update GIT_COMMIT_MESSAGE_PROMPT variable'\n"
+    .. "Output format: Start directly with the subject line. No explanations, no 'Here is...' text."
 
 local DEFAULT_MAX_TOKENS = 16000 -- Maximum tokens for LLM response
 local DEFAULT_CONTEXT_SIZE = 131072 -- Context window size
@@ -148,18 +149,14 @@ return {
     },
     hooks = {
       Git = function(gp, params)
-        local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
-        local template = "I have the following git diff:\n\n"
-            .. "```diff\n"
-            .. buffer
-            .. "\n```\n\n"
-            .. "Please generate a Git commit message with a subject of max "
-            .. GIT_COMMIT_SUBJECT_MAX_CHARS
-            .. " chars and a body where lines are max "
-            .. GIT_COMMIT_BODY_MAX_CHARS
-            .. " chars."
-            ..
-            "If there are many changes, provide a clear dash-based list describing the changes. Make sure the description is kept on a high-level."
+        local diff = vim.fn.system("git diff --cached --no-color")
+        if vim.v.shell_error ~= 0 or diff == "" then
+          vim.notify("No staged changes found", vim.log.levels.WARN)
+          return
+        end
+
+        local template = "Analyze this git diff and write a commit message:\n\n" .. diff
+
         local agent = gp.get_chat_agent("git")
         gp.Prompt(params, gp.Target.prepend, agent, template)
       end,
@@ -187,4 +184,3 @@ return {
     },
   },
 }
-
