@@ -26,15 +26,6 @@ local LEARNING_PROMPT =
     .. "- Performance optimization\n"
     .. "- Best practices for the language currently used."
 
-local REVIEW_PROMPT = "Please review the following code.\n"
-    .. "Consider:\n"
-    .. "- Code quality and adherence to best practices\n"
-    .. "- Potential bugs or edge cases\n"
-    .. "- Performance optimizations\n"
-    .. "- Readability and maintainability\n"
-    .. "- Any security concerns\n"
-    .. "Suggest improvements and explain your reasoning for each suggestion."
-
 local UNIT_TEST_PROMPT = "Generate unit tests for the following function."
     .. "Include tests for:\n"
     .. "- Normal expected inputs\n"
@@ -42,10 +33,28 @@ local UNIT_TEST_PROMPT = "Generate unit tests for the following function."
     .. "- Invalid inputs\n"
     .. "Use Pytest for Python and Ginkgo for Golang, and JUnit 5 for Java syntax."
 
-local GIT_COMMIT_SUBJECT_MAX_CHARS = 50
-local GIT_COMMIT_BODY_MAX_CHARS = 72
+local PRECISION_REVIEW_PROMPT =
+    "You are 'The Precision Engineer' code reviewer. ONLY comment on demonstrable problems that will cause actual issues.\n\n"
+    .. "Comment ONLY when you can PROVE one of these 7 specific problems:\n"
+    .. "1. Compilation Error: Code will not compile (syntax errors, missing imports)\n"
+    .. "2. Runtime Bug: Specific scenario where code will crash or fail\n"
+    .. "3. Security Vulnerability: Actual exploitable weakness (SQL injection, XSS, etc.)\n"
+    .. "4. Formatting Error: Missing newlines at EOF, trailing spaces, wrong indentation\n"
+    .. "5. Pattern Violation: Clear deviation from patterns established in THIS codebase\n"
+    .. "6. Logic Contradiction: Code behavior contradicts its own documentation/comments/naming\n"
+    .. "7. Commit Message Issues: Body duplicates subject, missing required fields\n\n"
+    .. "DO NOT comment on:\n"
+    .. "- Style preferences ('could be better', 'minor comments')\n"
+    .. "- Theoretical improvements without proven problems\n"
+    .. "- Performance suggestions without benchmarks\n"
+    .. "- Architecture opinions\n\n"
+    .. "Response format:\n"
+    .. "- If ANY issues found: List them specifically, then conclude with 'Issues found'\n"
+    .. "- If NO issues found: Simply '+1'\n"
+    .. "- Be consistent: Don't list issues then say '+1'"
 
-local GIT_COMMIT_MESSAGE_PROMPT = "You are a git commit message writer. Your job is to analyze code diffs and write commit messages.\n\n"
+local GIT_COMMIT_MESSAGE_PROMPT =
+    "You are a git commit message writer. Your job is to analyze code diffs and write commit messages.\n\n"
     .. "A git commit message has two parts:\n"
     .. "1. Subject line: A single line that summarizes the change\n"
     .. "2. Body: Optional detailed explanation\n\n"
@@ -148,13 +157,13 @@ return {
       get_agent("chat", true, false, LEARNING_PROMPT, 0.5),
       get_agent("coder", false, true, PROMPT),
       get_agent("ut", false, true, UNIT_TEST_PROMPT),
-      get_agent("review", true, false, REVIEW_PROMPT),
+      get_agent("review", true, false, PRECISION_REVIEW_PROMPT),
       get_agent("git", true, true, GIT_COMMIT_MESSAGE_PROMPT),
     },
     hooks = {
       Git = function(gp, params)
         local diff = vim.fn.system("git diff --cached --no-color")
-        
+
         -- If no staged changes, use inline diff for reword
         if vim.v.shell_error ~= 0 or diff == "" then
           local buffer_content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
@@ -168,9 +177,9 @@ return {
             return
           end
         end
-        
+
         local template = "Analyze this git diff and write a commit message:\n\n" .. diff
-            
+
         local agent = gp.get_chat_agent("git")
         gp.Prompt(params, gp.Target.prepend, agent, template)
       end,
@@ -189,11 +198,30 @@ return {
         gp.Prompt(params, gp.Target.popup, agent, template)
       end,
       Review = function(gp, params)
-        local template = "I have the following code from {{filename}}:\n\n"
-            .. "```{{filetype}}\n{{selection}}\n```\n\n"
-            .. "Please analyze for code smells and suggest improvements."
+        -- Check if user provided input (commit hash)
+        local user_input = params.args or ""
+        local diff = ""
+
+        if user_input ~= "" then
+          -- Review specific commit
+          diff = vim.fn.system("git show --no-color " .. user_input)
+          if vim.v.shell_error ~= 0 then
+            vim.notify("Error getting commit: " .. user_input, vim.log.levels.ERROR)
+            return
+          end
+        else
+          -- Review staged changes
+          diff = vim.fn.system("git diff --cached --no-color")
+          if vim.v.shell_error ~= 0 or diff == "" then
+            vim.notify("No staged changes found", vim.log.levels.WARN)
+            return
+          end
+        end
+
+        local template = "Review this code change:\n\n" .. diff .. "\n\n"
+            .. "Apply precision engineering principles. Only flag demonstrable problems."
         local agent = gp.get_chat_agent("review")
-        gp.Prompt(params, gp.Target.vnew("markdown"), agent, template)
+        gp.Prompt(params, gp.Target.new("markdown"), agent, template)
       end,
     },
   },
