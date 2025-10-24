@@ -154,13 +154,23 @@ return {
     hooks = {
       Git = function(gp, params)
         local diff = vim.fn.system("git diff --cached --no-color")
+        
+        -- If no staged changes, use inline diff for reword
         if vim.v.shell_error ~= 0 or diff == "" then
-          vim.notify("No staged changes found", vim.log.levels.WARN)
-          return
+          local buffer_content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+          if buffer_content ~= "" then
+            local template = "Improve this commit message:\n\n" .. buffer_content
+            local agent = gp.get_chat_agent("git")
+            gp.Prompt(params, gp.Target.prepend, agent, template)
+            return
+          else
+            vim.notify("No staged changes or commit message found", vim.log.levels.WARN)
+            return
+          end
         end
-
+        
         local template = "Analyze this git diff and write a commit message:\n\n" .. diff
-
+            
         local agent = gp.get_chat_agent("git")
         gp.Prompt(params, gp.Target.prepend, agent, template)
       end,
