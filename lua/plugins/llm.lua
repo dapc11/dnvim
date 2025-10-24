@@ -60,6 +60,10 @@ local GIT_COMMIT_MESSAGE_PROMPT = "You are a git commit message writer. Your job
     .. "- Focus on business impact and user benefit, not code details\n"
     .. "- Don't describe the diff - explain the reasoning\n"
     .. "- Skip body if change is simple\n\n"
+    .. "Style:\n"
+    .. "- Be direct and factual\n"
+    .. "- Avoid verbose explanations\n"
+    .. "- No marketing language\n\n"
     .. "Example: 'Simplify serialize.h exception handling' not 'Update GIT_COMMIT_MESSAGE_PROMPT variable'\n"
     .. "Output format: Start directly with the subject line. No explanations, no 'Here is...' text."
 
