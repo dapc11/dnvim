@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "gd", fzf.lsp_definitions, opts("Goto Definition"))
     map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-    map("n", "<leader>fd", vim.diagnostic.open_float, opts("Find Diagnostic"))
+    map("n", "<leader>fd", fzf.diagnostics_document, opts("Find Diagnostic"))
     map("n", "<leader>fD", fzf.diagnostics_workspace, opts("Find Workspace Diagnostic"))
     map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts("Next Diagnostic"))
     map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev Diagnostic"))
