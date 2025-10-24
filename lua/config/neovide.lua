@@ -1,4 +1,8 @@
-vim.o.guifont = "JetBrains Mono NL:h14"
+-- vim.o.guifont = "JetBrains Mono NL:h13"
+vim.o.guifont = "JetBrains Mono:h12"
+vim.g.neovide_font_hinting = "none"
+vim.g.neovide_font_edging = "antialias"
+
 vim.api.nvim_set_keymap("n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>", {})
 vim.api.nvim_set_keymap("n", "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>", {})
 vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", {})
@@ -27,4 +31,3 @@ vim.api.nvim_set_keymap("", "<SC-v>", "+p<CR>", { noremap = true, silent = true 
 vim.api.nvim_set_keymap("!", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
-
