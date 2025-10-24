@@ -79,10 +79,12 @@ return {
         swap = {
           enable = true,
           swap_next = {
-            ["<C-l>"] = "@parameter.inner",
+            ["<leader>a"] = "@parameter.inner",
+            ["<leader>f"] = "@function.outer",
           },
           swap_previous = {
-            ["<C-h>"] = "@parameter.inner",
+            ["<leader>A"] = "@parameter.inner",
+            ["<leader>F"] = "@function.outer",
           },
         },
         select = {
