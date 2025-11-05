@@ -87,7 +87,15 @@ return {
         end, { buffer = bufnr, desc = "Open requirement ticket" })
       end
 
-      require("blame").setup {}
+      require("blame").setup {
+        mappings = {
+          commit_info = "i",
+          stack_push = "n",
+          stack_pop = "p",
+          show_commit = "<CR>",
+          close = { "<esc>", "q" },
+        },
+      }
 
       -- Add keymap to blame window when it opens
       vim.api.nvim_create_autocmd("User", {
