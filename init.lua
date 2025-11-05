@@ -9,7 +9,6 @@ require("config.usercmds")
 require("config.keymaps")
 require("config.lsp")
 require("config.jdtls")
-require("config.amazonq")
 if vim.g.neovide then
   require("config.neovide")
 end
