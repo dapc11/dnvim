@@ -48,6 +48,9 @@ return {
       ["H"] = "actions.toggle_hidden",
       ["<C-h>"] = "actions.toggle_hidden",
       ["g\\"] = "actions.toggle_trash",
+      ["<C-g>"] = function()
+        require("fzf-lua").live_grep({ cwd = require("oil").get_current_dir() })
+      end,
     },
   },
   keys = {
