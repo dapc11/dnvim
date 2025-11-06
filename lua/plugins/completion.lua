@@ -3,11 +3,6 @@ return {
   event = lazyfile,
   dependencies = {
     "rafamadriz/friendly-snippets",
-    {
-      "mikavilpas/blink-ripgrep.nvim",
-      version = "*",
-    },
-
   },
   version = "1.*",
   opts = {
@@ -21,23 +16,23 @@ return {
     {
       default = {
         "buffer",
-        "ripgrep",
         "path",
         "lsp",
       },
       providers = {
-        ripgrep = {
-          module = "blink-ripgrep",
-          name = "Ripgrep",
+        buffer = {
+          name = "Buffer",
+          module = "blink.cmp.sources.buffer",
           opts = {
-            prefix_min_len = 4,
-            backend = {
-              use = "gitgrep-or-ripgrep",
-              ripgrep = {
-                max_filesize = "500K",
-                additional_rg_options = { "--max-count=50" },
-              },
-            },
+            max_sync_buffer_size = 50000, -- Increased from 20k for instant completion (keeps larger buffers synchronous)
+            use_cache = true, -- Cache words per buffer for instant retrieval
+            get_bufnrs = function() -- Only include actual file buffers, exclude special/temp buffers
+              return vim
+                  .iter(vim.api.nvim_list_wins())
+                  :map(function(win) return vim.api.nvim_win_get_buf(win) end)
+                  :filter(function(buf) return vim.bo[buf].buftype ~= "nofile" end)
+                  :totable()
+            end,
           },
         },
         lsp = {
