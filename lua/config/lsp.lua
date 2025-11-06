@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    if client:supports_method("textDocument/inlayHint") then
+    if client:supports_method("textDocument/inlayHint") and vim.lsp.inlay_hint then
       vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
     end
 
