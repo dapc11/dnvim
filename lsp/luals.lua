@@ -33,6 +33,7 @@ return {
         checkThirdParty = false,
         library = {
           unpack(vim.api.nvim_get_runtime_file("", true)),
+          vim.fn.stdpath("data") .. "/lazy",
         },
       },
       completion = {
@@ -72,6 +73,7 @@ return {
           "MiniStarter",
           "Snacks",
           "noop",
+          "vim",
           -- Awesomewm related globals
           "client",
           "awesome",
@@ -89,4 +91,3 @@ return {
     },
   },
 }
-
