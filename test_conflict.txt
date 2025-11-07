@@ -1,0 +1,29 @@
+Some normal content here
+
+<<<<<<< HEAD
+This is our version of the code
+We made changes here
+=======
+This is their version of the code  
+They made different changes
+>>>>>>> branch-name
+
+More content in between
+
+<<<<<<< HEAD
+Another conflict section
+Our implementation
+=======
+Another conflict section
+Their implementation  
+>>>>>>> branch-name
+
+Final content here
+
+<<<<<<< HEAD
+Last conflict
+Our final changes
+=======
+Last conflict
+Their final changes
+>>>>>>> branch-name
