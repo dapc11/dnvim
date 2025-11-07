@@ -11,3 +11,24 @@ vim.api.nvim_create_user_command("Trim", function()
   -- Remove trailing whitespace
   vim.cmd([[%s/\s\+$//e]])
 end, { desc = "Trim trailing whitespace and ensure single blank line at end" })
+
+-- Command typo fixes
+local cmds = {
+  { "W", "w" },
+  { "Wq", "wq" },
+  { "WQ", "wq" },
+  { "Q", "q" },
+  { "Qw", "wq" },
+}
+for _, cmd in ipairs(cmds) do
+  vim.api.nvim_create_user_command(cmd[1], cmd[2], {})
+end
+
+-- Force variants using command abbreviations
+vim.cmd([[
+  cnoreabbrev W! w!
+  cnoreabbrev Wq! wq!
+  cnoreabbrev WQ! wq!
+  cnoreabbrev Q! q!
+  cnoreabbrev Qw! wq!
+]])
