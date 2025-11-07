@@ -1,7 +1,7 @@
 return {
   cmd = { "gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  single_file_support = true,
+  single_file_support = false,
   settings = {
     gopls = {
       gofumpt = false,
@@ -16,13 +16,13 @@ return {
         vendor = false,
       },
       hints = {
-        -- assignVariableTypes = false,
-        -- compositeLiteralFields = false,
-        -- compositeLiteralTypes = false,
-        -- constantValues = false,
-        -- functionTypeParameters = false,
-        -- parameterNames = false,
-        -- rangeVariableTypes = false,
+        assignVariableTypes = false,
+        compositeLiteralFields = false,
+        compositeLiteralTypes = false,
+        constantValues = false,
+        functionTypeParameters = false,
+        parameterNames = false,
+        rangeVariableTypes = false,
       },
       usePlaceholders = false,
       completeUnimported = true,

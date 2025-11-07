@@ -68,7 +68,23 @@ return {
     lazy = false,
     keys = {
       { "<leader>ge", "<cmd>Gedit<CR>", desc = "Edit" },
-      { "<leader>gg", "<cmd>Git<CR>" },
+      { "<leader>gg", function()
+        local orig_buf = vim.api.nvim_get_current_buf()
+        vim.cmd("Git")
+        vim.cmd("only")
+        vim.api.nvim_create_autocmd("BufLeave", {
+          buffer = vim.api.nvim_get_current_buf(),
+          once = true,
+          callback = function()
+            vim.schedule(function()
+              if vim.api.nvim_buf_is_valid(orig_buf) then
+                vim.api.nvim_set_current_buf(orig_buf)
+              end
+            end)
+          end,
+        })
+      end },
+      { "<leader>gG", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
       { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
       {
@@ -112,4 +128,3 @@ return {
     },
   },
 }
-
