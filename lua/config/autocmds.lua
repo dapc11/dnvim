@@ -39,10 +39,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
         vim.cmd("diffupdate")
       end, { buffer = true, silent = true, desc = "Theirs" })
       map("n", "<leader><up>", function()
-        vim.fn.search("<<<<<<< HEAD", "b")
+        vim.fn.search("<<<<<<< HEAD", "bw")
       end, { buffer = true, silent = true, desc = "Previous conflict" })
       map("n", "<leader><down>", function()
-        vim.fn.search("<<<<<<< HEAD")
+        vim.fn.search("<<<<<<< HEAD", "w")
       end, { buffer = true, silent = true, desc = "Next conflict" })
     end
   end,
