@@ -12,6 +12,21 @@ local close = {
 
 return {
   "stevearc/oil.nvim",
+  config = function(_, opts)
+    require("oil").setup(opts)
+    local last_dir = nil
+    local function update_cwd()
+      local current_dir = require("oil").get_current_dir()
+      if current_dir ~= last_dir then
+        vim.cmd("cd " .. current_dir)
+        last_dir = current_dir
+      end
+    end
+    vim.api.nvim_create_autocmd({"BufEnter", "CursorMoved"}, {
+      pattern = "oil://*",
+      callback = update_cwd,
+    })
+  end,
   opts = {
     win_options = {
       wrap = false,
