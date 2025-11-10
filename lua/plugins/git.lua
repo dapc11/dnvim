@@ -66,6 +66,9 @@ return {
   {
     "tpope/vim-fugitive",
     lazy = false,
+    config = function()
+      vim.cmd("silent! runtime! syntax/diff.vim")
+    end,
     keys = {
       { "<leader>ge", "<cmd>Gedit<CR>", desc = "Edit" },
       { "<leader>gg", function()
@@ -77,7 +80,7 @@ return {
           once = true,
           callback = function()
             vim.schedule(function()
-              if vim.api.nvim_buf_is_valid(orig_buf) then
+              if vim.bo.filetype ~= "gitcommit" and vim.api.nvim_buf_is_valid(orig_buf) then
                 vim.api.nvim_set_current_buf(orig_buf)
               end
             end)
