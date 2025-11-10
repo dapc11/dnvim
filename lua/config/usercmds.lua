@@ -16,6 +16,7 @@ end, { desc = "Trim trailing whitespace and ensure single blank line at end" })
 local cmds = {
   { "W", "w" },
   { "Wq", "wq" },
+  { "Wqa", "wqa" },
   { "WQ", "wq" },
   { "Q", "q" },
   { "Qw", "wq" },
