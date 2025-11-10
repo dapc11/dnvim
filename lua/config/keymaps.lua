@@ -143,3 +143,14 @@ end, { desc = "Stop Active LSP Clients" })
 map("n", "<leader>zn", function()
   require("util").create_note()
 end, { desc = "New Note" })
+
+-- Scratch buffer toggle
+map("n", "<leader>xs", function()
+  local scratch_file = vim.fn.expand("~/nvim-scratch.txt")
+  
+  if vim.fn.expand("%:p") == scratch_file then
+    vim.cmd("buffer #")
+  else
+    vim.cmd("edit " .. scratch_file)
+  end
+end, { desc = "Toggle scratch buffer" })
