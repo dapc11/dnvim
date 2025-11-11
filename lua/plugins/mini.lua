@@ -43,11 +43,10 @@ return {
         items = {
           new_section("Find file", fzfe.files, "Finders"),
           new_section("Recent files", fzf.oldfiles, "Finders"),
-          new_section("Grep text", fzf.live_grep, "Finders"),
           new_section("Projects", function()
             require("util.common").fzf_projectionist()
           end, "Finders"),
-          new_section("Git", "Git", "Git"),
+          { name = "Git", action = require("plugins.git").git_status_fn, section = "Git" },
           new_section("Lazy", "Lazy", "Config"),
           new_section("Config", function()
             fzfe.files({ cwd = "~/.config/nvim/" })

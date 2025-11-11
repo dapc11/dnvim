@@ -1,3 +1,21 @@
+local function git_status_fn()
+  local orig_buf = vim.api.nvim_get_current_buf()
+  vim.cmd("Git")
+  vim.cmd("only")
+  vim.api.nvim_create_autocmd("BufLeave", {
+    buffer = vim.api.nvim_get_current_buf(),
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        local current_ft = vim.bo.filetype
+        if current_ft ~= "gitcommit" and current_ft ~= "git" and current_ft ~= "fugitive" and vim.api.nvim_buf_is_valid(orig_buf) then
+          vim.api.nvim_set_current_buf(orig_buf)
+        end
+      end)
+    end,
+  })
+end
+
 local function Gsearch()
   local input = vim.fn.input("Search phrase> ", "")
   vim.cmd({
@@ -19,7 +37,8 @@ local function GitSearchCurrentFileHistory()
 end
 
 local map = require("util").map
-return {
+
+local plugins = {
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
@@ -71,23 +90,7 @@ return {
     end,
     keys = {
       { "<leader>ge", "<cmd>Gedit<CR>", desc = "Edit" },
-      { "<leader>gg", function()
-        local orig_buf = vim.api.nvim_get_current_buf()
-        vim.cmd("Git")
-        vim.cmd("only")
-        vim.api.nvim_create_autocmd("BufLeave", {
-          buffer = vim.api.nvim_get_current_buf(),
-          once = true,
-          callback = function()
-            vim.schedule(function()
-              local current_ft = vim.bo.filetype
-              if current_ft ~= "gitcommit" and current_ft ~= "git" and current_ft ~= "fugitive" and vim.api.nvim_buf_is_valid(orig_buf) then
-                vim.api.nvim_set_current_buf(orig_buf)
-              end
-            end)
-          end,
-        })
-      end },
+      { "<leader>gg", git_status_fn },
       { "<leader>gG", "<cmd>Git<CR>" },
       { "<leader>gd", "<cmd>Gvdiffsplit!<CR>", desc = "3-way Diff" },
       { "<leader>gD", "<cmd>Gvdiffsplit<CR>", desc = "Diff" },
@@ -132,3 +135,9 @@ return {
     },
   },
 }
+
+return setmetatable(plugins, {
+  __index = {
+    git_status_fn = git_status_fn,
+  }
+})
