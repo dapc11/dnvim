@@ -19,6 +19,7 @@ local cmds = {
   { "Wqa", "wqa" },
   { "WQ", "wq" },
   { "Q", "q" },
+  { "Qa", "qa" },
   { "Qw", "wq" },
 }
 for _, cmd in ipairs(cmds) do
