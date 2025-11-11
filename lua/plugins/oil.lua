@@ -2,10 +2,7 @@ local close = {
   desc = "Close oil and restore original buffer",
   callback = function()
     local oilbuf = vim.api.nvim_get_current_buf()
-    local ok = pcall(vim.cmd.bprev)
-    if not ok then
-      vim.cmd("FzfLua files")
-    end
+    pcall(vim.cmd.bprev)
     vim.api.nvim_buf_delete(oilbuf, { force = true })
   end,
 }
@@ -52,6 +49,9 @@ return {
         vim.fn.feedkeys("/")
       end,
       ["f"] = function()
+        vim.fn.feedkeys("/")
+      end,
+      ["s"] = function()
         vim.fn.feedkeys("/")
       end,
       ["r"] = "actions.refresh",
