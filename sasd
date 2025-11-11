@@ -1,0 +1,26 @@
+# CVE Delta Analysis
+
+## CVEs FIXED by 5.0.6:
+
+11 CVEs were fixed:
+
+High Severity (4 fixed):
+• CVE-2022-1471 - SnakeYaml Constructor Deserialization Remote Code Execution
+• CVE-2022-25857 - SnakeYaml Denial of Service due to missing nested depth limitation
+• CVE-2022-42003 - Jackson-databind deep wrapper array nesting vulnerability
+• CVE-2022-42004 - Jackson-databind use of deeply nested arrays
+• CVE-2025-52999 - Jackson-core potential StackoverflowError
+
+Medium Severity (6 fixed):
+• CVE-2022-38749 - SnakeYaml uncaught exception in Composer.composeSequenceNode
+• CVE-2022-38750 - SnakeYaml uncaught exception in BaseConstructor.constructObject
+• CVE-2022-38751 - SnakeYaml uncaught exception in regex Pattern matching
+• CVE-2022-38752 - SnakeYaml uncaught exception in ArrayList.hashCode
+• CVE-2022-41854 - SnakeYaml DoS via stack overflow
+• CVE-2025-48924 - Commons-lang uncontrolled recursion vulnerability
+
+## CVEs REMAINING:
+• CVE-2023-6378, CVE-2023-6481, CVE-2024-12798, CVE-2024-12801, CVE-2025-11226, CVE-2025-58057, CVE-2025-58187
+
+The fixes primarily addressed SnakeYaml and Jackson library vulnerabilities, which were significant security improvements.
+

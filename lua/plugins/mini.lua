@@ -46,6 +46,7 @@ return {
           new_section("Projects", function()
             require("util.common").fzf_projectionist()
           end, "Finders"),
+          { name = "Explore", action = function() require("oil").open() end, section = "Files", key = "e" },
           { name = "Git", action = require("plugins.git").git_status_fn, section = "Git" },
           new_section("Lazy", "Lazy", "Config"),
           new_section("Config", function()
