@@ -1,5 +1,5 @@
 -- vim.o.guifont = "JetBrains Mono NL:h13"
-vim.o.guifont = "JetBrains Mono:h12"
+vim.o.guifont = "JetBrains Mono ExtraLight:h11:w0.1"
 vim.g.neovide_font_hinting = "none"
 vim.g.neovide_font_edging = "antialias"
 
