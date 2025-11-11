@@ -80,7 +80,8 @@ return {
           once = true,
           callback = function()
             vim.schedule(function()
-              if vim.bo.filetype ~= "gitcommit" and vim.api.nvim_buf_is_valid(orig_buf) then
+              local current_ft = vim.bo.filetype
+              if current_ft ~= "gitcommit" and current_ft ~= "git" and current_ft ~= "fugitive" and vim.api.nvim_buf_is_valid(orig_buf) then
                 vim.api.nvim_set_current_buf(orig_buf)
               end
             end)
