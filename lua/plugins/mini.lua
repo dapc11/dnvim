@@ -35,32 +35,53 @@ return {
       end
 
       local starter = require("mini.starter")
-      local fzf = require("fzf-lua")
-      local fzfe = require("fzf-lua-enchanted-files")
-
+      
       local starter_config = {
         evaluate_single = true,
-        items = {
+        items = {},
+      }
+
+      if vim.g.use_telescope then
+        local telescope = require("telescope.builtin")
+        starter_config.items = {
+          new_section("Find file", telescope.find_files, "Finders"),
+          new_section("Recent files", telescope.oldfiles, "Finders"),
+          new_section("Projects", function() require("telescope").extensions.project.project{} end, "Finders"),
+        }
+      else
+        local fzf = require("fzf-lua")
+        local fzfe = require("fzf-lua-enchanted-files")
+        starter_config.items = {
           new_section("Find file", fzfe.files, "Finders"),
           new_section("Recent files", fzf.oldfiles, "Finders"),
           new_section("Projects", function()
             require("util.common").fzf_projectionist()
           end, "Finders"),
-          { name = "Explore", action = function() require("oil").open() end, section = "Files", key = "e" },
-          { name = "Git", action = require("plugins.git").git_status_fn, section = "Git" },
-          new_section("Lazy", "Lazy", "Config"),
-          new_section("Config", function()
-            fzfe.files({ cwd = "~/.config/nvim/" })
-          end, "Config"),
-          new_section("New file", "ene | startinsert", "Built-in"),
-          -- new_section("Quit", "qa", "Built-in"),
-          new_section("Session restore", function()
-            require("persistence").load({ last = true })
-          end, "Session"),
-        },
-        content_hooks = {
-          starter.gen_hook.aligning("center", "center"),
-        },
+        }
+      end
+
+      -- Add common items
+      table.insert(starter_config.items, { name = "Explore", action = function() require("oil").open() end, section = "Files", key = "e" })
+      table.insert(starter_config.items, { name = "Git", action = require("plugins.git").git_status_fn, section = "Git" })
+      table.insert(starter_config.items, new_section("Lazy", "Lazy", "Config"))
+      
+      if vim.g.use_telescope then
+        table.insert(starter_config.items, new_section("Config", function()
+          require("telescope.builtin").find_files({ cwd = "~/.config/nvim/" })
+        end, "Config"))
+      else
+        table.insert(starter_config.items, new_section("Config", function()
+          require("fzf-lua-enchanted-files").files({ cwd = "~/.config/nvim/" })
+        end, "Config"))
+      end
+      
+      table.insert(starter_config.items, new_section("New file", "ene | startinsert", "Built-in"))
+      table.insert(starter_config.items, new_section("Session restore", function()
+        require("persistence").load({ last = true })
+      end, "Session"))
+
+      starter_config.content_hooks = {
+        starter.gen_hook.aligning("center", "center"),
       }
 
       if vim.o.filetype == "lazy" then
@@ -74,6 +95,16 @@ return {
       end
 
       starter.setup(starter_config)
+      
+      -- Add Ctrl-P keymap for projectionist in mini.starter
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniStarterOpened",
+        callback = function()
+          vim.keymap.set("n", "<C-p>", function()
+            require("util.common").fzf_projectionist()
+          end, { buffer = true })
+        end,
+      })
     end,
   },
 }
