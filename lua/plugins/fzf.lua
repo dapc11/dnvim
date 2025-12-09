@@ -21,6 +21,7 @@ return { {
           fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
         },
         grep = {
+          rg_opts = "--column --line-number --no-heading --smart-case --max-columns=4096 --glob '!vendor/'",
           actions = {
             ["ctrl-h"] = { actions.toggle_ignore },
           },
