@@ -120,7 +120,7 @@ return {
         vim.api.nvim_set_current_win(self.commit_info_window)
 
         local info_buf = vim.api.nvim_win_get_buf(self.commit_info_window)
-        vim.keymap.set("n", "o", function()
+        vim.keymap.set("n", "g", function()
           open_commit_url(commit.hash)
         end, { buffer = info_buf, desc = "Open commit in browser" })
 
