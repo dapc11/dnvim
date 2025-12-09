@@ -1,5 +1,31 @@
+local function load_zsh_env()
+  local handle = io.popen("zsh -c 'source ~/.zshrc && env'")
+  if handle then
+    for line in handle:lines() do
+      local key, value = line:match("^([^=]+)=(.*)$")
+      if key and value then
+        vim.env[key] = value
+      end
+    end
+    handle:close()
+  end
+end
+
+load_zsh_env()
+
+-- Create user command to reload environment
+vim.api.nvim_create_user_command("ReloadEnv", function()
+  load_zsh_env()
+  print("Environment variables reloaded from zsh")
+end, { desc = "Reload zsh environment variables" })
+
+
+-- Add keymap for quick environment reload
+vim.keymap.set("n", "<leader>re", ":ReloadEnv<CR>", { desc = "Reload environment" })
+
 -- vim.o.guifont = "JetBrains Mono NL:h13"
-vim.o.guifont = "JetBrains Mono ExtraLight:h11:w0.1"
+-- vim.o.guifont = "JetBrains Mono ExtraLight:h11:w0.1"
+vim.o.guifont = "Monospace:h8"
 vim.g.neovide_font_hinting = "none"
 vim.g.neovide_font_edging = "antialias"
 
