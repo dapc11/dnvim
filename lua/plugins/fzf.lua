@@ -140,33 +140,33 @@ return { {
         { "<leader><leader>", fzf.grep_project, desc = "Grep" },
         { "<leader>R", fzf.resume, desc = "Resume" },
         { "<leader><leader>", fzf.grep_visual, desc = "Live Grep Selection", mode = "v" },
-        { 
-          "<leader><S-leader>", 
+        {
+          "<leader><S-leader>",
           function()
             local cwd = vim.fn.expand("%:p:h:h")
             fzf.live_grep({ cwd = cwd })
-          end, 
-          desc = "Live Grep in File Dir"
+          end,
+          desc = "Live Grep in File Dir",
         },
-        { 
-          "<leader><S-leader>", 
+        {
+          "<leader><S-leader>",
           function()
             local cwd = vim.fn.expand("%:p:h:h")
             local selection = require("util.common").get_visual_selection()
             fzf.live_grep({ cwd = cwd, search = selection })
-          end, 
-          desc = "Live Grep Selection in File Dir", 
-          mode = "v"
+          end,
+          desc = "Live Grep Selection in File Dir",
+          mode = "v",
         },
-        { 
-          "<leader><S-space>", 
+        {
+          "<leader><S-space>",
           function()
             local cwd = vim.fn.expand("%:p:h")
             local selection = require("util.common").get_visual_selection()
             fzf.live_grep({ cwd = cwd, search = selection })
-          end, 
-          desc = "Live Grep in File Dir", 
-          mode = { "n", "v" } 
+          end,
+          desc = "Live Grep in File Dir",
+          mode = { "n", "v" },
         },
         { "<leader>zf", function() fzf.grep({ cwd = "~/notes/", path_shorten = true }) end, desc = "Search in Notes" },
         { "<leader>zb", function() fzf.files({ cwd = "~/notes/", path_shorten = true }) end, desc = "Browse Notes" },
