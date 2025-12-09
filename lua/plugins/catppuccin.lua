@@ -27,7 +27,7 @@
 
 return {
   "catppuccin/nvim",
-  enabled = true,
+  enabled = false,
   name = "catppuccin",
   priority = 1000,
   config = function()
