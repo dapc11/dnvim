@@ -21,9 +21,42 @@ return { {
           fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
         },
         grep = {
-          rg_opts = "--column --line-number --no-heading --smart-case --max-columns=4096 --glob '!vendor/'",
+          rg_glob = true,
+          rg_glob_fn = function(query, opts)
+            query = query:gsub("[\r\n]+", ""):gsub("%s+$", "") -- remove carriage returns and trim
+            local search_part, glob_part = query:match("^(.-)%s+%-%-(.*)$")
+            if search_part then
+              -- Return search terms as-is and glob flags separately
+              glob_part = glob_part:gsub("^%s+", "") -- trim leading space
+              local glob_flags = ""
+              if glob_part ~= "" then
+                -- Add **/ prefix if not already present
+                if not glob_part:match("^%*%*/") and not glob_part:match("^/") then
+                  glob_part = "**/" .. glob_part
+                end
+                glob_flags = "--iglob=" .. glob_part
+              end
+              return search_part, glob_flags
+            else
+              -- No -- found, return query as-is
+              return query, ""
+            end
+          end,
           actions = {
             ["ctrl-h"] = { actions.toggle_ignore },
+            ["ctrl-g"] = { actions.grep_lgrep },
+          },
+        },
+        oldfiles = {
+          include_current_session = true,
+        },
+        previewers = {
+          builtin = {
+            -- fzf-lua is very fast, but it really struggled to preview a couple files
+            -- in a repo. It turns out it was Treesitter having trouble parsing the files.
+            -- With this change, the previewer will not add syntax highlighting to files larger than 100KB
+            -- (Yes, I know you shouldn't have 100KB minified files in source control.)
+            syntax_limit_b = 1024 * 100, -- 100KB
           },
         },
         git = {
@@ -137,7 +170,7 @@ return { {
         },
         { "<leader>fh", fzf.helptags, desc = "Find Help" },
         { "<leader>fH", fzf.highlights, desc = "Find Highlights" },
-        { "<leader><leader>", fzf.grep_project, desc = "Grep" },
+        { "<leader><leader>", fzf.live_grep, desc = "Grep" },
         { "<leader>R", fzf.resume, desc = "Resume" },
         { "<leader><leader>", fzf.grep_visual, desc = "Live Grep Selection", mode = "v" },
         {
