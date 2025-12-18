@@ -15,12 +15,17 @@ return { {
       local actions = require("fzf-lua.actions")
       local fzf = require("fzf-lua")
       fzf.setup({
-        "max-perf",
         fzf_args = "--no-header",
         files = {
+          fzf_opts = {
+            ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-files-history",
+          },
           fd_opts = " --color=never --type f --hidden --follow --exclude .svn --exclude .git --exclude vendor",
         },
         grep = {
+          fzf_opts = {
+            ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-grep-history",
+          },
           rg_glob = true,
           rg_glob_fn = function(query, opts)
             query = query:gsub("[\r\n]+", ""):gsub("%s+$", "") -- remove carriage returns and trim
@@ -48,6 +53,9 @@ return { {
           },
         },
         oldfiles = {
+          fzf_opts = {
+            ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-files-history",
+          },
           include_current_session = true,
         },
         previewers = {
@@ -61,6 +69,9 @@ return { {
         },
         git = {
           files = {
+            fzf_opts = {
+              ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-files-history",
+            },
             cmd = "fd --color=never --type f --type l --exclude .git",
           },
         },
@@ -98,8 +109,9 @@ return { {
             ["alt-a"] = "toggle-all",
             ["shift-down"] = "preview-page-down",
             ["shift-up"] = "preview-page-up",
-            ["ctrl-p"] = "toggle-preview",
             ["ctrl-q"] = "select-all+accept",
+            ["ctrl-n"] = "next-history",
+            ["ctrl-p"] = "previous-history",
           },
         },
         actions = {
