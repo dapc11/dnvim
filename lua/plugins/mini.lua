@@ -44,28 +44,12 @@ return {
       local fzf = require("fzf-lua")
       local fzfe = require("fzf-lua-enchanted-files")
 
-      -- Use the recent files picker from fzf keymap
-      local recent_files_picker = function()
-        -- Find the keymap that uses our recent files picker
-        local keymaps = vim.api.nvim_get_keymap("n")
-        for _, keymap in ipairs(keymaps) do
-          if keymap.lhs == "<leader>r" then
-            if type(keymap.callback) == "function" then
-              keymap.callback()
-              return
-            end
-          end
-        end
-        -- Fallback to oldfiles if not found
-        fzf.oldfiles()
-      end
+      local custom_pickers = require("util.fzf-custom-pickers")
 
       starter_config.items = {
         new_section("Find file", fzfe.files, "Finders"),
-        new_section("Recent files", recent_files_picker, "Finders"),
-        new_section("Projects", function()
-          require("util.common").fzf_projectionist()
-        end, "Finders"),
+        new_section("Recent files", custom_pickers.setup_recent_files(), "Finders"),
+        new_section("Projects", custom_pickers.create_projectionist_picker(), "Finders"),
       }
 
       -- Add common items
