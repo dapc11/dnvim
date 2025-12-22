@@ -238,6 +238,13 @@ return { {
           end,
           desc = "Find Project",
         },
+        {
+          "<leader>gs",
+          function()
+            custom_pickers.create_git_search_picker()()
+          end,
+          desc = "Git Search History",
+        },
       }
     end,
   } }
