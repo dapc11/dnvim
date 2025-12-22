@@ -209,5 +209,12 @@ function M.jira_finder()
   end
 end
 
-return M
+function M.CopyPath()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("Copied to clipboard: " .. path)
+end
 
+vim.api.nvim_create_user_command("CopyPath", M.CopyPath, {})
+
+return M
