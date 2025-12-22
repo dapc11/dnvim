@@ -505,7 +505,7 @@ done < %s
     },
     prompt = "Projects> ",
     winopts = {
-      title = " Recent Projects First ",
+      title = "Projects",
       title_pos = "center",
     },
   })
@@ -683,4 +683,3 @@ function M.split(string, delimiter)
 end
 
 return M
-
