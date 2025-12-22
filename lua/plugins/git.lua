@@ -119,7 +119,7 @@ local plugins = {
         desc = "Show Missing Commits",
       },
       { "<leader>gh", "<cmd>0Gclog<cr>", desc = "View File History" },
-      { "<leader>gs", GitSearchCurrentFileHistory, desc = "Search Current File History" },
+      -- { "<leader>gs", GitSearchCurrentFileHistory, desc = "Search Current File History" },
       { "<leader>gS", Gsearch, desc = "Search History" },
     },
   },
@@ -139,5 +139,5 @@ local plugins = {
 return setmetatable(plugins, {
   __index = {
     git_status_fn = git_status_fn,
-  }
+  },
 })

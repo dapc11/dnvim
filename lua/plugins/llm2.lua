@@ -21,6 +21,7 @@ return {
               },
               raw = {
                 "--insecure",
+                "--http1.1",
               },
               handlers = {
                 lifecycle = {
@@ -107,7 +108,7 @@ return {
                   mapping = "parameters",
                   type = "enum",
                   desc = "ID of the model to use from ELI Gateway",
-                  default = "qwen3-8b",
+                  default = "phi4-14b",
                   choices = {
                     "mistral-12b",
                     "qwen2.5-7b", 
@@ -132,6 +133,19 @@ return {
       interactions = {
         chat = {
           adapter = "eli_gateway",
+          opts = {
+            system_prompt = "You are a professional senior programmer.\n"
+              .. " Response should be short and concise, and no yapping.\n"
+              .. " Your main goal is to solve any given programming issue according to below considerations.\n"
+              .. " Please consider:\n"
+              .. " - Readability\n"
+              .. " - Clean code\n"
+              .. " - Error handling\n"
+              .. " - Edge cases\n"
+              .. " - Security\n"
+              .. " - Performance optimization\n"
+              .. " - Best practices for the language currently used.",
+          },
         },
         inline = {
           adapter = "eli_gateway",

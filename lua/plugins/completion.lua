@@ -51,6 +51,10 @@ return {
         },
       },
     },
+    snippets = {
+      expand = function() end,
+      active = function() return false end,
+    },
     completion = {
       accept = {
         auto_brackets = {
@@ -58,12 +62,12 @@ return {
         },
       },
       menu = {
-        auto_show = true,
         draw = {
-          padding = { 0, 1 }, -- padding only on right side
+          columns = { { "kind_icon", "label", gap = 1 }, { "source_id" } },
           components = {
-            kind_icon = {
-              text = function(ctx) return " " .. ctx.kind_icon .. ctx.icon_gap .. " " end,
+            source_id = {
+              text = function(ctx) return ctx.source_id end,
+              highlight = "Comment",
             },
           },
         },
