@@ -62,9 +62,10 @@ local function update_match(event)
   local filetype = vim.bo[buf].filetype
   local match = matches[win_id]
 
-  -- Skip all terminal buffers or ignored filetypes
-  if buftype == "terminal" or
-      vim.tbl_contains(vim.tbl_extend("force", ignored_filetypes, { "toggleterm", "fzf" }), filetype) then
+  -- Skip floating windows, terminal buffers, or ignored filetypes
+  local cfg = vim.api.nvim_win_get_config(win_id)
+  local skip_fts = vim.list_extend(vim.list_extend({}, ignored_filetypes), { "toggleterm", "fzf", "blink-cmp-menu" })
+  if cfg.relative ~= "" or buftype == "terminal" or vim.tbl_contains(skip_fts, filetype) then
     if match then
       pcall(vim.fn.matchdelete, match)
       matches[win_id] = nil
@@ -79,7 +80,7 @@ end
 
 
 -- Run when switching windows or exiting Insert mode
-vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave", "BufReadPost" }, {
+vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave", "BufReadPost", "FileType" }, {
   callback = update_match,
 })
 
