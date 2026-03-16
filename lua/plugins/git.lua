@@ -52,6 +52,7 @@ local plugins = {
         untracked = { text = "▎" },
       },
       on_attach = function(buffer)
+        if vim.bo[buffer].filetype == "oil" then return false end
         local gs = package.loaded.gitsigns
         map("n", "]h", function()
           if vim.wo.diff then
@@ -103,6 +104,7 @@ local plugins = {
         desc = "Git Grep",
       },
       { "<leader>ff", ":Git grep -q ", desc = "Git Grep" },
+      { "<leader>gb", "<cmd>Git blame --date=short<CR>", desc = "Blame" },
       {
         "<leader>gl",
         "<cmd>Git log --graph --pretty=format:'%h %cs %s <%an>%d' --abbrev-commit<CR><CR>",

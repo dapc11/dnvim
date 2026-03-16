@@ -13,7 +13,6 @@ M.ignored_filetypes = {
   "fugitiveblame",
   "fugitive",
   "git",
-  "godoc",
   "harpoon",
   "help",
   "lazy",

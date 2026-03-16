@@ -14,7 +14,7 @@ return {
     local last_dir = nil
     local function update_cwd()
       local current_dir = require("oil").get_current_dir()
-      if current_dir ~= last_dir then
+      if current_dir and current_dir ~= last_dir and vim.fn.isdirectory(current_dir) == 1 then
         vim.cmd("cd " .. current_dir)
         last_dir = current_dir
       end
@@ -25,6 +25,7 @@ return {
     })
   end,
   opts = {
+    columns = { "icon" },
     win_options = {
       wrap = false,
       signcolumn = "no",

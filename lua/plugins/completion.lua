@@ -63,7 +63,7 @@ return {
       },
       menu = {
         draw = {
-          columns = { { "kind_icon", "label", gap = 1 }, { "source_id" } },
+          columns = { { "label" }, { "source_id" } },
           components = {
             source_id = {
               text = function(ctx) return ctx.source_id end,
