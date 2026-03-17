@@ -8,8 +8,6 @@ M.ignored_filetypes = {
   "PlenaryTestPopup",
   "blame",
   "checkhealth",
-  "dap-repl",
-  "dapui_scopes",
   "fugitiveblame",
   "fugitive",
   "git",

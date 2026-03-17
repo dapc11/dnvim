@@ -18,8 +18,4 @@ function Cf(testCurrentFunction)
 end
 
 vim.keymap.set("n", "<leader>ccb", Cf, { silent = true, buffer = true, desc = "Coverage in Browser" })
-vim.keymap.set("n", "<Leader>dn", function()
-  require("dap-go").debug_test()
-end, { desc = "Run nearest" })
-
 vim.opt_local.colorcolumn = "99"
