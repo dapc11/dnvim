@@ -9,7 +9,6 @@ require("config.autocmds")
 require("config.usercmds")
 require("config.keymaps")
 require("config.lsp")
-require("config.jdtls")
 require("csv-align")
 if vim.g.neovide then
   require("config.neovide")

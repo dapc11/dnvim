@@ -462,13 +462,6 @@ highlight("MasonMuted", { fg = c.comment })
 highlight("MasonMutedBlock", { fg = c.fg, bg = c.gray1 })
 highlight("MasonMutedBlockBold", { fg = c.fg, bg = c.gray1, bold = true })
 
--- DAP
-highlight("DapBreakpoint", { fg = c.red })
-highlight("DapBreakpointCondition", { fg = c.yellow })
-highlight("DapBreakpointRejected", { fg = c.comment })
-highlight("DapLogPoint", { fg = c.blue })
-highlight("DapStopped", { fg = c.green })
-
 -- Grapple
 highlight("GrappleHint", { fg = c.comment })
 highlight("GrappleName", { fg = c.blue })
