@@ -147,7 +147,6 @@ end, { desc = "New Note" })
 -- Scratch buffer toggle
 map("n", "<leader>xs", function()
   local scratch_file = vim.fn.expand("~/nvim-scratch.txt")
-  
   if vim.fn.expand("%:p") == scratch_file then
     vim.cmd("buffer #")
   else
