@@ -136,6 +136,11 @@ vim.keymap.set("n", "<leader>fg", function()
   end)
 end, { desc = "Grep to quickfix" })
 
+vim.keymap.set("v", "<leader>fg", function()
+  local selection = require("util").get_visual_selection()
+  vim.cmd("silent grep! " .. vim.fn.escape(selection, "|#%") .. " | copen")
+end, { desc = "Grep visual selection to quickfix" })
+
 vim.keymap.set("n", "dd", function()
   if vim.fn.getline(".") == "" then
     return '"_dd'
