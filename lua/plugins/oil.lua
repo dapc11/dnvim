@@ -4,6 +4,9 @@ local close = {
     local oilbuf = vim.api.nvim_get_current_buf()
     pcall(vim.cmd.bprev)
     vim.api.nvim_buf_delete(oilbuf, { force = true })
+    if vim.fn.bufname() == "" and not vim.bo.modified then
+      require("user.dashboard").open()
+    end
   end,
 }
 
