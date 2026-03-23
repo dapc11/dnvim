@@ -7,7 +7,7 @@ require("util.common").setup_projectionist_auto_history()
 
 local function close_buffer()
   if vim.fn.winnr("$") == 1 then
-    MiniStarter.open()
+    require("user.dashboard").open()
   else
     pcall(vim.cmd.close)
   end
