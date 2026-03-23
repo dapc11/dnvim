@@ -70,7 +70,9 @@ end
 
 function M.sort_by_column()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  if #lines < 2 then return end
+  if #lines < 2 then
+    return
+  end
 
   local col_idx = get_column_index()
   local header = lines[1]
@@ -102,7 +104,9 @@ function M.align_csv()
   local text = table.concat(lines, "\n")
   local rows = parse_csv(text)
 
-  if #rows == 0 then return end
+  if #rows == 0 then
+    return
+  end
 
   local max_cols = {}
   for _, row in ipairs(rows) do

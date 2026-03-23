@@ -1406,10 +1406,34 @@ highlight("lualine_transparent", { bg = c.none })
 
 -- Colorizer highlights
 local colorizer_colors = {
-  "1e1e1e", "24292e", "2a2a2a", "363d46", "373737", "373b41", "494d64", "4a4a4a",
-  "4c5866", "5b6078", "5f819d", "6e738d", "707880", "8087a2", "85a08a", "8aadf4",
-  "c8b9ec", "a6da95", "b5a875", "c5c8c6", "cad3f5", "cc6666", "de935f", "ed8796",
-  "eed49f", "f4dbd6", "f5a97f", "f5bde6",
+  "1e1e1e",
+  "24292e",
+  "2a2a2a",
+  "363d46",
+  "373737",
+  "373b41",
+  "494d64",
+  "4a4a4a",
+  "4c5866",
+  "5b6078",
+  "5f819d",
+  "6e738d",
+  "707880",
+  "8087a2",
+  "85a08a",
+  "8aadf4",
+  "c8b9ec",
+  "a6da95",
+  "b5a875",
+  "c5c8c6",
+  "cad3f5",
+  "cc6666",
+  "de935f",
+  "ed8796",
+  "eed49f",
+  "f4dbd6",
+  "f5a97f",
+  "f5bde6",
 }
 for _, color in ipairs(colorizer_colors) do
   highlight("colorizer_mf_" .. color, { fg = "#" .. color })

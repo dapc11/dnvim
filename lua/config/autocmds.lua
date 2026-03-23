@@ -78,7 +78,6 @@ local function update_match(event)
   end
 end
 
-
 -- Run when switching windows or exiting Insert mode
 vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave", "BufReadPost", "FileType" }, {
   callback = update_match,
@@ -155,4 +154,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     client.server_capabilities.semanticTokensProvider = nil
   end,
-});
+})

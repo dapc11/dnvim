@@ -19,7 +19,6 @@ vim.api.nvim_create_user_command("ReloadEnv", function()
   print("Environment variables reloaded from zsh")
 end, { desc = "Reload zsh environment variables" })
 
-
 -- Add keymap for quick environment reload
 vim.keymap.set("n", "<leader>re", ":ReloadEnv<CR>", { desc = "Reload environment" })
 

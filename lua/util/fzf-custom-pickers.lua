@@ -34,7 +34,9 @@ local function abbreviate_path(file)
       break
     end
     local parent = vim.fn.fnamemodify(dir, ":h")
-    if parent == dir then break end
+    if parent == dir then
+      break
+    end
     dir = parent
   end
 
@@ -54,8 +56,12 @@ function M.setup_recent_files()
   local storage = vim.fn.stdpath("data") .. "/recent_files.txt"
 
   local function track_file(file)
-    if not file or file == "" or file:match("^%w+://") then return end
-    if vim.bo.buftype ~= "" or vim.tbl_contains({ "help", "qf", "fugitive" }, vim.bo.filetype) then return end
+    if not file or file == "" or file:match("^%w+://") then
+      return
+    end
+    if vim.bo.buftype ~= "" or vim.tbl_contains({ "help", "qf", "fugitive" }, vim.bo.filetype) then
+      return
+    end
 
     file = vim.fn.resolve(vim.fn.fnamemodify(file, ":p"))
     local pos = vim.api.nvim_win_get_cursor(0)
@@ -72,17 +78,23 @@ function M.setup_recent_files()
     end
 
     table.insert(lines, 1, entry)
-    if #lines > 200 then lines[201] = nil end
+    if #lines > 200 then
+      lines[201] = nil
+    end
 
     local file_handle = io.open(storage, "w")
     if file_handle then
-      for _, line in ipairs(lines) do file_handle:write(line .. "\n") end
+      for _, line in ipairs(lines) do
+        file_handle:write(line .. "\n")
+      end
       file_handle:close()
     end
   end
 
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufLeave", "VimLeavePre" }, {
-    callback = function() track_file(vim.fn.expand("%:p")) end,
+    callback = function()
+      track_file(vim.fn.expand("%:p"))
+    end,
   })
 
   return function(opts)
@@ -105,26 +117,31 @@ function M.setup_recent_files()
       end
     end
 
-    return require("fzf-lua.core").fzf_exec(function(cb)
-      for _, file in ipairs(files) do
-        cb(abbreviate_path(file))
-      end
-      cb(nil)
-    end, vim.tbl_extend("force", opts, {
-      actions = {
-        ["default"] = function(selected)
-          if #selected == 0 then return end
-          for file, line in pairs(positions) do
-            if abbreviate_path(file) == selected[1] then
-              local _, _, line_num, col = line:find("^[^:]+:(%d+):(%d+)")
-              vim.cmd("edit " .. file)
-              vim.api.nvim_win_set_cursor(0, { tonumber(line_num) or 1, (tonumber(col) or 1) - 1 })
+    return require("fzf-lua.core").fzf_exec(
+      function(cb)
+        for _, file in ipairs(files) do
+          cb(abbreviate_path(file))
+        end
+        cb(nil)
+      end,
+      vim.tbl_extend("force", opts, {
+        actions = {
+          ["default"] = function(selected)
+            if #selected == 0 then
               return
             end
-          end
-        end,
-      },
-    }))
+            for file, line in pairs(positions) do
+              if abbreviate_path(file) == selected[1] then
+                local _, _, line_num, col = line:find("^[^:]+:(%d+):(%d+)")
+                vim.cmd("edit " .. file)
+                vim.api.nvim_win_set_cursor(0, { tonumber(line_num) or 1, (tonumber(col) or 1) - 1 })
+                return
+              end
+            end
+          end,
+        },
+      })
+    )
   end
 end
 
@@ -137,25 +154,35 @@ function M.create_projectionist_picker()
     local normalized = vim.fn.fnamemodify(project, ":p"):gsub("/$", "")
 
     for i = #history, 1, -1 do
-      if history[i] == normalized then table.remove(history, i) end
+      if history[i] == normalized then
+        table.remove(history, i)
+      end
     end
     table.insert(history, 1, normalized)
 
-    if #history > 20 then history[21] = nil end
+    if #history > 20 then
+      history[21] = nil
+    end
     write_json(storage, history)
   end
 
   return function()
     local fzf = require("fzf-lua")
-    local history = vim.tbl_filter(function(p) return vim.fn.isdirectory(p) == 1 end, read_json(storage))
+    local history = vim.tbl_filter(function(p)
+      return vim.fn.isdirectory(p) == 1
+    end, read_json(storage))
     local all_projects = vim.fn.systemlist("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname")
 
     local recent_set = {}
-    for _, p in ipairs(history) do recent_set[p] = true end
+    for _, p in ipairs(history) do
+      recent_set[p] = true
+    end
 
     local projects = vim.list_extend({}, history)
     for _, project in ipairs(all_projects) do
-      if not recent_set[project] then table.insert(projects, project) end
+      if not recent_set[project] then
+        table.insert(projects, project)
+      end
     end
 
     fzf.fzf_exec(projects, {
@@ -217,7 +244,9 @@ function M.create_git_search_picker()
     vim.notify("Searching git history...")
     local results = vim.fn.systemlist(cmd)
 
-    if #results == 0 then return {} end
+    if #results == 0 then
+      return {}
+    end
 
     local entries = {}
     for _, line in ipairs(results) do
@@ -234,20 +263,26 @@ function M.create_git_search_picker()
           end
 
           if not should_exclude then
-            table.insert(entries,
-              string.format("%s:%s:%s %s", commit:sub(1, 8), file, line_num, content:gsub("^%s+", "")))
+            table.insert(
+              entries,
+              string.format("%s:%s:%s %s", commit:sub(1, 8), file, line_num, content:gsub("^%s+", ""))
+            )
           end
         end
       end
     end
 
-    if #entries > 0 then vim.notify(string.format("Found %d matches", #entries)) end
+    if #entries > 0 then
+      vim.notify(string.format("Found %d matches", #entries))
+    end
     return entries
   end
 
   local function create_git_actions(action)
     return function(selected)
-      if #selected == 0 then return end
+      if #selected == 0 then
+        return
+      end
       local commit, file, line_num = selected[1]:match("^([^:]+):([^:]+):(%d+)")
       if commit and file and line_num then
         vim.cmd(string.format("%s %s:%s", action, commit, file))
@@ -258,7 +293,9 @@ function M.create_git_search_picker()
 
   return function()
     vim.ui.input({ prompt = "Git Search: " }, function(search_term)
-      if not search_term or search_term == "" then return end
+      if not search_term or search_term == "" then
+        return
+      end
 
       local entries = search_git_history(search_term)
       if #entries == 0 then
@@ -269,7 +306,11 @@ function M.create_git_search_picker()
       local fzf = require("fzf-lua")
       fzf.fzf_exec(entries, {
         prompt = string.format("Git Search (%s)> ", search_term),
-        winopts = { title = string.format("Git History: %s (%d results)", search_term, #entries), title_pos = "center", preview = { hidden = "nohidden" } },
+        winopts = {
+          title = string.format("Git History: %s (%d results)", search_term, #entries),
+          title_pos = "center",
+          preview = { hidden = "nohidden" },
+        },
         fzf_opts = {
           ["--delimiter"] = ":",
           ["--with-nth"] = "1,2,3,4..",
@@ -283,7 +324,11 @@ function M.create_git_search_picker()
               local lang = vim.fn.fnamemodify(file, ":e")
               return string.format(
                 "git show %s:%s | bat --style=numbers --highlight-line=%s --language=%s --color=always",
-                commit, file, line_num, lang ~= "" and lang or "txt")
+                commit,
+                file,
+                line_num,
+                lang ~= "" and lang or "txt"
+              )
             end
             return ""
           end,

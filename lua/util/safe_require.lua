@@ -25,4 +25,3 @@ function M.call(func, opts)
 end
 
 return M
-

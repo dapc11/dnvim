@@ -12,8 +12,7 @@ return {
     fuzzy = {
       implementation = "rust",
     },
-    sources =
-    {
+    sources = {
       default = {
         "buffer",
         "path",
@@ -28,10 +27,14 @@ return {
             use_cache = true, -- Cache words per buffer for instant retrieval
             get_bufnrs = function() -- Only include actual file buffers, exclude special/temp buffers
               return vim
-                  .iter(vim.api.nvim_list_wins())
-                  :map(function(win) return vim.api.nvim_win_get_buf(win) end)
-                  :filter(function(buf) return vim.bo[buf].buftype ~= "nofile" end)
-                  :totable()
+                .iter(vim.api.nvim_list_wins())
+                :map(function(win)
+                  return vim.api.nvim_win_get_buf(win)
+                end)
+                :filter(function(buf)
+                  return vim.bo[buf].buftype ~= "nofile"
+                end)
+                :totable()
             end,
           },
         },
@@ -53,7 +56,9 @@ return {
     },
     snippets = {
       expand = function() end,
-      active = function() return false end,
+      active = function()
+        return false
+      end,
     },
     completion = {
       accept = {
@@ -66,7 +71,9 @@ return {
           columns = { { "label" }, { "source_id" } },
           components = {
             source_id = {
-              text = function(ctx) return ctx.source_id end,
+              text = function(ctx)
+                return ctx.source_id
+              end,
               highlight = "Comment",
             },
           },
