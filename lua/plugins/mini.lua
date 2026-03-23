@@ -53,19 +53,34 @@ return {
       }
 
       -- Add common items
-      table.insert(starter_config.items,
-        { name = "Explore", action = function() require("oil").open() end, section = "Files", key = "e" })
-      table.insert(starter_config.items, { name = "Git", action = require("plugins.git").git_status_fn, section = "Git" })
+      table.insert(starter_config.items, {
+        name = "Explore",
+        action = function()
+          require("oil").open()
+        end,
+        section = "Files",
+        key = "e",
+      })
+      table.insert(
+        starter_config.items,
+        { name = "Git", action = require("plugins.git").git_status_fn, section = "Git" }
+      )
       table.insert(starter_config.items, new_section("Lazy", "Lazy", "Config"))
 
-      table.insert(starter_config.items, new_section("Config", function()
-        require("fzf-lua-enchanted-files").files({ cwd = "~/.config/nvim/" })
-      end, "Config"))
+      table.insert(
+        starter_config.items,
+        new_section("Config", function()
+          require("fzf-lua-enchanted-files").files({ cwd = "~/.config/nvim/" })
+        end, "Config")
+      )
 
       table.insert(starter_config.items, new_section("New file", "ene | startinsert", "Built-in"))
-      table.insert(starter_config.items, new_section("Session restore", function()
-        require("persistence").load({ last = true })
-      end, "Session"))
+      table.insert(
+        starter_config.items,
+        new_section("Session restore", function()
+          require("persistence").load({ last = true })
+        end, "Session")
+      )
 
       starter_config.content_hooks = {
         starter.gen_hook.aligning("center", "center"),

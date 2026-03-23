@@ -125,7 +125,9 @@ function M.create_note()
   local title = vim.fn.input("Note title: ")
 
   -- If the user cancels the input, return early
-  if title == "" then return end
+  if title == "" then
+    return
+  end
 
   -- Convert the title to snake_case for the file name
   local file_name = snake_case(title) .. ".md"

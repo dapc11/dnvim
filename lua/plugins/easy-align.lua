@@ -4,4 +4,3 @@ return {
     { "ga", "<Plug>(EasyAlign)", desc = "Align", mode = { "v", "n" } },
   },
 }
-

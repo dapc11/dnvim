@@ -315,15 +315,22 @@ function M.fzf_projectionist()
 
     -- Create a script that shows recent projects first, then all others EXCEPT the recent ones
     local temp_script = vim.fn.tempname() .. ".sh"
-    local script_content = string.format([[#!/usr/bin/env bash
+    local script_content = string.format(
+      [[#!/usr/bin/env bash
 # Show recent projects first
 %s
 # Show all other projects, excluding the recent ones
 %s | grep -v -F -f %s
 ]],
-      table.concat(vim.tbl_map(function(f) return "echo " .. vim.fn.shellescape(f) end, recent_projects), "\n"),
+      table.concat(
+        vim.tbl_map(function(f)
+          return "echo " .. vim.fn.shellescape(f)
+        end, recent_projects),
+        "\n"
+      ),
       base_cmd,
-      vim.fn.shellescape(exclude_file))
+      vim.fn.shellescape(exclude_file)
+    )
 
     local temp_file = io.open(temp_script, "w")
     if temp_file then
@@ -372,8 +379,8 @@ function M.fzf_projectionist()
 
     if config.file_scoring.enabled and #scored_files > 0 then
       -- Create a command that shows scored files first, then all other files
-      local base_files_cmd = string.format("fd --type f --hidden --follow --exclude .git . %s",
-        vim.fn.shellescape(project_path))
+      local base_files_cmd =
+        string.format("fd --type f --hidden --follow --exclude .git . %s", vim.fn.shellescape(project_path))
 
       -- Create temporary file with scored files
       local scored_files_temp = vim.fn.tempname()
@@ -387,7 +394,8 @@ function M.fzf_projectionist()
 
       -- Create script that shows scored files first, then others
       local temp_script = vim.fn.tempname() .. ".sh"
-      local script_content = string.format([[#!/usr/bin/env bash
+      local script_content = string.format(
+        [[#!/usr/bin/env bash
 # Show scored files first (with score indicators)
 while IFS= read -r file; do
   if [ -f "$file" ]; then
@@ -399,7 +407,8 @@ done < %s
 ]],
         vim.fn.shellescape(scored_files_temp),
         base_files_cmd,
-        vim.fn.shellescape(scored_files_temp))
+        vim.fn.shellescape(scored_files_temp)
+      )
 
       local temp_file = io.open(temp_script, "w")
       if temp_file then
@@ -556,17 +565,23 @@ function M.debug_file_scores(project_path)
     print("Scored files count: " .. #scored_files)
 
     for i, file_entry in ipairs(scored_files) do
-      print(string.format("  %d: %s (score: %.3f, count: %d)",
-        i,
-        vim.fn.fnamemodify(file_entry.path, ":t"),
-        file_entry.score,
-        file_entry.access_count))
+      print(
+        string.format(
+          "  %d: %s (score: %.3f, count: %d)",
+          i,
+          vim.fn.fnamemodify(file_entry.path, ":t"),
+          file_entry.score,
+          file_entry.access_count
+        )
+      )
     end
   else
     print("All projects with scored files:")
     for project, files in pairs(file_scores) do
       local count = 0
-      for _ in pairs(files) do count = count + 1 end
+      for _ in pairs(files) do
+        count = count + 1
+      end
       print("  " .. project .. " (" .. count .. " files)")
     end
   end
@@ -588,8 +603,17 @@ function M.debug_projectionist_history()
   print("Loaded history:")
   if projectionist_history and #projectionist_history > 0 then
     for i, entry in ipairs(projectionist_history) do
-      print("  " ..
-        i .. ": " .. entry.path .. " (timestamp: " .. entry.timestamp .. ", count: " .. (entry.count or 0) .. ")")
+      print(
+        "  "
+          .. i
+          .. ": "
+          .. entry.path
+          .. " (timestamp: "
+          .. entry.timestamp
+          .. ", count: "
+          .. (entry.count or 0)
+          .. ")"
+      )
     end
   else
     print("  No history found")
@@ -650,8 +674,9 @@ function M.setup_projectionist_auto_history()
     vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
       callback = function()
         local file_path = vim.fn.expand("%:p")
-        local project_root = vim.fn.system("git -C " ..
-          vim.fn.shellescape(vim.fn.expand("%:h")) .. " rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+        local project_root = vim.fn
+          .system("git -C " .. vim.fn.shellescape(vim.fn.expand("%:h")) .. " rev-parse --show-toplevel 2>/dev/null")
+          :gsub("\n", "")
 
         -- Only track if we're in a git repository and the file is readable
         if vim.v.shell_error == 0 and vim.fn.filereadable(file_path) == 1 and file_path ~= "" then

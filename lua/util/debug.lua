@@ -16,4 +16,3 @@ function M.dump(tbl, indent)
 end
 
 return M
-

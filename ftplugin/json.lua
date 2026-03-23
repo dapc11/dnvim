@@ -10,4 +10,3 @@ vim.keymap.set(
   ":%!jq -R -r '. as $line | try fromjson catch $line | \"\\(.timestamp)\t\\(.severity)\t\\(.message)\"'<CR>",
   { desc = "Make logs readable", buffer = true }
 )
-

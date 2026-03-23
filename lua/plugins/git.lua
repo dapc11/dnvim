@@ -8,7 +8,12 @@ local function git_status_fn()
     callback = function()
       vim.schedule(function()
         local current_ft = vim.bo.filetype
-        if current_ft ~= "gitcommit" and current_ft ~= "git" and current_ft ~= "fugitive" and vim.api.nvim_buf_is_valid(orig_buf) then
+        if
+          current_ft ~= "gitcommit"
+          and current_ft ~= "git"
+          and current_ft ~= "fugitive"
+          and vim.api.nvim_buf_is_valid(orig_buf)
+        then
           vim.api.nvim_set_current_buf(orig_buf)
         end
       end)
@@ -52,7 +57,9 @@ local plugins = {
         untracked = { text = "▎" },
       },
       on_attach = function(buffer)
-        if vim.bo[buffer].filetype == "oil" then return false end
+        if vim.bo[buffer].filetype == "oil" then
+          return false
+        end
         local gs = package.loaded.gitsigns
         map("n", "]h", function()
           if vim.wo.diff then

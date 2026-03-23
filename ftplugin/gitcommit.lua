@@ -32,7 +32,13 @@ local function format_commit_message()
         table.insert(formatted, line)
         prev_blank = true
       end
-    elseif line:match("^Jira:") or line:match("^PRI:") or line:match("^Tracking%-Id:") or line:match("Other_change") or line:match("Requirement") then
+    elseif
+      line:match("^Jira:")
+      or line:match("^PRI:")
+      or line:match("^Tracking%-Id:")
+      or line:match("Other_change")
+      or line:match("Requirement")
+    then
       -- Don't format metadata lines
       table.insert(formatted, line)
       prev_blank = false

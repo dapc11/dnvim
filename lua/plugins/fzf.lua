@@ -1,12 +1,13 @@
-return { {
-  "otavioschwanck/fzf-lua-enchanted-files",
-  dependencies = { "ibhagwan/fzf-lua" },
-  config = function()
-    vim.g.fzf_lua_enchanted_files = {
-      max_history_per_cwd = 50,
-    }
-  end,
-},
+return {
+  {
+    "otavioschwanck/fzf-lua-enchanted-files",
+    dependencies = { "ibhagwan/fzf-lua" },
+    config = function()
+      vim.g.fzf_lua_enchanted_files = {
+        max_history_per_cwd = 50,
+      }
+    end,
+  },
   {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons", "vijaymarupudi/nvim-fzf", "nvim-lua/plenary.nvim" },
@@ -220,8 +221,20 @@ return { {
           desc = "Live Grep in File Dir",
           mode = { "n", "v" },
         },
-        { "<leader>zf", function() fzf.grep({ cwd = "~/notes/", path_shorten = true }) end, desc = "Search in Notes" },
-        { "<leader>zb", function() fzf.files({ cwd = "~/notes/", path_shorten = true }) end, desc = "Browse Notes" },
+        {
+          "<leader>zf",
+          function()
+            fzf.grep({ cwd = "~/notes/", path_shorten = true })
+          end,
+          desc = "Search in Notes",
+        },
+        {
+          "<leader>zb",
+          function()
+            fzf.files({ cwd = "~/notes/", path_shorten = true })
+          end,
+          desc = "Browse Notes",
+        },
         {
           "<C-f>",
           function()
@@ -247,4 +260,5 @@ return { {
         },
       }
     end,
-  } }
+  },
+}

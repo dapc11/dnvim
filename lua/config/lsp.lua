@@ -33,8 +33,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
     map("n", "<leader>fd", fzf.diagnostics_document, opts("Find Diagnostic"))
     map("n", "<leader>fD", fzf.diagnostics_workspace, opts("Find Workspace Diagnostic"))
-    map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts("Next Diagnostic"))
-    map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev Diagnostic"))
+    map("n", "]d", function()
+      vim.diagnostic.jump({ count = 1, float = true })
+    end, opts("Next Diagnostic"))
+    map("n", "[d", function()
+      vim.diagnostic.jump({ count = -1, float = true })
+    end, opts("Prev Diagnostic"))
     map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
     map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
 
@@ -44,14 +48,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if
-        not client:supports_method("textDocument/willSaveWaitUntil")
-        and client:supports_method("textDocument/formatting")
+      not client:supports_method("textDocument/willSaveWaitUntil")
+      and client:supports_method("textDocument/formatting")
     then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
         buffer = args.buf,
         callback = function()
-          if vim.bo[args.buf].filetype == "oil" then return end
+          if vim.bo[args.buf].filetype == "oil" then
+            return
+          end
           vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
         end,
       })
