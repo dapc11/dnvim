@@ -13,9 +13,9 @@ return {
     "echasnovski/mini.surround",
     config = function()
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
+      -- - gsaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+      -- - gsd'   - [S]urround [D]elete [']quotes
+      -- - gsr)'  - [S]urround [R]eplace [)] [']
       require("mini.surround").setup({
         mappings = {
           add = "gsa",
