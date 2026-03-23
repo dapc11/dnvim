@@ -63,7 +63,6 @@ map("v", "#", [[y:let @/=substitute(escape(@",'.$*[^\/~'),'\n','\\n','g')<CR>N]]
 map("n", ",", "@q")
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-
 vim.cmd([[
   set wildcharm=<C-Z>
   cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"
@@ -127,8 +126,15 @@ map("n", "<leader>qo", function()
   end
 end, { desc = "Close all other buffers" })
 
-
 map("n", "gV", "`[v`]", { desc = "Select last paste" })
+
+vim.keymap.set("n", "<leader>fg", function()
+  vim.ui.input({ prompt = "Grep: " }, function(input)
+    if input and input ~= "" then
+      vim.cmd("silent grep! " .. vim.fn.escape(input, "|#%") .. " | copen")
+    end
+  end)
+end, { desc = "Grep to quickfix" })
 
 vim.keymap.set("n", "dd", function()
   if vim.fn.getline(".") == "" then
