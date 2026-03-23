@@ -6,11 +6,6 @@ return {
     "json",
   },
   opts = {
-    filetypes = {
-      "*",
-      "lua",
-      "!lazy",
-    },
     user_default_options = {
       RGB = true,
       RRGGBB = true,
