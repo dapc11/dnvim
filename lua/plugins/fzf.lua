@@ -157,8 +157,7 @@ return {
     keys = function()
       local fzf = require("fzf-lua")
       local fzfe = require("fzf-lua-enchanted-files")
-      local custom_pickers = require("util.fzf-custom-pickers")
-      local recent_files_picker = custom_pickers.setup_recent_files()
+      local recent_files_picker = require("user.fzf-recent-files")
 
       return {
         { "<leader>r", recent_files_picker, desc = "Find Recent Files" },
@@ -205,7 +204,7 @@ return {
           "<leader><S-leader>",
           function()
             local cwd = vim.fn.expand("%:p:h:h")
-            local selection = require("util.common").get_visual_selection()
+            local selection = require("util").get_visual_selection()
             fzf.live_grep({ cwd = cwd, search = selection })
           end,
           desc = "Live Grep Selection in File Dir",
@@ -215,7 +214,7 @@ return {
           "<leader><S-space>",
           function()
             local cwd = vim.fn.expand("%:p:h")
-            local selection = require("util.common").get_visual_selection()
+            local selection = require("util").get_visual_selection()
             fzf.live_grep({ cwd = cwd, search = selection })
           end,
           desc = "Live Grep in File Dir",
@@ -238,7 +237,7 @@ return {
         {
           "<C-f>",
           function()
-            fzf.lgrep_curbuf({ search = require("util.common").get_visual_selection() })
+            fzf.lgrep_curbuf({ search = require("util").get_visual_selection() })
           end,
           desc = "Live Grep Selection",
           mode = "v",
@@ -247,14 +246,14 @@ return {
         {
           "<C-p>",
           function()
-            custom_pickers.create_projectionist_picker()()
+            require("user.fzf-projectionist")()
           end,
           desc = "Find Project",
         },
         {
           "<leader>gs",
           function()
-            custom_pickers.create_git_search_picker()()
+            require("user.fzf-git-search")()
           end,
           desc = "Git Search History",
         },

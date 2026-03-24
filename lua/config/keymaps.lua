@@ -24,8 +24,6 @@ map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { 
 map("v", "<leader>s", [["hy:%s#<C-r>h##gc<left><left><left>]], { desc = "Replace", silent = false })
 map("v", "<leader>S", [[:s###gc<left><left><left><left>]], { desc = "Replace", silent = false })
 
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
-
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
@@ -43,7 +41,7 @@ map("n", "W", "<cmd>noautocmd w<CR>")
 
 map("n", "<leader>-", "<C-W>s", { desc = "Split window below" })
 map("n", "<leader>v", "<C-W>v", { desc = "Split window right" })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 
 map("n", "<A-Down>", "}")
 map("n", "<A-Up>", "{")
