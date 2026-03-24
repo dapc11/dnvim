@@ -1,3 +1,9 @@
+vim.api.nvim_create_user_command("CopyPath", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("Copied to clipboard: " .. path)
+end, { desc = "Copy full file path to clipboard" })
+
 vim.api.nvim_create_user_command("CopyCmd", function(x)
   vim.fn.setreg("+", vim.fn.execute(x.args))
 end, { nargs = 1 })
@@ -12,25 +18,9 @@ vim.api.nvim_create_user_command("Trim", function()
   vim.cmd([[%s/\s\+$//e]])
 end, { desc = "Trim trailing whitespace and ensure single blank line at end" })
 
--- Command typo fixes
-local cmds = {
-  { "W", "w" },
-  { "Wq", "wq" },
-  { "Wqa", "wqa" },
-  { "WQ", "wq" },
-  { "Q", "q" },
-  { "Qa", "qa" },
-  { "Qw", "wq" },
-}
-for _, cmd in ipairs(cmds) do
-  vim.api.nvim_create_user_command(cmd[1], cmd[2], {})
+-- Command typo fixes (abbreviations handle both :W and :W!)
+local abbrevs = { W = "w", Wq = "wq", Wqa = "wqa", WQ = "wq", Q = "q", Qa = "qa", Qw = "wq" }
+for from, to in pairs(abbrevs) do
+  vim.cmd.cnoreabbrev(from .. " " .. to)
+  vim.cmd.cnoreabbrev(from .. "! " .. to .. "!")
 end
-
--- Force variants using command abbreviations
-vim.cmd([[
-  cnoreabbrev W! w!
-  cnoreabbrev Wq! wq!
-  cnoreabbrev WQ! wq!
-  cnoreabbrev Q! q!
-  cnoreabbrev Qw! wq!
-]])

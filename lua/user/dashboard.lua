@@ -30,9 +30,7 @@ local items = {
   {
     key = "v",
     name = "Version control",
-    action = function()
-      require("plugins.git").git_status_fn()
-    end,
+    action = "Git",
   },
   {
     key = "g",
@@ -56,14 +54,14 @@ local items = {
     key = "r",
     name = "Recent files",
     action = function()
-      require("util.fzf-custom-pickers").setup_recent_files()()
+      require("user.fzf-recent-files")()
     end,
   },
   {
     key = "p",
     name = "Projects",
     action = function()
-      require("util.fzf-custom-pickers").create_projectionist_picker()()
+      require("user.fzf-projectionist")()
     end,
   },
   { key = "l", name = "Lazy", action = "Lazy" },
@@ -85,6 +83,32 @@ local items = {
   { key = "q", name = "Quit", action = "quit" },
 }
 
+local raw_lines = {}
+for _, item in ipairs(items) do
+  raw_lines[#raw_lines + 1] = ("  [%s]  %s"):format(item.key, item.name)
+end
+
+local max_len = 0
+for _, line in ipairs(raw_lines) do
+  max_len = math.max(max_len, #line)
+end
+
+local function render(buf, win)
+  local win_w = vim.api.nvim_win_get_width(win)
+  local win_h = vim.api.nvim_win_get_height(win)
+  local prefix = string.rep(" ", math.max(0, math.floor((win_w - max_len) / 2)))
+  local padded = {}
+  for _ = 1, math.max(0, math.floor((win_h - #raw_lines) / 2)) do
+    padded[#padded + 1] = ""
+  end
+  for _, line in ipairs(raw_lines) do
+    padded[#padded + 1] = prefix .. line
+  end
+  vim.bo[buf].modifiable = true
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, padded)
+  vim.bo[buf].modifiable = false
+end
+
 local function open()
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_set_current_buf(buf)
@@ -96,42 +120,31 @@ local function open()
   vim.wo[0].relativenumber = false
   vim.wo[0].colorcolumn = ""
 
+  local augroup = vim.api.nvim_create_augroup("DashboardResize", { clear = true })
+
   vim.api.nvim_create_autocmd("BufLeave", {
+    group = augroup,
     buffer = buf,
     once = true,
     callback = function()
+      vim.api.nvim_del_augroup_by_id(augroup)
       vim.wo[0].number = true
       vim.wo[0].relativenumber = true
       vim.wo[0].colorcolumn = "80"
     end,
   })
 
-  local lines = {}
-  for _, item in ipairs(items) do
-    table.insert(lines, ("  [%s]  %s"):format(item.key, item.name))
-  end
+  vim.api.nvim_create_autocmd({ "VimResized", "WinResized" }, {
+    group = augroup,
+    buffer = buf,
+    callback = function()
+      if vim.api.nvim_buf_is_valid(buf) then
+        render(buf, vim.fn.bufwinid(buf))
+      end
+    end,
+  })
 
-  local max_len = 0
-  for _, line in ipairs(lines) do
-    max_len = math.max(max_len, #line)
-  end
-
-  local win_w = vim.api.nvim_win_get_width(0)
-  local left_pad = math.max(0, math.floor((win_w - max_len) / 2))
-  local prefix = string.rep(" ", left_pad)
-
-  local padded = {}
-  local win_h = vim.api.nvim_win_get_height(0)
-  local vpad = math.max(0, math.floor((win_h - #lines) / 2))
-  for _ = 1, vpad do
-    padded[#padded + 1] = ""
-  end
-  for _, line in ipairs(lines) do
-    padded[#padded + 1] = prefix .. line
-  end
-
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, padded)
-  vim.bo[buf].modifiable = false
+  render(buf, 0)
 
   for _, item in ipairs(items) do
     vim.keymap.set("n", item.key, function()
@@ -142,10 +155,6 @@ local function open()
       end
     end, { buffer = buf, nowait = true, silent = true })
   end
-
-  vim.keymap.set("n", "<C-p>", function()
-    require("util.common").fzf_projectionist()
-  end, { buffer = buf })
 end
 
 vim.api.nvim_create_autocmd("VimEnter", {

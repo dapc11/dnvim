@@ -31,19 +31,9 @@ local function Gsearch()
   })
 end
 
-local function GitSearchCurrentFileHistory()
-  local input = vim.fn.input("Search phrase> ", "")
-  vim.cmd({
-    cmd = "Gclog",
-    args = {
-      "-G" .. input .. " -- %",
-    },
-  })
-end
-
 local map = require("util").map
 
-local plugins = {
+return {
   {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
@@ -128,7 +118,6 @@ local plugins = {
         desc = "Show Missing Commits",
       },
       { "<leader>gh", "<cmd>0Gclog<cr>", desc = "View File History" },
-      -- { "<leader>gs", GitSearchCurrentFileHistory, desc = "Search Current File History" },
       { "<leader>gS", Gsearch, desc = "Search History" },
     },
   },
@@ -144,9 +133,3 @@ local plugins = {
     },
   },
 }
-
-return setmetatable(plugins, {
-  __index = {
-    git_status_fn = git_status_fn,
-  },
-})

@@ -2,9 +2,6 @@ local ignored_filetypes = require("util").ignored_filetypes
 
 local map = require("util").map
 
--- Setup projectionist auto-history
-require("util.common").setup_projectionist_auto_history()
-
 local function close_buffer()
   if vim.fn.winnr("$") == 1 then
     require("user.dashboard").open()
@@ -48,6 +45,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+local skip_fts = {}
+for _, ft in ipairs(ignored_filetypes) do skip_fts[ft] = true end
+for _, ft in ipairs({ "toggleterm", "fzf", "blink-cmp-menu" }) do skip_fts[ft] = true end
+
 local matches = {}
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
 local function update_match(event)
@@ -64,8 +65,7 @@ local function update_match(event)
 
   -- Skip floating windows, terminal buffers, or ignored filetypes
   local cfg = vim.api.nvim_win_get_config(win_id)
-  local skip_fts = vim.list_extend(vim.list_extend({}, ignored_filetypes), { "toggleterm", "fzf", "blink-cmp-menu" })
-  if cfg.relative ~= "" or buftype == "terminal" or vim.tbl_contains(skip_fts, filetype) then
+  if cfg.relative ~= "" or buftype == "terminal" or skip_fts[filetype] then
     if match then
       pcall(vim.fn.matchdelete, match)
       matches[win_id] = nil
@@ -86,7 +86,7 @@ vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave"
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
-    local dir = require("util.init").get_project_root(".git")
+    local dir = require("util").get_project_root(".git")
     if dir ~= nil then
       vim.cmd("cd " .. dir)
     end
@@ -138,20 +138,6 @@ vim.api.nvim_create_autocmd("FocusLost", {
   end,
 })
 
-vim.cmd([[
-"Delete all Git conflict markers
-"Creates the command :GremoveConflictMarkers
-function! RemoveConflictMarkers() range
-  echom a:firstline.'-'.a:lastline
-  execute a:firstline.','.a:lastline . ' g/^<\{7}\|^|\{7}\|^=\{7}\|^>\{7}/d'
-endfunction
-"-range=% default is whole file
-command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
-]])
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
-})
+vim.api.nvim_create_user_command("GremoveConflictMarkers", function(opts)
+  vim.cmd(opts.line1 .. "," .. opts.line2 .. [[g/^\(<\{7}\||\{7}\|=\{7}\|>\{7}\)/d]])
+end, { range = "%" })

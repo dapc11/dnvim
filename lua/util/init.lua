@@ -1,6 +1,5 @@
 local M = {}
 
-M.root_patterns = { ".git", "lua", "bob" }
 M.ignored_filetypes = {
   "DressingSelect",
   "Jaq",
@@ -33,55 +32,6 @@ function M.map(mode, lhs, rhs, opts)
   opts = opts or {}
   opts.silent = opts.silent ~= false
   vim.keymap.set(mode, lhs, rhs, opts)
-end
-
----@param value any
----@param opts? {loc:string, bt?:boolean}
-function M._dump(value, opts)
-  opts = opts or {}
-  opts.loc = opts.loc or ""
-  if vim.in_fast_event() then
-    return vim.schedule(function()
-      M._dump(value, opts)
-    end)
-  end
-  opts.loc = vim.fn.fnamemodify(opts.loc, ":~:.")
-  local msg = vim.inspect(value)
-  if opts.bt then
-    msg = msg .. "\n" .. debug.traceback("", 2)
-  end
-  vim.notify(msg, vim.log.levels.INFO, {
-    title = "Debug: " .. opts.loc,
-    on_open = function(win)
-      vim.wo[win].conceallevel = 3
-      vim.wo[win].concealcursor = ""
-      vim.wo[win].spell = false
-      local buf = vim.api.nvim_win_get_buf(win)
-      if not pcall(vim.treesitter.start, buf, "lua") then
-        vim.bo[buf].filetype = "lua"
-      end
-    end,
-  })
-end
-
-function M.dump(...)
-  local value = { ... }
-  if vim.tbl_isempty(value) then
-    value = nil
-  else
-    value = vim.tbl_islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
-  end
-  M._dump(value)
-end
-
-function M.bt(...)
-  local value = { ... }
-  if vim.tbl_isempty(value) then
-    value = nil
-  else
-    value = vim.tbl_islist(value) and vim.tbl_count(value) <= 1 and value[1] or value
-  end
-  M._dump(value, { bt = true })
 end
 
 -- stylua: ignore
@@ -167,29 +117,6 @@ function M.get_visual_selection()
   end
 end
 
-function M.starts(String, Start)
-  return string.sub(String, 1, string.len(Start)) == Start
-end
-
-function M.split(string, delimiter)
-  local Table = {}
-  local fpat = "(.-)" .. delimiter
-  local last_end = 1
-  local s, e, cap = string:find(fpat, 1)
-  while s do
-    if s ~= 1 or cap ~= "" then
-      table.insert(Table, cap)
-    end
-    last_end = e + 1
-    s, e, cap = string:find(fpat, last_end)
-  end
-  if last_end <= #string then
-    cap = string:sub(last_end)
-    table.insert(Table, cap)
-  end
-  return Table
-end
-
 function M.jira_finder()
   local JIRA_PATTERN = os.getenv("JIRA_PATTERN") or ""
   local JIRA_URL = os.getenv("JIRA_URL") or ""
@@ -207,13 +134,5 @@ function M.jira_finder()
     print("No Jira ID found in the current line.")
   end
 end
-
-function M.CopyPath()
-  local path = vim.fn.expand("%:p")
-  vim.fn.setreg("+", path)
-  print("Copied to clipboard: " .. path)
-end
-
-vim.api.nvim_create_user_command("CopyPath", M.CopyPath, {})
 
 return M
