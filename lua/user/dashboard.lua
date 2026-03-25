@@ -72,6 +72,13 @@ local items = {
       require("fzf-lua-enchanted-files").files({ cwd = "~/.config/nvim/" })
     end,
   },
+  {
+    key = "x",
+    name = "Scratch buffer",
+    action = function()
+      vim.cmd("edit " .. vim.fn.expand("~/nvim-scratch.txt"))
+    end,
+  },
   { key = "n", name = "New file", action = "ene | startinsert" },
   {
     key = "s",
