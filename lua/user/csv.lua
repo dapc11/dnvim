@@ -138,28 +138,4 @@ function M.align_csv()
   vim.bo[new_buf].buftype = "nofile"
 end
 
-vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = "*.csv",
-  callback = function()
-    M.align_csv()
-
-    -- Fast column navigation
-    vim.keymap.set("n", "<C-Left>", "F|", { buffer = true })
-    vim.keymap.set("n", "<C-Right>", "f|l", { buffer = true })
-    vim.keymap.set("n", "<S-Left>", "0", { buffer = true })
-    vim.keymap.set("n", "<S-Right>", "$", { buffer = true })
-
-    -- Sort by column
-    vim.keymap.set("n", "<C-s>", M.sort_by_column, { buffer = true })
-
-    -- Performance settings
-    vim.opt_local.wrap = false
-    vim.opt_local.sidescroll = 1
-    vim.opt_local.syntax = "off"
-    vim.opt_local.lazyredraw = true
-    vim.opt_local.ttyfast = true
-    vim.opt_local.regexpengine = 1
-  end,
-})
-
 return M
