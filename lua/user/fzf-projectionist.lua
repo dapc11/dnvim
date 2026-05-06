@@ -37,14 +37,42 @@ local function update_history(project)
   write_json(storage, history)
 end
 
+local search_paths = {
+  "~/repos",
+  "~/repos_personal",
+}
+
+local function get_projects()
+  local handles = {}
+  for _, path in ipairs(search_paths) do
+    table.insert(handles, vim.system({ "fd", ".git$", "--prune", "-utd", "--max-depth", "3", vim.fn.expand(path) }, { text = true }))
+  end
+  local results, seen = {}, {}
+  for _, handle in ipairs(handles) do
+    local obj = handle:wait()
+    if obj.code == 0 then
+      for line in obj.stdout:gmatch("[^\n]+") do
+        local project = line:gsub("/.git/?$", "")
+        if not seen[project] then
+          seen[project] = true
+          table.insert(results, project)
+        end
+      end
+    end
+  end
+  return results
+end
+
 return function()
   local fzf = require("fzf-lua")
   local recent_files = require("user.fzf-recent-files")
 
+  local cwd = vim.fn.getcwd()
+
   local history = vim.tbl_filter(function(p)
-    return vim.fn.isdirectory(p) == 1
+    return vim.fn.isdirectory(p) == 1 and p ~= cwd
   end, read_json(storage))
-  local all_projects = vim.fn.systemlist("fd '.git$' --prune -utd ~/repos ~/repos_personal | xargs dirname")
+  local all_projects = get_projects()
 
   local recent_set = {}
   for _, p in ipairs(history) do
@@ -53,7 +81,7 @@ return function()
 
   local projects = vim.list_extend({}, history)
   for _, project in ipairs(all_projects) do
-    if not recent_set[project] then
+    if not recent_set[project] and project ~= cwd then
       table.insert(projects, project)
     end
   end
