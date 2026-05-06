@@ -51,7 +51,10 @@ return {
       },
       indent = {
         enable = true,
-        disable = large_file,
+        disable = function(lang, bufnr)
+          if lang == "fugitiveblame" then return true end
+          return large_file(lang, bufnr)
+        end,
       },
       ensure_installed = {
         "bash",

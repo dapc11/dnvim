@@ -11,6 +11,29 @@ local function close_buffer()
 end
 
 vim.api.nvim_create_autocmd("FileType", {
+  pattern = "fugitiveblame",
+  callback = function()
+    vim.opt_local.relativenumber = false
+    vim.opt_local.number = false
+    vim.opt_local.cursorline = false
+    vim.opt_local.signcolumn = "no"
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.wo[win].scrollbind and vim.bo[buf].filetype ~= "fugitiveblame" then
+        vim.wo[win].cursorline = false
+        vim.wo[win].relativenumber = false
+        vim.wo[win].signcolumn = "no"
+      end
+    end
+  end,
+})
+
+vim.g.fugitive_dynamic_colors = 0
+
+-- Prevent treesitter from repeatedly scanning for a non-existent fugitiveblame parser
+vim.treesitter.language.register("bash", "fugitiveblame")
+
+vim.api.nvim_create_autocmd("FileType", {
   pattern = ignored_filetypes,
   callback = function(event)
     local buf_ft = vim.bo.filetype
