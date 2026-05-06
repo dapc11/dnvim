@@ -79,33 +79,44 @@ return function()
     recent_set[p] = true
   end
 
-  local projects = vim.list_extend({}, history)
+  local projects = {}
+  for _, p in ipairs(history) do
+    table.insert(projects, "\27[1m" .. p .. "\27[0m")
+  end
   for _, project in ipairs(all_projects) do
     if not recent_set[project] and project ~= cwd then
       table.insert(projects, project)
     end
   end
 
+  local function strip_ansi(s)
+    return s:gsub("\27%[[%d;]*m", "")
+  end
+
   fzf.fzf_exec(projects, {
     prompt = "Projects> ",
+    fzf_opts = { ["--ansi"] = "" },
     winopts = { title = "Projects", title_pos = "center" },
     actions = {
       ["default"] = function(selected)
         if #selected > 0 then
-          update_history(selected[1])
-          fzf.files({ cwd = selected[1] })
+          local path = strip_ansi(selected[1])
+          update_history(path)
+          fzf.files({ cwd = path })
         end
       end,
       ["ctrl-f"] = function(selected)
         if #selected > 0 then
-          update_history(selected[1])
-          fzf.grep_project({ cwd = selected[1] })
+          local path = strip_ansi(selected[1])
+          update_history(path)
+          fzf.grep_project({ cwd = path })
         end
       end,
       ["ctrl-r"] = function(selected)
         if #selected > 0 then
-          update_history(selected[1])
-          recent_files({ cwd = selected[1] })
+          local path = strip_ansi(selected[1])
+          update_history(path)
+          recent_files({ cwd = path })
         end
       end,
     },
