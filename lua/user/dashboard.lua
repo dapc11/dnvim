@@ -166,9 +166,15 @@ end
 
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    if vim.fn.argc() == 0 and vim.bo.filetype ~= "lazy" then
+    if vim.fn.argc() == 0 and not vim.g.started_with_stdin and vim.bo.filetype ~= "lazy" then
       open()
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd("StdinReadPre", {
+  callback = function()
+    vim.g.started_with_stdin = true
   end,
 })
 
