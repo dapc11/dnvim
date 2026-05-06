@@ -141,3 +141,8 @@ vim.api.nvim_create_autocmd("FocusLost", {
 vim.api.nvim_create_user_command("GremoveConflictMarkers", function(opts)
   vim.cmd(opts.line1 .. "," .. opts.line2 .. [[g/^\(<\{7}\||\{7}\|=\{7}\|>\{7}\)/d]])
 end, { range = "%" })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
