@@ -102,6 +102,13 @@ return {
       },
       { "<leader>ff", ":Git grep -q ", desc = "Git Grep" },
       { "<leader>gb", function() require("user.blame").blame() end, desc = "Blame" },
+      { "<leader>gb", function()
+        local line1 = vim.fn.line("v")
+        local line2 = vim.fn.line(".")
+        if line1 > line2 then line1, line2 = line2, line1 end
+        vim.cmd("normal! " .. vim.api.nvim_replace_termcodes("<Esc>", true, false, true))
+        require("user.blame").blame_range(line1, line2)
+      end, mode = "v", desc = "Blame selection" },
       {
         "<leader>gl",
         "<cmd>Git log --graph --pretty=format:'%h %cs %s <%an>%d' --abbrev-commit<CR><CR>",
