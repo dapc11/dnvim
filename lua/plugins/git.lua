@@ -101,7 +101,7 @@ return {
         desc = "Git Grep",
       },
       { "<leader>ff", ":Git grep -q ", desc = "Git Grep" },
-      { "<leader>gb", "<cmd>Git blame --date=short<CR>", desc = "Blame" },
+      { "<leader>gb", function() require("user.blame").blame() end, desc = "Blame" },
       {
         "<leader>gl",
         "<cmd>Git log --graph --pretty=format:'%h %cs %s <%an>%d' --abbrev-commit<CR><CR>",
