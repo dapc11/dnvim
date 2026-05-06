@@ -115,6 +115,9 @@ local function close_blame()
     vim.wo[state.source_win].scrollbind = false
     vim.wo[state.source_win].cursorbind = false
   end
+  if vim.api.nvim_buf_is_valid(state.source_buf) then
+    vim.api.nvim_buf_clear_namespace(state.source_buf, vim.api.nvim_create_namespace("blame_hunk_hl"), 0, -1)
+  end
   if state.preview_win and vim.api.nvim_win_is_valid(state.preview_win) then
     vim.api.nvim_win_close(state.preview_win, true)
   end
@@ -266,7 +269,8 @@ end
 --- Preview commit details in a split above the blame+source
 local function preview_commit()
   if not state then return end
-  local line = vim.api.nvim_win_get_cursor(state.blame_win)[1]
+  local win = vim.api.nvim_get_current_win()
+  local line = vim.api.nvim_win_get_cursor(win)[1]
   local entry = state.entries[line]
   if not entry or entry.hash:match("^0+$") then return end
 
@@ -374,7 +378,137 @@ function M.blame()
   vim.keymap.set("n", "<C-i>", blame_forward, kopts)
   vim.keymap.set("n", "P", preview_commit, kopts)
 
+  -- Hunk highlighting in source buffer
+  local hl_ns = vim.api.nvim_create_namespace("blame_hunk_hl")
+  vim.api.nvim_set_hl(0, "BlameHunk", { bg = "#2a2a3a" })
+  local last_hl_hash = nil
+
+  local function highlight_hunk()
+    if not state or not vim.api.nvim_buf_is_valid(state.source_buf) then return end
+    local line = vim.api.nvim_win_get_cursor(state.blame_win)[1]
+    local entry = state.entries[line]
+    if not entry or entry.hash == last_hl_hash then return end
+    last_hl_hash = entry.hash
+    vim.api.nvim_buf_clear_namespace(state.source_buf, hl_ns, 0, -1)
+    if entry.hash:match("^0+$") then return end
+    local total = vim.api.nvim_buf_line_count(state.source_buf)
+    for i = 1, total do
+      local e = state.entries[i]
+      if e and e.hash == entry.hash then
+        vim.api.nvim_buf_set_extmark(state.source_buf, hl_ns, i - 1, 0, {
+          end_row = i,
+          hl_group = "BlameHunk",
+          hl_eol = true,
+        })
+      end
+    end
+  end
+
+  local function jump_hunk(forward)
+    if not state then return end
+    local in_source = vim.api.nvim_get_current_win() == state.source_win
+    local cur_line = in_source
+      and vim.api.nvim_win_get_cursor(state.source_win)[1]
+      or vim.api.nvim_win_get_cursor(state.blame_win)[1]
+
+    if in_source then
+      -- Jump to next/prev highlighted hunk (group of lines with same hash)
+      if not last_hl_hash or last_hl_hash:match("^0+$") then return end
+      local total = vim.api.nvim_buf_line_count(state.source_buf)
+      if forward then
+        -- Skip current highlighted block, then find next one
+        local i = cur_line + 1
+        while i <= total and state.entries[i] and state.entries[i].hash == last_hl_hash do
+          i = i + 1
+        end
+        while i <= total do
+          if state.entries[i] and state.entries[i].hash == last_hl_hash then
+            vim.api.nvim_win_set_cursor(state.source_win, { i, 0 })
+            return
+          end
+          i = i + 1
+        end
+      else
+        -- Skip current highlighted block backwards, then find prev one
+        local i = cur_line - 1
+        while i >= 1 and state.entries[i] and state.entries[i].hash == last_hl_hash do
+          i = i - 1
+        end
+        -- Find the end of the previous highlighted block
+        while i >= 1 do
+          if state.entries[i] and state.entries[i].hash == last_hl_hash then
+            -- Find start of this block
+            local target = i
+            while target > 1 and state.entries[target - 1] and state.entries[target - 1].hash == last_hl_hash do
+              target = target - 1
+            end
+            vim.api.nvim_win_set_cursor(state.source_win, { target, 0 })
+            return
+          end
+          i = i - 1
+        end
+      end
+    else
+      -- Jump between different commit hunks in blame
+      local current_hash = state.entries[cur_line] and state.entries[cur_line].hash
+      if not current_hash then return end
+      local total = vim.api.nvim_buf_line_count(state.blame_buf)
+      if forward then
+        for i = cur_line + 1, total do
+          if state.entries[i] and state.entries[i].hash ~= current_hash then
+            vim.api.nvim_win_set_cursor(state.blame_win, { i, 0 })
+            return
+          end
+        end
+      else
+        for i = cur_line - 1, 1, -1 do
+          if state.entries[i] and state.entries[i].hash ~= current_hash then
+            local target_hash = state.entries[i].hash
+            local target = i
+            for j = i - 1, 1, -1 do
+              if state.entries[j] and state.entries[j].hash == target_hash then
+                target = j
+              else
+                break
+              end
+            end
+            vim.api.nvim_win_set_cursor(state.blame_win, { target, 0 })
+            return
+          end
+        end
+      end
+    end
+  end
+
+  vim.keymap.set("n", "<h", function() jump_hunk(true) end, kopts)
+  vim.keymap.set("n", ">h", function() jump_hunk(false) end, kopts)
+  local src_kopts = { buffer = source_buf, silent = true }
+  vim.keymap.set("n", "<h", function() jump_hunk(true) end, src_kopts)
+  vim.keymap.set("n", ">h", function() jump_hunk(false) end, src_kopts)
+  vim.keymap.set("n", "yih", function()
+    if not state or not last_hl_hash or last_hl_hash:match("^0+$") then return end
+    local cur = vim.api.nvim_win_get_cursor(state.source_win)[1]
+    -- Find the contiguous block of highlighted lines around cursor
+    local start, finish = cur, cur
+    while start > 1 and state.entries[start - 1] and state.entries[start - 1].hash == last_hl_hash do
+      start = start - 1
+    end
+    local total = vim.api.nvim_buf_line_count(state.source_buf)
+    while finish < total and state.entries[finish + 1] and state.entries[finish + 1].hash == last_hl_hash do
+      finish = finish + 1
+    end
+    local lines = vim.api.nvim_buf_get_lines(state.source_buf, start - 1, finish, false)
+    vim.fn.setreg("+", table.concat(lines, "\n") .. "\n")
+    vim.notify(string.format("Yanked %d lines", #lines))
+  end, src_kopts)
+  vim.keymap.set("n", "P", preview_commit, src_kopts)
+
   -- Cursor sync
+  state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = blame_buf,
+    callback = highlight_hunk,
+  })
+
   local last_preview_hash = nil
   local preview_timer = vim.uv.new_timer()
   state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("CursorMoved", {
