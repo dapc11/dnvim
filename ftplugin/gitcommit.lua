@@ -90,7 +90,7 @@ local function format_commit_message()
       -- Flush current paragraph
       if #paragraph > 0 then
         local joined = table.concat(paragraph, " ")
-        vim.list_extend(formatted, wrap_line(joined, 72))
+        vim.list_extend(formatted, wrap_line(joined, 71))
         paragraph = {}
       end
       table.insert(formatted, "")
@@ -98,8 +98,10 @@ local function format_commit_message()
       -- Flush paragraph before trailers
       if #paragraph > 0 then
         local joined = table.concat(paragraph, " ")
-        vim.list_extend(formatted, wrap_line(joined, 72))
+        vim.list_extend(formatted, wrap_line(joined, 71))
         paragraph = {}
+        -- Blank line between body and trailers
+        table.insert(formatted, "")
       end
       table.insert(formatted, line)
     else
@@ -110,7 +112,7 @@ local function format_commit_message()
   -- Flush remaining paragraph
   if #paragraph > 0 then
     local joined = table.concat(paragraph, " ")
-    vim.list_extend(formatted, wrap_line(joined, 72))
+    vim.list_extend(formatted, wrap_line(joined, 71))
   end
 
   -- Collapse consecutive blank lines
