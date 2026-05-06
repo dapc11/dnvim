@@ -108,33 +108,38 @@ end
 
 local function close_blame()
   if not state then return end
-  for _, id in ipairs(state.autocmd_ids) do
+  local s = state
+  state = nil
+  for _, id in ipairs(s.autocmd_ids) do
     pcall(vim.api.nvim_del_autocmd, id)
   end
-  if vim.api.nvim_win_is_valid(state.source_win) then
-    vim.wo[state.source_win].scrollbind = false
-    vim.wo[state.source_win].cursorbind = false
+  if vim.api.nvim_win_is_valid(s.source_win) then
+    vim.wo[s.source_win].scrollbind = false
+    vim.wo[s.source_win].cursorbind = false
   end
-  if vim.api.nvim_buf_is_valid(state.source_buf) then
-    vim.api.nvim_buf_clear_namespace(state.source_buf, vim.api.nvim_create_namespace("blame_hunk_hl"), 0, -1)
+  if vim.api.nvim_buf_is_valid(s.source_buf) then
+    vim.api.nvim_buf_clear_namespace(s.source_buf, vim.api.nvim_create_namespace("blame_hunk_hl"), 0, -1)
   end
-  if state.preview_win and vim.api.nvim_win_is_valid(state.preview_win) then
-    vim.api.nvim_win_close(state.preview_win, true)
+  if s.preview_win and vim.api.nvim_win_is_valid(s.preview_win) then
+    vim.api.nvim_win_close(s.preview_win, true)
   end
-  if vim.api.nvim_win_is_valid(state.blame_win) then
-    vim.api.nvim_win_close(state.blame_win, true)
+  if s.preview_timer then
+    s.preview_timer:stop()
+    if not s.preview_timer:is_closing() then
+      s.preview_timer:close()
+    end
   end
-  if vim.api.nvim_buf_is_valid(state.blame_buf) then
-    vim.api.nvim_buf_delete(state.blame_buf, { force = true })
+  if vim.api.nvim_win_is_valid(s.blame_win) then
+    vim.api.nvim_win_close(s.blame_win, true)
   end
-  state = nil
 end
 
 ---Run blame for a specific commit and file, updating the blame buffer in place
 ---@param commit string|nil git revision (nil for working tree)
 ---@param file string file path relative to repo root
 ---@param target_line number|nil line to place cursor on
-local function run_blame(commit, file, target_line)
+---@param line_range table|nil {start, finish} for -L range
+local function run_blame(commit, file, target_line, line_range)
   local git_dir = vim.fn.FugitiveGitDir()
   if git_dir == "" then
     vim.notify("Not in a git repo", vim.log.levels.ERROR)
@@ -143,6 +148,10 @@ local function run_blame(commit, file, target_line)
 
   local work_tree = vim.fn.fnamemodify(git_dir, ":h")
   local cmd = { "git", "-C", work_tree, "blame", "--porcelain" }
+  if line_range then
+    table.insert(cmd, "-L")
+    table.insert(cmd, line_range[1] .. "," .. line_range[2])
+  end
   if commit then
     table.insert(cmd, commit)
   end
@@ -228,9 +237,15 @@ local function blame_back()
   local entry = state.entries[line]
   if not entry or entry.hash:match("^0+$") then return end
 
-  -- Push current state
+  -- Determine current commit+file for history
+  local cur_name = vim.api.nvim_buf_get_name(state.source_buf)
+  local cur_ref = vim.fn.FugitiveParse(cur_name)[1] or ""
+  local cur_commit = cur_ref:match("^(%x+):") or nil
+  local cur_file = cur_ref:match(":(.+)$") or vim.fn.FugitivePath(cur_name, "")
+
   table.insert(state.history, {
-    buf_name = vim.api.nvim_buf_get_name(state.source_buf),
+    commit = cur_commit,
+    file = cur_file,
     line = line,
   })
 
@@ -255,15 +270,14 @@ local function blame_forward()
   local prev = table.remove(state.history)
 
   vim.api.nvim_set_current_win(state.source_win)
-  vim.cmd("Gedit " .. prev.buf_name)
+  if prev.commit then
+    vim.cmd("Gedit " .. prev.commit .. ":" .. prev.file)
+  else
+    vim.cmd("Gedit " .. prev.file)
+  end
   state.source_buf = vim.api.nvim_get_current_buf()
   vim.api.nvim_set_current_win(state.blame_win)
-
-  -- Determine commit from the buffer (nil = working tree)
-  local ref = vim.fn.FugitiveParse(prev.buf_name)[1] or nil
-  local commit = ref and ref:match("^(%x+):") or nil
-  local file = ref and ref:match(":(.+)$") or prev.buf_name
-  run_blame(commit, file, prev.line)
+  run_blame(prev.commit, prev.file, prev.line)
 end
 
 --- Preview commit details in a split above the blame+source
@@ -306,8 +320,8 @@ function M.blame()
   local source_win = vim.api.nvim_get_current_win()
   local filepath = vim.api.nvim_buf_get_name(source_buf)
 
-  if filepath == "" then
-    vim.notify("No file to blame", vim.log.levels.WARN)
+  if filepath == "" or vim.bo[source_buf].buftype ~= "" then
+    vim.notify("Cannot blame this buffer", vim.log.levels.WARN)
     return
   end
 
@@ -377,6 +391,14 @@ function M.blame()
   vim.keymap.set("n", "<C-o>", blame_back, kopts)
   vim.keymap.set("n", "<C-i>", blame_forward, kopts)
   vim.keymap.set("n", "P", preview_commit, kopts)
+  vim.keymap.set("n", "yc", function()
+    if not state then return end
+    local line = vim.api.nvim_win_get_cursor(state.blame_win)[1]
+    local entry = state.entries[line]
+    if not entry or entry.hash:match("^0+$") then return end
+    vim.fn.setreg("+", entry.hash)
+    vim.notify("Yanked " .. entry.hash)
+  end, { buffer = blame_buf, silent = true, nowait = true })
 
   -- Hunk highlighting in source buffer
   local hl_ns = vim.api.nvim_create_namespace("blame_hunk_hl")
@@ -511,6 +533,7 @@ function M.blame()
 
   local last_preview_hash = nil
   local preview_timer = vim.uv.new_timer()
+  state.preview_timer = preview_timer
   state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("CursorMoved", {
     buffer = blame_buf,
     callback = function()
@@ -561,6 +584,69 @@ function M.blame()
     buffer = blame_buf,
     callback = close_blame,
   })
+end
+
+---Blame a visual selection or line range
+---@param line1 number
+---@param line2 number
+function M.blame_range(line1, line2)
+  if state then close_blame() end
+
+  local source_buf = vim.api.nvim_get_current_buf()
+  local source_win = vim.api.nvim_get_current_win()
+  local filepath = vim.api.nvim_buf_get_name(source_buf)
+
+  if filepath == "" or vim.bo[source_buf].buftype ~= "" then
+    vim.notify("Cannot blame this buffer", vim.log.levels.WARN)
+    return
+  end
+
+  local fugitive_path = vim.fn.FugitiveParse(filepath)
+  local commit, file
+  if fugitive_path and fugitive_path[1] ~= "" then
+    commit = fugitive_path[1]:match("^(%x+):")
+    file = fugitive_path[1]:match(":(.+)$")
+  end
+  if not file then
+    file = vim.fn.FugitivePath(filepath, "")
+  end
+
+  -- Create blame buffer
+  local blame_buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[blame_buf].buftype = "nofile"
+  vim.bo[blame_buf].bufhidden = "wipe"
+  vim.bo[blame_buf].filetype = "blame"
+
+  vim.cmd("leftabove vsplit")
+  local blame_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(blame_win, blame_buf)
+
+  vim.wo[blame_win].number = false
+  vim.wo[blame_win].relativenumber = false
+  vim.wo[blame_win].signcolumn = "no"
+  vim.wo[blame_win].cursorline = false
+  vim.wo[blame_win].foldcolumn = "0"
+  vim.wo[blame_win].wrap = false
+  vim.wo[blame_win].winfixwidth = true
+
+  state = {
+    source_buf = source_buf,
+    source_win = source_win,
+    blame_buf = blame_buf,
+    blame_win = blame_win,
+    entries = {},
+    autocmd_ids = {},
+    history = {},
+  }
+
+  if not run_blame(commit, file, 1, { line1, line2 }) then
+    close_blame()
+    return
+  end
+
+  local kopts = { buffer = blame_buf, silent = true }
+  vim.keymap.set("n", "q", close_blame, kopts)
+  vim.keymap.set("n", "P", preview_commit, kopts)
 end
 
 return M
