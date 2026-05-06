@@ -14,11 +14,19 @@ return {
     },
     sources = {
       default = {
+        "snippets",
         "buffer",
         "path",
         "lsp",
       },
       providers = {
+        snippets = {
+          name = "Snippets",
+          module = "blink.cmp.sources.snippets",
+          opts = {
+            search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+          },
+        },
         buffer = {
           name = "Buffer",
           module = "blink.cmp.sources.buffer",
@@ -55,10 +63,7 @@ return {
       },
     },
     snippets = {
-      expand = function() end,
-      active = function()
-        return false
-      end,
+      preset = "default",
     },
     completion = {
       accept = {
