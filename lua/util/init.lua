@@ -71,16 +71,35 @@ local function snake_case(str)
   return str:gsub("%s+", "_"):gsub("[^%w_]", ""):lower()
 end
 
-function M.create_note()
-  local title = vim.fn.input("Note title: ")
+local function title_case(str)
+  local minor = {
+    a = true, an = true, the = true, ["and"] = true, but = true, ["or"] = true, nor = true,
+    yet = true, so = true, at = true, by = true, ["for"] = true, ["in"] = true, of = true,
+    on = true, to = true, up = true, as = true, is = true, it = true,
+  }
+  local words = {}
+  for word in str:gmatch("%S+") do
+    table.insert(words, word)
+  end
+  for i, word in ipairs(words) do
+    local lower = word:lower()
+    if i == 1 or i == #words or not minor[lower] then
+      words[i] = lower:sub(1, 1):upper() .. lower:sub(2)
+    else
+      words[i] = lower
+    end
+  end
+  return table.concat(words, " ")
+end
 
-  -- If the user cancels the input, return early
+function M.create_note()
+  local category = vim.fn.input("Category: ")
+  local title = vim.fn.input("Note title: ")
   if title == "" then
     return
   end
 
-  -- Convert the title to snake_case for the file name
-  local file_name = snake_case(title) .. ".md"
+  local file_name = category ~= "" and (snake_case(category) .. "_" .. snake_case(title) .. ".md") or (snake_case(title) .. ".md")
   local notes_dir = vim.fn.expand("~/notes/")
 
   if vim.fn.isdirectory(notes_dir) == 0 then
@@ -95,7 +114,8 @@ function M.create_note()
 
   local file = io.open(file_path, "w")
   if file then
-    file:write("# " .. title .. "\n\n")
+    local heading = category ~= "" and ("# " .. category .. " - " .. title_case(title)) or ("# " .. title_case(title))
+    file:write(heading .. "\n\n")
     file:close()
     print("Note created: " .. file_path)
     vim.cmd("edit " .. file_path)
