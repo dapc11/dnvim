@@ -162,3 +162,13 @@ map("n", "<leader>xs", function()
     vim.cmd("edit " .. scratch_file)
   end
 end, { desc = "Toggle scratch buffer" })
+
+-- Toggle trailing whitespace highlight
+map("n", "<leader>tw", function()
+  if vim.fn.exists("w:trailing_whitespace") == 1 then
+    vim.fn.matchdelete(vim.w.trailing_whitespace)
+    vim.w.trailing_whitespace = nil
+  else
+    vim.w.trailing_whitespace = vim.fn.matchadd("Error", [[\s\+$]])
+  end
+end, { desc = "Toggle trailing whitespace highlight" })
