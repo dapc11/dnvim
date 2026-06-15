@@ -16,7 +16,6 @@ end
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
--- require("theme")
 require("config.lazy")()
 require("config.options")
 require("config.autocmds")
