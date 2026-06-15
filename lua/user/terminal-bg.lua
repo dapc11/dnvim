@@ -30,14 +30,26 @@ end
 
 --- Synchronously query terminal background. Returns override table or nil.
 function M.get()
+  -- Try OSC 11 first
   local cmd = [[printf '\033]11;?\033\\' > /dev/tty; read -t 0.1 -s resp < /dev/tty; printf '%s' "$resp"]]
   local result = vim.fn.system({ "bash", "-c", cmd })
-  if not result or result == "" then return nil end
+  if result and result ~= "" then
+    local r, g, b = result:match("11;rgb:(%x%x)%x*/(%x%x)%x*/(%x%x)%x*")
+    if r then
+      return M.derive(tonumber(r, 16), tonumber(g, 16), tonumber(b, 16))
+    end
+  end
 
-  local r, g, b = result:match("11;rgb:(%x%x)%x*/(%x%x)%x*/(%x%x)%x*")
-  if not r then return nil end
+  -- Fallback: xrdb (for xterm and other X11 terminals)
+  local xrdb = vim.fn.system("xrdb -query 2>/dev/null | grep -m1 '*background:'")
+  if xrdb and xrdb ~= "" then
+    local r, g, b = xrdb:match("#(%x%x)(%x%x)(%x%x)")
+    if r then
+      return M.derive(tonumber(r, 16), tonumber(g, 16), tonumber(b, 16))
+    end
+  end
 
-  return M.derive(tonumber(r, 16), tonumber(g, 16), tonumber(b, 16))
+  return nil
 end
 
 return M
