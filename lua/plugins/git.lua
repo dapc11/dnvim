@@ -38,6 +38,7 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
     opts = {
+      word_diff = false,
       signs = {
         add = { text = "▎" },
         change = { text = "▎" },
