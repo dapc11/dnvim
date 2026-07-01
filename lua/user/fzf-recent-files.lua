@@ -117,3 +117,14 @@ return function(opts)
     })
   )
 end
+-- -lua] fn_selected threw an error: /home/daniel/.config/nvim/lua/user/fzf-recent-files.lua:111: Curs
+-- or position outside buffer                                                                             
+-- stack traceback:                                                                                       
+--         [C]: in function 'nvim_win_set_cursor'                                                         
+--         /home/daniel/.config/nvim/lua/user/fzf-recent-files.lua:111: in function 'action'              
+--         ...l/.local/share/nvim/lazy/fzf-lua/lua/fzf-lua/actions.lua:133: in function 'fn_selected'     
+--         ...niel/.local/share/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:288: in function <...niel/.local/sh
+-- are/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:278>                                                        
+--         [C]: in function 'xpcall'                                                                      
+--         ...niel/.local/share/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:278: in function <...niel/.local/sh
+-- are/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:273>  
