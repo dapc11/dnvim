@@ -191,6 +191,20 @@ vim.api.nvim_create_autocmd("FocusLost", {
   end,
 })
 
+-- Auto save buffer when leaving it
+vim.api.nvim_create_autocmd("BufLeave", {
+  group = vim.api.nvim_create_augroup("auto_save_on_leave", { clear = true }),
+  callback = function(event)
+    local buf = event.buf
+    if not vim.api.nvim_buf_is_valid(buf) then return end
+    if vim.bo[buf].modified and vim.bo[buf].buftype == "" and vim.bo[buf].modifiable and vim.fn.bufname(buf) ~= "" then
+      vim.api.nvim_buf_call(buf, function()
+        vim.cmd("silent! write")
+      end)
+    end
+  end,
+})
+
 vim.api.nvim_create_user_command("GremoveConflictMarkers", function(opts)
   vim.cmd(opts.line1 .. "," .. opts.line2 .. [[g/^\(<\{7}\||\{7}\|=\{7}\|>\{7}\)/d]])
 end, { range = "%" })
