@@ -80,17 +80,19 @@ vim.cmd([[
 ]])
 
 map("n", "]q", function()
-  local qf = vim.fn.getqflist()
-  if #qf > 0 then
-    vim.cmd("cnext")
+  local ok, err = pcall(vim.cmd, "cnext")
+  if ok then
     vim.cmd("norm! zz")
+  elseif err and not err:match("E553") and not err:match("E42") then
+    vim.notify(err, vim.log.levels.ERROR)
   end
 end, { desc = "Next Quickfix item" })
 map("n", "[q", function()
-  local qf = vim.fn.getqflist()
-  if #qf > 0 then
-    vim.cmd("cprev")
+  local ok, err = pcall(vim.cmd, "cprev")
+  if ok then
     vim.cmd("norm! zz")
+  elseif err and not err:match("E553") and not err:match("E42") then
+    vim.notify(err, vim.log.levels.ERROR)
   end
 end, { desc = "Prev Quickfix item" })
 map("n", "<leader>xq", "<cmd>copen<CR>", { desc = "Open Quickfix List" })
