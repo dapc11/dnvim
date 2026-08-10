@@ -2,7 +2,13 @@ local function parse_search_query(query)
   local includes, excludes = {}, {}
   for term in query:gmatch("%S+") do
     if term:match("^!") then
-      table.insert(excludes, term:sub(2))
+      -- A bare "!" carries no term. Keeping it would match every line,
+      -- because find("", 1, true) succeeds on any input, and silently
+      -- exclude the whole result set.
+      local exclude = term:sub(2)
+      if exclude ~= "" then
+        table.insert(excludes, exclude)
+      end
     else
       table.insert(includes, term)
     end
@@ -39,7 +45,10 @@ local function search_git_history(search_term)
           end
         end
         if not should_exclude then
-          table.insert(entries, string.format("%s:%s:%s %s", commit:sub(1, 8), file, line_num, content:gsub("^%s+", "")))
+          table.insert(
+            entries,
+            string.format("%s:%s:%s %s", commit:sub(1, 8), file, line_num, content:gsub("^%s+", ""))
+          )
         end
       end
     end
@@ -97,7 +106,10 @@ return function()
             local lang = vim.fn.fnamemodify(file, ":e")
             return string.format(
               "git show %s:%s | bat --style=numbers --highlight-line=%s --language=%s --color=always",
-              commit, file, line_num, lang ~= "" and lang or "txt"
+              commit,
+              file,
+              line_num,
+              lang ~= "" and lang or "txt"
             )
           end
           return ""
