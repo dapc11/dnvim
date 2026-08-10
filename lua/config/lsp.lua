@@ -1,6 +1,6 @@
 local map = require("util").map
-local function opts(desc)
-  return { buffer = true, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
+local function opts(buf, desc)
+  return { buffer = buf, noremap = true, silent = true, desc = "LSP: " .. (desc or "") }
 end
 
 local icons = require("config.icons")
@@ -26,21 +26,22 @@ vim.lsp.enable({ "luals", "pyright", "gopls", "yamlls" })
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local fzf = require("fzf-lua")
-    map("n", "grs", fzf.lsp_document_symbols, opts("Find Symbols"))
-    map("n", "grr", fzf.lsp_references, opts("Find References"))
-    map("n", "gd", fzf.lsp_definitions, opts("Goto Definition"))
-    map("n", "<leader>cf", vim.lsp.buf.format, opts("Format"))
-    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
-    map("n", "<leader>fd", fzf.diagnostics_document, opts("Find Diagnostic"))
-    map("n", "<leader>fD", fzf.diagnostics_workspace, opts("Find Workspace Diagnostic"))
+    local buf = args.buf
+    map("n", "grs", fzf.lsp_document_symbols, opts(buf, "Find Symbols"))
+    map("n", "grr", fzf.lsp_references, opts(buf, "Find References"))
+    map("n", "gd", fzf.lsp_definitions, opts(buf, "Goto Definition"))
+    map("n", "<leader>cf", vim.lsp.buf.format, opts(buf, "Format"))
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts(buf, "Code Action"))
+    map("n", "<leader>fd", fzf.diagnostics_document, opts(buf, "Find Diagnostic"))
+    map("n", "<leader>fD", fzf.diagnostics_workspace, opts(buf, "Find Workspace Diagnostic"))
     map("n", "]d", function()
       vim.diagnostic.jump({ count = 1, float = true })
-    end, opts("Next Diagnostic"))
+    end, opts(buf, "Next Diagnostic"))
     map("n", "[d", function()
       vim.diagnostic.jump({ count = -1, float = true })
-    end, opts("Prev Diagnostic"))
-    map("i", "<C-h>", vim.lsp.buf.signature_help, opts("Show Signature"))
-    map("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
+    end, opts(buf, "Prev Diagnostic"))
+    map("i", "<C-h>", vim.lsp.buf.signature_help, opts(buf, "Show Signature"))
+    map("n", "K", vim.lsp.buf.hover, opts(buf, "Hover Documentation"))
 
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     if client:supports_method("textDocument/inlayHint") and vim.lsp.inlay_hint then
