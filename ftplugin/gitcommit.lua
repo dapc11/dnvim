@@ -1,14 +1,20 @@
 vim.opt_local.colorcolumn = "72"
 
--- Highlight subject line if too long
+-- Highlight subject line if too long. One match id is reused so repeated
+-- TextChanged events cannot stack matches, and clearmatches() is avoided
+-- because it would also delete matches owned by other features in this
+-- window, such as the trailing whitespace highlight.
+local subject_match = nil
 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
   buffer = 0,
   callback = function()
     local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ""
-    if #first_line > 50 then
-      vim.fn.matchadd("Error", "\\%1l\\%>50c.*")
-    else
-      vim.fn.clearmatches()
+    local too_long = vim.fn.strdisplaywidth(first_line) > 50
+    if too_long and not subject_match then
+      subject_match = vim.fn.matchadd("Error", "\\%1l\\%>50v.*")
+    elseif not too_long and subject_match then
+      pcall(vim.fn.matchdelete, subject_match)
+      subject_match = nil
     end
   end,
 })
