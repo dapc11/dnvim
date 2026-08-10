@@ -30,22 +30,30 @@ local function git_work_tree(filepath)
   if fugitive_path then
     local dir = fugitive_path:gsub("/.git$", "")
     local result = vim.system({ "git", "-C", dir, "rev-parse", "--show-toplevel" }, { text = true }):wait()
-    if result.code ~= 0 then return nil end
+    if result.code ~= 0 then
+      return nil
+    end
     return vim.trim(result.stdout)
   end
   local dir = vim.fn.fnamemodify(filepath, ":p:h")
   local result = vim.system({ "git", "-C", dir, "rev-parse", "--show-toplevel" }, { text = true }):wait()
-  if result.code ~= 0 then return nil end
+  if result.code ~= 0 then
+    return nil
+  end
   return vim.trim(result.stdout)
 end
 
 ---@return string|nil commit, string|nil file
 local function parse_fugitive_bufname(bufname)
   local ref = bufname:match("^fugitive://.-//(.+)$")
-  if not ref then return nil, nil end
+  if not ref then
+    return nil, nil
+  end
   -- Fugitive uses "hash:path" for tree objects and "hash/path" for blob objects
   local commit, file = ref:match("^(%x+):(.+)$")
-  if commit then return commit, file end
+  if commit then
+    return commit, file
+  end
   commit, file = ref:match("^(%x+)/(.+)$")
   return commit, file
 end
@@ -53,15 +61,32 @@ end
 local function repo_relative_path(filepath)
   -- Handle fugitive:// URIs: extract the file portion after "hash:"
   local _, fugitive_file = parse_fugitive_bufname(filepath)
-  if fugitive_file then return fugitive_file end
+  if fugitive_file then
+    return fugitive_file
+  end
 
   local wt = git_work_tree(filepath)
-  if not wt then return nil end
+  if not wt then
+    return nil
+  end
   return vim.fn.fnamemodify(filepath, ":p"):sub(#wt + 2)
 end
 
+---Run git inside the worktree of the buffer being blamed, rather than relying
+---on the process working directory, which may be anywhere.
+---@param args string[]
+local function git(args)
+  local work_tree = state and git_work_tree(vim.api.nvim_buf_get_name(state.source_buf))
+  local cmd = { "git" }
+  if work_tree then
+    vim.list_extend(cmd, { "-C", work_tree })
+  end
+  vim.list_extend(cmd, args)
+  return vim.system(cmd, { text = true }):wait()
+end
+
 local function get_commit_message(hash)
-  local result = vim.system({ "git", "log", "--format=%B", "-n", "1", hash }, { text = true }):wait()
+  local result = git({ "log", "--format=%B", "-n", "1", hash })
   return result.code == 0 and result.stdout or ""
 end
 
@@ -78,7 +103,9 @@ local function hash_to_color(hash)
 end
 
 local function get_or_create_hl(hash)
-  if hash:match("^0+$") then return "Comment" end
+  if hash:match("^0+$") then
+    return "Comment"
+  end
   local hl_name = "BlameHash_" .. hash:sub(1, 6)
   if vim.fn.hlexists(hl_name) == 0 then
     vim.api.nvim_set_hl(0, hl_name, { fg = hash_to_color(hash:sub(1, 6)) })
@@ -89,8 +116,12 @@ end
 local function setup_hunk_hl()
   local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg or 0
   local shift = vim.o.background == "dark" and 0x1a1a2a or -0x1a1a2a
-  local r = math.min(255, math.max(0, bit.rshift(bit.band(normal_bg, 0xFF0000), 16) + bit.rshift(bit.band(shift, 0xFF0000), 16)))
-  local g = math.min(255, math.max(0, bit.rshift(bit.band(normal_bg, 0x00FF00), 8) + bit.rshift(bit.band(shift, 0x00FF00), 8)))
+  local r = math.min(
+    255,
+    math.max(0, bit.rshift(bit.band(normal_bg, 0xFF0000), 16) + bit.rshift(bit.band(shift, 0xFF0000), 16))
+  )
+  local g =
+    math.min(255, math.max(0, bit.rshift(bit.band(normal_bg, 0x00FF00), 8) + bit.rshift(bit.band(shift, 0x00FF00), 8)))
   local b = math.min(255, math.max(0, bit.band(normal_bg, 0x0000FF) + bit.band(shift, 0x0000FF)))
   vim.api.nvim_set_hl(0, "BlameHunk", { bg = string.format("#%02x%02x%02x", r, g, b) })
 end
@@ -115,16 +146,27 @@ local function parse_porcelain(output)
       end
       local fl = tonumber(final)
       entries[fl] = current
-      if fl > max_line then max_line = fl end
+      if fl > max_line then
+        max_line = fl
+      end
     elseif line:match("^author ") then
       current.author = line:sub(8)
-      if current.hash then hash_data[current.hash] = hash_data[current.hash] or {}; hash_data[current.hash].author = current.author end
+      if current.hash then
+        hash_data[current.hash] = hash_data[current.hash] or {}
+        hash_data[current.hash].author = current.author
+      end
     elseif line:match("^author%-time ") then
       current.date = os.date("%Y-%m-%d", tonumber(line:sub(13)))
-      if current.hash then hash_data[current.hash] = hash_data[current.hash] or {}; hash_data[current.hash].date = current.date end
+      if current.hash then
+        hash_data[current.hash] = hash_data[current.hash] or {}
+        hash_data[current.hash].date = current.date
+      end
     elseif line:match("^filename ") then
       current.filename = line:sub(10)
-      if current.hash then hash_data[current.hash] = hash_data[current.hash] or {}; hash_data[current.hash].filename = current.filename end
+      if current.hash then
+        hash_data[current.hash] = hash_data[current.hash] or {}
+        hash_data[current.hash].filename = current.filename
+      end
     end
   end
   return entries, max_line
@@ -138,7 +180,9 @@ local function build_hash_index(entries, total_lines)
   for i = 1, total_lines do
     local e = entries[i]
     if e and not e.hash:match("^0+$") then
-      if not index[e.hash] then index[e.hash] = {} end
+      if not index[e.hash] then
+        index[e.hash] = {}
+      end
       table.insert(index[e.hash], i)
     end
   end
@@ -155,7 +199,9 @@ local function format_entries(entries, total_lines)
     local e = entries[i]
     local text = e and string.format("%.10s %s %-12s", e.hash, e.date, e.author or "") or ""
     lines[i] = text
-    if #text > max_width then max_width = #text end
+    if #text > max_width then
+      max_width = #text
+    end
   end
   return lines, max_width
 end
@@ -165,19 +211,27 @@ end
 ---@param win number|nil window to read cursor from (defaults to blame_win)
 ---@return BlameEntry|nil, number line
 local function get_current_entry(win)
-  if not state then return nil, 0 end
+  if not state then
+    return nil, 0
+  end
   win = win or state.blame_win
-  if not vim.api.nvim_win_is_valid(win) then return nil, 0 end
+  if not vim.api.nvim_win_is_valid(win) then
+    return nil, 0
+  end
   local line = vim.api.nvim_win_get_cursor(win)[1]
   local entry = state.entries[line]
-  if not entry or entry.hash:match("^0+$") then return nil, line end
+  if not entry or entry.hash:match("^0+$") then
+    return nil, line
+  end
   return entry, line
 end
 
 -- State management
 
 local function close_blame()
-  if not state then return end
+  if not state then
+    return
+  end
   local s = state
   state = nil
   for _, id in ipairs(s.autocmd_ids) do
@@ -198,7 +252,9 @@ local function close_blame()
   end
   if s.preview_timer then
     s.preview_timer:stop()
-    if not s.preview_timer:is_closing() then s.preview_timer:close() end
+    if not s.preview_timer:is_closing() then
+      s.preview_timer:close()
+    end
   end
   if vim.api.nvim_win_is_valid(s.source_win) then
     vim.api.nvim_set_current_win(s.source_win)
@@ -214,7 +270,9 @@ end
 ---@param line_range table|nil {start, finish}
 ---@param callback function|nil
 local function run_blame(commit, file, target_line, line_range, callback)
-  if not state then return end
+  if not state then
+    return
+  end
 
   state.current_commit = commit
 
@@ -222,7 +280,9 @@ local function run_blame(commit, file, target_line, line_range, callback)
   local work_tree = git_work_tree(bufname)
   if not work_tree then
     vim.notify("Not in a git repo", vim.log.levels.ERROR)
-    if callback then callback(false) end
+    if callback then
+      callback(false)
+    end
     return
   end
 
@@ -231,18 +291,26 @@ local function run_blame(commit, file, target_line, line_range, callback)
     table.insert(cmd, "-L")
     table.insert(cmd, line_range[1] .. "," .. line_range[2])
   end
-  if commit then table.insert(cmd, commit) end
+  if commit then
+    table.insert(cmd, commit)
+  end
   table.insert(cmd, "--")
   table.insert(cmd, file)
 
   local s = state
   vim.system(cmd, { text = true }, function(result)
     vim.schedule(function()
-      if state ~= s then return end
-      if not vim.api.nvim_buf_is_valid(s.blame_buf) then return end
+      if state ~= s then
+        return
+      end
+      if not vim.api.nvim_buf_is_valid(s.blame_buf) then
+        return
+      end
       if result.code ~= 0 then
         vim.notify("git blame failed: " .. (result.stderr or ""), vim.log.levels.ERROR)
-        if callback then callback(false) end
+        if callback then
+          callback(false)
+        end
         return
       end
 
@@ -278,7 +346,9 @@ local function run_blame(commit, file, target_line, line_range, callback)
       if target_line then
         pcall(vim.api.nvim_win_set_cursor, state.blame_win, { target_line, 0 })
       end
-      if callback then callback(true) end
+      if callback then
+        callback(true)
+      end
     end)
   end)
 end
@@ -287,14 +357,17 @@ end
 
 local function open_commit()
   local entry, line = get_current_entry()
-  if not entry then return end
+  if not entry then
+    return
+  end
 
   local prev_source_buf = state.source_buf
   local cur_name = vim.api.nvim_buf_get_name(state.source_buf)
   local cur_commit, cur_file = parse_fugitive_bufname(cur_name)
-  if not cur_file then cur_file = repo_relative_path(cur_name) end
+  if not cur_file then
+    cur_file = repo_relative_path(cur_name)
+  end
   local source_line = vim.api.nvim_win_get_cursor(state.source_win)[1]
-
 
   table.insert(state.history, {
     bufname = cur_name,
@@ -309,7 +382,9 @@ local function open_commit()
   vim.cmd("Gedit " .. entry.hash .. ":" .. entry.filename)
   state.source_buf = vim.api.nvim_get_current_buf()
   state.navigating = false
-  if state.setup_source_keymaps then state.setup_source_keymaps(state.source_buf) end
+  if state.setup_source_keymaps then
+    state.setup_source_keymaps(state.source_buf)
+  end
   vim.api.nvim_set_current_win(state.blame_win)
 
   run_blame(entry.hash, entry.filename, entry.orig_line, nil, function(ok)
@@ -329,18 +404,27 @@ end
 
 local function blame_back()
   local entry, line = get_current_entry()
-  if not entry then return end
+  if not entry then
+    return
+  end
 
   local cur_name = vim.api.nvim_buf_get_name(state.source_buf)
   local cur_commit, cur_file = parse_fugitive_bufname(cur_name)
-  if not cur_file then cur_file = repo_relative_path(cur_name) end
+  if not cur_file then
+    cur_file = repo_relative_path(cur_name)
+  end
   local source_line = vim.api.nvim_win_get_cursor(state.source_win)[1]
-  table.insert(state.history, { bufname = cur_name, commit = cur_commit, file = cur_file, blame_line = line, source_line = source_line })
+  table.insert(
+    state.history,
+    { bufname = cur_name, commit = cur_commit, file = cur_file, blame_line = line, source_line = source_line }
+  )
 
-  local result = vim.system({ "git", "rev-parse", entry.hash .. "^@" }, { text = true }):wait()
+  local result = git({ "rev-parse", entry.hash .. "^@" })
   local parents = {}
   if result.code == 0 then
-    for p in result.stdout:gmatch("%x+") do table.insert(parents, p) end
+    for p in result.stdout:gmatch("%x+") do
+      table.insert(parents, p)
+    end
   end
 
   local function navigate_to_parent(parent)
@@ -356,17 +440,23 @@ local function blame_back()
     end
     state.source_buf = vim.api.nvim_get_current_buf()
     state.navigating = false
-    if state.setup_source_keymaps then state.setup_source_keymaps(state.source_buf) end
+    if state.setup_source_keymaps then
+      state.setup_source_keymaps(state.source_buf)
+    end
     vim.api.nvim_set_current_win(state.blame_win)
     run_blame(parent, entry.filename, entry.orig_line)
   end
 
   if #parents > 1 then
     local choices = {}
-    for i, p in ipairs(parents) do choices[i] = string.format("%d: %s", i, p:sub(1, 10)) end
+    for i, p in ipairs(parents) do
+      choices[i] = string.format("%d: %s", i, p:sub(1, 10))
+    end
     vim.ui.select(choices, { prompt = "Select parent:" }, function(_, idx)
       if not idx or not state then
-        if state then table.remove(state.history) end
+        if state then
+          table.remove(state.history)
+        end
         return
       end
       navigate_to_parent(parents[idx])
@@ -377,9 +467,10 @@ local function blame_back()
 end
 
 local function blame_forward()
-  if not state or #state.history == 0 then return end
+  if not state or #state.history == 0 then
+    return
+  end
   local prev = table.remove(state.history)
-
 
   state.navigating = true
   vim.api.nvim_set_current_win(state.source_win)
@@ -390,7 +481,9 @@ local function blame_forward()
   end
   state.source_buf = vim.api.nvim_get_current_buf()
   state.navigating = false
-  if state.setup_source_keymaps then state.setup_source_keymaps(state.source_buf) end
+  if state.setup_source_keymaps then
+    state.setup_source_keymaps(state.source_buf)
+  end
 
   if prev.source_line then
     pcall(vim.api.nvim_win_set_cursor, state.source_win, { prev.source_line, 0 })
@@ -402,7 +495,9 @@ end
 
 local function preview_commit()
   local entry = get_current_entry()
-  if not entry then return end
+  if not entry then
+    return
+  end
 
   if state.preview_win then
     if vim.api.nvim_win_is_valid(state.preview_win) then
@@ -436,10 +531,14 @@ local function preview_commit()
 end
 
 local function jump_commit_boundary(forward)
-  if not state then return end
+  if not state then
+    return
+  end
   local cur_line = vim.api.nvim_win_get_cursor(state.blame_win)[1]
   local current_hash = state.entries[cur_line] and state.entries[cur_line].hash
-  if not current_hash then return end
+  if not current_hash then
+    return
+  end
   local total = vim.api.nvim_buf_line_count(state.blame_buf)
   if forward then
     for i = cur_line + 1, total do
@@ -454,7 +553,11 @@ local function jump_commit_boundary(forward)
         local target_hash = state.entries[i].hash
         local target = i
         for j = i - 1, 1, -1 do
-          if state.entries[j] and state.entries[j].hash == target_hash then target = j else break end
+          if state.entries[j] and state.entries[j].hash == target_hash then
+            target = j
+          else
+            break
+          end
         end
         vim.api.nvim_win_set_cursor(state.blame_win, { target, 0 })
         return
@@ -464,17 +567,25 @@ local function jump_commit_boundary(forward)
 end
 
 local function jump_hunk_occurrence(forward)
-  if not state then return end
+  if not state then
+    return
+  end
   local cur_line = vim.api.nvim_win_get_cursor(state.source_win)[1]
   local entry = state.entries[cur_line]
   local hash = entry and entry.hash
-  if not hash or hash:match("^0+$") then return end
+  if not hash or hash:match("^0+$") then
+    return
+  end
   local line_list = state.hash_lines[hash]
-  if not line_list then return end
+  if not line_list then
+    return
+  end
 
   if forward then
     local i = cur_line + 1
-    while state.entries[i] and state.entries[i].hash == hash do i = i + 1 end
+    while state.entries[i] and state.entries[i].hash == hash do
+      i = i + 1
+    end
     for _, ln in ipairs(line_list) do
       if ln >= i then
         vim.api.nvim_win_set_cursor(state.source_win, { ln, 0 })
@@ -483,11 +594,15 @@ local function jump_hunk_occurrence(forward)
     end
   else
     local i = cur_line - 1
-    while i >= 1 and state.entries[i] and state.entries[i].hash == hash do i = i - 1 end
+    while i >= 1 and state.entries[i] and state.entries[i].hash == hash do
+      i = i - 1
+    end
     for j = #line_list, 1, -1 do
       if line_list[j] <= i then
         local target = line_list[j]
-        while target > 1 and state.entries[target - 1] and state.entries[target - 1].hash == hash do target = target - 1 end
+        while target > 1 and state.entries[target - 1] and state.entries[target - 1].hash == hash do
+          target = target - 1
+        end
         vim.api.nvim_win_set_cursor(state.source_win, { target, 0 })
         return
       end
@@ -496,10 +611,14 @@ local function jump_hunk_occurrence(forward)
 end
 
 local function jump_current_commit_hunk(forward)
-  if not state or not state.current_commit then return end
+  if not state or not state.current_commit then
+    return
+  end
   local commit_hash = state.current_commit
   local line_list = state.hash_lines[commit_hash]
-  if not line_list then return end
+  if not line_list then
+    return
+  end
 
   local cur_line = vim.api.nvim_win_get_cursor(state.source_win)[1]
 
@@ -512,7 +631,9 @@ local function jump_current_commit_hunk(forward)
     -- Skip past the current contiguous block of this commit
     local i = cur_line
     if state.entries[i] and state.entries[i].hash == commit_hash then
-      while state.entries[i + 1] and state.entries[i + 1].hash == commit_hash do i = i + 1 end
+      while state.entries[i + 1] and state.entries[i + 1].hash == commit_hash do
+        i = i + 1
+      end
       i = i + 1
     end
     -- Find next line belonging to this commit
@@ -526,7 +647,9 @@ local function jump_current_commit_hunk(forward)
     -- Go back before the current contiguous block of this commit
     local i = cur_line
     if state.entries[i] and state.entries[i].hash == commit_hash then
-      while i > 1 and state.entries[i - 1] and state.entries[i - 1].hash == commit_hash do i = i - 1 end
+      while i > 1 and state.entries[i - 1] and state.entries[i - 1].hash == commit_hash do
+        i = i - 1
+      end
       i = i - 1
     end
     -- Find previous line belonging to this commit and go to start of its block
@@ -547,26 +670,44 @@ end
 
 local function open_gerrit()
   local entry = get_current_entry()
-  if not entry then return end
+  if not entry then
+    return
+  end
   local gerrit_url = os.getenv("GERRIT_URL")
-  if not gerrit_url then vim.notify("GERRIT_URL not set", vim.log.levels.WARN); return end
+  if not gerrit_url then
+    vim.notify("GERRIT_URL not set", vim.log.levels.WARN)
+    return
+  end
 
   local msg = get_commit_message(entry.hash)
   local change_id = msg:match("Change%-Id: (I[a-f0-9]+)")
-  if not change_id then vim.notify("No Change-Id in commit", vim.log.levels.WARN); return end
+  if not change_id then
+    vim.notify("No Change-Id in commit", vim.log.levels.WARN)
+    return
+  end
 
-  local remote_url = vim.trim(vim.fn.system("git config --get remote.origin.url"))
+  local remote = git({ "config", "--get", "remote.origin.url" })
+  local remote_url = remote.code == 0 and vim.trim(remote.stdout) or ""
   local project_path = remote_url:match("/([^/]+/[^/]+/[^/]+)%.git")
     or remote_url:match("/a/(.+)%.git")
     or remote_url:match("/a/(.+)$")
-  if not project_path then vim.notify("Cannot determine project path", vim.log.levels.WARN); return end
+  if not project_path then
+    vim.notify("Cannot determine project path", vim.log.levels.WARN)
+    return
+  end
 
   local api_url = gerrit_url .. "/a/changes/?q=change:" .. change_id .. "+project:" .. project_path
   vim.system({ "curl", "-s", "--netrc", api_url }, { text = true }, function(result)
     vim.schedule(function()
-      if result.code ~= 0 then vim.notify("Gerrit API request failed", vim.log.levels.WARN); return end
+      if result.code ~= 0 then
+        vim.notify("Gerrit API request failed", vim.log.levels.WARN)
+        return
+      end
       local change_num = result.stdout:gsub("^[^%[]*", ""):match('"_number":(%d+)')
-      if not change_num then vim.notify("Gerrit change not found", vim.log.levels.WARN); return end
+      if not change_num then
+        vim.notify("Gerrit change not found", vim.log.levels.WARN)
+        return
+      end
       vim.fn.jobstart({ "xdg-open", gerrit_url .. "/c/" .. project_path .. "/+/" .. change_num }, { detach = true })
     end)
   end)
@@ -574,32 +715,50 @@ end
 
 local function open_jira(field)
   local entry = get_current_entry()
-  if not entry then return end
+  if not entry then
+    return
+  end
   local msg = get_commit_message(entry.hash)
   local jira_id = msg:match(field .. ":%s*([A-Z]+-[0-9]+)")
-  if not jira_id then vim.notify("No " .. field .. " ID in commit", vim.log.levels.WARN); return end
+  if not jira_id then
+    vim.notify("No " .. field .. " ID in commit", vim.log.levels.WARN)
+    return
+  end
   local jira_url = os.getenv("JIRA_URL") or ""
-  if jira_url == "" then vim.notify("JIRA_URL not set", vim.log.levels.WARN); return end
+  if jira_url == "" then
+    vim.notify("JIRA_URL not set", vim.log.levels.WARN)
+    return
+  end
   vim.fn.jobstart({ "xdg-open", jira_url .. jira_id }, { detach = true })
 end
 
 local function yank_hash()
   local entry = get_current_entry()
-  if not entry then return end
+  if not entry then
+    return
+  end
   vim.fn.setreg("+", entry.hash)
   vim.notify("Yanked " .. entry.hash)
 end
 
 local function yank_hunk()
-  if not state then return end
+  if not state then
+    return
+  end
   local cur = vim.api.nvim_win_get_cursor(state.source_win)[1]
   local entry = state.entries[cur]
-  if not entry or entry.hash:match("^0+$") then return end
+  if not entry or entry.hash:match("^0+$") then
+    return
+  end
   local hash = entry.hash
   local start, finish = cur, cur
-  while start > 1 and state.entries[start - 1] and state.entries[start - 1].hash == hash do start = start - 1 end
+  while start > 1 and state.entries[start - 1] and state.entries[start - 1].hash == hash do
+    start = start - 1
+  end
   local total = vim.api.nvim_buf_line_count(state.source_buf)
-  while finish < total and state.entries[finish + 1] and state.entries[finish + 1].hash == hash do finish = finish + 1 end
+  while finish < total and state.entries[finish + 1] and state.entries[finish + 1].hash == hash do
+    finish = finish + 1
+  end
   local lines = vim.api.nvim_buf_get_lines(state.source_buf, start - 1, finish, false)
   vim.fn.setreg("+", table.concat(lines, "\n") .. "\n")
   vim.notify(string.format("Yanked %d lines", #lines))
@@ -655,7 +814,9 @@ local function create_blame_window(opts)
   state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("WinClosed", {
     pattern = tostring(blame_win),
     once = true,
-    callback = function() vim.schedule(close_blame) end,
+    callback = function()
+      vim.schedule(close_blame)
+    end,
   })
 
   return blame_buf, blame_win
@@ -667,8 +828,12 @@ local function setup_blame_keymaps(blame_buf)
   vim.keymap.set("n", "q", close_blame, kopts)
   vim.keymap.set("n", "P", preview_commit, kopts)
   vim.keymap.set("n", "p", preview_commit, kopts)
-  vim.keymap.set("n", "gj", function() open_jira("Jira") end, kopts)
-  vim.keymap.set("n", "gr", function() open_jira("Requirement") end, kopts)
+  vim.keymap.set("n", "gj", function()
+    open_jira("Jira")
+  end, kopts)
+  vim.keymap.set("n", "gr", function()
+    open_jira("Requirement")
+  end, kopts)
   vim.keymap.set("n", "go", open_gerrit, kopts)
   vim.keymap.set("n", "yc", yank_hash, { buffer = blame_buf, silent = true, nowait = true })
 end
@@ -683,7 +848,9 @@ local function resolve_blame_target(buf)
     return nil, nil
   end
   local commit, file = parse_fugitive_bufname(filepath)
-  if not file then file = repo_relative_path(filepath) end
+  if not file then
+    file = repo_relative_path(filepath)
+  end
   if not file or file == "" then
     vim.notify("Cannot determine file path", vim.log.levels.ERROR)
     return nil, nil
@@ -694,12 +861,17 @@ end
 -- Public API
 
 function M.blame()
-  if state then close_blame(); return end
+  if state then
+    close_blame()
+    return
+  end
 
   local source_buf = vim.api.nvim_get_current_buf()
   local source_win = vim.api.nvim_get_current_win()
   local commit, file = resolve_blame_target(source_buf)
-  if not file then return end
+  if not file then
+    return
+  end
 
   setup_hunk_hl()
   local blame_buf, blame_win = create_blame_window({
@@ -710,7 +882,10 @@ function M.blame()
 
   local cursor_line = vim.api.nvim_win_get_cursor(source_win)[1]
   run_blame(commit, file, cursor_line, nil, function(ok)
-    if not ok then close_blame(); return end
+    if not ok then
+      close_blame()
+      return
+    end
   end)
 
   -- Keymaps
@@ -719,12 +894,24 @@ function M.blame()
   vim.keymap.set("n", "<CR>", open_commit, kopts)
   vim.keymap.set("n", "<C-o>", blame_forward, kopts)
   vim.keymap.set("n", "<C-i>", blame_back, kopts)
-  vim.keymap.set("n", "<h", function() jump_commit_boundary(true) end, kopts)
-  vim.keymap.set("n", ">h", function() jump_commit_boundary(false) end, kopts)
-  vim.keymap.set("n", "<C-j>", function() jump_current_commit_hunk(true) end, kopts)
-  vim.keymap.set("n", "<C-k>", function() jump_current_commit_hunk(false) end, kopts)
-  vim.keymap.set("n", "<C-Down>", function() jump_current_commit_hunk(true) end, kopts)
-  vim.keymap.set("n", "<C-Up>", function() jump_current_commit_hunk(false) end, kopts)
+  vim.keymap.set("n", "<h", function()
+    jump_commit_boundary(true)
+  end, kopts)
+  vim.keymap.set("n", ">h", function()
+    jump_commit_boundary(false)
+  end, kopts)
+  vim.keymap.set("n", "<C-j>", function()
+    jump_current_commit_hunk(true)
+  end, kopts)
+  vim.keymap.set("n", "<C-k>", function()
+    jump_current_commit_hunk(false)
+  end, kopts)
+  vim.keymap.set("n", "<C-Down>", function()
+    jump_current_commit_hunk(true)
+  end, kopts)
+  vim.keymap.set("n", "<C-Up>", function()
+    jump_current_commit_hunk(false)
+  end, kopts)
 
   -- Source buffer keymaps (tracked for cleanup)
   local function setup_source_keymaps(buf)
@@ -733,12 +920,24 @@ function M.blame()
       vim.keymap.set(mode, lhs, rhs, src_kopts)
       table.insert(state.source_keymaps, { mode = mode, lhs = lhs, buffer = buf })
     end
-    add_src_keymap("n", "<h", function() jump_hunk_occurrence(true) end)
-    add_src_keymap("n", ">h", function() jump_hunk_occurrence(false) end)
-    add_src_keymap("n", "<C-j>", function() jump_current_commit_hunk(true) end)
-    add_src_keymap("n", "<C-k>", function() jump_current_commit_hunk(false) end)
-    add_src_keymap("n", "<C-Down>", function() jump_current_commit_hunk(true) end)
-    add_src_keymap("n", "<C-Up>", function() jump_current_commit_hunk(false) end)
+    add_src_keymap("n", "<h", function()
+      jump_hunk_occurrence(true)
+    end)
+    add_src_keymap("n", ">h", function()
+      jump_hunk_occurrence(false)
+    end)
+    add_src_keymap("n", "<C-j>", function()
+      jump_current_commit_hunk(true)
+    end)
+    add_src_keymap("n", "<C-k>", function()
+      jump_current_commit_hunk(false)
+    end)
+    add_src_keymap("n", "<C-Down>", function()
+      jump_current_commit_hunk(true)
+    end)
+    add_src_keymap("n", "<C-Up>", function()
+      jump_current_commit_hunk(false)
+    end)
     add_src_keymap("n", "P", preview_commit)
     add_src_keymap("n", "yih", yank_hunk)
   end
@@ -752,16 +951,26 @@ function M.blame()
   state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("CursorMoved", {
     buffer = blame_buf,
     callback = function()
-      if not state or not vim.api.nvim_buf_is_valid(state.source_buf) then return end
-      if not vim.api.nvim_win_is_valid(state.blame_win) then return end
+      if not state or not vim.api.nvim_buf_is_valid(state.source_buf) then
+        return
+      end
+      if not vim.api.nvim_win_is_valid(state.blame_win) then
+        return
+      end
       local line = vim.api.nvim_win_get_cursor(state.blame_win)[1]
       local entry = state.entries[line]
-      if not entry or entry.hash == last_hl_hash then return end
+      if not entry or entry.hash == last_hl_hash then
+        return
+      end
       last_hl_hash = entry.hash
       vim.api.nvim_buf_clear_namespace(state.source_buf, hl_ns, 0, -1)
-      if entry.hash:match("^0+$") then return end
+      if entry.hash:match("^0+$") then
+        return
+      end
       local line_list = state.hash_lines[entry.hash]
-      if not line_list then return end
+      if not line_list then
+        return
+      end
       local buf_lines = vim.api.nvim_buf_line_count(state.source_buf)
       for _, ln in ipairs(line_list) do
         if ln <= buf_lines then
@@ -783,27 +992,39 @@ function M.blame()
   state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("CursorMoved", {
     buffer = blame_buf,
     callback = function()
-      if not state or not state.preview_win then return end
+      if not state or not state.preview_win then
+        return
+      end
       if not vim.api.nvim_win_is_valid(state.preview_win) then
         state.preview_win = nil
         return
       end
       preview_timer:stop()
-      preview_timer:start(300, 0, vim.schedule_wrap(function()
-        if not state or not state.preview_win or not vim.api.nvim_win_is_valid(state.preview_win) then
-          if state then state.preview_win = nil end
-          return
-        end
-        if not vim.api.nvim_win_is_valid(state.blame_win) then return end
-        local entry = get_current_entry()
-        if not entry or entry.hash == last_preview_hash then return end
-        last_preview_hash = entry.hash
-        local cur_win = vim.api.nvim_get_current_win()
-        vim.api.nvim_set_current_win(state.preview_win)
-        vim.cmd("Gedit " .. entry.hash)
-        vim.fn.winrestview({ topline = 1, lnum = 1, col = 0 })
-        vim.api.nvim_set_current_win(cur_win)
-      end))
+      preview_timer:start(
+        300,
+        0,
+        vim.schedule_wrap(function()
+          if not state or not state.preview_win or not vim.api.nvim_win_is_valid(state.preview_win) then
+            if state then
+              state.preview_win = nil
+            end
+            return
+          end
+          if not vim.api.nvim_win_is_valid(state.blame_win) then
+            return
+          end
+          local entry = get_current_entry()
+          if not entry or entry.hash == last_preview_hash then
+            return
+          end
+          last_preview_hash = entry.hash
+          local cur_win = vim.api.nvim_get_current_win()
+          vim.api.nvim_set_current_win(state.preview_win)
+          vim.cmd("Gedit " .. entry.hash)
+          vim.fn.winrestview({ topline = 1, lnum = 1, col = 0 })
+          vim.api.nvim_set_current_win(cur_win)
+        end)
+      )
     end,
   })
 
@@ -811,22 +1032,30 @@ function M.blame()
   state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("BufWinEnter", {
     pattern = "*",
     callback = function()
-      if not state then return end
+      if not state then
+        return
+      end
       if state.navigating then
         return
       end
       local win = vim.api.nvim_get_current_win()
-      if win ~= state.source_win then return end
+      if win ~= state.source_win then
+        return
+      end
       vim.wo[win].scrollbind = true
       vim.wo[win].cursorbind = true
       local new_buf = vim.api.nvim_win_get_buf(state.source_win)
-      if new_buf == state.source_buf then return end
+      if new_buf == state.source_buf then
+        return
+      end
       local fp = vim.api.nvim_buf_get_name(new_buf)
       state.source_buf = new_buf
       state.history = {}
       state.setup_source_keymaps(new_buf)
       local c, f = parse_fugitive_bufname(fp)
-      if not f then f = repo_relative_path(fp) end
+      if not f then
+        f = repo_relative_path(fp)
+      end
       if f and f ~= "" then
         run_blame(c, f, vim.api.nvim_win_get_cursor(state.source_win)[1])
       end
@@ -837,12 +1066,16 @@ end
 ---@param line1 number
 ---@param line2 number
 function M.blame_range(line1, line2)
-  if state then close_blame() end
+  if state then
+    close_blame()
+  end
 
   local source_buf = vim.api.nvim_get_current_buf()
   local source_win = vim.api.nvim_get_current_win()
   local commit, file = resolve_blame_target(source_buf)
-  if not file then return end
+  if not file then
+    return
+  end
 
   local blame_buf = create_blame_window({
     source_buf = source_buf,
@@ -851,7 +1084,10 @@ function M.blame_range(line1, line2)
   })
 
   run_blame(commit, file, 1, { line1, line2 }, function(ok)
-    if not ok then close_blame(); return end
+    if not ok then
+      close_blame()
+      return
+    end
   end)
 
   setup_blame_keymaps(blame_buf)
