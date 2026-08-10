@@ -76,16 +76,26 @@ return function(opts)
   local filter_cwd = opts.cwd and vim.fn.fnamemodify(opts.cwd, ":p"):gsub("/$", "")
   local current_file = vim.fn.expand("%:p")
 
-  local positions = {}
-  local files = {}
+  -- Keyed by the string shown in the picker, so the selection is looked up
+  -- directly instead of re-abbreviating every stored path and comparing.
+  local by_display = {}
+  local display_order = {}
 
   if vim.fn.filereadable(storage) == 1 then
     for line in io.lines(storage) do
-      local file = line:match("^([^:]+)")
+      local file, line_num, col = line:match("^([^:]+):(%d+):(%d+)$")
+      file = file or line:match("^([^:]+)")
       if file and vim.fn.filereadable(file) == 1 and file ~= current_file then
         if not filter_cwd or vim.startswith(file, filter_cwd .. "/") then
-          positions[file] = line
-          table.insert(files, file)
+          local display = abbreviate_path(file)
+          if not by_display[display] then
+            by_display[display] = {
+              path = file,
+              line = tonumber(line_num) or 1,
+              col = tonumber(col) or 1,
+            }
+            table.insert(display_order, display)
+          end
         end
       end
     end
@@ -93,8 +103,8 @@ return function(opts)
 
   return require("fzf-lua.core").fzf_exec(
     function(cb)
-      for _, file in ipairs(files) do
-        cb(abbreviate_path(file))
+      for _, display in ipairs(display_order) do
+        cb(display)
       end
       cb(nil)
     end,
@@ -104,27 +114,20 @@ return function(opts)
           if #selected == 0 then
             return
           end
-          for file, line in pairs(positions) do
-            if abbreviate_path(file) == selected[1] then
-              local _, _, line_num, col = line:find("^[^:]+:(%d+):(%d+)")
-              vim.cmd("edit " .. file)
-              vim.api.nvim_win_set_cursor(0, { tonumber(line_num) or 1, (tonumber(col) or 1) - 1 })
-              return
-            end
+          local entry = by_display[selected[1]]
+          if not entry then
+            return
           end
+          vim.cmd("edit " .. vim.fn.fnameescape(entry.path))
+          -- The file may have shrunk since it was last visited, so the stored
+          -- position has to be clamped to the buffer that was just loaded.
+          local last_line = vim.api.nvim_buf_line_count(0)
+          local line_num = math.min(math.max(entry.line, 1), last_line)
+          local line_len = #(vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, false)[1] or "")
+          local col = math.min(math.max(entry.col - 1, 0), line_len)
+          vim.api.nvim_win_set_cursor(0, { line_num, col })
         end,
       },
     })
   )
 end
--- -lua] fn_selected threw an error: /home/daniel/.config/nvim/lua/user/fzf-recent-files.lua:111: Curs
--- or position outside buffer                                                                             
--- stack traceback:                                                                                       
---         [C]: in function 'nvim_win_set_cursor'                                                         
---         /home/daniel/.config/nvim/lua/user/fzf-recent-files.lua:111: in function 'action'              
---         ...l/.local/share/nvim/lazy/fzf-lua/lua/fzf-lua/actions.lua:133: in function 'fn_selected'     
---         ...niel/.local/share/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:288: in function <...niel/.local/sh
--- are/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:278>                                                        
---         [C]: in function 'xpcall'                                                                      
---         ...niel/.local/share/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:278: in function <...niel/.local/sh
--- are/nvim/lazy/fzf-lua/lua/fzf-lua/core.lua:273>  
