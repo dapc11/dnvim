@@ -34,6 +34,20 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
+---Set window-local options without touching their global value.
+---
+---vim.wo[win].opt = v behaves like :set rather than :setlocal for options that
+---are local to a window: it writes the global value as well, so the setting
+---leaks into every window created afterwards. nvim_set_option_value with
+---scope = "local" is the real equivalent of :setlocal.
+---@param win number window handle, 0 for the current window
+---@param opts table<string, any> option name to value
+function M.set_win_opts(win, opts)
+  for name, value in pairs(opts) do
+    vim.api.nvim_set_option_value(name, value, { scope = "local", win = win })
+  end
+end
+
 -- stylua: ignore
 local function match(dir, pattern)
   if string.sub(pattern, 1, 1) == "=" then
