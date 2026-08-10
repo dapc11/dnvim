@@ -1,3 +1,5 @@
+local set_win_opts = require("util").set_win_opts
+
 local items = {
   {
     key = "f",
@@ -123,9 +125,7 @@ local function open()
   vim.bo[buf].bufhidden = "wipe"
   vim.bo[buf].swapfile = false
   vim.bo[buf].filetype = "dashboard"
-  vim.wo[0].number = false
-  vim.wo[0].relativenumber = false
-  vim.wo[0].colorcolumn = ""
+  set_win_opts(0, { number = false, relativenumber = false, colorcolumn = "" })
 
   local augroup = vim.api.nvim_create_augroup("DashboardResize", { clear = true })
 
@@ -135,9 +135,7 @@ local function open()
     once = true,
     callback = function()
       vim.api.nvim_del_augroup_by_id(augroup)
-      vim.wo[0].number = true
-      vim.wo[0].relativenumber = true
-      vim.wo[0].colorcolumn = "80"
+      set_win_opts(0, { number = true, relativenumber = true, colorcolumn = "80" })
     end,
   })
 
