@@ -73,9 +73,26 @@ end
 
 local function title_case(str)
   local minor = {
-    a = true, an = true, the = true, ["and"] = true, but = true, ["or"] = true, nor = true,
-    yet = true, so = true, at = true, by = true, ["for"] = true, ["in"] = true, of = true,
-    on = true, to = true, up = true, as = true, is = true, it = true,
+    a = true,
+    an = true,
+    the = true,
+    ["and"] = true,
+    but = true,
+    ["or"] = true,
+    nor = true,
+    yet = true,
+    so = true,
+    at = true,
+    by = true,
+    ["for"] = true,
+    ["in"] = true,
+    of = true,
+    on = true,
+    to = true,
+    up = true,
+    as = true,
+    is = true,
+    it = true,
   }
   local words = {}
   for word in str:gmatch("%S+") do
@@ -99,7 +116,8 @@ function M.create_note()
     return
   end
 
-  local file_name = category ~= "" and (snake_case(category) .. "_" .. snake_case(title) .. ".md") or (snake_case(title) .. ".md")
+  local file_name = category ~= "" and (snake_case(category) .. "_" .. snake_case(title) .. ".md")
+    or (snake_case(title) .. ".md")
   local notes_dir = vim.fn.expand("~/notes/")
 
   if vim.fn.isdirectory(notes_dir) == 0 then
@@ -125,16 +143,15 @@ function M.create_note()
 end
 
 function M.get_visual_selection()
-  vim.cmd('noau normal! "vy"')
+  vim.cmd('noau normal! "vy')
   local text = vim.fn.getreg("v")
   vim.fn.setreg("v", {})
 
-  text = string.gsub(text, "\n", "")
-  if #text > 0 then
-    return text
-  else
-    return ""
-  end
+  -- Callers feed this to grep, so a multi-line selection has to collapse to a
+  -- single line. Joining with a space keeps the words apart; concatenating
+  -- them ran the last word of one line into the first word of the next.
+  text = vim.trim(text:gsub("%s*\n%s*", " "))
+  return text
 end
 
 function M.jira_finder()
