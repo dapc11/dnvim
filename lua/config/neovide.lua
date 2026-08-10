@@ -29,13 +29,19 @@ vim.g.neovide_cursor_trail_size = 0
 vim.g.neovide_cursor_animation_length = 0.0
 vim.g.neovide_scroll_animation_length = 0.0
 
-vim.keymap.set("n", "<C-+>", function() vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1 end)
-vim.keymap.set("n", "<C-->", function() vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1 end)
-vim.keymap.set("n", "<C-0>", function() vim.g.neovide_scale_factor = 1 end)
+vim.keymap.set("n", "<C-+>", function()
+  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1
+end)
+vim.keymap.set("n", "<C-->", function()
+  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1
+end)
+vim.keymap.set("n", "<C-0>", function()
+  vim.g.neovide_scale_factor = 1
+end)
 
 vim.keymap.set("n", "<SC-s>", ":w<CR>")
 vim.keymap.set("v", "<SC-c>", '"+y')
-vim.keymap.set("n", "<SC-v>", "+p<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<SC-v>", '"+p', { noremap = true, silent = true })
 vim.keymap.set("!", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
 vim.keymap.set("t", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
 vim.keymap.set("v", "<SC-v>", "<C-R>+", { noremap = true, silent = true })
