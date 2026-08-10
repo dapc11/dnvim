@@ -165,12 +165,5 @@ map("n", "<leader>xs", function()
   end
 end, { desc = "Toggle scratch buffer" })
 
--- Toggle trailing whitespace highlight
-map("n", "<leader>tw", function()
-  if vim.fn.exists("w:trailing_whitespace") == 1 then
-    vim.fn.matchdelete(vim.w.trailing_whitespace)
-    vim.w.trailing_whitespace = nil
-  else
-    vim.w.trailing_whitespace = vim.fn.matchadd("Error", [[\s\+$]])
-  end
-end, { desc = "Toggle trailing whitespace highlight" })
+-- Trailing whitespace highlight is owned by config.autocmds, which also binds
+-- <leader>tw to toggle it per window.

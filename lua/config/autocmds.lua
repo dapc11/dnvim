@@ -152,9 +152,17 @@ for _, ft in ipairs({ "toggleterm", "fzf", "blink-cmp-menu" }) do
 end
 
 local matches = {}
+local disabled = {}
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
+local function clear_match(win_id)
+  if matches[win_id] then
+    pcall(vim.fn.matchdelete, matches[win_id])
+    matches[win_id] = nil
+  end
+end
+
 local function update_match(event)
-  local buf = event.buf
+  local buf = event and event.buf or vim.api.nvim_get_current_buf()
   local win_id = vim.api.nvim_get_current_win()
 
   if not vim.api.nvim_buf_is_valid(buf) then
@@ -163,22 +171,27 @@ local function update_match(event)
 
   local buftype = vim.bo[buf].buftype
   local filetype = vim.bo[buf].filetype
-  local match = matches[win_id]
 
-  -- Skip floating windows, terminal buffers, or ignored filetypes
+  -- Skip floating windows, terminal buffers, ignored filetypes, or windows
+  -- where the highlight has been toggled off
   local cfg = vim.api.nvim_win_get_config(win_id)
-  if cfg.relative ~= "" or buftype == "terminal" or skip_fts[filetype] then
-    if match then
-      pcall(vim.fn.matchdelete, match)
-      matches[win_id] = nil
-    end
+  if disabled[win_id] or cfg.relative ~= "" or buftype == "terminal" or skip_fts[filetype] then
+    clear_match(win_id)
     return
   end
 
-  if not match then
+  if not matches[win_id] then
     matches[win_id] = vim.fn.matchadd("TrailingWhitespace", "\\v\\s+$")
   end
 end
+
+-- Toggle owns the same registry as the automatic highlight, otherwise the two
+-- fight over the window's match list and the highlight can never come back.
+vim.keymap.set("n", "<leader>tw", function()
+  local win_id = vim.api.nvim_get_current_win()
+  disabled[win_id] = not disabled[win_id]
+  update_match()
+end, { silent = true, desc = "Toggle trailing whitespace highlight" })
 
 -- Run when switching windows or exiting Insert mode
 vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave", "BufReadPost", "FileType" }, {
