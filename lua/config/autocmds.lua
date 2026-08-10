@@ -20,9 +20,11 @@ vim.api.nvim_create_autocmd("FileType", {
     for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
       local buf = vim.api.nvim_win_get_buf(win)
       if vim.wo[win].scrollbind and vim.bo[buf].filetype ~= "fugitiveblame" then
-        vim.wo[win].cursorline = false
-        vim.wo[win].relativenumber = false
-        vim.wo[win].signcolumn = "no"
+        require("util").set_win_opts(win, {
+          cursorline = false,
+          relativenumber = false,
+          signcolumn = "no",
+        })
       end
     end
   end,
