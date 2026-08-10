@@ -140,8 +140,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
     local dir = require("util").get_project_root(".git")
-    if dir ~= nil then
-      vim.cmd("cd " .. dir)
+    if dir and dir ~= vim.fn.getcwd() then
+      vim.cmd("cd " .. vim.fn.fnameescape(dir))
     end
   end,
 })
