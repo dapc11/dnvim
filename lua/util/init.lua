@@ -49,12 +49,12 @@ end
 
 ---Return project root of project_root_indicator
 ---@param project_root_indicator string
----@return string
+---@return string|nil root directory, or nil when no root was found
 function M.get_project_root(project_root_indicator)
   local current = vim.api.nvim_buf_get_name(0)
   local parent = parent_dir(current)
 
-  while 1 do
+  while true do
     if match(parent, project_root_indicator) then
       return parent
     end
@@ -64,7 +64,7 @@ function M.get_project_root(project_root_indicator)
       break
     end
   end
-  return ""
+  return nil
 end
 
 local function snake_case(str)
