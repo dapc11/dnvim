@@ -1,4 +1,4 @@
-vim.opt_local.colorcolumn = "72"
+vim.opt_local.colorcolumn = "50,72"
 
 -- Highlight subject line if too long. One match id is reused so repeated
 -- TextChanged events cannot stack matches, and clearmatches() is avoided
@@ -138,4 +138,5 @@ local function format_commit_message()
 end
 
 vim.keymap.set("n", "<leader>gc", "<cmd>GpGit<cr>", { buffer = true, desc = "Generate commit with GP" })
+vim.keymap.set("n", "<C-g>c", "<cmd>GpGit<cr>", { buffer = true, desc = "Generate commit with GP" })
 vim.keymap.set("n", "<leader>cf", format_commit_message, { buffer = true, desc = "Format commit message" })
