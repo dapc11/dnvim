@@ -20,15 +20,13 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       vim.opt_local.spell = false
       vim.opt_local.swapfile = false
       vim.opt_local.bufhidden = "unload"
+      vim.opt_local.cursorcolumn = false
+      vim.opt_local.cursorline = false
+      vim.opt_local.foldenable = false
+      vim.opt_local.conceallevel = 0
       vim.cmd([[
       autocmd WinEnter <buffer> set eventignore+=CursorHoldI,CursorMovedI,CursorMoved,FileType
       autocmd WinLeave <buffer> set eventignore-=CursorHoldI,CursorMovedI,CursorMoved,FileType
-      autocmd! * <buffer>
-      set nocursorcolumn nocursorline
-      set nofoldenable
-      set conceallevel=0
-      set updatetime=100
-      set lazyredraw
       ]])
     end
   end,
