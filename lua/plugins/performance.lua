@@ -11,7 +11,9 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       vim.notify("Buffer " .. buf_name .. " too big, disabling features for performance...", vim.log.levels.WARN)
       -- local client = vim.lsp.get_client_by_id(event.data.client_id)
       -- client.server_capabilities.semanticTokensProvider = nil
-      vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = bufnr }))
+      for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+        client:stop()
+      end
       pcall(vim.diagnostic.enable, false, bufnr)
       vim.b[bufnr].ministatusline_disable = true
       vim.b[bufnr].miniindentscope_disable = true
