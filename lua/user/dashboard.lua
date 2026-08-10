@@ -145,8 +145,14 @@ local function open()
     group = augroup,
     buffer = buf,
     callback = function()
-      if vim.api.nvim_buf_is_valid(buf) then
-        render(buf, vim.fn.bufwinid(buf))
+      if not vim.api.nvim_buf_is_valid(buf) then
+        return
+      end
+      -- bufwinid returns -1 when the buffer is not displayed, and every
+      -- window API call rejects that as an invalid window id.
+      local win = vim.fn.bufwinid(buf)
+      if win ~= -1 then
+        render(buf, win)
       end
     end,
   })
