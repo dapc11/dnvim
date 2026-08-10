@@ -46,7 +46,9 @@ map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
 map("n", "<A-Down>", "}")
 map("n", "<A-Up>", "{")
 map("n", "<leader>ls", function()
-  vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = 0 }))
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+    client:stop()
+  end
   vim.diagnostic.enable(false, { bufnr = 0 })
   vim.opt_local.spell = false
 end, { desc = "Stop all heavy lifting" })
@@ -148,7 +150,9 @@ vim.keymap.set("n", "dd", function()
   return "dd"
 end, { expr = true })
 map("n", "<leader>xS", function()
-  vim.lsp.stop_client(vim.lsp.get_clients())
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    client:stop()
+  end
 end, { desc = "Stop Active LSP Clients" })
 
 map("n", "<leader>zn", function()
