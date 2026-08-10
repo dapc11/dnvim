@@ -1,9 +1,5 @@
 local function split(str, delimiter)
-  local parts = {}
-  for part in string.gmatch(str, "[^" .. delimiter .. "]+") do
-    table.insert(parts, part)
-  end
-  return parts
+  return vim.split(str, delimiter, { plain = true, trimempty = true })
 end
 
 local function fzf_yaml()
@@ -11,8 +7,11 @@ local function fzf_yaml()
     actions = {
       ["default"] = function(selected, _)
         local parts = split(selected[1], ".")
-        -- Jump to parent of leaf node to make next search accurate
-        vim.fn.search(parts[#parts - 1])
+        -- Jump to parent of leaf node to make next search accurate. A
+        -- top-level key has no parent, so there is nothing to jump to first.
+        if #parts > 1 then
+          vim.fn.search(parts[#parts - 1])
+        end
         -- Find leaf node name from selected entry
         vim.fn.search(parts[#parts])
       end,
@@ -20,13 +19,9 @@ local function fzf_yaml()
         vim.fn.setreg("+", split(selected[1], ":")[1])
       end,
       ["ctrl-v"] = function(selected, _)
-        local value = ""
-        for i, x in pairs(split(selected[1], ": ")) do
-          if i ~= 1 then
-            value = value .. x
-          end
-        end
-        vim.fn.setreg("+", value)
+        local parts = split(selected[1], ": ")
+        table.remove(parts, 1)
+        vim.fn.setreg("+", table.concat(parts, ": "))
       end,
     },
   })
