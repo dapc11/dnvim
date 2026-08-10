@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd("FileType", {
       map("n", "<c-c>", close_buffer, { silent = true, buffer = true })
     end
     vim.bo[event.buf].buflisted = false
-    vim.opt.colorcolumn = "0"
+    vim.opt_local.colorcolumn = "0"
   end,
 })
 
