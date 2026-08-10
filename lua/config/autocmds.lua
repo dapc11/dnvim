@@ -151,7 +151,18 @@ end
 
 local matches = {}
 local disabled = {}
-vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
+
+-- Applying a colorscheme clears custom highlight groups, and this config
+-- re-applies the colorscheme asynchronously once the terminal background has
+-- been detected, shortly after the first paint. Defining the group only at
+-- load time therefore left the match pointing at an empty group, so trailing
+-- whitespace was matched but drawn with no colour at all.
+local function set_trailing_hl()
+  vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
+end
+set_trailing_hl()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = set_trailing_hl })
+
 local function clear_match(win_id)
   if matches[win_id] then
     pcall(vim.fn.matchdelete, matches[win_id])
