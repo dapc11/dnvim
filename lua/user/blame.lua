@@ -1,5 +1,7 @@
 local M = {}
 
+local set_win_opts = require("util").set_win_opts
+
 ---@class BlameEntry
 ---@field hash string
 ---@field orig_line number
@@ -241,8 +243,7 @@ local function close_blame()
     pcall(vim.keymap.del, km.mode, km.lhs, { buffer = km.buffer })
   end
   if vim.api.nvim_win_is_valid(s.source_win) then
-    vim.wo[s.source_win].scrollbind = false
-    vim.wo[s.source_win].cursorbind = false
+    set_win_opts(s.source_win, { scrollbind = false, cursorbind = false })
   end
   if vim.api.nvim_buf_is_valid(s.source_buf) then
     vim.api.nvim_buf_clear_namespace(s.source_buf, vim.api.nvim_create_namespace("blame_hunk_hl"), 0, -1)
@@ -509,11 +510,10 @@ local function preview_commit()
 
   vim.cmd("topleft split")
   local preview_win = vim.api.nvim_get_current_win()
-  vim.wo[preview_win].scrollbind = false
-  vim.wo[preview_win].cursorbind = false
+  set_win_opts(preview_win, { scrollbind = false, cursorbind = false })
   vim.cmd("Gedit " .. entry.hash)
   vim.fn.winrestview({ topline = 1, lnum = 1, col = 0 })
-  vim.wo[preview_win].winfixheight = true
+  set_win_opts(preview_win, { winfixheight = true })
   vim.api.nvim_win_set_height(preview_win, 15)
   state.preview_win = preview_win
 
@@ -778,19 +778,19 @@ local function create_blame_window(opts)
   local blame_win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_buf(blame_win, blame_buf)
 
-  vim.wo[blame_win].number = false
-  vim.wo[blame_win].relativenumber = false
-  vim.wo[blame_win].signcolumn = "no"
-  vim.wo[blame_win].cursorline = false
-  vim.wo[blame_win].foldcolumn = "0"
-  vim.wo[blame_win].wrap = false
-  vim.wo[blame_win].winfixwidth = true
+  set_win_opts(blame_win, {
+    number = false,
+    relativenumber = false,
+    signcolumn = "no",
+    cursorline = false,
+    foldcolumn = "0",
+    wrap = false,
+    winfixwidth = true,
+  })
 
   if opts.scrollbind then
-    vim.wo[blame_win].scrollbind = true
-    vim.wo[blame_win].cursorbind = true
-    vim.wo[opts.source_win].scrollbind = true
-    vim.wo[opts.source_win].cursorbind = true
+    set_win_opts(blame_win, { scrollbind = true, cursorbind = true })
+    set_win_opts(opts.source_win, { scrollbind = true, cursorbind = true })
     vim.cmd("syncbind")
   end
 
@@ -1042,8 +1042,7 @@ function M.blame()
       if win ~= state.source_win then
         return
       end
-      vim.wo[win].scrollbind = true
-      vim.wo[win].cursorbind = true
+      set_win_opts(win, { scrollbind = true, cursorbind = true })
       local new_buf = vim.api.nvim_win_get_buf(state.source_win)
       if new_buf == state.source_buf then
         return
