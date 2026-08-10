@@ -20,11 +20,13 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "LspAttach" }, {
       vim.bo[bufnr].swapfile = false
       vim.bo[bufnr].bufhidden = "unload"
       for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
-        vim.wo[win].spell = false
-        vim.wo[win].cursorcolumn = false
-        vim.wo[win].cursorline = false
-        vim.wo[win].foldenable = false
-        vim.wo[win].conceallevel = 0
+        require("util").set_win_opts(win, {
+          spell = false,
+          cursorcolumn = false,
+          cursorline = false,
+          foldenable = false,
+          conceallevel = 0,
+        })
       end
       local ignored = "CursorHoldI,CursorMovedI,CursorMoved,FileType"
       vim.api.nvim_create_autocmd("WinEnter", {
