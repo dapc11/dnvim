@@ -278,6 +278,6 @@ vim.api.nvim_create_user_command("GremoveConflictMarkers", function(opts)
 end, { range = "%" })
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
