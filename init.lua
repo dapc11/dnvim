@@ -27,3 +27,4 @@ if vim.g.neovide then
 end
 require("util.profile")
 require("user.dashboard")
+require("user.todo")
