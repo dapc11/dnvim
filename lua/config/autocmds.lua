@@ -104,16 +104,12 @@ vim.api.nvim_create_autocmd("BufReadPost", {
         end
         del[#del + 1] = start
       else
-        -- keep lines between sep and finish, delete rest
+        -- keep lines between sep and finish, delete rest. When a base
+        -- section is present it sits between start and sep, so one range
+        -- covers both the two-way and diff3 conflict styles.
         del[#del + 1] = finish
-        if mid then
-          for i = start, sep do
-            del[#del + 1] = i
-          end
-        else
-          for i = start, sep do
-            del[#del + 1] = i
-          end
+        for i = start, sep do
+          del[#del + 1] = i
         end
       end
       table.sort(del, function(a, b)
