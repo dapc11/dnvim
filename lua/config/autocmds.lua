@@ -52,55 +52,104 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     local lines = vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
     local has_conflict = false
     for _, l in ipairs(lines) do
-      if l:find("^<<<<<<< ") then has_conflict = true break end
+      if l:find("^<<<<<<< ") then
+        has_conflict = true
+        break
+      end
     end
-    if not has_conflict then return end
+    if not has_conflict then
+      return
+    end
 
     local function keep_side(ours)
       local cur = vim.api.nvim_win_get_cursor(0)[1]
       -- find conflict boundaries around cursor
       local start, mid, sep, finish
       for i = cur, 1, -1 do
-        if vim.fn.getline(i):find("^<<<<<<< ") then start = i break end
+        if vim.fn.getline(i):find("^<<<<<<< ") then
+          start = i
+          break
+        end
       end
-      if not start then vim.notify("No conflict block found", vim.log.levels.WARN) return end
+      if not start then
+        vim.notify("No conflict block found", vim.log.levels.WARN)
+        return
+      end
       for i = start + 1, vim.fn.line("$") do
         local ln = vim.fn.getline(i)
-        if ln:find("^||||||| ") then mid = i
-        elseif ln:find("^=======$") then sep = i
-        elseif ln:find("^>>>>>>> ") then finish = i break end
+        if ln:find("^||||||| ") then
+          mid = i
+        elseif ln:find("^=======$") then
+          sep = i
+        elseif ln:find("^>>>>>>> ") then
+          finish = i
+          break
+        end
       end
-      if not sep or not finish then return end
+      if not sep or not finish then
+        return
+      end
       -- delete markers and unwanted side
       local del = {}
       if ours then
         -- keep lines between start and (mid or sep), delete rest
-        if mid then for i = mid, finish do del[#del + 1] = i end
-        else for i = sep, finish do del[#del + 1] = i end end
+        if mid then
+          for i = mid, finish do
+            del[#del + 1] = i
+          end
+        else
+          for i = sep, finish do
+            del[#del + 1] = i
+          end
+        end
         del[#del + 1] = start
       else
         -- keep lines between sep and finish, delete rest
         del[#del + 1] = finish
-        if mid then for i = start, sep do del[#del + 1] = i end
-        else for i = start, sep do del[#del + 1] = i end end
+        if mid then
+          for i = start, sep do
+            del[#del + 1] = i
+          end
+        else
+          for i = start, sep do
+            del[#del + 1] = i
+          end
+        end
       end
-      table.sort(del, function(a, b) return a > b end)
+      table.sort(del, function(a, b)
+        return a > b
+      end)
       local seen = {}
       for _, i in ipairs(del) do
-        if not seen[i] then vim.api.nvim_buf_set_lines(0, i - 1, i, false, {}) seen[i] = true end
+        if not seen[i] then
+          vim.api.nvim_buf_set_lines(0, i - 1, i, false, {})
+          seen[i] = true
+        end
       end
     end
 
-    map("n", "<leader><left>", function() keep_side(true) end, { buffer = ev.buf, silent = true, desc = "Keep ours" })
-    map("n", "<leader><right>", function() keep_side(false) end, { buffer = ev.buf, silent = true, desc = "Keep theirs" })
-    map("n", "<leader><up>", function() vim.fn.search("^<<<<<<< ", "bw") end, { buffer = ev.buf, silent = true, desc = "Prev conflict" })
-    map("n", "<leader><down>", function() vim.fn.search("^<<<<<<< ", "w") end, { buffer = ev.buf, silent = true, desc = "Next conflict" })
+    map("n", "<leader><left>", function()
+      keep_side(true)
+    end, { buffer = ev.buf, silent = true, desc = "Keep ours" })
+    map("n", "<leader><right>", function()
+      keep_side(false)
+    end, { buffer = ev.buf, silent = true, desc = "Keep theirs" })
+    map("n", "<leader><up>", function()
+      vim.fn.search("^<<<<<<< ", "bw")
+    end, { buffer = ev.buf, silent = true, desc = "Prev conflict" })
+    map("n", "<leader><down>", function()
+      vim.fn.search("^<<<<<<< ", "w")
+    end, { buffer = ev.buf, silent = true, desc = "Next conflict" })
   end,
 })
 
 local skip_fts = {}
-for _, ft in ipairs(ignored_filetypes) do skip_fts[ft] = true end
-for _, ft in ipairs({ "toggleterm", "fzf", "blink-cmp-menu" }) do skip_fts[ft] = true end
+for _, ft in ipairs(ignored_filetypes) do
+  skip_fts[ft] = true
+end
+for _, ft in ipairs({ "toggleterm", "fzf", "blink-cmp-menu" }) do
+  skip_fts[ft] = true
+end
 
 local matches = {}
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#FF5555" }) -- Red background
@@ -134,6 +183,14 @@ end
 -- Run when switching windows or exiting Insert mode
 vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "WinEnter", "InsertLeave", "BufReadPost", "FileType" }, {
   callback = update_match,
+})
+
+-- Window ids are not reused, so a registry that is never pruned grows for
+-- the lifetime of the session.
+vim.api.nvim_create_autocmd("WinClosed", {
+  callback = function(event)
+    matches[tonumber(event.match)] = nil
+  end,
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -196,7 +253,9 @@ vim.api.nvim_create_autocmd("BufLeave", {
   group = vim.api.nvim_create_augroup("auto_save_on_leave", { clear = true }),
   callback = function(event)
     local buf = event.buf
-    if not vim.api.nvim_buf_is_valid(buf) then return end
+    if not vim.api.nvim_buf_is_valid(buf) then
+      return
+    end
     if vim.bo[buf].modified and vim.bo[buf].buftype == "" and vim.bo[buf].modifiable and vim.fn.bufname(buf) ~= "" then
       vim.api.nvim_buf_call(buf, function()
         vim.cmd("silent! write")
