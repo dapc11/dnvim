@@ -20,36 +20,42 @@ local M = {}
 local function parse_csv(text)
   local rows = {}
   local current_row = {}
-  local current_field = ""
+  -- Field content is collected in a table and joined once. Appending to a
+  -- string per character reallocates the whole field every time, which makes
+  -- parsing quadratic in field length.
+  local field = {}
   local in_quotes = false
   local i = 1
+
+  local function take_field()
+    table.insert(current_row, table.concat(field))
+    field = {}
+  end
 
   while i <= #text do
     local char = text:sub(i, i)
 
     if char == '"' then
       if in_quotes and i < #text and text:sub(i + 1, i + 1) == '"' then
-        current_field = current_field .. '"'
+        field[#field + 1] = '"'
         i = i + 1
       else
         in_quotes = not in_quotes
       end
     elseif char == "," and not in_quotes then
-      table.insert(current_row, current_field)
-      current_field = ""
+      take_field()
     elseif char == "\n" and not in_quotes then
-      table.insert(current_row, current_field)
+      take_field()
       table.insert(rows, current_row)
       current_row = {}
-      current_field = ""
     else
-      current_field = current_field .. char
+      field[#field + 1] = char
     end
     i = i + 1
   end
 
-  if current_field ~= "" or #current_row > 0 then
-    table.insert(current_row, current_field)
+  if #field > 0 or #current_row > 0 then
+    take_field()
     table.insert(rows, current_row)
   end
 
