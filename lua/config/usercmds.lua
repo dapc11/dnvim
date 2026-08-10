@@ -19,8 +19,23 @@ vim.api.nvim_create_user_command("Trim", function()
 end, { desc = "Trim trailing whitespace and ensure single blank line at end" })
 
 -- Command typo fixes (abbreviations handle both :W and :W!)
+--
+-- Guarded with <expr> so they only fire when the abbreviation is the entire
+-- command line of a ":" command. Unguarded, cnoreabbrev rewrites the text
+-- anywhere a bare "W" appears, which corrupts arguments such as ":e W.txt"
+-- and ":CopyCmd W".
 local abbrevs = { W = "w", Wq = "wq", Wqa = "wqa", WQ = "wq", Q = "q", Qa = "qa", Qw = "wq" }
 for from, to in pairs(abbrevs) do
-  vim.cmd.cnoreabbrev(from .. " " .. to)
-  vim.cmd.cnoreabbrev(from .. "! " .. to .. "!")
+  for _, bang in ipairs({ "", "!" }) do
+    local lhs, rhs = from .. bang, to .. bang
+    vim.cmd(
+      string.format(
+        "cnoreabbrev <expr> %s (getcmdtype() ==# ':' && getcmdline() ==# %s) ? %s : %s",
+        lhs,
+        vim.fn.string(lhs),
+        vim.fn.string(rhs),
+        vim.fn.string(lhs)
+      )
+    )
+  end
 end
