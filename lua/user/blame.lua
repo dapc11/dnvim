@@ -766,7 +766,7 @@ end
 
 -- Shared setup
 
----@param opts { source_buf: number, source_win: number, scrollbind: boolean }
+---@param opts { source_buf: number, source_win: number }
 ---@return number blame_buf, number blame_win
 local function create_blame_window(opts)
   local blame_buf = vim.api.nvim_create_buf(false, true)
@@ -787,12 +787,6 @@ local function create_blame_window(opts)
     wrap = false,
     winfixwidth = true,
   })
-
-  if opts.scrollbind then
-    set_win_opts(blame_win, { scrollbind = true, cursorbind = true })
-    set_win_opts(opts.source_win, { scrollbind = true, cursorbind = true })
-    vim.cmd("syncbind")
-  end
 
   state = {
     source_buf = opts.source_buf,
@@ -820,6 +814,41 @@ local function create_blame_window(opts)
   })
 
   return blame_buf, blame_win
+end
+
+---Bind the blame window to the source window so the two scroll together.
+---
+---Must run only once the blame buffer holds its lines. ':syncbind' aligns every
+---bound window with the current one, and setting 'scrollbind' records the
+---window's topline as the binding origin, so binding while the blame buffer is
+---still empty pins both windows to line 1 and throws away the position the
+---blame was started from.
+---@param view table result of winsaveview() taken in the source window
+local function bind_windows(view)
+  if not state then
+    return
+  end
+  local source_win, blame_win = state.source_win, state.blame_win
+  if not vim.api.nvim_win_is_valid(source_win) or not vim.api.nvim_win_is_valid(blame_win) then
+    return
+  end
+
+  -- Splitting off the blame window and resizing it can have shifted the source
+  -- view, so put it back before anything is bound to it.
+  vim.api.nvim_win_call(source_win, function()
+    vim.fn.winrestview(view)
+  end)
+  -- Line N in the blame buffer describes line N of the source buffer, so the
+  -- two windows share a view.
+  vim.api.nvim_win_call(blame_win, function()
+    vim.fn.winrestview({ topline = view.topline, lnum = view.lnum, col = 0 })
+  end)
+
+  set_win_opts(source_win, { scrollbind = true, cursorbind = true })
+  set_win_opts(blame_win, { scrollbind = true, cursorbind = true })
+  vim.api.nvim_win_call(source_win, function()
+    vim.cmd("syncbind")
+  end)
 end
 
 ---@param blame_buf number
@@ -874,18 +903,18 @@ function M.blame()
   end
 
   setup_hunk_hl()
+  local view = vim.api.nvim_win_call(source_win, vim.fn.winsaveview)
   local blame_buf, blame_win = create_blame_window({
     source_buf = source_buf,
     source_win = source_win,
-    scrollbind = true,
   })
 
-  local cursor_line = vim.api.nvim_win_get_cursor(source_win)[1]
-  run_blame(commit, file, cursor_line, nil, function(ok)
+  run_blame(commit, file, view.lnum, nil, function(ok)
     if not ok then
       close_blame()
       return
     end
+    bind_windows(view)
   end)
 
   -- Keymaps
@@ -1079,7 +1108,6 @@ function M.blame_range(line1, line2)
   local blame_buf = create_blame_window({
     source_buf = source_buf,
     source_win = source_win,
-    scrollbind = false,
   })
 
   run_blame(commit, file, 1, { line1, line2 }, function(ok)
