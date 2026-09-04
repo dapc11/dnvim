@@ -20,7 +20,7 @@ end, { desc = "Reload zsh environment variables" })
 
 vim.keymap.set("n", "<leader>re", ":ReloadEnv<CR>", { desc = "Reload environment" })
 
-vim.o.guifont = "Monospace:h8"
+vim.o.guifont = "Monospace:h12"
 vim.g.neovide_font_hinting = "none"
 vim.g.neovide_font_edging = "antialias"
 vim.g.neovide_scale_factor = 1
