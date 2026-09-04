@@ -8,6 +8,24 @@ vim.api.nvim_create_user_command("CopyCmd", function(x)
   vim.fn.setreg("+", vim.fn.execute(x.args))
 end, { nargs = 1 })
 
+vim.api.nvim_create_user_command("CopyMsg", function()
+  local lines = vim.split(vim.fn.execute("messages"), "\n")
+  -- :messages output is fenced by blank lines, which would show up as stray
+  -- empty lines when the register is put back into a buffer.
+  while lines[1] == "" do
+    table.remove(lines, 1)
+  end
+  while #lines > 0 and lines[#lines] == "" do
+    table.remove(lines)
+  end
+  if #lines == 0 then
+    print("No messages to copy")
+    return
+  end
+  vim.fn.setreg("+", lines, "l")
+  print(("Copied %d message line(s) to clipboard"):format(#lines))
+end, { desc = "Copy :messages output to clipboard" })
+
 vim.api.nvim_create_user_command("Dump", function(x)
   local output = vim.fn.execute(x.args)
   vim.api.nvim_put(vim.split(output, "\n"), "l", true, true)
