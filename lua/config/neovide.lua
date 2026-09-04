@@ -23,9 +23,11 @@ vim.keymap.set("n", "<leader>re", ":ReloadEnv<CR>", { desc = "Reload environment
 -- Accidental :q here means restarting the GUI, not just rerunning nvim.
 require("user.quit-guard")
 
-vim.o.guifont = "Monospace:h12"
-vim.g.neovide_font_hinting = "none"
-vim.g.neovide_font_edging = "antialias"
+-- Hinting and edging belong in 'guifont' as of Neovide 0.11: the old
+-- g:neovide_font_hinting and g:neovide_font_edging settings are gone from the
+-- source and were silently doing nothing, leaving the defaults (full hinting,
+-- antialias edging) in place. Drop ":#h-none" to get full hinting back.
+vim.o.guifont = "Monospace:h12:#e-antialias:#h-none"
 vim.g.neovide_scale_factor = 1
 vim.g.neovide_confirm_quit = true
 vim.g.neovide_cursor_trail_size = 0
