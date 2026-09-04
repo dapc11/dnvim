@@ -1,4 +1,7 @@
-vim.opt_local.colorcolumn = "50,72"
+local max_line_length_subject = 50
+local max_line_length_body = 73
+vim.opt_local.colorcolumn = max_line_length_subject..","..max_line_length_body
+
 
 -- Highlight subject line if too long. One match id is reused so repeated
 -- TextChanged events cannot stack matches, and clearmatches() is avoided
@@ -9,9 +12,9 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
   buffer = 0,
   callback = function()
     local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ""
-    local too_long = vim.fn.strdisplaywidth(first_line) > 50
+    local too_long = vim.fn.strdisplaywidth(first_line) > max_line_length_subject
     if too_long and not subject_match then
-      subject_match = vim.fn.matchadd("Error", "\\%1l\\%>50v.*")
+      subject_match = vim.fn.matchadd("Error", "\\%1l\\%>"..max_line_length_subject.."v.*")
     elseif not too_long and subject_match then
       pcall(vim.fn.matchdelete, subject_match)
       subject_match = nil
@@ -96,7 +99,7 @@ local function format_commit_message()
       -- Flush current paragraph
       if #paragraph > 0 then
         local joined = table.concat(paragraph, " ")
-        vim.list_extend(formatted, wrap_line(joined, 71))
+        vim.list_extend(formatted, wrap_line(joined, max_line_length_body))
         paragraph = {}
       end
       table.insert(formatted, "")
@@ -104,7 +107,7 @@ local function format_commit_message()
       -- Flush paragraph before trailers
       if #paragraph > 0 then
         local joined = table.concat(paragraph, " ")
-        vim.list_extend(formatted, wrap_line(joined, 71))
+        vim.list_extend(formatted, wrap_line(joined, max_line_length_body))
         paragraph = {}
         -- Blank line between body and trailers
         table.insert(formatted, "")
@@ -118,7 +121,7 @@ local function format_commit_message()
   -- Flush remaining paragraph
   if #paragraph > 0 then
     local joined = table.concat(paragraph, " ")
-    vim.list_extend(formatted, wrap_line(joined, 71))
+    vim.list_extend(formatted, wrap_line(joined, max_line_length_body))
   end
 
   -- Collapse consecutive blank lines
