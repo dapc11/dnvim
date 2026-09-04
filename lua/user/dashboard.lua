@@ -89,7 +89,20 @@ local items = {
       require("persistence").load({ last = true })
     end,
   },
-  { key = "q", name = "Quit", action = "quit" },
+  {
+    key = "q",
+    name = "Quit",
+    -- The quit guard is only loaded under Neovide, where quitting throws away
+    -- the whole GUI; everywhere else this stays a plain :quit.
+    action = function()
+      local guard = package.loaded["user.quit-guard"]
+      if guard then
+        guard.quit("q")
+      else
+        vim.cmd("quit")
+      end
+    end,
+  },
 }
 
 local raw_lines = {}

@@ -20,6 +20,9 @@ end, { desc = "Reload zsh environment variables" })
 
 vim.keymap.set("n", "<leader>re", ":ReloadEnv<CR>", { desc = "Reload environment" })
 
+-- Accidental :q here means restarting the GUI, not just rerunning nvim.
+require("user.quit-guard")
+
 vim.o.guifont = "Monospace:h12"
 vim.g.neovide_font_hinting = "none"
 vim.g.neovide_font_edging = "antialias"
