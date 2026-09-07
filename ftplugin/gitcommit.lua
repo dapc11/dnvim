@@ -140,6 +140,4 @@ local function format_commit_message()
   vim.api.nvim_buf_set_lines(0, 0, -1, false, deduped)
 end
 
-vim.keymap.set("n", "<leader>gc", "<cmd>GpGit<cr>", { buffer = true, desc = "Generate commit with GP" })
-vim.keymap.set("n", "<C-g>c", "<cmd>GpGit<cr>", { buffer = true, desc = "Generate commit with GP" })
 vim.keymap.set("n", "<leader>cf", format_commit_message, { buffer = true, desc = "Format commit message" })
