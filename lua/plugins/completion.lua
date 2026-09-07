@@ -79,7 +79,9 @@ return {
               text = function(ctx)
                 return ctx.source_id
               end,
-              highlight = "Comment",
+              -- Menu metadata, not prose: dimmer than the label so the eye
+              -- lands on the label first, and independent of Comment.
+              highlight = "PmenuExtra",
             },
           },
         },
