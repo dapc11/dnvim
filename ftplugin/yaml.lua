@@ -120,3 +120,8 @@ end
 
 vim.keymap.set("n", "<leader>fk", fzf_yaml, { desc = "Find YAML key", buffer = true })
 vim.keymap.set("n", "gj", require("util").jira_finder, { desc = "Goto Jira Definition", buffer = true })
+
+-- Chart templates keep the yaml filetype unless they end in .tpl, and
+-- values.yaml/Chart.yaml navigate the same way, so Helm navigation is offered
+-- here as well. It binds nothing outside a chart.
+require("user.helm-nav").attach({ goto_keys = true })

@@ -42,12 +42,25 @@ local search_paths = {
   "~/repos_personal",
 }
 
+-- Projects auto-discovery misses: git submodules (.git is a file, not a
+-- directory) or repos nested deeper than the fd --max-depth below.
+local extra_projects = {
+  "~/repos_personal/daniel/config/nvim",
+}
+
 local function get_projects()
   local handles = {}
   for _, path in ipairs(search_paths) do
     table.insert(handles, vim.system({ "fd", ".git$", "--prune", "-utd", "--max-depth", "3", vim.fn.expand(path) }, { text = true }))
   end
   local results, seen = {}, {}
+  for _, path in ipairs(extra_projects) do
+    local project = vim.fn.expand(path)
+    if vim.fn.isdirectory(project) == 1 and not seen[project] then
+      seen[project] = true
+      table.insert(results, project)
+    end
+  end
   for _, handle in ipairs(handles) do
     local obj = handle:wait()
     if obj.code == 0 then
