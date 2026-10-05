@@ -28,3 +28,4 @@ end
 require("util.profile")
 require("user.dashboard")
 require("user.todo")
+require("user.indent-guides").setup()
