@@ -33,6 +33,12 @@ local function is_trailer(line)
     or line:match("^Vulnerability:")
 end
 
+-- Collapse multiple spaces between words, strip trailing. Leading is kept.
+local function squeeze(line)
+  local indent, rest = line:match("^(%s*)(.*)$")
+  return indent .. rest:gsub("%s+$", ""):gsub("%s+", " ")
+end
+
 local function wrap_line(text, width)
   local result = {}
   while #text > width do
@@ -81,7 +87,7 @@ local function format_commit_message()
   local i = 1
   -- Subject line
   if i <= msg_end then
-    table.insert(formatted, (lines[i]:gsub("%s+$", "")))
+    table.insert(formatted, squeeze(lines[i]))
     i = i + 1
   end
 
@@ -94,11 +100,11 @@ local function format_commit_message()
   -- Body: join paragraph lines, then re-wrap
   local paragraph = {}
   while i <= msg_end do
-    local line = lines[i]:gsub("%s+$", "")
+    local line = squeeze(lines[i])
     if line == "" then
       -- Flush current paragraph
       if #paragraph > 0 then
-        local joined = table.concat(paragraph, " ")
+        local joined = squeeze(table.concat(paragraph, " "))
         vim.list_extend(formatted, wrap_line(joined, max_line_length_body))
         paragraph = {}
       end
@@ -106,7 +112,7 @@ local function format_commit_message()
     elseif is_trailer(line) then
       -- Flush paragraph before trailers
       if #paragraph > 0 then
-        local joined = table.concat(paragraph, " ")
+        local joined = squeeze(table.concat(paragraph, " "))
         vim.list_extend(formatted, wrap_line(joined, max_line_length_body))
         paragraph = {}
         -- Blank line between body and trailers
@@ -120,13 +126,14 @@ local function format_commit_message()
   end
   -- Flush remaining paragraph
   if #paragraph > 0 then
-    local joined = table.concat(paragraph, " ")
+    local joined = squeeze(table.concat(paragraph, " "))
     vim.list_extend(formatted, wrap_line(joined, max_line_length_body))
   end
 
-  -- Collapse consecutive blank lines
+  -- Strip trailing whitespace and collapse consecutive blank lines
   local deduped = {}
   for _, l in ipairs(formatted) do
+    l = l:gsub("%s+$", "")
     if l ~= "" or (#deduped > 0 and deduped[#deduped] ~= "") then
       table.insert(deduped, l)
     end
