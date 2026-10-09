@@ -1,23 +1,8 @@
-" Dockerfile syntax without the embedded shell grammar.
+" Dockerfile syntax without the embedded shell grammar, which defines ~153
+" sh* rules and dominates redraw cost.
 "
-" The bundled syntax/dockerfile.vim does `syntax include @Shell syntax/sh.vim`
-" and applies the whole shell grammar to every RUN/CMD/ENTRYPOINT line. That
-" defines ~153 sh* groups and dominates redraw cost: measured on a 369 line
-" Dockerfile in a 233x121 window, a full-screen repaint cost 7.01 ms with the
-" shell grammar versus 1.90 ms without it, and 0.48 ms with syntax off
-" entirely. Dockerfile instructions, strings, comments and JSON arrays are all
-" still highlighted; only shell internals inside RUN lines are not.
-"
-" Loaded before $VIMRUNTIME/syntax/dockerfile.vim because the user config dir
-" comes first in 'runtimepath'; setting b:current_syntax at the end makes the
-" bundled file return early.
-" dockerfile.vim - Syntax highlighting for Dockerfiles
-" Maintainer:   Honza Pokorny <https://honza.ca>
-" Last Change:  2024 Dec 20
-" License:      BSD
-
-" https://docs.docker.com/engine/reference/builder/
-
+" Must set b:current_syntax at the end: that is what makes
+" $VIMRUNTIME/syntax/dockerfile.vim return early when it is sourced after this.
 if exists("b:current_syntax")
     finish
 endif
