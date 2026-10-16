@@ -21,6 +21,8 @@ local set_win_opts = require("util").set_win_opts
 ---@field preview_win number|nil
 ---@field preview_timer uv_timer_t|nil
 ---@field source_keymaps table[]
+---@field help_win number|nil
+---@field help_groups { title: string, keymaps: BlameKeymap[] }[]
 
 local state = nil
 
@@ -247,6 +249,9 @@ local function close_blame()
   end
   if vim.api.nvim_buf_is_valid(s.source_buf) then
     vim.api.nvim_buf_clear_namespace(s.source_buf, vim.api.nvim_create_namespace("blame_hunk_hl"), 0, -1)
+  end
+  if s.help_win and vim.api.nvim_win_is_valid(s.help_win) then
+    vim.api.nvim_win_close(s.help_win, true)
   end
   if s.preview_win and vim.api.nvim_win_is_valid(s.preview_win) then
     vim.api.nvim_win_close(s.preview_win, true)
@@ -668,6 +673,36 @@ end
 
 -- External openers
 
+---Look up the change number a Change-Id has on one Gerrit host.
+---@param api_base string host URL plus API prefix: "<host>/a" for a host that
+---  authenticates through netrc, plain "<host>" for anonymous read access
+---@param change_id string
+---@param project_path string
+---@param on_result fun(change_num: string|nil, err: string|nil)
+local function gerrit_change_number(api_base, change_id, project_path, on_result)
+  local api_url = api_base .. "/changes/?q=change:" .. change_id .. "+project:" .. project_path
+  vim.system({ "curl", "-s", "--netrc", api_url }, { text = true }, function(result)
+    vim.schedule(function()
+      -- Gerrit prefixes its JSON with a ")]}'" line. Anything else, such as
+      -- "Unauthorized", is a failed request rather than an empty result.
+      local body = result.code == 0 and result.stdout:match("^%)%]}'\n(.*)$")
+      if not body then
+        local detail = vim.trim(result.stdout):gsub("\n.*", "")
+        on_result(nil, "Gerrit request to " .. api_base .. " failed: " .. (detail ~= "" and detail or "no response"))
+        return
+      end
+      on_result(body:match('"_number":(%d+)'))
+    end)
+  end)
+end
+
+local function open_change(host, project_path, change_num)
+  vim.fn.jobstart({ "xdg-open", host .. "/c/" .. project_path .. "/+/" .. change_num }, { detach = true })
+end
+
+---Open the Gerrit change of the commit under the cursor. A change the main
+---host does not know about is looked up on GERRIT_ARCHIVE_URL, so commits
+---predating a migration still lead to their review.
 local function open_gerrit()
   local entry = get_current_entry()
   if not entry then
@@ -696,19 +731,24 @@ local function open_gerrit()
     return
   end
 
-  local api_url = gerrit_url .. "/a/changes/?q=change:" .. change_id .. "+project:" .. project_path
-  vim.system({ "curl", "-s", "--netrc", api_url }, { text = true }, function(result)
-    vim.schedule(function()
-      if result.code ~= 0 then
-        vim.notify("Gerrit API request failed", vim.log.levels.WARN)
+  gerrit_change_number(gerrit_url .. "/a", change_id, project_path, function(change_num, err)
+    if change_num then
+      open_change(gerrit_url, project_path, change_num)
+      return
+    end
+    local archive_url = os.getenv("GERRIT_ARCHIVE_URL")
+    if not archive_url then
+      vim.notify(err or "Gerrit change not found", vim.log.levels.WARN)
+      return
+    end
+    -- The archive is read only and serves searches anonymously
+    gerrit_change_number(archive_url, change_id, project_path, function(archive_num, archive_err)
+      if archive_num then
+        open_change(archive_url, project_path, archive_num)
         return
       end
-      local change_num = result.stdout:gsub("^[^%[]*", ""):match('"_number":(%d+)')
-      if not change_num then
-        vim.notify("Gerrit change not found", vim.log.levels.WARN)
-        return
-      end
-      vim.fn.jobstart({ "xdg-open", gerrit_url .. "/c/" .. project_path .. "/+/" .. change_num }, { detach = true })
+      local reason = err or archive_err or "Gerrit change not found, archive included"
+      vim.notify(reason, vim.log.levels.WARN)
     end)
   end)
 end
@@ -762,6 +802,177 @@ local function yank_hunk()
   local lines = vim.api.nvim_buf_get_lines(state.source_buf, start - 1, finish, false)
   vim.fn.setreg("+", table.concat(lines, "\n") .. "\n")
   vim.notify(string.format("Yanked %d lines", #lines))
+end
+
+-- Keymaps and help
+--
+-- The lists below are the single source of truth: they are what gets bound and
+-- what the '?' popup renders, so the help cannot drift from the bindings.
+
+---@class BlameKeymap
+---@field lhs string|string[] one or more keys, all bound to rhs
+---@field desc string line shown in the help popup
+---@field rhs function
+---@field opts table|nil extra options for vim.keymap.set
+
+---Forward declaration: the lists bind '?' to the popup that renders the lists.
+local show_help
+
+---@param lhs string|string[]
+---@return string[]
+local function lhs_list(lhs)
+  return type(lhs) == "table" and lhs or { lhs }
+end
+
+---@param keymaps BlameKeymap[]
+---@param buf number
+---@param on_set fun(lhs: string)|nil called for each key that was bound
+local function apply_keymaps(keymaps, buf, on_set)
+  for _, km in ipairs(keymaps) do
+    for _, lhs in ipairs(lhs_list(km.lhs)) do
+      local opts = vim.tbl_extend("force", { buffer = buf, silent = true, desc = km.desc }, km.opts or {})
+      vim.keymap.set("n", lhs, km.rhs, opts)
+      if on_set then
+        on_set(lhs)
+      end
+    end
+  end
+end
+
+---Blame window keymaps that work for both a whole-file and a range blame.
+---@type BlameKeymap[]
+-- stylua: ignore
+local blame_win_keymaps = {
+  { lhs = { "P", "p" }, desc = "Toggle commit preview", rhs = preview_commit },
+  { lhs = "y", desc = "Yank commit hash", rhs = yank_hash, opts = { nowait = true } },
+  { lhs = "j", desc = "Open Jira issue", rhs = function() open_jira("Jira") end, opts = { nowait = true } },
+  { lhs = "J", desc = "Open Jira requirement", rhs = function() open_jira("Requirement") end, opts = { nowait = true } },
+  { lhs = "g", desc = "Open Gerrit change", rhs = open_gerrit, opts = { nowait = true } },
+  { lhs = "?", desc = "Toggle this help", rhs = function() show_help() end },
+  { lhs = "q", desc = "Close blame", rhs = close_blame },
+}
+
+---Blame window keymaps that need blame line N to describe source line N, which
+---a range blame does not provide.
+---@type BlameKeymap[]
+-- stylua: ignore
+local blame_nav_keymaps = {
+  { lhs = "<CR>", desc = "Blame commit under cursor", rhs = open_commit },
+  { lhs = "<C-i>", desc = "Blame parent of commit under cursor", rhs = blame_back },
+  { lhs = "<C-o>", desc = "Back to previous blame", rhs = blame_forward },
+  { lhs = "<h", desc = "Next commit boundary", rhs = function() jump_commit_boundary(true) end },
+  { lhs = ">h", desc = "Previous commit boundary", rhs = function() jump_commit_boundary(false) end },
+  { lhs = { "<C-j>", "<C-Down>" }, desc = "Next hunk of blamed commit", rhs = function() jump_current_commit_hunk(true) end },
+  { lhs = { "<C-k>", "<C-Up>" }, desc = "Previous hunk of blamed commit", rhs = function() jump_current_commit_hunk(false) end },
+}
+
+---@type BlameKeymap[]
+-- stylua: ignore
+local source_win_keymaps = {
+  { lhs = "<h", desc = "Next hunk of commit under cursor", rhs = function() jump_hunk_occurrence(true) end },
+  { lhs = ">h", desc = "Previous hunk of commit under cursor", rhs = function() jump_hunk_occurrence(false) end },
+  { lhs = { "<C-j>", "<C-Down>" }, desc = "Next hunk of blamed commit", rhs = function() jump_current_commit_hunk(true) end },
+  { lhs = { "<C-k>", "<C-Up>" }, desc = "Previous hunk of blamed commit", rhs = function() jump_current_commit_hunk(false) end },
+  { lhs = "P", desc = "Toggle commit preview", rhs = preview_commit },
+  { lhs = "yih", desc = "Yank hunk under cursor", rhs = yank_hunk },
+}
+
+---@param groups { title: string, keymaps: BlameKeymap[] }[]
+---@return string[] lines, { line: number, col: number, end_col: number, hl: string }[] marks
+local function render_help(groups)
+  local key_width = 0
+  for _, group in ipairs(groups) do
+    for _, km in ipairs(group.keymaps) do
+      key_width = math.max(key_width, #table.concat(lhs_list(km.lhs), " / "))
+    end
+  end
+
+  local lines, marks = {}, {}
+  for i, group in ipairs(groups) do
+    if i > 1 then
+      table.insert(lines, "")
+    end
+    table.insert(lines, " " .. group.title)
+    table.insert(marks, { line = #lines - 1, col = 1, end_col = 1 + #group.title, hl = "Title" })
+    for _, km in ipairs(group.keymaps) do
+      local keys = table.concat(lhs_list(km.lhs), " / ")
+      table.insert(lines, string.format("  %-" .. key_width .. "s  %s", keys, km.desc))
+      table.insert(marks, { line = #lines - 1, col = 2, end_col = 2 + #keys, hl = "Special" })
+    end
+  end
+  return lines, marks
+end
+
+local function close_help()
+  if not state or not state.help_win then
+    return
+  end
+  local win = state.help_win
+  state.help_win = nil
+  if vim.api.nvim_win_is_valid(win) then
+    vim.api.nvim_win_close(win, true)
+  end
+  if vim.api.nvim_win_is_valid(state.blame_win) then
+    vim.api.nvim_set_current_win(state.blame_win)
+  end
+end
+
+function show_help()
+  if not state or not state.help_groups then
+    return
+  end
+  if state.help_win then
+    close_help()
+    return
+  end
+
+  local lines, marks = render_help(state.help_groups)
+  local width = 0
+  for _, line in ipairs(lines) do
+    width = math.max(width, vim.fn.strdisplaywidth(line))
+  end
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  local ns = vim.api.nvim_create_namespace("blame_help")
+  for _, mark in ipairs(marks) do
+    vim.api.nvim_buf_set_extmark(buf, ns, mark.line, mark.col, { end_col = mark.end_col, hl_group = mark.hl })
+  end
+  vim.bo[buf].modifiable = false
+  vim.bo[buf].buftype = "nofile"
+  vim.bo[buf].bufhidden = "wipe"
+  vim.bo[buf].filetype = "blame-help"
+
+  local win_width = math.min(width + 2, vim.o.columns - 4)
+  local win_height = math.min(#lines, vim.o.lines - 6)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    row = math.max(0, math.floor((vim.o.lines - win_height) / 2) - 2),
+    col = math.max(0, math.floor((vim.o.columns - win_width) / 2)),
+    width = win_width,
+    height = win_height,
+    style = "minimal",
+    border = "rounded",
+    title = " Git Blame ",
+    title_pos = "center",
+  })
+  -- A float opened from the blame window inherits its bindings, which would
+  -- drag the source window along as the cursor moves through the help.
+  set_win_opts(win, { scrollbind = false, cursorbind = false, wrap = false, cursorline = false })
+  state.help_win = win
+
+  for _, lhs in ipairs({ "q", "<Esc>", "?" }) do
+    vim.keymap.set("n", lhs, close_help, { buffer = buf, silent = true, nowait = true })
+  end
+  -- The popup must not outlive its own focus. Closing a window from inside
+  -- WinLeave is not allowed, hence the schedule.
+  state.autocmd_ids[#state.autocmd_ids + 1] = vim.api.nvim_create_autocmd("WinLeave", {
+    buffer = buf,
+    once = true,
+    callback = function()
+      vim.schedule(close_help)
+    end,
+  })
 end
 
 -- Shared setup
@@ -851,22 +1062,6 @@ local function bind_windows(view)
   end)
 end
 
----@param blame_buf number
-local function setup_blame_keymaps(blame_buf)
-  local kopts = { buffer = blame_buf, silent = true }
-  vim.keymap.set("n", "q", close_blame, kopts)
-  vim.keymap.set("n", "P", preview_commit, kopts)
-  vim.keymap.set("n", "p", preview_commit, kopts)
-  vim.keymap.set("n", "gj", function()
-    open_jira("Jira")
-  end, kopts)
-  vim.keymap.set("n", "gr", function()
-    open_jira("Requirement")
-  end, kopts)
-  vim.keymap.set("n", "go", open_gerrit, kopts)
-  vim.keymap.set("n", "yc", yank_hash, { buffer = blame_buf, silent = true, nowait = true })
-end
-
 ---Resolve commit and file from a buffer
 ---@param buf number
 ---@return string|nil commit, string|nil file
@@ -918,57 +1113,21 @@ function M.blame()
   end)
 
   -- Keymaps
-  setup_blame_keymaps(blame_buf)
-  local kopts = { buffer = blame_buf, silent = true }
-  vim.keymap.set("n", "<CR>", open_commit, kopts)
-  vim.keymap.set("n", "<C-o>", blame_forward, kopts)
-  vim.keymap.set("n", "<C-i>", blame_back, kopts)
-  vim.keymap.set("n", "<h", function()
-    jump_commit_boundary(true)
-  end, kopts)
-  vim.keymap.set("n", ">h", function()
-    jump_commit_boundary(false)
-  end, kopts)
-  vim.keymap.set("n", "<C-j>", function()
-    jump_current_commit_hunk(true)
-  end, kopts)
-  vim.keymap.set("n", "<C-k>", function()
-    jump_current_commit_hunk(false)
-  end, kopts)
-  vim.keymap.set("n", "<C-Down>", function()
-    jump_current_commit_hunk(true)
-  end, kopts)
-  vim.keymap.set("n", "<C-Up>", function()
-    jump_current_commit_hunk(false)
-  end, kopts)
+  apply_keymaps(blame_win_keymaps, blame_buf)
+  apply_keymaps(blame_nav_keymaps, blame_buf)
+  state.help_groups = {
+    {
+      title = "Blame window",
+      keymaps = vim.list_extend(vim.list_extend({}, blame_nav_keymaps), blame_win_keymaps),
+    },
+    { title = "Source window", keymaps = source_win_keymaps },
+  }
 
   -- Source buffer keymaps (tracked for cleanup)
   local function setup_source_keymaps(buf)
-    local src_kopts = { buffer = buf, silent = true }
-    local function add_src_keymap(mode, lhs, rhs)
-      vim.keymap.set(mode, lhs, rhs, src_kopts)
-      table.insert(state.source_keymaps, { mode = mode, lhs = lhs, buffer = buf })
-    end
-    add_src_keymap("n", "<h", function()
-      jump_hunk_occurrence(true)
+    apply_keymaps(source_win_keymaps, buf, function(lhs)
+      table.insert(state.source_keymaps, { mode = "n", lhs = lhs, buffer = buf })
     end)
-    add_src_keymap("n", ">h", function()
-      jump_hunk_occurrence(false)
-    end)
-    add_src_keymap("n", "<C-j>", function()
-      jump_current_commit_hunk(true)
-    end)
-    add_src_keymap("n", "<C-k>", function()
-      jump_current_commit_hunk(false)
-    end)
-    add_src_keymap("n", "<C-Down>", function()
-      jump_current_commit_hunk(true)
-    end)
-    add_src_keymap("n", "<C-Up>", function()
-      jump_current_commit_hunk(false)
-    end)
-    add_src_keymap("n", "P", preview_commit)
-    add_src_keymap("n", "yih", yank_hunk)
   end
   setup_source_keymaps(source_buf)
   state.setup_source_keymaps = setup_source_keymaps
@@ -1117,7 +1276,8 @@ function M.blame_range(line1, line2)
     end
   end)
 
-  setup_blame_keymaps(blame_buf)
+  apply_keymaps(blame_win_keymaps, blame_buf)
+  state.help_groups = { { title = "Blame window", keymaps = blame_win_keymaps } }
 end
 
 return M
