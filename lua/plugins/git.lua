@@ -139,5 +139,53 @@ return {
       "DiffviewFileHistory",
       "DiffviewFocusFiles",
     },
+    keys = {
+      { "<leader>gm", "<cmd>Meld<cr>", desc = "Merge conflicts (Meld)" },
+    },
+    -- diff3_horizontal is the safe default: diff4_mixed needs a BASE pane and
+    -- errors on add/add conflicts, which have no common ancestor. :Meld upgrades
+    -- to diff4_mixed when every conflicted file does have one.
+    opts = {
+      view = {
+        merge_tool = {
+          layout = "diff3_horizontal",
+          disable_diagnostics = true,
+          winbar_info = true,
+        },
+      },
+    },
+    config = function(_, opts)
+      require("diffview").setup(opts)
+
+      -- Conflict sides, re-choosable: pressing another key swaps the text in
+      -- place rather than leaving undo as the only way back. Both schemes run
+      -- left to right across the top row. See user.conflict-toggle.
+      --
+      --   <leader>ca / c1   OURS     left pane
+      --   <leader>cb / c2   BASE     middle pane
+      --   <leader>cc / c3   THEIRS   right pane
+      --   <leader>c0        all three
+      --   <leader>cr        put the markers back
+      --
+      -- DiffviewDiffBufWinEnter, not DiffviewViewPostLayout: diffview applies its
+      -- own buffer keymaps when a diff buffer attaches, which happens after the
+      -- layout event and would clobber these.
+      vim.api.nvim_create_autocmd("User", {
+        pattern = { "DiffviewDiffBufWinEnter", "DiffviewViewPostLayout" },
+        group = vim.api.nvim_create_augroup("user_diffview_keys", { clear = true }),
+        desc = "Re-choosable conflict keymaps",
+        callback = function()
+          vim.schedule(function()
+            local conflict = require("user.conflict-toggle")
+            for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+              local buf = vim.api.nvim_win_get_buf(win)
+              if vim.api.nvim_buf_is_valid(buf) then
+                conflict.attach(buf)
+              end
+            end
+          end)
+        end,
+      })
+    end,
   },
 }

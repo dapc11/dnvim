@@ -36,6 +36,81 @@ vim.api.nvim_create_user_command("Trim", function()
   vim.cmd([[%s/\s\+$//e]])
 end, { desc = "Trim trailing whitespace and ensure single blank line at end" })
 
+--- Meld-style side by side view. During a conflicted merge diffview shows its
+--- merge tool, otherwise the working tree against HEAD.
+
+--- Pick a merge-tool layout the conflict can actually render. diffview fails
+--- with "Failed to create diff buffer: ':N:<path>'" when it is asked for a pane
+--- whose git stage is absent, and not every conflict has all three:
+---
+---   content conflict   stages 1,2,3   BASE, OURS, THEIRS
+---   add/add            stages 2,3     no common ancestor
+---   delete/modify      stages 1,2     no THEIRS, the file is gone there
+---
+---@param paths string[] unmerged paths
+---@return string layout
+local function merge_layout(paths)
+  local all_three, ours_and_theirs = true, true
+
+  for _, path in ipairs(paths) do
+    local stages = {}
+    for _, line in ipairs(vim.fn.systemlist({ "git", "ls-files", "-u", "--", path })) do
+      local stage = line:match("^%S+%s+%S+%s+(%d)\t")
+      if stage then
+        stages[stage] = true
+      end
+    end
+    if not (stages["1"] and stages["2"] and stages["3"]) then
+      all_three = false
+    end
+    if not (stages["2"] and stages["3"]) then
+      ours_and_theirs = false
+    end
+  end
+
+  if all_three then
+    return "diff4_mixed"
+  elseif ours_and_theirs then
+    return "diff3_horizontal"
+  end
+  -- A missing OURS or THEIRS leaves nothing to put side by side.
+  return "diff1_plain"
+end
+
+vim.api.nvim_create_user_command("Meld", function(opts)
+  if vim.fn.isdirectory(".git") == 0 and vim.fn.finddir(".git", ".;") == "" then
+    vim.notify("Meld: not inside a git repository", vim.log.levels.WARN)
+    return
+  end
+
+  local unmerged = vim.fn.systemlist("git diff --name-only --diff-filter=U")
+  if vim.v.shell_error ~= 0 then
+    unmerged = {}
+  end
+
+  if #unmerged > 0 then
+    require("diffview").setup({ view = { merge_tool = { layout = merge_layout(unmerged) } } })
+  end
+
+  -- diffview is lazy-loaded on its own commands, so this is what pulls it in.
+  vim.cmd("DiffviewOpen " .. (opts.args or ""))
+
+  if #unmerged > 0 then
+    vim.notify(
+      ("Meld: %d conflicted file(s). ]x/[x to move, <leader>co ours, <leader>ct theirs")
+        :format(#unmerged),
+      vim.log.levels.INFO
+    )
+  end
+end, {
+  nargs = "*",
+  desc = "Meld-style merge/diff view (diffview.nvim)",
+})
+
+vim.api.nvim_create_user_command("MeldClose", function()
+  vim.cmd("DiffviewClose")
+end, { desc = "Close the Meld view" })
+
 -- Command typo fixes (abbreviations handle both :W and :W!)
 --
 -- Guarded with <expr> so they only fire when the abbreviation is the entire

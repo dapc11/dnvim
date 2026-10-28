@@ -47,6 +47,23 @@ local overrides = {
   BlinkCmpScrollBarThumb = { bg = "#565660" },
 }
 
+-- Visual carries `bold`, so selecting text re-weights it and, in a
+-- proportional font, reflows it under the cursor. The background already marks
+-- the selection. It is derived from the terminal's, so drop the weight off
+-- whatever the colorscheme computed rather than restating the colour here.
+local unbolded = { "Visual", "VisualNOS" }
+
+local function drop_bold()
+  for _, group in ipairs(unbolded) do
+    local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+    hl.bold = nil
+    if hl.cterm then
+      hl.cterm.bold = nil
+    end
+    vim.api.nvim_set_hl(0, group, hl)
+  end
+end
+
 return {
   "dapc11/yaru-dark-ish.nvim",
   lazy = false,
@@ -60,6 +77,7 @@ return {
         for group, opts in pairs(overrides) do
           vim.api.nvim_set_hl(0, group, opts)
         end
+        drop_bold()
       end,
     })
 
