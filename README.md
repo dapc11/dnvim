@@ -1,19 +1,39 @@
 # DNvim
 
-Neovim setup for Java, Kubernetes, Python and Golang development
+A personal Neovim setup for everyday development work in Python, Go, Lua and Kubernetes/Helm.
 
-## Markdown Preview
+## Goals
 
-`:MarkdownPreview` renders the current buffer in a Chrome tab. The page updates live as the buffer
-changes and scrolls along with the cursor, so nothing needs re-running after an edit.
+- **Fast.** Stays responsive in large repositories, big log files and long Helm charts.
+- **Small.** Few plugins; simple features are built in rather than pulled in as dependencies.
+- **Focused.** Tuned for one way of working rather than covering every possible use case.
 
-- `:MarkdownPreview` — open the tab
-- `:MarkdownPreviewStop` — close it
-- `:MarkdownPreviewToggle` — either, bound to `<leader>cp` in markdown buffers
+## Features
 
-Requires `google-chrome` in `PATH`; pick another browser through `vim.g.mkdp_browser` in
-`lua/plugins/markdown-preview.lua`.
+- Fuzzy finding of files, text, recent files and projects, built on
+  [fzf-lua](https://github.com/ibhagwan/fzf-lua) rather than Telescope, for speed and to work the same
+  way as `fzf` does in the shell
+- Language server support for Python, Go, Lua and YAML
+- Navigation in Helm charts, between templates and values
+- Git integration from staging and blame to merge conflicts and history search
+- Live Markdown preview in the browser
+- A simple note system for quickly creating and searching Markdown notes
+- Persistent sessions per project
+- Support for the [Neovide](https://neovide.dev) GUI
 
-The preview is served by a binary the `build` step downloads from the plugin's GitHub releases,
-since this setup has node but no npm, npx or yarn. Run `:Lazy build markdown-preview.nvim` if the
-preview ever fails to start.
+## Theme
+
+The default colour scheme is [yaru-dark-ish](https://github.com/dapc11/yaru-dark-ish.nvim), a dark
+theme inspired by Ubuntu's Yaru. Its background adapts to the terminal, so Neovim blends in with the
+terminal theme in use.
+
+![yaru-dark-ish palette](https://raw.githubusercontent.com/dapc11/yaru-dark-ish.nvim/main/palette.svg)
+
+## Getting Started
+
+Requires Neovim 0.11 or newer. Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim),
+which installs itself and all plugins on the first start, so cloning the repository to
+`~/.config/nvim` and starting Neovim is all it takes.
+
+Searching relies on `ripgrep`, `fd` and `fzf`. Language support needs the corresponding language
+servers to be installed. Anything missing only disables the feature that depends on it.
