@@ -35,7 +35,10 @@ map("v", "<S-Down>", ":m '>+1<CR>gv=gv", { desc = "Move down" })
 map("v", "<S-Up>", ":m '<-2<CR>gv=gv", { desc = "Move up" })
 
 map("n", "<C-s>", "/")
-map("c", "<C-s>", "<C-g>")
+-- <C-g> is "next match" only while searching; at : it inserts a literal ^G.
+map("c", "<C-s>", function()
+  return vim.fn.getcmdtype():match("[/?]") and "<C-g>" or ""
+end, { expr = true })
 
 map("n", "W", "<cmd>noautocmd w<CR>")
 
