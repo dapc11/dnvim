@@ -153,6 +153,11 @@ return {
           winbar_info = true,
         },
       },
+      -- :Meld opens the view at the file it was closed on.
+      keymaps = {
+        view = { { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close the view" } } },
+        file_panel = { { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close the view" } } },
+      },
     },
     config = function(_, opts)
       require("diffview").setup(opts)

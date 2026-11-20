@@ -77,10 +77,47 @@ local function merge_layout(paths)
   return "diff1_plain"
 end
 
+--- Last file shown per repository, so a closed :Meld opens where it left off.
+--- Resolutions survive the close on their own: the merged buffer is the real
+--- file, which diffview leaves loaded.
+local meld_last = {}
+
+---@return boolean whether `view` is a diffview DiffView, as :Meld opens
+local function is_meld_view(view)
+  return view ~= nil and view:instanceof(require("diffview.scene.views.diff.diff_view").DiffView)
+end
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "DiffviewDiffBufWinEnter",
+  group = vim.api.nvim_create_augroup("user_meld_resume", { clear = true }),
+  desc = "Remember the file :Meld shows",
+  callback = function()
+    local view = require("diffview.lib").get_current_view()
+    if is_meld_view(view) and view.cur_entry then
+      meld_last[view.adapter.ctx.toplevel] = view.cur_entry.path
+    end
+  end,
+})
+
 vim.api.nvim_create_user_command("Meld", function(opts)
-  if vim.fn.isdirectory(".git") == 0 and vim.fn.finddir(".git", ".;") == "" then
+  local toplevel = vim.fn.systemlist({ "git", "rev-parse", "--path-format=absolute", "--show-toplevel" })[1]
+  if vim.v.shell_error ~= 0 then
     vim.notify("Meld: not inside a git repository", vim.log.levels.WARN)
     return
+  end
+
+  -- Still open, perhaps in another tab: go back to it as it is.
+  if opts.args == "" then
+    for _, view in ipairs(require("diffview.lib").views) do
+      if
+        is_meld_view(view)
+        and view.adapter.ctx.toplevel == toplevel
+        and vim.api.nvim_tabpage_is_valid(view.tabpage)
+      then
+        vim.api.nvim_set_current_tabpage(view.tabpage)
+        return
+      end
+    end
   end
 
   local unmerged = vim.fn.systemlist("git diff --name-only --diff-filter=U")
@@ -89,16 +126,20 @@ vim.api.nvim_create_user_command("Meld", function(opts)
   end
 
   if #unmerged > 0 then
-    require("diffview").setup({ view = { merge_tool = { layout = merge_layout(unmerged) } } })
+    -- Only the layout: setup() would reset the rest of the config to defaults.
+    require("diffview.config").get_config().view.merge_tool.layout = merge_layout(unmerged)
   end
 
-  -- diffview is lazy-loaded on its own commands, so this is what pulls it in.
-  vim.cmd("DiffviewOpen " .. (opts.args or ""))
+  local args = opts.args
+  if meld_last[toplevel] then
+    -- Does nothing once that file has dropped out of the view.
+    args = args .. " --selected-file=" .. vim.fn.fnameescape(meld_last[toplevel])
+  end
+  vim.cmd("DiffviewOpen " .. args)
 
   if #unmerged > 0 then
     vim.notify(
-      ("Meld: %d conflicted file(s). ]x/[x to move, <leader>co ours, <leader>ct theirs")
-        :format(#unmerged),
+      ("Meld: %d conflicted file(s). ]x/[x to move, <leader>ca/cb/cc to pick, q to close"):format(#unmerged),
       vim.log.levels.INFO
     )
   end
