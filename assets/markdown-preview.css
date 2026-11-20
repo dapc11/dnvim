@@ -1,0 +1,290 @@
+/*
+ * Markdown style for markdown-preview.nvim, modelled on Gitiles (Gerrit's
+ * repository browser, plugins/gitiles/+static/doc.css). It replaces the
+ * plugin's GitHub-like markdown.css, so it has to cover everything that file
+ * did. The light palette is Gitiles' own; the dark one maps each colour to a
+ * dark equivalent. Both are fallbacks: user.markdown-preview-css appends the
+ * colorscheme's base palette and serves the result.
+ */
+
+:root {
+  --md-text: #000;
+  --md-muted: #444;
+  --md-bg: #fff;
+  --md-border: #ddd;
+  --md-link: #245dc1;
+  --md-link-visited: #7759ae;
+  --md-hr: #aaa;
+  --md-table-border: #eee;
+  --md-th-bg: #f5f5f5;
+  --md-code-bg: #f5f5f5;
+  --md-pre-bg: #fafafa;
+  --md-pre-border: #ccc;
+  --md-quote-bg: #fffde7;
+  --md-quote-border: #fab700;
+  --md-toc-bg: #f9f9f9;
+  --md-toc-border: #f2f2f2;
+}
+
+[data-theme="dark"] {
+  --md-text: #c9d1d9;
+  --md-muted: #8b949e;
+  --md-bg: #0d1117;
+  --md-border: #30363d;
+  --md-link: #8ab4f8;
+  --md-link-visited: #c58af9;
+  --md-hr: #484f58;
+  --md-table-border: #30363d;
+  --md-th-bg: #161b22;
+  --md-code-bg: #f0f6fc1a;
+  --md-pre-bg: #161b22;
+  --md-pre-border: #30363d;
+  --md-quote-bg: #2b2611;
+  --md-quote-border: #d29922;
+  --md-toc-bg: #161b22;
+  --md-toc-border: #21262d;
+}
+
+/* Page: Gitiles' 980px column instead of the plugin's 900px card. */
+#page-ctn {
+  max-width: 980px;
+}
+
+.markdown-body {
+  font: 14px/1.54 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--md-text);
+  background: var(--md-bg);
+  word-wrap: break-word;
+  padding: 20px 32px;
+  border: 1px solid var(--md-border);
+  border-radius: 0 0 3px 3px;
+}
+.markdown-body * {
+  box-sizing: border-box;
+}
+.markdown-body > *:first-child {
+  margin-top: 0 !important;
+}
+.markdown-body > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Headings: normal weight, no underline, golden-ratio spacing. */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: normal;
+  line-height: 1.3;
+  margin: 1.236em 0 0.618em;
+}
+.markdown-body h1 { font-size: 2em; }
+.markdown-body h2 { font-size: 1.5em; }
+.markdown-body h3 { font-size: 1.3em; }
+.markdown-body h4 { font-size: 1.3em; font-weight: lighter; font-style: italic; }
+.markdown-body h5 { font-size: 16px; font-weight: lighter; font-style: italic; }
+.markdown-body h6 { font-size: 14px; font-style: italic; }
+
+/*
+ * Permalinks: a '#' in the left margin on hover, as in Gitiles. Taken out of
+ * the flow so the space the anchor plugin puts after it does not indent the
+ * heading text.
+ */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+}
+.markdown-body .anchor {
+  position: absolute;
+  left: -1em;
+  color: var(--md-muted);
+  text-decoration: none;
+  visibility: hidden;
+}
+.markdown-body .anchor svg {
+  display: none;
+}
+.markdown-body .anchor::before {
+  content: "#";
+}
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  visibility: visible;
+}
+
+.markdown-body p {
+  margin: 10px 0;
+}
+.markdown-body a {
+  color: var(--md-link);
+  text-decoration: none;
+}
+.markdown-body a:visited {
+  color: var(--md-link-visited);
+}
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--md-hr);
+  margin: 25px 0;
+}
+.markdown-body img {
+  border: 0;
+  max-width: 100%;
+}
+.markdown-body strong {
+  font-weight: bold;
+}
+.markdown-body em {
+  font-style: italic;
+}
+.markdown-body del {
+  text-decoration: line-through;
+}
+
+/* Lists */
+.markdown-body ul,
+.markdown-body ol {
+  margin: 10px 10px 10px 30px;
+  padding: 0;
+}
+.markdown-body ul { list-style-type: disc; }
+.markdown-body ol { list-style-type: decimal; }
+.markdown-body ul ul { list-style-type: circle; }
+.markdown-body ul ul ul { list-style-type: square; }
+.markdown-body li > ul,
+.markdown-body li > ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-body dl dt {
+  margin-top: 1em;
+  font-weight: bold;
+}
+.markdown-body dl dd {
+  margin-left: 30px;
+}
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+.markdown-body .task-list-item input {
+  margin: 0 0.35em 0.25em -1.6em;
+  vertical-align: middle;
+}
+
+.markdown-body blockquote {
+  margin: 10px 0;
+  padding: 2px 10px;
+  background-color: var(--md-quote-bg);
+  border-left: 2px solid var(--md-quote-border);
+}
+
+/*
+ * Tables: natural width with full cell borders and a shaded, centred header
+ * row. The plugin's style forced display: block, which made every table a
+ * scroll box, and word-break: keep-all, which stopped cells from wrapping.
+ */
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 10px 0;
+}
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--md-table-border);
+  padding: 4px 12px;
+  vertical-align: top;
+}
+.markdown-body th {
+  text-align: center;
+  background-color: var(--md-th-bg);
+}
+
+/* Code */
+.markdown-body code {
+  font-family: "Source Code Pro", "Roboto Mono", Consolas, "Liberation Mono", monospace;
+  font-size: 90%;
+  padding: 2px 4px;
+  background-color: var(--md-code-bg);
+  border-radius: 4px;
+}
+/* pre.hljs is needed to win over the colours in highlight.css. */
+.markdown-body pre,
+.markdown-body pre.hljs {
+  color: var(--md-text);
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 10pt;
+  line-height: 1.45;
+  overflow-x: auto;
+  word-wrap: normal;
+  background-color: var(--md-pre-bg);
+  border: 1px solid var(--md-pre-border);
+}
+.markdown-body pre code {
+  padding: 0;
+  font-size: 100%;
+  white-space: pre;
+  background: transparent;
+  border-radius: 0;
+}
+/*
+ * Code tokens: keep highlight.css' weights (bold keywords, names and types,
+ * italic comments) but none of its colours, which are meant for a light
+ * background. Comments are muted.
+ */
+.markdown-body pre [class*="hljs-"] {
+  color: inherit;
+}
+.markdown-body pre .hljs-comment,
+.markdown-body pre .hljs-quote {
+  color: var(--md-muted);
+}
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px "Source Code Pro", Consolas, monospace;
+  line-height: 10px;
+  vertical-align: middle;
+  background-color: var(--md-code-bg);
+  border: 1px solid var(--md-pre-border);
+  border-radius: 3px;
+}
+
+/*
+ * Table of contents, rendered for [TOC]: a shaded box headed "Contents",
+ * with disc bullets at the top level and circles below.
+ */
+.markdown-body .table-of-contents {
+  margin: 20px 0;
+  padding: 10px 16px;
+  background: var(--md-toc-bg);
+  border: 1px solid var(--md-toc-border);
+}
+.markdown-body .table-of-contents::before {
+  content: "Contents";
+  display: block;
+  font-size: 1.5em;
+  margin-bottom: 5px;
+}
+.markdown-body .table-of-contents ul {
+  margin: 10px 10px 10px 30px;
+  list-style: disc;
+}
+.markdown-body .table-of-contents ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: circle;
+}
