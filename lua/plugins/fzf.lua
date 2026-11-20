@@ -164,7 +164,6 @@ return {
         { "<leader>b", fzf.buffers, desc = "Find Open Buffers" },
         { "<leader>n", fzfe.files, desc = "Find Tracked Files" },
         { "<leader>N", fzf.git_status, desc = "Find Untracked Files" },
-        { "<leader>fc", fzf.command_history, desc = "Find in Command History" },
         { "<M-x>", require("user.fzf-commands"), desc = "Find Commands" },
         {
           "<leader>fä",
